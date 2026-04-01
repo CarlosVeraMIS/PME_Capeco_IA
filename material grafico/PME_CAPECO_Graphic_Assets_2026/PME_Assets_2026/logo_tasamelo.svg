@@ -1,0 +1,15 @@
+<svg width="360" height="100" viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tl_g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#033A37"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="22" width="56" height="56" rx="10" fill="url(#tl_g)"/>
+  <text x="28" y="55" font-family="'DM Sans', 'Arial Black', sans-serif"
+        font-size="13" font-weight="800" fill="white" text-anchor="middle">PME</text>
+  <text x="70" y="54" font-family="'DM Sans', 'Arial Black', sans-serif"
+        font-size="34" font-weight="900" fill="#0F2340" letter-spacing="-0.5">TASA<tspan fill="#94A3B8" font-weight="300">MELO</tspan></text>
+  <text x="70" y="76" font-family="'DM Sans', Arial, sans-serif"
+        font-size="11" font-weight="600" fill="#0D9488" letter-spacing="1.5">by PME CAPECO · Millennial</text>
+</svg>

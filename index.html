@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PME CAPECO Proveedores — Inteligencia para la Cadena de Suministro de Construcción</title>
+  <meta name="description"
+    content="PME CAPECO Proveedores permite a las empresas de materiales y acabados anticipar la demanda, monitorear costos y conocer las especificaciones técnicas de los proyectos en Lima." />
+  <meta name="keywords"
+    content="proveedores construcción, materiales construcción Perú, cemento, acero, acabados inmobiliarios, CAPECO PME" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- TOP AUTHORITY BAR -->
+  <div class="trust-topbar">
+    <div class="trust-inner">
+      <div class="trust-item">★★★★★ <span>Fuente oficial <strong>CAPECO</strong> para proveedores</span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Monitoreo de <strong>Costos de Insumos</strong></span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Inteligencia en <strong>Especificaciones Técnicas</strong></span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-capeco">
+          <svg class="capeco-sq" width="26" height="26" viewBox="0 0 28 28" fill="none">
+            <rect width="12" height="12" fill="#00C8FF" />
+            <rect x="16" width="12" height="12" fill="#00C8FF" />
+            <rect y="16" width="12" height="12" fill="#00C8FF" />
+          </svg>
+          <span class="capeco-label">CAPECO</span>
+        </div>
+        <span class="brand-sep">·</span>
+        <span class="brand-pme">PROVEEDORES</span>
+      </div>
+      <div class="nav-links">
+        <a href="#insumos">Materiales</a>
+        <a href="#costos">Costos</a>
+        <a href="#especificaciones">Especificaciones</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-login" onclick="openModal()">Portal de Proveedores</button>
+        <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Análisis →</button>
+      </div>
+      <button class="mobile-toggle" onclick="toggleNav()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#insumos" onclick="toggleNav()">Materiales</a>
+      <a href="#costos" onclick="toggleNav()">Costos</a>
+      <a href="#especificaciones" onclick="toggleNav()">Especificaciones</a>
+      <a href="#contacto" onclick="toggleNav()">Contacto</a>
+      <button class="btn-primary" onclick="openModal();toggleNav()">Portal de Proveedores</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-glow" style="background: radial-gradient(ellipse at center, rgba(0, 200, 255, .1) 0%, transparent 70%);"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <a href="#contacto" class="hero-pill" style="color: #00C8FF; border-color: rgba(0, 200, 255, 0.4); background: rgba(0, 200, 255, 0.05);">
+        <span class="pill-badge" style="background:#00C8FF; color:#001228;">SUPPLY CHAIN</span>
+        Anticipa la demanda de materiales en el pipeline inmobiliario →
+      </a>
+      <h1 class="hero-h1">
+        La inteligencia que optimiza la <br /><em>cadena de suministro</em><br />de la construcción
+      </h1>
+      <p class="hero-sub">
+        Fabricantes y comercializadores de <strong>acero, cemento, concreto y acabados</strong> integran PME CAPECO para proyectar ventas, ajustar precios y posicionar sus marcas en los proyectos con mayor potencial de Lima.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" style="background:#00C8FF; color:#001228;"
+          onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Demo Proveedores
+          →</button>
+        <button class="btn-outline"
+          onclick="document.getElementById('insumos').scrollIntoView({behavior:'smooth'})">Ver áreas de impacto</button>
+      </div>
+      <p class="hero-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        Índice de Costos Oficial · Proyecciones de Insumos · Inteligencia de Acabados
+      </p>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-block">
+        <div class="stat-num" data-target="150" data-suffix="M">0</div>
+        <div class="stat-desc">m² de construcción <br/> proyectados para 2025</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="98" data-suffix="%">0</div>
+        <div class="stat-desc">Precisión en índices <br/> de precios de insumos</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="450" data-suffix="+">0</div>
+        <div class="stat-desc">Marcas monitoreadas <br/> en la cadena de valor</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="5" data-suffix=" yr">0</div>
+        <div class="stat-desc">Histórico de tendencias <br/> de costos comparativos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET LEADERS 2025 CHART -->
+  <section class="leaders-chart-section">
+    <div class="lcs-inner">
+      <div class="lcs-header">
+        <span class="aud-tag" style="background:rgba(0,200,255,0.1); color:var(--cyan); border:1px solid var(--cyan);">PME INSIGHTS 2025</span>
+        <h2 class="sec-h2">Líderes en Suministros y Acabados</h2>
+        <p class="aud-lead">Cifras consolidadas de presencia en obra para el año 2025 según inteligencia PME.</p>
+      </div>
+      
+      <div class="leaders-grid">
+        <div class="leader-bar-item">
+          <div class="lbi-label">SIDERPERU</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 75%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">3,200 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">UNICON</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 68%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">2,800 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">TREBOL</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 99%; background:var(--green)"></div>
+          </div>
+          <div class="lbi-val">4,940 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">SIKA</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 52%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">1,900 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">CELIMA</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 44%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">1,216 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">PROMART</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 58%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">2,100 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">ROTO</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 38%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">1,500 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">GLASST</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 25%; background:#00C8FF"></div>
+          </div>
+          <div class="lbi-val">850 <small>unid</small></div>
+        </div>
+      </div>
+      <div class="lcs-footer">*Fuente de datos: Censo PME CAPECO 2025. Cobertura en Lima Metropolitana.</div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="trusted" style="background:#000814">
+    <div class="trusted-inner">
+      <p class="trusted-label">PARTNERS LÍDERES EN SUMINISTROS Y ACABADOS</p>
+      <div class="trusted-logos">
+        <span class="tl-item">SIDERPERU</span>
+        <span class="tl-item">UNICON</span>
+        <span class="tl-item">SIKA</span>
+        <span class="tl-item">PROMART</span>
+        <span class="tl-item">GLASST</span>
+        <span class="tl-item">CELIMA</span>
+        <span class="tl-item">TREBOL</span>
+        <span class="tl-item">ROTO</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: MATERIALES CRÍTICOS -->
+  <section class="audience-section" id="insumos">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <span class="aud-tag aus" style="color:#00C8FF; border-color:#00C8FF; background:rgba(0,200,255,0.1)">Materiales de Construcción</span>
+        <h2>Proyecta la demanda de tus<br />insumos principales</h2>
+        <p class="aud-lead">
+          Conoce el volumen proyectado de consumo de <strong>acero, concreto, ladrillo y cemento</strong> basado en los proyectos inmobiliarios captados por el censo PME. No esperes a la licitación, anticípate al pipeline.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">🏗️</div>
+            <div>
+              <strong>Proyección de m² Reales (Pisos y Sótanos)</strong>
+              <p>Benchmarking de insumos basado en 160k+ registros de Área de Pisos y Sótanos para una estimación de volumen sin precedentes.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">📊</div>
+            <div>
+              <strong>Monitoreo por SUB_FASE Constructiva</strong>
+              <p>Identifica el momento exacto: cimentación, casco o acabados, para sincronizar tu oferta con el ciclo de vida del proyecto.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">📈</div>
+            <div>
+              <strong>Share de Marcas de Sanitarios (99% de Cobertura)</strong>
+              <p>Monitoreo exhaustivo de marcas instaladas en obra, permitiendo un análisis de market share real frente a tu competencia directa.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary" style="background:#00C8FF; color:#001228;"
+            onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Reporte de Insumos →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+         <div class="sponsor-card">
+           <div class="sc-title">Indicadores de Insumos Q4 2025</div>
+           <div class="sc-packages">
+             <div class="sc-pack blue">
+               <div class="sc-pack-name">DEMANDA ACERO</div>
+               <div class="sc-pack-price">12% <span>Crecimiento Interanual</span></div>
+               <ul>
+                 <li>✓ Volumen proyectado Lima Moderna</li>
+                 <li>✓ Share de mercado por proveedor</li>
+                 <li>✓ Precio promedio de mercado</li>
+               </ul>
+             </div>
+             <div class="sc-pack silver">
+               <div class="sc-pack-name">CONCRETO PREMEZCLADO</div>
+               <div class="sc-pack-price">8.5% <span>Absorción Proyectada</span></div>
+               <ul>
+                 <li>✓ Consumo estimado por distrito</li>
+                 <li>✓ Índice de rotación en obra</li>
+                 <li>✓ Proyectos en fase de casco</li>
+               </ul>
+             </div>
+           </div>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: COSTOS DE INSUMOS -->
+  <section class="audience-section alt" id="costos">
+    <div class="aud-inner reverse">
+      <div class="aud-text">
+        <span class="aud-tag sub">Precios e Índices</span>
+        <h2>Monitorea la competitividad<br />de tus precios en el mercado</h2>
+        <p class="aud-lead">
+          Accede al <strong>Índice PME de Costos de Construcción</strong>. Compara tus precios de lista contra los promedios del mercado y ajusta tu estrategia comercial con datos reales de transacciones en obra.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">💹</div>
+            <div>
+              <strong>Histórico de Evolución de Costos</strong>
+              <p>Visualiza cómo han variado los costos de los insumos críticos en los últimos 5 años para predecir tendencias.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">🔍</div>
+            <div>
+              <strong>Análisis de Márgenes y Competencia</strong>
+              <p>Identifica brechas de precios y oportunidades de posicionamiento por categoría de producto y nivel del proyecto.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">⚖️</div>
+            <div>
+              <strong>Validación CAPECO</strong>
+              <p>Tus cotizaciones y presupuestos respaldados por el índice oficial de la Cámara Peruana de la Construcción.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary"
+            onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Ver Índice de Costos →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+        <div class="dashboard-preview">
+          <div class="dp-header">
+            <div class="dp-dots"><span></span><span></span><span></span></div>
+            <span class="dp-title">Costos Insumos · Index Mar-2026</span>
+            <span class="dp-live" style="background:#00C8FF;color:#001228;">LIVE</span>
+          </div>
+          <div class="dp-body">
+            <div class="dp-kpis">
+              <div class="kpi up">
+                <div class="kpi-val">+1.4%</div>
+                <div class="kpi-label">Var. Costo Materiales</div>
+                <div class="kpi-delta" style="color:#00C8FF">↑ Acero / Cemento</div>
+              </div>
+              <div class="kpi neutral">
+                <div class="kpi-val">S/ 42.50</div>
+                <div class="kpi-label">Precio Bolsa Cemento (avg)</div>
+                <div class="kpi-delta">→ Estable</div>
+              </div>
+            </div>
+            <div class="dp-chart-label">Tendencia de Precios Insumos (Base 100)</div>
+            <div class="dp-bars">
+              <div class="dpb-row"><span>Acero</span>
+                <div class="dpb-bar">
+                  <div style="width:75%; background:#00C8FF"></div>
+                </div><span>112.4</span>
+              </div>
+              <div class="dpb-row"><span>Materiales Eléctricos</span>
+                <div class="dpb-bar">
+                  <div style="width:60%; background:#00C8FF"></div>
+                </div><span>104.2</span>
+              </div>
+              <div class="dpb-row"><span>Acabados Suelos</span>
+                <div class="dpb-bar">
+                  <div style="width:45%; background:#00C8FF"></div>
+                </div><span>98.6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: ACABADOS Y SPECS -->
+  <section class="audience-section" id="especificaciones">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <span class="aud-tag usr" style="color:#00C8FF; border-color:#00C8FF; background:rgba(0,200,255,0.1)">Especificaciones Técnicas y Acabados</span>
+        <h2>Domina las tendencias de<br />terminaciones y diseño</h2>
+        <p class="aud-lead">
+          PME recopila las <strong>especificaciones técnicas</strong> de los nuevos lanzamientos. Descubre qué tipos de pisos, griferías, iluminación y tecnología Smart Home están solicitando los desarrolladores para cada NSE.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">💎</div>
+            <div>
+              <strong>Mapeo de Estándares de Acabado</strong>
+              <p>Identifica los requerimientos mínimos y premium para baños, cocinas y áreas comunes en los 26 distritos censados.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">🏢</div>
+            <div>
+              <strong>Oportunidades de Venta por Proyecto</strong>
+              <p>Filtra proyectos que están por entrar a fase de acabados y personaliza tu propuesta comercial conociendo su target NSE.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary" style="background:#00C8FF; color:#001228;" onclick="openModal()">Acceder a la Base de Specs →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+         <div class="use-cases-grid">
+          <div class="ucg-card">
+            <div class="ucg-icon">🚿</div>
+            <strong>Sanitarios y Grifería</strong>
+            <p>Datos reales de MARCA_SANITARIO en el 99.8% de los proyectos captados por el censo CAPECO.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">🧱</div>
+            <strong>Materiales Especializados</strong>
+            <p>Análisis de adopción de Ladrillo Sílico-Calcáreo y barreras de uso por segmento NSE.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">🔌</div>
+            <strong>Conectividad e Internet</strong>
+            <p>Monitoreo de acuerdos de Internet y tecnología en edificios de Lima Moderna.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">🏢</div>
+            <strong>Fachadas y Ventanería</strong>
+            <p>Requerimientos de confort térmico y acústico por zona geográfica.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">🛋️</div>
+            <strong>Equipamiento Areas Comunes</strong>
+            <p>Demanda de mobiliario y tech para Coworking, BBQ y Gimnasios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRE-FOOTER CTA + FORM -->
+  <section class="prefooter-cta" id="contacto" style="background:#000814; border-top:1px solid #1c2b3e;">
+    <div class="pfc-glow" style="background:radial-gradient(ellipse at center, rgba(0, 200, 255, .1) 0%, transparent 60%);"></div>
+    <div class="pfc-inner">
+      <h2>Optimiza tu estrategia de ventas B2B</h2>
+      <p>Nuestros expertos en suministro te mostrarán cómo PME puede predecir tu volumen de negocio en el sector constructor.</p>
+      <div class="pfc-audience-btns">
+        <button class="pab" onclick="setAudience('materiales')">🏗️ Materiales de Construcción</button>
+        <button class="pab" onclick="setAudience('acabados')">💎 Acabados & Diseño</button>
+        <button class="pab" onclick="setAudience('tecnologia')">🔌 Tecnología & Eléctricos</button>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <form class="cform" id="cform" onsubmit="handleForm(event)">
+        <div class="cform-row">
+          <div class="cform-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre completo" required />
+          </div>
+          <div class="cform-group">
+            <label>Empresa Proveedora</label>
+            <input type="text" placeholder="Nombre de tu marca/empresa" required />
+          </div>
+        </div>
+        <div class="cform-row">
+          <div class="cform-group">
+            <label>Correo Corporativo</label>
+            <input type="email" placeholder="tu@proveedor.com" required />
+          </div>
+          <div class="cform-group">
+            <label>Teléfono (opcional)</label>
+            <input type="tel" placeholder="+51 XXX XXX XXX" />
+          </div>
+        </div>
+        <div class="cform-group">
+          <label>Categoría de Insumo</label>
+          <select id="interest-select" required style="background:#001228; color:#fff; border:1px solid #1c2b3e; padding:12px; border-radius:8px; width:100%">
+            <option value="">Selecciona una opción</option>
+            <option value="materiales">Materiales Críticos (Acero, Cemento, etc.)</option>
+            <option value="acabados">Acabados (Cerámicos, Sanitarios, etc.)</option>
+            <option value="electricos">Eléctricos y Tecnología</option>
+            <option value="otro">Otros Suministros</option>
+          </select>
+        </div>
+        <div class="cform-group">
+          <label>Mensaje (opcional)</label>
+          <textarea rows="3"
+            placeholder="Coméntanos sobre tus cuotas de ventas o qué categorías de insumos monitoreas."></textarea>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#00C8FF; color:#001228;">Solicitar Presentación Privada →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="background:#000814">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="fb-brand">
+          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+            <rect width="12" height="12" fill="#00C8FF" />
+            <rect x="16" width="12" height="12" fill="#00C8FF" />
+            <rect y="16" width="12" height="12" fill="#00C8FF" />
+          </svg>
+          <strong>CAPECO · PROVEEDORES</strong>
+        </div>
+        <p class="fb-desc">La plataforma oficial para monitorear la demanda y costos de la cadena de suministro en el Perú.</p>
+        <div class="fb-social">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="mailto:pme_proveedores@capeco.org" aria-label="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Inteligencia Supply</h4>
+        <a href="#insumos">Demanda de Materiales</a>
+        <a href="#costos">Índice de Costos</a>
+        <a href="#especificaciones">Specs & Acabados</a>
+        <a href="#contacto">Solicitar Demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Institucional</h4>
+        <a href="#!">Metodología CAPECO</a>
+        <a href="#!">Sello de Calidad</a>
+        <a href="#!">Partnerships de Suministro</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto Directo</h4>
+        <a href="mailto:pme_proveedores@capeco.org">pme_proveedores@capeco.org</a>
+        <button class="footer-link-btn" onclick="openModal()" style="color:#00C8FF">Portal de Proveedores</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CAPECO · PME Proveedores. Todos los derechos reservados.</span>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box" id="modal-box">
+      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+      <div class="modal-logo">
+        <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+          <rect width="12" height="12" fill="#00C8FF" />
+          <rect x="16" width="12" height="12" fill="#00C8FF" />
+          <rect y="16" width="12" height="12" fill="#00C8FF" />
+        </svg>
+        <strong>CAPECO</strong><span> · Provider Portal</span>
+      </div>
+      <h3>Acceso Plataforma B2B</h3>
+      <form onsubmit="return false;" class="mform">
+        <div class="mform-group">
+          <label>Usuario Corporativo</label>
+          <input type="email" placeholder="usuario@marca.com" autocomplete="email" required />
+        </div>
+        <div class="mform-group">
+          <label>Contraseña</label>
+          <div class="pw-wrap">
+            <input type="password" id="pw" placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="pw-eye" onclick="togglePw()" aria-label="Ver">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#00C8FF; color:#001228;">Ingresar al Panel →</button>
+      </form>
+      <div class="modal-footer-links">
+        <span>¿Tu empresa no es Partner PME? <a href="#contacto" onclick="closeModal()">Súmate aquí →</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

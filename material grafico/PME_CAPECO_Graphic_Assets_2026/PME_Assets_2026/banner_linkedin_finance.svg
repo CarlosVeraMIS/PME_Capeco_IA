@@ -1,0 +1,61 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030B18"/>
+      <stop offset="55%" stop-color="#0B1F38"/>
+      <stop offset="100%" stop-color="#1D3D6F"/>
+    </linearGradient>
+    <linearGradient id="acc2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1D6FE8"/>
+      <stop offset="50%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <pattern id="grid2" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0 L0 0 0 48" fill="none" stroke="white" stroke-width="0.7" opacity="0.03"/>
+    </pattern>
+  </defs>
+  <rect width="1584" height="396" fill="url(#bg2)"/>
+  <rect width="1584" height="396" fill="url(#grid2)"/>
+  <circle cx="1450" cy="-40" r="280" fill="none" stroke="#1D6FE8" stroke-width="1" opacity="0.06"/>
+  <circle cx="1450" cy="-40" r="160" fill="none" stroke="#1D6FE8" stroke-width="1" opacity="0.05"/>
+  <rect x="0" y="390" width="1000" height="6" fill="url(#acc2)" rx="3"/>
+  <!-- Finance tag -->
+  <rect x="64" y="80" width="200" height="30" rx="15" fill="rgba(29,111,232,0.2)" 
+        stroke="rgba(29,111,232,0.3)" stroke-width="1"/>
+  <text x="164" y="100" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="11" font-weight="700" fill="#93C5FD" text-anchor="middle" letter-spacing="1.5">PME FINANCE · BANCA</text>
+  <!-- Brand -->
+  <rect x="64" y="128" width="72" height="72" rx="11" fill="#1D6FE8"/>
+  <text x="100" y="174" font-family="'DM Sans', 'Arial Black', sans-serif" 
+        font-size="22" font-weight="900" fill="white" text-anchor="middle">PME</text>
+  <text x="154" y="183" font-family="'DM Sans', 'Arial Black', sans-serif" 
+        font-size="40" font-weight="800" fill="white" letter-spacing="0.5">PME FINANCE</text>
+  <!-- Tagline -->
+  <text x="64" y="254" font-family="'DM Sans', Georgia, sans-serif" 
+        font-size="24" font-weight="400" fill="rgba(255,255,255,0.8)">Inteligencia que</text>
+  <text x="274" y="254" font-family="Georgia, serif" 
+        font-size="24" font-style="italic" fill="#93C5FD"> mitiga el riesgo</text>
+  <text x="540" y="254" font-family="'DM Sans', Georgia, sans-serif" 
+        font-size="24" font-weight="400" fill="rgba(255,255,255,0.8)"> y acelera el crédito</text>
+  <text x="64" y="292" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="14" font-weight="500" fill="rgba(255,255,255,0.35)" letter-spacing="1">AUDITABLE SBS · API + POWER BI · DATO CENSAL CAPECO</text>
+  <!-- Stats -->
+  <rect x="900" y="80" width="1" height="240" fill="rgba(255,255,255,0.06)"/>
+  <text x="1000" y="190" font-family="Georgia, serif" font-size="50" fill="white" text-anchor="middle">100</text>
+  <text x="1054" y="168" font-family="'DM Sans', Arial, sans-serif" font-size="18" font-weight="700" fill="#1D6FE8">%</text>
+  <text x="1000" y="220" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">SENSIBILIDAD</text>
+  <text x="1000" y="237" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">AL PRECIO DE CIERRE</text>
+  <rect x="1100" y="120" width="1" height="160" fill="rgba(255,255,255,0.06)"/>
+  <text x="1200" y="190" font-family="Georgia, serif" font-size="50" fill="white" text-anchor="middle">40</text>
+  <text x="1228" y="168" font-family="'DM Sans', Arial, sans-serif" font-size="18" font-weight="700" fill="#1D6FE8">%</text>
+  <text x="1200" y="220" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">REDUCCIÓN</text>
+  <text x="1200" y="237" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">DESACUERDOS</text>
+  <rect x="1300" y="120" width="1" height="160" fill="rgba(255,255,255,0.06)"/>
+  <text x="1420" y="190" font-family="Georgia, serif" font-size="42" fill="white" text-anchor="middle">SBS</text>
+  <text x="1420" y="220" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">COMPLIANCE</text>
+  <text x="1420" y="237" font-family="'DM Sans', Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.3)" text-anchor="middle" letter-spacing="1">AUDITADO</text>
+  <rect x="64" y="334" width="160" height="30" rx="6" fill="rgba(29,111,232,0.15)" 
+        stroke="rgba(29,111,232,0.3)" stroke-width="1"/>
+  <text x="144" y="354" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="700" fill="#1D6FE8" text-anchor="middle">pme.pe/bancos</text>
+</svg>

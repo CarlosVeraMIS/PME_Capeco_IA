@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PME CAPECO para Bancos y Fintechs — Inteligencia de Mercado Inmobiliario</title>
+  <meta name="description"
+    content="Inteligencia de datos censales para Crédito Hipotecario, Préstamos a Desarrolladores, Seguros y Fintechs. Mitiga el riesgo con el dato oficial de CAPECO." />
+  <meta name="keywords"
+    content="bancos, crédito hipotecario, financiamiento, fintech, seguros, inmobiliario Peru, CAPECO PME" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- TOP AUTHORITY BAR -->
+  <div class="trust-topbar">
+    <div class="trust-inner">
+      <div class="trust-item">★★★★★ <span>Fuente oficial <strong>CAPECO</strong> para el sector financiero</span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Mitigación de riesgo con <strong>datos censales</strong></span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Norma SBS y <strong>Estándares IFRS</strong> compliantes</span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-capeco">
+          <svg class="capeco-sq" width="26" height="26" viewBox="0 0 28 28" fill="none">
+            <rect width="12" height="12" fill="#d4af37" />
+            <rect x="16" width="12" height="12" fill="#d4af37" />
+            <rect y="16" width="12" height="12" fill="#d4af37" />
+          </svg>
+          <span class="capeco-label">CAPECO</span>
+        </div>
+        <span class="brand-sep">·</span>
+        <span class="brand-pme">FINANCE</span>
+      </div>
+      <div class="nav-links">
+        <a href="#hipotecario">Hipotecario</a>
+        <a href="#financiamiento">Financiamiento</a>
+        <a href="#fintech">Fintech & Seguros</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-login" onclick="openModal()">Acceso Red Privada</button>
+        <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Demo →</button>
+      </div>
+      <button class="mobile-toggle" onclick="toggleNav()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#hipotecario" onclick="toggleNav()">Hipotecario</a>
+      <a href="#financiamiento" onclick="toggleNav()">Financiamiento</a>
+      <a href="#fintech" onclick="toggleNav()">Fintech & Seguros</a>
+      <a href="#contacto" onclick="toggleNav()">Contacto</a>
+      <button class="btn-primary" onclick="openModal();toggleNav()">Acceso Red Privada</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-glow" style="background: radial-gradient(ellipse at center, rgba(212, 175, 55, .15) 0%, transparent 70%);"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <a href="#contacto" class="hero-pill" style="color: #d4af37; border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05);">
+        <span class="pill-badge" style="background:#d4af37; color:#001228;">FINANCE</span>
+        La plataforma de decisión para la Banca y Seguros en Perú →
+      </a>
+      <h1 class="hero-h1">
+        Inteligencia que mitiga el riesgo y <br /><em>acelera el crédito</em><br />inmobiliario
+      </h1>
+      <p class="hero-sub">
+        Bancos, entidades financieras, aseguradoras y fintechs integran PME CAPECO para <strong>tasar propiedades, aprobar hipotecas y evaluar financiamiento de proyectos</strong> con 100% de certidumbre basada en el dato oficial.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" style="background:#d4af37; color:#001228;"
+          onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Agendar presentación
+          →</button>
+        <button class="btn-outline"
+          onclick="document.getElementById('hipotecario').scrollIntoView({behavior:'smooth'})">Ver áreas de impacto</button>
+      </div>
+      <p class="hero-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        Auditable por SBS · Dato Censal Institucional · API & Power BI Integrado
+      </p>
+      <!-- 3 audience quick-nav pills -->
+      <div class="hero-audience-nav">
+        <a class="han-item" href="#hipotecario">
+          <span class="han-icon">🏦</span>
+          <div>
+            <strong>Crédito Hipotecario</strong>
+            <span>Precisión en valuaciones</span>
+          </div>
+        </a>
+        <a class="han-item" href="#financiamiento">
+          <span class="han-icon">🏢</span>
+          <div>
+            <strong>Banca Empresa</strong>
+            <span>Riesgo de desarrolladores</span>
+          </div>
+        </a>
+        <a class="han-item" href="#fintech">
+          <span class="han-icon">⚙️</span>
+          <div>
+            <strong>Fintech & Seguros</strong>
+            <span>APIs de scoring</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-block">
+        <div class="stat-num" data-target="850" data-suffix="M">0</div>
+        <div class="stat-desc">En financiamiento de <br/> proyectos validados</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="0" data-suffix="%">100</div>
+        <div class="stat-desc">Tasa de desviación de <br/> data frente a realidad</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="1049" data-suffix="">0</div>
+        <div class="stat-desc">Proyectos inmobiliarios <br/> modelados y activos</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="48" data-suffix=" hrs">0</div>
+        <div class="stat-desc">Aceleración en aprobaciones <br/> crediticias promedio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="trusted" style="background:var(--navy3)">
+    <div class="trusted-inner">
+      <p class="trusted-label">CONFÍAN EN LA DATA CENSAL DE CAPECO PARA CRÉDITO Y RIESGO</p>
+      <div class="trusted-logos">
+        <span class="tl-item">BCP</span>
+        <span class="tl-item">BBVA</span>
+        <span class="tl-item">Scotiabank</span>
+        <span class="tl-item">Interbank</span>
+        <span class="tl-item">BanBif</span>
+        <span class="tl-item">Pichincha</span>
+        <span class="tl-item">Compartamos Financiera</span>
+        <span class="tl-item">Mapfre</span>
+        <span class="tl-item">Migrante</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECCIÓN 1: CRÉDITO HIPOTECARIO
+  ══════════════════════════════════ -->
+  <section class="audience-section" id="hipotecario">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <span class="aud-tag aus" style="color:var(--gold); border-color:var(--gold); background:rgba(212,175,55,0.1)">Para Crédito Hipotecario</span>
+        <h2>Aprobaciones hipotecarias<br />con riesgo cero y máxima agilidad</h2>
+        <p class="aud-lead">
+          Valida el precio real de mercado por metro cuadrado y velocidad de ventas de cualquier proyecto para tus pólizas y créditos hipotecarios. Sin depender de tasaciones externas sesgadas, reduce el tiempo de aprobación y la exposición al riesgo.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">🎯</div>
+            <div>
+              <strong>Banco Financiador y Modalidad (Mivivienda)</strong>
+              <p>Valida qué banco respalda cada proyecto y bajo qué modalidad (Crédito MiVivienda, Techo Propio o Tradicional). Mejora tu competitividad en el mercado hipotecario.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">⚡</div>
+            <div>
+              <strong>Aprobación automática de la garantía</strong>
+              <p>Integra el valor por metro cuadrado a tu sistema de scoring y aprueba garantías hipotecarias recurrentes en minutos, en lugar de días.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">🛡️</div>
+            <div>
+              <strong>Sustento sólido ante auditorías</strong>
+              <p>La Superintendencia y los organismos reguladores validan e integran a CAPECO como ente imparcial e histórico del sector constructor.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary" style="background:#d4af37; color:#001228;"
+            onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Agendar evaluación →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+        <div class="sponsor-card">
+          <div class="sc-title">Precisión vs Tasadores Tradicionales</div>
+          <div class="sc-packages">
+            <div class="sc-pack gold">
+              <div class="sc-pack-name">PME FINANCE</div>
+              <div class="sc-pack-price">100% <span>Sensibilidad al Cierre</span></div>
+              <ul>
+                <li>✓ Datos de ventas transaccionadas</li>
+                <li>✓ Histórico profundo del edificio/corredor</li>
+                <li>✓ Actualización en línea y trimestral</li>
+                <li>✓ Información estandarizada y normalizada</li>
+              </ul>
+            </div>
+            <div class="sc-pack silver" style="opacity:0.6">
+              <div class="sc-pack-name">MODELO TRADICIONAL</div>
+              <div class="sc-pack-price">Parcial <span>Información Muestral</span></div>
+              <ul>
+                <li>✗ Basado en listings de portales</li>
+                <li>✗ Sesgo de tasación perceptual</li>
+                <li>✗ Demoras logísticas de 4-7 días</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECCIÓN 2: FINANCIAMIENTO A DESARROLLADORES
+  ══════════════════════════════════ -->
+  <section class="audience-section alt" id="financiamiento">
+    <div class="aud-inner reverse">
+      <div class="aud-text">
+        <span class="aud-tag sub">Para Banca Empresa y Préstamos</span>
+        <h2>Financia el desarrollo de proyectos<br />con visibilidad total</h2>
+        <p class="aud-lead">
+          Antes de otorgar una línea de crédito constructor o evaluar un fideicomiso, analiza con PME si el proyecto a financiar cuenta con <strong>demanda real y absorción saludable</strong> en su zona de influencia.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">📊</div>
+            <div>
+              <strong>Proyección de Absorción del mercado</strong>
+              <p>Verifica si las asunciones de ventas del desarrollador son realistas. Conoce a qué ritmo se están vendiendo proyectos similares en la misma manzana.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">🏗️</div>
+            <div>
+              <strong>Viabilidad del pipeline inmobiliario</strong>
+              <p>Evalúa el nivel de competencia y saturación por tipología (ej. depas de 1D vs 3D) antes de comprometer el financiamiento corporativo.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">🔍</div>
+            <div>
+              <strong>Due Diligence Inmediato</strong>
+              <p>Transforma el proceso de auditoría de riesgo comercial de varias semanas a un dashboard interactivo autogestionado por tu comité de créditos.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary"
+            onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar acceso corporativo →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+        <div class="dashboard-preview">
+          <div class="dp-header">
+            <div class="dp-dots"><span></span><span></span><span></span></div>
+            <span class="dp-title">Riesgo & Absorción · Q4 2025</span>
+            <span class="dp-live" style="background:var(--green);color:var(--navy3)">SEGURO</span>
+          </div>
+          <div class="dp-body">
+            <div class="dp-kpis">
+              <div class="kpi up">
+                <div class="kpi-val">4.2 meses</div>
+                <div class="kpi-label">Velocidad de absorción de garantías</div>
+                <div class="kpi-delta" style="color:var(--green)">✓ Saludable</div>
+              </div>
+              <div class="kpi neutral">
+                <div class="kpi-val">8%</div>
+                <div class="kpi-label">Vacancia pre-lanzamiento</div>
+                <div class="kpi-delta">→ Estándar Mercado</div>
+              </div>
+            </div>
+            <div class="dp-chart-label">Comparativa de Riesgo por Corredor</div>
+            <div class="dp-bars">
+              <div class="dpb-row"><span>Lima Top</span>
+                <div class="dpb-bar">
+                  <div style="width:25%; background: var(--green)"></div>
+                </div><span>S/ Riesgo Bajo</span>
+              </div>
+              <div class="dpb-row"><span>Lima Moderna</span>
+                <div class="dpb-bar">
+                  <div style="width:40%; background: var(--gold)"></div>
+                </div><span>S/ Riesgo Medio</span>
+              </div>
+              <div class="dpb-row"><span>Conos Periféricos</span>
+                <div class="dpb-bar">
+                  <div style="width:80%; background: var(--red)"></div>
+                </div><span>S/ Alerta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECCIÓN 3: FINTECH Y SEGUROS
+  ══════════════════════════════════ -->
+  <section class="audience-section" id="fintech">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <span class="aud-tag usr" style="color:var(--blue); border-color:var(--blue); background:rgba(26,110,245,0.1)">Para Fintechs, Proptechs y Aseguradoras</span>
+        <h2>Data estructurada para<br />ecosistemas y modelos digitales</h2>
+        <p class="aud-lead">
+          La velocidad es tu ventaja competitiva. PME CAPECO puede integrarse con tus algoritmos de underwriting para emitir <strong>pólizas de seguro de hogar o líneas de crédito fintech</strong> de forma 100% digital.
+        </p>
+
+        <!-- Who uses it -->
+        <div class="uc-who">
+          <div class="ucw-item">⚙️ <span>Integración API inmediata</span></div>
+          <div class="ucw-item">🧠 <span>Machine Learning & Modelos Predictivos</span></div>
+          <div class="ucw-item">🔒 <span>Infraestructura Data Lake Segura</span></div>
+        </div>
+
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <div class="ab-ico">🛡️</div>
+            <div>
+              <strong>Evaluación de Seguros y Garantías</strong>
+              <p>Aseguradoras utilizan los estratos de inversión y requisitos de seguros (desgravamen/todo riesgo) para calcular primas precisas y reducir el ratio de siniestralidad.</p>
+            </div>
+          </div>
+          <div class="ab-item">
+            <div class="ab-ico">📱</div>
+            <div>
+              <strong>Proptechs en expansión</strong>
+              <p>Si tu empresa ofrece hipotecas digitales o compra de cartera, no puedes avanzar a ciegas. Descubre qué zonas asegurarán el retorno de tu algoritmo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="aud-ctas">
+          <button class="btn-primary" onclick="openModal()">Ver Documentación Técnica →</button>
+        </div>
+      </div>
+      <div class="aud-visual">
+         <div class="use-cases-grid">
+          <div class="ucg-card">
+            <div class="ucg-icon">💻</div>
+            <strong>API Data Delivery</strong>
+            <p>Conexión directa vía endpoints REST o volcados seguros (Secure FTP / S3) hacia tu Data Warehouse.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">🛡️</div>
+            <strong>Aseguradoras de Riesgo</strong>
+            <p>Modelado de primas basado en demografía, precio m² y nivel constructivo de las edificaciones zonales.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">⚙️</div>
+            <strong>Hipotecas Digitales</strong>
+            <p>Aprobación 'instant approval' respaldando el colateral algorítmicamente contra la base histórica PME.</p>
+          </div>
+          <div class="ucg-card">
+            <div class="ucg-icon">📈</div>
+            <strong>Fondos de Inversión</strong>
+            <p>Scoring de portafolios de bienes raíces para FIBRAS y FIRBIS listados en bolsa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PRE-FOOTER CTA + FORM
+  ══════════════════════════════════ -->
+  <section class="prefooter-cta" id="contacto" style="background:var(--navy2); border-top:1px solid var(--gb);">
+    <div class="pfc-glow" style="background:radial-gradient(ellipse at center, rgba(212, 175, 55, .15) 0%, transparent 60%);"></div>
+    <div class="pfc-inner">
+      <h2>Transforma el control de riesgo hoy</h2>
+      <p>Nuestros asesores financieros especializados en analítica de datos están listos para demostrarte el impacto en el ROI y el nivel de provisiones de tu institución.</p>
+      <div class="pfc-audience-btns">
+        <button class="pab" onclick="setAudience('hipotecario')">🏦 Crédito Hipotecario</button>
+        <button class="pab" onclick="setAudience('financiamiento')">🏢 Banca Empresa</button>
+        <button class="pab" onclick="setAudience('fintech')">⚙️ Fintech / Seguros</button>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <form class="cform" id="cform" onsubmit="handleForm(event)">
+        <div class="cform-row">
+          <div class="cform-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre completo" required />
+          </div>
+          <div class="cform-group">
+            <label>Entidad Financiera</label>
+            <input type="text" placeholder="Nombre de tu Banco/Empresa" required />
+          </div>
+        </div>
+        <div class="cform-row">
+          <div class="cform-group">
+            <label>Correo Corporativo</label>
+            <input type="email" placeholder="tu@banco.com" required />
+          </div>
+          <div class="cform-group">
+            <label>Teléfono (opcional)</label>
+            <input type="tel" placeholder="+51 XXX XXX XXX" />
+          </div>
+        </div>
+        <div class="cform-group">
+          <label>Área de Interés</label>
+          <select id="interest-select" required style="background:var(--navy3); color:#fff; border:1px solid var(--gb); padding:12px; border-radius:8px; width:100%">
+            <option value="">Selecciona una opción</option>
+            <option value="hipotecario">Riesgo & Crédito Hipotecario</option>
+            <option value="financiamiento">Financiamiento Inmobiliario / Banca Empresa</option>
+            <option value="fintech">Fintech, Proptech y Seguros</option>
+            <option value="otro">Otras áreas / Más información</option>
+          </select>
+        </div>
+        <div class="cform-group">
+          <label>Mensaje (opcional)</label>
+          <textarea rows="3"
+            placeholder="Coméntanos tus retos de scoring, validación de garantías, o due diligence comercial."></textarea>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#d4af37; color:#001228;">Solicitar Presentación Privada →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="background:var(--navy)">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="fb-brand">
+          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+            <rect width="12" height="12" fill="#d4af37" />
+            <rect x="16" width="12" height="12" fill="#d4af37" />
+            <rect y="16" width="12" height="12" fill="#d4af37" />
+          </svg>
+          <strong>CAPECO · FINANCE</strong>
+        </div>
+        <p class="fb-desc">El aval institucional e histórico para las decisiones de riesgo en las entidades financieras del Perú.</p>
+        <div class="fb-social">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="mailto:pme_finanzas@capeco.org" aria-label="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Impacto Financiero</h4>
+        <a href="#hipotecario">Mitigación de Riesgos</a>
+        <a href="#financiamiento">Modelado de Absorción</a>
+        <a href="#fintech">Integración Tecnológica</a>
+        <a href="#contacto">Solicitar Demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Cumplimiento SBS</h4>
+        <a href="#!">Metodología y Transparencia</a>
+        <a href="#!">Auditoría Sensal</a>
+        <a href="#!">Casos de Éxito en Banca</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto Directo</h4>
+        <a href="mailto:pme_finanzas@capeco.org">pme_finanzas@capeco.org</a>
+        <button class="footer-link-btn" onclick="openModal()" style="color:#d4af37">Portal de Clientes Banca</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CAPECO · PME Finance. Todos los derechos reservados.</span>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box" id="modal-box">
+      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+      <div class="modal-logo">
+        <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+          <rect width="12" height="12" fill="#d4af37" />
+          <rect x="16" width="12" height="12" fill="#d4af37" />
+          <rect y="16" width="12" height="12" fill="#d4af37" />
+        </svg>
+        <strong>CAPECO</strong><span> · Finance Gateway</span>
+      </div>
+      <h3>Acceso VPN Corporativa</h3>
+      <form onsubmit="return false;" class="mform">
+        <div class="mform-group">
+          <label>Identificador Institucional</label>
+          <input type="email" placeholder="usuario@banco.com.pe" autocomplete="email" required />
+        </div>
+        <div class="mform-group">
+          <label>Credencial de Acceso</label>
+          <div class="pw-wrap">
+            <input type="password" id="pw" placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="pw-eye" onclick="togglePw()" aria-label="Ver">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#d4af37; color:#001228;">Establecer Conexión Segura →</button>
+      </form>
+      <div class="modal-footer-links">
+        <span>¿Tu institución no tiene convenio? <a href="#contacto" onclick="closeModal()">Solicitalo aquí →</a></span>
+      </div>
+      <div class="modal-support">📞 Línea VIP Bancos: +51 964 304 621</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

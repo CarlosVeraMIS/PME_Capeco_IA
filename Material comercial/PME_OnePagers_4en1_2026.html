@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PME CAPECO — One-Pagers Comerciales 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ────────────────────────────────────────────── */
+:root{
+  --navy:#0F2340; --navy-mid:#1B3A5C; --navy-soft:#243F63;
+  --orange:#E8500D; --orange-w:#F97316; --orange-p:#FEF3EC;
+  --blue:#1D6FE8; --blue-p:#EBF3FE;
+  --teal:#0D9488; --teal-p:#E6F7F5; --teal-d:#065F59;
+  --gold:#C9A227; --gold-p:#FBF5E7;
+  --slate-1:#F1F5F9; --slate-2:#E2E8F0; --slate-4:#94A3B8;
+  --slate-6:#475569; --slate-8:#1E293B;
+  --white:#fff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#e8edf3;padding:2rem;display:flex;flex-direction:column;gap:3rem;align-items:center}
+
+/* ─── PAGE = A4 ─────────────────────────────────────────── */
+.page{
+  width:794px;
+  min-height:1123px;
+  background:#fff;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.18);
+  display:flex;
+  flex-direction:column;
+}
+
+/* ─── SCREEN LABEL ──────────────────────────────────────── */
+.screen-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--slate-4);margin-bottom:.5rem;text-align:center;
+}
+
+/* ─── PRINT ──────────────────────────────────────────────── */
+@media print{
+  body{background:white;padding:0;gap:0}
+  .screen-label{display:none}
+  .page{box-shadow:none;page-break-after:always;min-height:0}
+}
+
+/* ══════════════════════════════════════════════════════════
+   SHARED COMPONENTS
+══════════════════════════════════════════════════════════ */
+.badge-trust{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;padding:4px 12px;
+  font-size:10.5px;font-weight:600;color:rgba(255,255,255,.75);
+  letter-spacing:.02em;
+}
+.badge-trust .stars{color:var(--gold);font-size:9px;letter-spacing:1px}
+
+.section-tag{
+  font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:.4rem;
+}
+.section-tag.blue{color:var(--blue)}
+.section-tag.teal{color:var(--teal)}
+
+.check{color:var(--teal);font-weight:700;margin-right:5px}
+.cross{color:var(--slate-4);margin-right:5px}
+
+/* ── Footer bar ── */
+.footer-bar{
+  margin-top:auto;
+  background:var(--navy);
+  padding:.875rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:.5rem;flex-wrap:wrap;
+}
+.footer-bar .contact{font-size:10px;color:rgba(255,255,255,.5);display:flex;gap:1.25rem;flex-wrap:wrap}
+.footer-bar .contact span{color:rgba(255,255,255,.65);font-weight:500}
+.footer-bar .brand-lock{display:flex;align-items:center;gap:8px}
+.footer-bar .logo-sq{width:22px;height:22px;background:var(--orange);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:800;color:#fff;flex-shrink:0}
+.footer-bar .logo-txt{font-size:11px;font-weight:700;color:#fff}
+.footer-bar .logo-sub{font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em}
+.footer-bar .qr-box{width:36px;height:36px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.footer-bar .qr-box svg{width:22px;height:22px;opacity:.6}
+
+
+/* ══════════════════════════════════════════════════════════
+   ■ PAGE 1 — GENERAL
+══════════════════════════════════════════════════════════ */
+.p1-hero{
+  background:var(--navy);
+  padding:2rem 2rem 1.5rem;
+  position:relative;overflow:hidden;
+}
+.p1-hero::after{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:300px;height:300px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.04);
+  pointer-events:none;
+}
+.p1-hero::before{
+  content:'';position:absolute;right:60px;top:30px;
+  width:180px;height:180px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.03);
+  pointer-events:none;
+}
+.p1-eyebrow{
+  display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;
+}
+.p1-hero h1{
+  font-family:'DM Serif Display',serif;
+  font-size:2.4rem;line-height:1.1;font-weight:400;color:#fff;
+  max-width:440px;margin-bottom:.75rem;
+}
+.p1-hero h1 em{color:var(--orange-w);font-style:italic}
+.p1-hero p{font-size:13px;color:rgba(255,255,255,.55);max-width:400px;line-height:1.65}
+
+.p1-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,.07);
+  margin-top:1.5rem;padding-top:1.25rem;
+  gap:0;
+}
+.p1-stat{padding:0 1rem 0 0;border-right:1px solid rgba(255,255,255,.07)}
+.p1-stat:last-child{border-right:none}
+.p1-stat .n{font-family:'DM Serif Display',serif;font-size:2rem;color:#fff;line-height:1}
+.p1-stat .n sup{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;color:var(--orange-w);vertical-align:super}
+.p1-stat .l{font-size:9.5px;color:rgba(255,255,255,.38);margin-top:.3rem;line-height:1.4;text-transform:uppercase;letter-spacing:.04em}
+
+.p1-body{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex:1}
+
+.p1-col-title{
+  font-size:12px;font-weight:700;color:var(--navy);
+  border-bottom:2px solid var(--orange);padding-bottom:.4rem;margin-bottom:1rem;
+  display:flex;align-items:center;gap:7px;
+}
+.p1-col-title .emoji{font-size:14px}
+
+.p1-feature{display:flex;gap:8px;margin-bottom:.75rem;align-items:flex-start}
+.p1-feature .dot{width:5px;height:5px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
+.p1-feature .ft{font-size:12.5px;color:var(--slate-8);line-height:1.5}
+.p1-feature .ft strong{color:var(--navy);font-weight:700;display:block;font-size:12px}
+
+/* Pricing pills */
+.p1-pricing{margin-top:1.25rem}
+.p1-pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem}
+.p1-price-card{border-radius:8px;padding:.7rem .6rem;text-align:center;position:relative}
+.p1-price-card.gold{background:var(--gold-p);border:1.5px solid rgba(201,162,39,.25)}
+.p1-price-card.silver{background:var(--navy);border:1.5px solid var(--navy-mid)}
+.p1-price-card.bronze{background:var(--slate-1);border:1.5px solid var(--slate-2)}
+.p1-price-card .tier{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem}
+.p1-price-card.gold .tier{color:var(--gold)}
+.p1-price-card.silver .tier{color:rgba(255,255,255,.5)}
+.p1-price-card.bronze .tier{color:var(--slate-4)}
+.p1-price-card .price{font-family:'DM Serif Display',serif;font-size:1.2rem;line-height:1}
+.p1-price-card.gold .price{color:var(--navy)}
+.p1-price-card.silver .price{color:#fff}
+.p1-price-card.bronze .price{color:var(--navy)}
+.p1-price-card .period{font-size:8.5px;font-weight:500}
+.p1-price-card.gold .period{color:var(--slate-6)}
+.p1-price-card.silver .period{color:rgba(255,255,255,.4)}
+.p1-price-card.bronze .period{color:var(--slate-4)}
+.p1-price-card .perk{font-size:9.5px;color:var(--slate-6);margin-top:.35rem;line-height:1.3}
+.p1-price-card.silver .perk{color:rgba(255,255,255,.55)}
+.featured-pip{position:absolute;top:-6px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:7.5px;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:999px}
+
+.divider-h{height:1px;background:var(--slate-2);margin:.75rem 0}
+
+.suscriptor-box{
+  background:var(--blue-p);border-radius:8px;padding:.875rem 1rem;
+  display:flex;align-items:flex-start;gap:.75rem;margin-top:.875rem;
+}
+.suscriptor-box .sb-icon{font-size:1.4rem;flex-shrink:0}
+.suscriptor-box .sb-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.2rem}
+.suscriptor-box .sb-desc{font-size:11.5px;color:var(--slate-6);line-height:1.5}
+.suscriptor-box .sb-price{font-size:12.5px;font-weight:700;color:var(--blue);margin-top:.35rem}
+
+.p1-vs{margin-top:1.25rem;background:var(--slate-1);border-radius:8px;overflow:hidden}
+.p1-vs table{width:100%;border-collapse:collapse;font-size:10.5px}
+.p1-vs th{background:var(--navy);color:rgba(255,255,255,.75);padding:.45rem .6rem;text-align:center;font-size:10px;font-weight:600}
+.p1-vs th:first-child{text-align:left}
+.p1-vs td{padding:.4rem .6rem;border-bottom:1px solid var(--slate-2);color:var(--slate-6);text-align:center}
+.p1-vs td:first-child{text-align:left;font-weight:500;color:var(--slate-8)}
+.p1-vs tr:last-child td{border-bottom:none}
+.p1-vs .hl{color:var(--orange);font-weight:700}
+.p1-vs .ok{color:var(--teal);font-weight:700}
+
+
+/* ══════════════════════════════════════════════════════════
+   ■ PAGE 2 — FINANCE
+══════════════════════════════════════════════════════════ */
+.p2-hero{
+  background:linear-gradient(135deg,#060F1E 0%,#0F2340 55%,#1B3A5C 100%);
+  padding:1.875rem 2rem 0;
+  position:relative;overflow:hidden;
+}
+/* subtle grid pattern */
+.p2-hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 48px),
+             repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 48px);
+}
+.p2-top-row{display:flex;align-items:flex-start;justify-content:space-between;position:relative;gap:1rem}
+.p2-hero-left{flex:1}
+.p2-finance-badge{
+  background:rgba(29,111,232,.2);border:1px solid rgba(29,111,232,.3);
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:999px;padding:4px 12px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#93C5FD;
+  margin-bottom:.875rem;
+}
+.p2-hero-left h1{
+  font-family:'DM Serif Display',serif;font-size:2.1rem;line-height:1.1;
+  font-weight:400;color:#fff;margin-bottom:.65rem;max-width:360px;
+}
+.p2-hero-left h1 em{color:var(--blue);font-style:italic}
+.p2-hero-left p{font-size:12px;color:rgba(255,255,255,.45);max-width:360px;line-height:1.65}
+
+/* Right: pain cards */
+.p2-pains{
+  display:flex;flex-direction:column;gap:.5rem;width:220px;flex-shrink:0;
+  padding-top:.25rem;
+}
+.p2-pain{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:.65rem .875rem;
+  display:flex;align-items:flex-start;gap:.6rem;
+}
+.p2-pain .pi{font-size:1rem;flex-shrink:0}
+.p2-pain .pt{font-size:11px;color:rgba(255,255,255,.55);line-height:1.45}
+.p2-pain .pt strong{color:rgba(255,255,255,.8);display:block;font-size:11.5px;margin-bottom:.1rem}
+
+.p2-strip{
+  background:rgba(0,0,0,.25);border-top:1px solid rgba(255,255,255,.06);
+  display:flex;gap:0;margin-top:1.25rem;padding:.875rem 0 .875rem;position:relative;
+}
+.p2-strip-item{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.06)}
+.p2-strip-item:last-child{border-right:none}
+.p2-strip-item .n{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;line-height:1}
+.p2-strip-item .n sup{font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;color:var(--blue);vertical-align:super}
+.p2-strip-item .l{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-top:.2rem;line-height:1.3}
+
+.p2-body{padding:1.5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex:1}
+
+.p2-solution{background:var(--slate-1);border-radius:8px;padding:.875rem;margin-bottom:.75rem}
+.p2-solution .sol-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.35rem}
+.p2-solution .sol-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:.3rem}
+.p2-solution .sol-desc{font-size:11.5px;color:var(--slate-6);line-height:1.5}
+.p2-solution .sol-metric{font-size:11px;font-weight:700;color:var(--teal);margin-top:.35rem}
+
+/* Pricing table finance */
+.p2-ptable{margin-top:.75rem}
+.p2-ptable table{width:100%;border-collapse:collapse;font-size:10.5px}
+.p2-ptable th{background:var(--navy);color:rgba(255,255,255,.75);padding:.5rem .65rem;font-size:10px;font-weight:600;text-align:left}
+.p2-ptable th:not(:first-child){text-align:center}
+.p2-ptable td{padding:.45rem .65rem;border-bottom:1px solid var(--slate-2);color:var(--slate-6)}
+.p2-ptable td:not(:first-child){text-align:center}
+.p2-ptable td:first-child{font-weight:600;color:var(--navy);font-size:11px}
+.p2-ptable tr:nth-child(even) td{background:var(--slate-1)}
+.p2-ptable .price-hl{color:var(--orange);font-weight:700}
+.p2-ptable tr:last-child td{border-bottom:none}
+
+.poc-box{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);
+  border-radius:10px;padding:1.125rem 1.25rem;
+  margin-top:1rem;
+}
+.poc-box .poc-eyebrow{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.3rem}
+.poc-box .poc-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:.35rem}
+.poc-box .poc-desc{font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.55;margin-bottom:.75rem}
+.poc-box .poc-cta{
+  display:inline-block;background:var(--orange);color:#fff;
+  border-radius:6px;padding:.45rem 1.125rem;font-size:12px;font-weight:700;
+  text-decoration:none;
+}
+
+.comp-col-header{
+  background:linear-gradient(135deg,#0B1F38,var(--navy));
+  border-radius:8px 8px 0 0;padding:.6rem .875rem;
+  font-size:11px;font-weight:700;color:#fff;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ■ PAGE 3 — ACADÉMICO
+══════════════════════════════════════════════════════════ */
+.p3-hero{
+  background:var(--navy);
+  padding:1.75rem 2rem 0;
+  position:relative;overflow:hidden;
+}
+/* subtle diagonal lines */
+.p3-hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,
+    transparent 1px,transparent 20px
+  );
+}
+.p3-header-row{display:flex;align-items:flex-start;gap:1.5rem;position:relative}
+.p3-left{flex:1}
+.p3-acad-badge{
+  background:rgba(21,128,61,.2);border:1px solid rgba(21,128,61,.3);
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:999px;padding:4px 12px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#86EFAC;
+  margin-bottom:.875rem;
+}
+.p3-left h1{
+  font-family:'DM Serif Display',serif;font-size:2.1rem;line-height:1.1;
+  font-weight:400;color:#fff;margin-bottom:.6rem;max-width:340px;
+}
+.p3-left h1 em{color:var(--orange-w);font-style:italic}
+.p3-left p{font-size:12px;color:rgba(255,255,255,.45);max-width:340px;line-height:1.65}
+
+.p3-programs{
+  display:flex;flex-direction:column;gap:.4rem;width:200px;flex-shrink:0;
+}
+.p3-program{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:7px;padding:.55rem .75rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.p3-program .pi2{font-size:.9rem}
+.p3-program .pn{font-size:11px;font-weight:600;color:rgba(255,255,255,.75)}
+
+.p3-stats-row{
+  display:flex;gap:0;border-top:1px solid rgba(255,255,255,.07);
+  margin-top:1.25rem;padding:.875rem 0;position:relative;
+}
+.p3-stat-item{flex:1;border-right:1px solid rgba(255,255,255,.07);padding:0 .875rem 0 0;margin-right:.875rem}
+.p3-stat-item:last-child{border-right:none;margin-right:0}
+.p3-stat-item .n3{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;line-height:1}
+.p3-stat-item .n3 sup{font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;color:var(--orange-w)}
+.p3-stat-item .l3{font-size:9.5px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.04em;margin-top:.2rem}
+
+.p3-body{padding:1.375rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex:1}
+
+.benefit-row{display:flex;gap:.75rem;margin-bottom:.7rem;align-items:flex-start}
+.benefit-icon{
+  width:28px;height:28px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+  background:var(--blue-p);
+}
+.benefit-icon.green-bg{background:rgba(21,128,61,.1)}
+.benefit-text .bt-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.15rem}
+.benefit-text .bt-desc{font-size:11.5px;color:var(--slate-6);line-height:1.5}
+
+/* Convention cards */
+.conv-grid{display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem}
+.conv-card{
+  border-radius:8px;padding:.75rem .875rem;
+  display:flex;align-items:center;gap:.875rem;
+  border:1.5px solid;
+}
+.conv-card.c1{background:#F0F9FF;border-color:rgba(29,111,232,.2)}
+.conv-card.c2{background:var(--navy);border-color:var(--navy-mid)}
+.conv-card.c3{background:var(--slate-1);border-color:var(--slate-2)}
+.conv-card .cv-price{font-family:'DM Serif Display',serif;font-size:1.25rem;line-height:1;flex-shrink:0;width:90px}
+.conv-card.c1 .cv-price{color:var(--blue)}
+.conv-card.c2 .cv-price{color:#fff}
+.conv-card.c3 .cv-price{color:var(--navy)}
+.conv-card .cv-period{font-size:9px;font-weight:600}
+.conv-card.c1 .cv-period{color:var(--slate-4)}
+.conv-card.c2 .cv-period{color:rgba(255,255,255,.35)}
+.conv-card.c3 .cv-period{color:var(--slate-4)}
+.conv-card .cv-name{font-size:12px;font-weight:700}
+.conv-card.c1 .cv-name{color:var(--navy)}
+.conv-card.c2 .cv-name{color:#fff}
+.conv-card.c3 .cv-name{color:var(--navy)}
+.conv-card .cv-desc{font-size:10.5px}
+.conv-card.c1 .cv-desc{color:var(--slate-6)}
+.conv-card.c2 .cv-desc{color:rgba(255,255,255,.45)}
+.conv-card.c3 .cv-desc{color:var(--slate-4)}
+
+.free-box{
+  background:linear-gradient(135deg,#064E3B,var(--teal-d));
+  border-radius:8px;padding:.875rem 1rem;
+  margin-top:.875rem;display:flex;align-items:center;gap:.875rem;
+}
+.free-box .fb-icon{font-size:1.4rem}
+.free-box .fb-text .fb-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.free-box .fb-text .fb-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.45}
+.free-box .fb-badge{
+  margin-left:auto;background:rgba(255,255,255,.12);border-radius:6px;
+  padding:.3rem .6rem;font-size:10px;font-weight:700;color:rgba(255,255,255,.7);
+  white-space:nowrap;flex-shrink:0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ■ PAGE 4 — TASAMELO
+══════════════════════════════════════════════════════════ */
+.p4-hero{
+  background:linear-gradient(140deg,#033A37 0%,#065F59 45%,#0D9488 100%);
+  padding:1.875rem 2rem 0;
+  position:relative;overflow:hidden;
+}
+.p4-hero::before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:260px;height:260px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.06);pointer-events:none;
+}
+.p4-hero::after{
+  content:'';position:absolute;right:80px;top:80px;
+  width:140px;height:140px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.04);pointer-events:none;
+}
+.p4-top{display:flex;align-items:flex-start;gap:1.25rem;position:relative}
+.p4-left{flex:1}
+
+.p4-wordmark{
+  font-family:'DM Sans',sans-serif;
+  font-size:2.75rem;font-weight:800;line-height:1;
+  color:#fff;letter-spacing:-.03em;margin-bottom:.3rem;
+}
+.p4-wordmark span{color:rgba(255,255,255,.35);font-weight:300}
+.p4-by{font-size:10px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.875rem}
+.p4-tagline{
+  font-family:'DM Serif Display',serif;
+  font-size:1.35rem;color:#fff;font-weight:400;line-height:1.3;max-width:320px;margin-bottom:.6rem;
+}
+.p4-tagline em{font-style:italic;color:rgba(255,255,255,.65)}
+.p4-desc{font-size:12px;color:rgba(255,255,255,.45);max-width:310px;line-height:1.65}
+
+/* 3-step visual */
+.p4-steps{
+  display:flex;flex-direction:column;gap:.5rem;width:210px;flex-shrink:0;
+}
+.p4-step{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:.65rem .875rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+.p4-step .step-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--orange);flex-shrink:0;
+  font-size:10px;font-weight:800;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+}
+.p4-step .step-text{font-size:11px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.35}
+
+.p4-connector{
+  display:flex;align-items:center;gap:0;
+  border-top:1px solid rgba(255,255,255,.07);
+  margin-top:1.25rem;padding:.875rem 0;position:relative;
+}
+.p4-connector-item{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,.07)}
+.p4-connector-item:last-child{border-right:none}
+.p4-connector-item .cn{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;line-height:1}
+.p4-connector-item .cl{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-top:.2rem}
+
+.p4-body{padding:1.375rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;flex:1}
+
+.p4-plans-title{font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:.625rem;display:flex;align-items:center;gap:6px}
+
+.p4-plan{
+  border-radius:8px;padding:.625rem .875rem;
+  display:flex;align-items:center;gap:.875rem;
+  margin-bottom:.45rem;border:1.5px solid;
+}
+.p4-plan.free-p{background:#F0FDFA;border-color:rgba(13,148,136,.2)}
+.p4-plan.basic-p{background:#fff;border-color:var(--slate-2)}
+.p4-plan.pro-p{background:var(--teal);border-color:var(--teal)}
+.p4-plan.ent-p{background:var(--navy);border-color:var(--navy)}
+.p4-plan .plan-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;width:62px;flex-shrink:0}
+.p4-plan.free-p .plan-label{color:var(--teal)}
+.p4-plan.basic-p .plan-label{color:var(--slate-6)}
+.p4-plan.pro-p .plan-label{color:rgba(255,255,255,.6)}
+.p4-plan.ent-p .plan-label{color:rgba(255,255,255,.4)}
+.p4-plan .plan-price{font-family:'DM Serif Display',serif;font-size:1.2rem;line-height:1;width:80px;flex-shrink:0}
+.p4-plan.free-p .plan-price{color:var(--teal-d)}
+.p4-plan.basic-p .plan-price{color:var(--navy)}
+.p4-plan.pro-p .plan-price{color:#fff}
+.p4-plan.ent-p .plan-price{color:#fff}
+.p4-plan .plan-desc{font-size:10.5px;line-height:1.4}
+.p4-plan.free-p .plan-desc{color:var(--teal-d)}
+.p4-plan.basic-p .plan-desc{color:var(--slate-6)}
+.p4-plan.pro-p .plan-desc{color:rgba(255,255,255,.7)}
+.p4-plan.ent-p .plan-desc{color:rgba(255,255,255,.5)}
+
+.p4-features{display:flex;flex-direction:column;gap:.55rem}
+.p4-feat{display:flex;gap:.625rem;align-items:flex-start}
+.p4-feat .ficon{
+  width:26px;height:26px;border-radius:5px;background:var(--teal-p);
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;
+}
+.p4-feat .ftxt .ft2{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.1rem}
+.p4-feat .ftxt .fd2{font-size:11px;color:var(--slate-6);line-height:1.45}
+
+.beta-box{
+  margin-top:1rem;background:linear-gradient(135deg,#033A37,#0D9488);
+  border-radius:10px;padding:1rem 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.beta-box .bb-left .bb-eyebrow{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.25rem}
+.beta-box .bb-left .bb-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.beta-box .bb-left .bb-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+.beta-box .bb-cta{
+  background:#fff;color:var(--teal-d);border-radius:7px;
+  padding:.5rem 1rem;font-size:12px;font-weight:700;
+  white-space:nowrap;flex-shrink:0;text-decoration:none;
+}
+
+/* ── FOOTER TEAL (Tasamelo) ── */
+.footer-bar-teal{
+  background:linear-gradient(90deg,#033A37,#065F59);
+  padding:.875rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  margin-top:auto;flex-wrap:wrap;
+}
+.footer-bar-teal .contact{font-size:10px;color:rgba(255,255,255,.45);display:flex;gap:1.25rem}
+.footer-bar-teal .contact span{color:rgba(255,255,255,.6);font-weight:500}
+.footer-bar-teal .brand-lock-t{display:flex;flex-direction:column}
+.footer-bar-teal .wm{font-size:13px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.footer-bar-teal .wm span{color:rgba(255,255,255,.35);font-weight:300}
+.footer-bar-teal .wsub{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     PAGE 1 — PME CAPECO GENERAL
+════════════════════════════════════ -->
+<div class="screen-label">ONE-PAGER 1 / 4 — GENERAL  ·  Imprimir → Guardar como PDF</div>
+<div class="page">
+
+  <div class="p1-hero">
+    <div class="p1-eyebrow">
+      <span class="badge-trust"><span class="stars">★★★★★</span> Fuente oficial CAPECO · desde 1961</span>
+      <span class="badge-trust"><span class="stars">✓</span> Dato censal — no muestral</span>
+    </div>
+    <h1>La inteligencia que <em>mueve</em> el sector inmobiliario del Perú</h1>
+    <p>Auspiciadores, suscriptores y profesionales del sector confían en PME CAPECO para tomar decisiones con el dato real del mercado — censal, oficial y actualizado trimestralmente.</p>
+    <div class="p1-stats">
+      <div class="p1-stat">
+        <div class="n">200<sup>+</sup></div>
+        <div class="l">Empresas suscriptoras activas</div>
+      </div>
+      <div class="p1-stat">
+        <div class="n">26</div>
+        <div class="l">Distritos Lima con data completa</div>
+      </div>
+      <div class="p1-stat">
+        <div class="n">63</div>
+        <div class="l">Años trayectoria CAPECO</div>
+      </div>
+      <div class="p1-stat">
+        <div class="n">100<sup>%</sup></div>
+        <div class="l">Cobertura censal Lima</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p1-body">
+
+    <!-- COLUMNA IZQUIERDA: AUSPICIADORES -->
+    <div>
+      <div class="p1-col-title">
+        <span class="emoji">🤝</span> Para Auspiciadores
+      </div>
+
+      <div class="p1-feature">
+        <div class="dot"></div>
+        <div class="ft"><strong>Presencia en dashboards consultados a diario</strong>Tu marca visible donde los líderes del sector analizan el mercado cada semana.</div>
+      </div>
+      <div class="p1-feature">
+        <div class="dot"></div>
+        <div class="ft"><strong>Asociación directa con CAPECO</strong>63 años de credibilidad institucional. El sello del gremio constructor más antiguo del Perú.</div>
+      </div>
+      <div class="p1-feature">
+        <div class="dot"></div>
+        <div class="ft"><strong>Activaciones en eventos CAPECO</strong>Congreso Construye Perú, Estudio de Edificaciones, foros y publicaciones sectoriales.</div>
+      </div>
+      <div class="p1-feature">
+        <div class="dot"></div>
+        <div class="ft"><strong>Base de contactos CAPECO</strong>Presencia de marca en mailing a 45,000+ correos y 7,000+ empresas del sector.</div>
+      </div>
+
+      <div class="p1-pricing">
+        <div class="section-tag">Paquetes de auspicio 2026</div>
+        <div class="p1-pricing-grid">
+          <div class="p1-price-card gold">
+            <div class="tier">ORO</div>
+            <div class="price">$6,000</div>
+            <div class="period">/año</div>
+            <div class="perk">2 suscripciones + stand Congreso</div>
+          </div>
+          <div class="p1-price-card silver">
+            <div class="featured-pip">POPULAR</div>
+            <div class="tier">PLATA</div>
+            <div class="price">$3,600</div>
+            <div class="period">/año</div>
+            <div class="perk">1 suscripción + RRSS CAPECO</div>
+          </div>
+          <div class="p1-price-card bronze">
+            <div class="tier">BRONCE</div>
+            <div class="price">$2,400</div>
+            <div class="period">/año</div>
+            <div class="perk">Presencia en dashboards + informe</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-h"></div>
+
+      <div style="font-size:10px;color:var(--slate-4);text-align:center;padding:.2rem 0">Cupos limitados por rubro · Contacto: ventas@mis.pe</div>
+    </div>
+
+    <!-- COLUMNA DERECHA: SUSCRIPTORES -->
+    <div>
+      <div class="p1-col-title" style="border-color:var(--blue)">
+        <span class="emoji">📊</span> Para Suscriptores
+      </div>
+
+      <div class="suscriptor-box">
+        <div class="sb-icon">📊</div>
+        <div>
+          <div class="sb-title">Acceso completo al dato censal</div>
+          <div class="sb-desc">Precio m² real (no de lista), absorción, stock y tendencia en 26 distritos. Power BI Embedded con exportación a PDF, Excel y PowerPoint.</div>
+          <div class="sb-price">Desde USD 490 / mes por empresa</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem">
+        <div class="section-tag blue">Por qué PME y no alternativas</div>
+      </div>
+
+      <div class="p1-vs">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th style="background:#1B3A5C">✓ PME CAPECO</th>
+              <th>Nexo / Portales</th>
+              <th>Estudios ad-hoc</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Metodología</td>
+              <td><span class="hl">Censal 100%</span></td>
+              <td>Muestral</td>
+              <td>Muestral</td>
+            </tr>
+            <tr>
+              <td>Actualización</td>
+              <td><span class="ok">✓ Trimestral</span></td>
+              <td>Anuncios</td>
+              <td>Anual</td>
+            </tr>
+            <tr>
+              <td>26 distritos Lima</td>
+              <td><span class="ok">✓ Completo</span></td>
+              <td>Parcial</td>
+              <td>Limitado</td>
+            </tr>
+            <tr>
+              <td>Sello institucional</td>
+              <td><span class="ok">✓ CAPECO</span></td>
+              <td>—</td>
+              <td>Variable</td>
+            </tr>
+            <tr>
+              <td>Dashboard + BI</td>
+              <td><span class="ok">✓ Power BI</span></td>
+              <td>Básico</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:1rem;background:var(--slate-1);border-radius:8px;padding:.875rem 1rem">
+        <div class="section-tag blue" style="margin-bottom:.5rem">Para quién es PME</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .75rem">
+          <div style="font-size:11px;color:var(--slate-6)">🏗️ Gerentes de proyectos</div>
+          <div style="font-size:11px;color:var(--slate-6)">🏦 Analistas de riesgo</div>
+          <div style="font-size:11px;color:var(--slate-6)">💼 Directores comerciales</div>
+          <div style="font-size:11px;color:var(--slate-6)">📐 Tasadores y valuadores</div>
+          <div style="font-size:11px;color:var(--slate-6)">🔍 Consultores del sector</div>
+          <div style="font-size:11px;color:var(--slate-6)">🏛️ Entidades del Estado</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <div class="brand-lock">
+      <div class="logo-sq">PME</div>
+      <div>
+        <div class="logo-txt">PME CAPECO</div>
+        <div class="logo-sub">Inteligencia de mercado inmobiliario</div>
+      </div>
+    </div>
+    <div class="contact">
+      <span>🌐 www.pme.pe</span>
+      <span>✉ ventas@mis.pe</span>
+      <span>✉ pme_ux@capeco.org</span>
+      <span>📞 +51 965 113 510</span>
+    </div>
+    <div class="qr-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h2v2h-2zM18 14h3v3h-3zM14 18h3v3h-3z"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════
+     PAGE 2 — PME FINANCE
+════════════════════════════════════ -->
+<div class="screen-label">ONE-PAGER 2 / 4 — PME FINANCE  ·  Bancos, Financieras & Seguros</div>
+<div class="page">
+
+  <div class="p2-hero">
+    <div class="p2-top-row">
+      <div class="p2-hero-left">
+        <div class="p2-finance-badge">🏦 PME FINANCE · Sector financiero</div>
+        <h1>Inteligencia que <em>mitiga el riesgo</em> y acelera el crédito inmobiliario</h1>
+        <p>Bancos, financieras, aseguradoras y fintechs integran PME CAPECO para tasar propiedades, aprobar hipotecas y evaluar financiamiento de proyectos con certidumbre basada en el dato oficial.</p>
+      </div>
+      <div class="p2-pains">
+        <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:.35rem">Los 3 dolores del sector financiero</div>
+        <div class="p2-pain">
+          <div class="pi">⚠️</div>
+          <div class="pt"><strong>LTV sobreestimado</strong>Precios de portales inflan el colateral. El dato de cierre real difiere hasta 15%.</div>
+        </div>
+        <div class="p2-pain">
+          <div class="pi">⏳</div>
+          <div class="pt"><strong>Tasación tarda 4–7 días</strong>Retraso operativo, analista bloqueado, cliente en riesgo de fuga.</div>
+        </div>
+        <div class="p2-pain">
+          <div class="pi">🔍</div>
+          <div class="pt"><strong>Sustento cuestionado en auditoría SBS</strong>Fuentes sin respaldo institucional no pasan el escrutinio regulatorio.</div>
+        </div>
+      </div>
+    </div>
+    <div class="p2-strip">
+      <div class="p2-strip-item">
+        <div class="n">100<sup>%</sup></div>
+        <div class="l">Sensibilidad al precio de cierre</div>
+      </div>
+      <div class="p2-strip-item">
+        <div class="n">40<sup>%</sup></div>
+        <div class="l">Reducción desacuerdos tasación</div>
+      </div>
+      <div class="p2-strip-item">
+        <div class="n">26</div>
+        <div class="l">Distritos Lima cubiertos</div>
+      </div>
+      <div class="p2-strip-item">
+        <div class="n">63</div>
+        <div class="l">Años CAPECO auditable SBS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p2-body">
+
+    <!-- COLUMNA IZQUIERDA: SOLUCIONES -->
+    <div>
+      <div class="section-tag blue" style="margin-bottom:.75rem">Cómo PME resuelve cada dolor</div>
+
+      <div class="p2-solution">
+        <div class="sol-label">Dolor 1 · LTV</div>
+        <div class="sol-title">Calibración de LTV con dato censal</div>
+        <div class="sol-desc">PME provee el precio de cierre real (no de anuncio) en más de 26 distritos. Elimina sobrevaloraciones del colateral antes de emitir el crédito.</div>
+        <div class="sol-metric">→ Hasta 15% de diferencia entre precio de lista y precio PME</div>
+      </div>
+
+      <div class="p2-solution">
+        <div class="sol-label">Dolor 2 · Velocidad</div>
+        <div class="sol-title">Aprobación automática de garantías</div>
+        <div class="sol-desc">Integra el precio m² PME a tu sistema de scoring. Aprueba garantías hipotecarias recurrentes en horas, no en días. Sin depender de tasadores externos.</div>
+        <div class="sol-metric">→ De 4–7 días a horas de aprobación con integración API</div>
+      </div>
+
+      <div class="p2-solution">
+        <div class="sol-label">Dolor 3 · Compliance</div>
+        <div class="sol-title">Sustento sólido ante auditorías</div>
+        <div class="sol-desc">CAPECO es reconocido por la SBS como fuente imparcial e histórica del sector constructor. Cada dato tiene trazabilidad metodológica completa.</div>
+        <div class="sol-metric">→ "Cuando citas CAPECO, el debate ante el regulador termina antes de empezar."</div>
+      </div>
+
+      <div style="background:var(--slate-1);border-radius:8px;padding:.75rem 1rem;margin-top:.75rem">
+        <div class="section-tag blue" style="margin-bottom:.4rem">Áreas de impacto en su institución</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .75rem">
+          <div style="font-size:11px;color:var(--slate-8)">🏦 <strong>Crédito Hipotecario</strong></div>
+          <div style="font-size:11px;color:var(--slate-8)">🏢 <strong>Banca Empresa</strong></div>
+          <div style="font-size:11px;color:var(--slate-6)">Valuación y LTV</div>
+          <div style="font-size:11px;color:var(--slate-6)">Due diligence de proyectos</div>
+          <div style="font-size:11px;color:var(--slate-8)">⚙️ <strong>Fintechs / Digital</strong></div>
+          <div style="font-size:11px;color:var(--slate-8)">🛡️ <strong>Seguros</strong></div>
+          <div style="font-size:11px;color:var(--slate-6)">API scoring automático</div>
+          <div style="font-size:11px;color:var(--slate-6)">Calibración de primas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: PLANES + POC -->
+    <div>
+      <div class="section-tag blue" style="margin-bottom:.75rem">Planes corporativos para el sector financiero</div>
+
+      <div class="comp-col-header">
+        <span>💼</span> Acceso corporativo PME FINANCE
+      </div>
+      <div class="p2-ptable">
+        <table>
+          <thead>
+            <tr>
+              <th>Plan</th>
+              <th>Precio / año</th>
+              <th>Usuarios</th>
+              <th>API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ENTERPRISE BANCARIO</td>
+              <td><span class="price-hl">USD 18,000</span></td>
+              <td>Ilimitados</td>
+              <td>✓ REST + Webhook</td>
+            </tr>
+            <tr>
+              <td>CORPORATIVO</td>
+              <td><span class="price-hl">USD 9,600</span></td>
+              <td>Hasta 20</td>
+              <td>✓ REST</td>
+            </tr>
+            <tr>
+              <td>ANALÍTICO</td>
+              <td>USD 4,800</td>
+              <td>Hasta 5</td>
+              <td>Read-only</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:var(--slate-1);border-radius:8px;padding:.75rem 1rem;margin-top:.875rem">
+        <div class="section-tag blue" style="margin-bottom:.5rem">Entidades que ya confían en CAPECO para crédito y riesgo</div>
+        <div style="display:flex;flex-wrap:wrap;gap:.35rem">
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">BCP</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">BBVA</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">Scotiabank</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">Interbank</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">BanBif</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">Mapfre</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">Pichincha</span>
+          <span style="font-size:10px;background:#fff;border:1px solid var(--slate-2);border-radius:4px;padding:2px 7px;color:var(--slate-6)">Migrante</span>
+        </div>
+      </div>
+
+      <div class="poc-box">
+        <div class="poc-eyebrow">Oferta de activación</div>
+        <div class="poc-title">PoC gratuito de 30 días — sin compromisos</div>
+        <div class="poc-desc">Acceso a un subconjunto de datos PME para su área de Riesgo Hipotecario. Medimos juntos el impacto en el tiempo de aprobación y la reducción de desacuerdos de tasación.</div>
+        <div><a class="poc-cta" href="#">Agendar evaluación técnica →</a></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <div class="brand-lock">
+      <div class="logo-sq">PME</div>
+      <div>
+        <div class="logo-txt">PME FINANCE · CAPECO</div>
+        <div class="logo-sub">Inteligencia para la banca y seguros</div>
+      </div>
+    </div>
+    <div class="contact">
+      <span>🌐 pme.pe/bancos</span>
+      <span>✉ ventas@mis.pe</span>
+      <span>📞 +51 965 113 510</span>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════
+     PAGE 3 — PME ACADÉMICO
+════════════════════════════════════ -->
+<div class="screen-label">ONE-PAGER 3 / 4 — PME ACADÉMICO  ·  Universidades y Centros de Investigación</div>
+<div class="page">
+
+  <div class="p3-hero">
+    <div class="p3-header-row">
+      <div class="p3-left">
+        <div class="p3-acad-badge">🎓 PME ACADÉMICO · Programa universitario</div>
+        <h1>Formando líderes con data <em>real</em> del mercado inmobiliario</h1>
+        <p>PME CAPECO Académico conecta las aulas de Arquitectura, Ingeniería Civil y Negocios Inmobiliarios con los datos censales oficiales del sector construcción del Perú.</p>
+      </div>
+      <div class="p3-programs">
+        <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:.35rem">Facultades objetivo</div>
+        <div class="p3-program"><div class="pi2">🏛️</div><div class="pn">Arquitectura y Urbanismo</div></div>
+        <div class="p3-program"><div class="pi2">🏗️</div><div class="pn">Ingeniería Civil</div></div>
+        <div class="p3-program"><div class="pi2">📈</div><div class="pn">Gestión Inmobiliaria</div></div>
+        <div class="p3-program"><div class="pi2">💼</div><div class="pn">Administración de Empresas</div></div>
+        <div class="p3-program"><div class="pi2">🔍</div><div class="pn">Economía e Investigación</div></div>
+      </div>
+    </div>
+    <div class="p3-stats-row">
+      <div class="p3-stat-item">
+        <div class="n3">100<sup>%</sup></div>
+        <div class="l3">Data censal real</div>
+      </div>
+      <div class="p3-stat-item">
+        <div class="n3">1,000<sup>+</sup></div>
+        <div class="l3">Proyectos monitoreados</div>
+      </div>
+      <div class="p3-stat-item">
+        <div class="n3">26</div>
+        <div class="l3">Distritos Lima completos</div>
+      </div>
+      <div class="p3-stat-item">
+        <div class="n3">63</div>
+        <div class="l3">Años historial CAPECO</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p3-body">
+
+    <!-- COLUMNA IZQUIERDA: BENEFICIOS -->
+    <div>
+      <div class="section-tag" style="margin-bottom:.75rem">Para estudiantes y tesistas</div>
+
+      <div class="benefit-row">
+        <div class="benefit-icon">📊</div>
+        <div class="benefit-text">
+          <div class="bt-title">Sustento sólido para tesis</div>
+          <div class="bt-desc">Valida la viabilidad de proyectos arquitectónicos o de ingeniería con datos reales de absorción, stock y precio m².</div>
+        </div>
+      </div>
+      <div class="benefit-row">
+        <div class="benefit-icon">🔍</div>
+        <div class="benefit-text">
+          <div class="bt-title">Análisis crítico del sector</div>
+          <div class="bt-desc">Entiende las dinámicas de desarrollo urbano, expansión inmobiliaria y tendencias habitacionales con mapas de calor y filtros precisos.</div>
+        </div>
+      </div>
+      <div class="benefit-row">
+        <div class="benefit-icon">💼</div>
+        <div class="benefit-text">
+          <div class="bt-title">Ventaja competitiva al egreso</div>
+          <div class="bt-desc">Gradúate dominando la herramienta estándar de la industria constructora del Perú. El dato que los empleadores ya usan.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem"><div class="section-tag" style="margin-bottom:.75rem">Para docentes e investigadores</div></div>
+
+      <div class="benefit-row">
+        <div class="benefit-icon green-bg">📚</div>
+        <div class="benefit-text">
+          <div class="bt-title">Actualización de syllabus</div>
+          <div class="bt-desc">Análisis de datos de mercado en tiempo real dentro de cursos de formulación de proyectos, urbanismo y gestión inmobiliaria.</div>
+        </div>
+      </div>
+      <div class="benefit-row">
+        <div class="benefit-icon green-bg">💡</div>
+        <div class="benefit-text">
+          <div class="bt-title">Generación de papers académicos</div>
+          <div class="bt-desc">Base de datos histórica y censal de CAPECO para publicar artículos de investigación de alto impacto sobre el desarrollo urbano peruano.</div>
+        </div>
+      </div>
+      <div class="benefit-row">
+        <div class="benefit-icon green-bg">🎓</div>
+        <div class="benefit-text">
+          <div class="bt-title">Talleres prácticos con data real</div>
+          <div class="bt-desc">Los estudiantes determinan el mejor uso para un terreno basándose en la oferta y demanda actual de la zona.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: CONVENIOS -->
+    <div>
+      <div class="section-tag" style="margin-bottom:.75rem">Modelos de convenio institucional</div>
+
+      <div class="conv-grid">
+        <div class="conv-card c1">
+          <div>
+            <div class="cv-price">USD 4,800</div>
+            <div class="cv-period">/año</div>
+          </div>
+          <div>
+            <div class="cv-name">RED CAMPUS</div>
+            <div class="cv-desc">Toda la comunidad estudiantil y docente vía correo .edu.pe. Logo CAPECO en comunicaciones + talleres anuales.</div>
+          </div>
+        </div>
+        <div class="conv-card c2">
+          <div>
+            <div class="cv-price">USD 2,400</div>
+            <div class="cv-period">/año</div>
+          </div>
+          <div>
+            <div class="cv-name">LICENCIA FACULTAD</div>
+            <div class="cv-desc">Facultad específica. Hasta 200 usuarios. Materiales didácticos + acceso a data histórica 2017–2025.</div>
+          </div>
+        </div>
+        <div class="conv-card c3">
+          <div>
+            <div class="cv-price">USD 960</div>
+            <div class="cv-period">/año</div>
+          </div>
+          <div>
+            <div class="cv-name">INVESTIGACIÓN</div>
+            <div class="cv-desc">Hasta 10 investigadores o tesistas. Acceso a la base histórica censal completa de Lima.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="free-box">
+        <div class="fb-icon">🎁</div>
+        <div class="fb-text">
+          <div class="fb-title">Primer semestre de acceso sin costo</div>
+          <div class="fb-desc">Mientras se formaliza el convenio, la facultad recibe acceso demo completo. Sin compromisos hasta firmar.</div>
+        </div>
+        <div class="fb-badge">Acceso demo →</div>
+      </div>
+
+      <div style="margin-top:1rem;background:var(--slate-1);border-radius:8px;padding:.875rem 1rem">
+        <div class="section-tag" style="margin-bottom:.5rem">Proceso de convenio</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem">
+          <div style="font-size:11.5px;color:var(--slate-8);display:flex;gap:.5rem;align-items:center">
+            <span style="width:18px;height:18px;background:var(--navy);border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+            Enviar solicitud a academia@mis.pe con datos de la facultad
+          </div>
+          <div style="font-size:11.5px;color:var(--slate-8);display:flex;gap:.5rem;align-items:center">
+            <span style="width:18px;height:18px;background:var(--navy);border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+            Charla demostrativa gratuita para el aula (presencial o Zoom)
+          </div>
+          <div style="font-size:11.5px;color:var(--slate-8);display:flex;gap:.5rem;align-items:center">
+            <span style="width:18px;height:18px;background:var(--navy);border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
+            Firma del convenio marco CAPECO × Universidad
+          </div>
+          <div style="font-size:11.5px;color:var(--slate-8);display:flex;gap:.5rem;align-items:center">
+            <span style="width:18px;height:18px;background:var(--orange);border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</span>
+            Activación de accesos en menos de 48 horas
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <div class="brand-lock">
+      <div class="logo-sq">PME</div>
+      <div>
+        <div class="logo-txt">PME ACADÉMICO · CAPECO</div>
+        <div class="logo-sub">Programa universitario de inteligencia de mercado</div>
+      </div>
+    </div>
+    <div class="contact">
+      <span>🌐 pme.pe/academico</span>
+      <span>✉ academia@mis.pe</span>
+      <span>📞 +51 965 113 510</span>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════
+     PAGE 4 — TASAMELO
+════════════════════════════════════ -->
+<div class="screen-label">ONE-PAGER 4 / 4 — TASAMELO  ·  Valoración inmobiliaria con geolocalización</div>
+<div class="page">
+
+  <div class="p4-hero">
+    <div class="p4-top">
+      <div class="p4-left">
+        <div class="p4-wordmark">TASA<span>MELO</span></div>
+        <div class="p4-by">by PME CAPECO · Millennial Information Systems</div>
+        <div class="p4-tagline">El precio real de cualquier inmueble en Lima — <em>en 30 segundos</em></div>
+        <p class="p4-desc">Tasamelo cruza la geolocalización del inmueble con el dato censal CAPECO para entregar el precio estimado con respaldo institucional. Sin depender de tasadores externos.</p>
+      </div>
+      <div class="p4-steps">
+        <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:.35rem">Cómo funciona</div>
+        <div class="p4-step">
+          <div class="step-num">1</div>
+          <div class="step-text">Ubica el inmueble en el mapa o ingresa la dirección</div>
+        </div>
+        <div class="p4-step">
+          <div class="step-num">2</div>
+          <div class="step-text">Ingresa tipología (1D / 2D / 3D+) y área en m²</div>
+        </div>
+        <div class="p4-step">
+          <div class="step-num">3</div>
+          <div class="step-text">Obtén precio estimado + rango + tendencia histórica</div>
+        </div>
+      </div>
+    </div>
+    <div class="p4-connector">
+      <div class="p4-connector-item">
+        <div class="cn">30 seg</div>
+        <div class="cl">Tiempo de valoración</div>
+      </div>
+      <div class="p4-connector-item">
+        <div class="cn">26</div>
+        <div class="cl">Distritos Lima</div>
+      </div>
+      <div class="p4-connector-item">
+        <div class="cn">100%</div>
+        <div class="cl">Dato censal CAPECO</div>
+      </div>
+      <div class="p4-connector-item">
+        <div class="cn">β</div>
+        <div class="cl">Beta en 90 días</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p4-body">
+
+    <!-- COLUMNA IZQUIERDA: FEATURES -->
+    <div>
+      <div class="section-tag teal" style="margin-bottom:.75rem">Qué incluye Tasamelo</div>
+
+      <div class="p4-features">
+        <div class="p4-feat">
+          <div class="ficon">📍</div>
+          <div class="ftxt">
+            <div class="ft2">Valoración geolocalizada</div>
+            <div class="fd2">GPS o dirección de Lima Metropolitana. Precisión a nivel de corredor y manzana con data censal CAPECO.</div>
+          </div>
+        </div>
+        <div class="p4-feat">
+          <div class="ficon">📊</div>
+          <div class="ftxt">
+            <div class="ft2">Rango de confianza + tendencia</div>
+            <div class="fd2">No solo el precio puntual — rango de variación y serie histórica de precio m² en la zona desde 2017.</div>
+          </div>
+        </div>
+        <div class="p4-feat">
+          <div class="ficon">🔔</div>
+          <div class="ftxt">
+            <div class="ft2">Alertas de cambio de precio</div>
+            <div class="fd2">Activa alertas para un inmueble o zona. Notificación cuando el precio m² varía más allá de tu umbral definido.</div>
+          </div>
+        </div>
+        <div class="p4-feat">
+          <div class="ficon">⚙️</div>
+          <div class="ftxt">
+            <div class="ft2">API de valoración (Plan ENTERPRISE)</div>
+            <div class="fd2">Endpoint REST para integrar valoraciones automáticas en tu sistema de scoring o plataforma hipotecaria digital.</div>
+          </div>
+        </div>
+        <div class="p4-feat">
+          <div class="ficon">🏆</div>
+          <div class="ftxt">
+            <div class="ft2">Incluido en auspicios PME ORO y PLATA</div>
+            <div class="fd2">Los auspiciadores de los planes ORO y PLATA reciben acceso PRO de Tasamelo para todos sus usuarios sin costo adicional.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: PLANES + BETA -->
+    <div>
+      <div class="section-tag teal" style="margin-bottom:.75rem">Planes de acceso</div>
+
+      <div class="p4-plans-title">
+        <span>Elige tu plan</span>
+        <span style="font-size:10px;font-weight:500;color:var(--slate-4)">— Activación en 48 horas</span>
+      </div>
+
+      <div class="p4-plan free-p">
+        <div class="plan-label">FREE</div>
+        <div class="plan-price">Gratis</div>
+        <div class="plan-desc">3 consultas/mes · Precio promedio distrital · Registro sin tarjeta</div>
+      </div>
+      <div class="p4-plan basic-p">
+        <div class="plan-label">BÁSICO</div>
+        <div class="plan-price">USD 29<span style="font-size:.75rem;font-weight:500;color:var(--slate-4)">/mes</span></div>
+        <div class="plan-desc">30 consultas · Rango de precio + tipología · Para tasadores independientes</div>
+      </div>
+      <div class="p4-plan pro-p">
+        <div class="plan-label">PRO</div>
+        <div class="plan-price" style="color:#fff">USD 99<span style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.5)">/mes</span></div>
+        <div class="plan-desc">Ilimitado · Alertas de precio · Para promotoras y consultoras</div>
+      </div>
+      <div class="p4-plan ent-p">
+        <div class="plan-label">ENTERPRISE</div>
+        <div class="plan-price">USD 390<span style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.4)">/mes</span></div>
+        <div class="plan-desc">Ilimitado + API REST + soporte dedicado · Para bancos y fintechs</div>
+      </div>
+
+      <div class="beta-box">
+        <div class="bb-left">
+          <div class="bb-eyebrow">Acceso prioritario</div>
+          <div class="bb-title">Únete a la lista de espera beta</div>
+          <div class="bb-desc">Los primeros 50 usuarios beta reciben 3 meses del plan PRO sin costo. Beta disponible en 90 días para suscriptores y auspiciadores PME.</div>
+        </div>
+        <a class="bb-cta" href="#">Unirme →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar-teal">
+    <div class="brand-lock-t">
+      <div class="wm">TASA<span>MELO</span></div>
+      <div class="wsub">by PME CAPECO · Millennial Information Systems</div>
+    </div>
+    <div class="contact">
+      <span>🌐 pme.pe/tasamelo</span>
+      <span>✉ ventas@mis.pe</span>
+      <span>📞 +51 965 113 510</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- PRINT BUTTON (screen only) -->
+<div style="text-align:center;padding:1rem 0">
+  <button onclick="window.print()" style="background:#0F2340;color:#fff;border:none;border-radius:8px;padding:.75rem 2rem;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.02em">
+    🖨️ Imprimir los 4 one-pagers (A4)
+  </button>
+</div>
+
+</body>
+</html>

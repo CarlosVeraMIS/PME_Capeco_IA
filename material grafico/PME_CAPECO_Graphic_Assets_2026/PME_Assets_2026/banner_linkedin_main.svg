@@ -1,0 +1,75 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060F1E"/>
+      <stop offset="55%" stop-color="#0F2340"/>
+      <stop offset="100%" stop-color="#1B3A5C"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8500D"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="white" stroke-width="0.7" opacity="0.04"/>
+    </pattern>
+  </defs>
+  <!-- Background -->
+  <rect width="1584" height="396" fill="url(#bg)"/>
+  <rect width="1584" height="396" fill="url(#grid)"/>
+  <!-- Accent circles -->
+  <circle cx="1450" cy="-40" r="280" fill="none" stroke="white" stroke-width="1" opacity="0.03"/>
+  <circle cx="1450" cy="-40" r="180" fill="none" stroke="white" stroke-width="1" opacity="0.04"/>
+  <circle cx="1450" cy="-40" r="80" fill="none" stroke="white" stroke-width="1" opacity="0.05"/>
+  <!-- Bottom accent line -->
+  <rect x="0" y="390" width="1000" height="6" fill="url(#acc)" rx="3"/>
+  <!-- Logo icon -->
+  <rect x="64" y="148" width="80" height="80" rx="13" fill="#E8500D"/>
+  <text x="104" y="198" font-family="'DM Sans', 'Arial Black', sans-serif" 
+        font-size="24" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-0.5">PME</text>
+  <!-- Brand name -->
+  <text x="164" y="193" font-family="'DM Sans', 'Arial Black', sans-serif" 
+        font-size="42" font-weight="800" fill="white" letter-spacing="0.5">PME CAPECO</text>
+  <!-- Tagline -->
+  <text x="64" y="272" font-family="'DM Sans', Georgia, sans-serif" 
+        font-size="26" font-weight="400" fill="rgba(255,255,255,0.85)" letter-spacing="0.2">La inteligencia que</text>
+  <text x="326" y="272" font-family="Georgia, serif" 
+        font-size="26" font-weight="400" fill="#F97316" font-style="italic"> mueve</text>
+  <text x="424" y="272" font-family="'DM Sans', Georgia, sans-serif" 
+        font-size="26" font-weight="400" fill="rgba(255,255,255,0.85)"> el sector inmobiliario del Perú</text>
+  <!-- Subtext -->
+  <text x="64" y="312" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="15" font-weight="500" fill="rgba(255,255,255,0.4)" letter-spacing="1.2">DATO CENSAL · ACTUALIZACIÓN TRIMESTRAL · DESDE 1961</text>
+  <!-- Stats divider -->
+  <rect x="900" y="80" width="1" height="240" fill="rgba(255,255,255,0.07)"/>
+  <!-- Stat 1 -->
+  <text x="1000" y="195" font-family="Georgia, serif" 
+        font-size="56" font-weight="400" fill="white" text-anchor="middle">200</text>
+  <text x="1058" y="170" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="20" font-weight="700" fill="#F97316">+</text>
+  <text x="1000" y="225" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">EMPRESAS</text>
+  <text x="1000" y="243" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">SUSCRIPTORAS</text>
+  <rect x="1100" y="120" width="1" height="160" fill="rgba(255,255,255,0.07)"/>
+  <!-- Stat 2 -->
+  <text x="1200" y="195" font-family="Georgia, serif" 
+        font-size="56" font-weight="400" fill="white" text-anchor="middle">26</text>
+  <text x="1200" y="225" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">DISTRITOS</text>
+  <text x="1200" y="243" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">LIMA</text>
+  <rect x="1300" y="120" width="1" height="160" fill="rgba(255,255,255,0.07)"/>
+  <!-- Stat 3 -->
+  <text x="1400" y="195" font-family="Georgia, serif" 
+        font-size="56" font-weight="400" fill="white" text-anchor="middle">63</text>
+  <text x="1400" y="225" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">AÑOS</text>
+  <text x="1400" y="243" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="12" font-weight="600" fill="rgba(255,255,255,0.35)" text-anchor="middle" letter-spacing="1">CAPECO</text>
+  <!-- URL tag -->
+  <rect x="64" y="338" width="130" height="32" rx="6" fill="rgba(232,80,13,0.18)" 
+        stroke="rgba(232,80,13,0.3)" stroke-width="1"/>
+  <text x="129" y="359" font-family="'DM Sans', Arial, sans-serif" 
+        font-size="13" font-weight="700" fill="#E8500D" text-anchor="middle">www.pme.pe</text>
+</svg>

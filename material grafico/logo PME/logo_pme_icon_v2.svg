@@ -1,0 +1,30 @@
+<svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0A1628"/>
+      <stop offset="100%" stop-color="#1A3859"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#112034"/>
+      <stop offset="100%" stop-color="#0E1E31"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"  stop-color="#E8500D"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" rx="156" fill="url(#bg)"/>
+  <rect x="48" y="48" width="704" height="704" rx="116" fill="url(#card)"/>
+  <rect x="48" y="48" width="704" height="704" rx="116"
+        fill="none" stroke="white" stroke-width="2" opacity="0.08"/>
+
+  <!-- stroke trick: same color stroke eliminates fringe -->
+  <text x="400" y="462"
+        font-family="Arial Black,Arial,sans-serif"
+        font-size="236" font-weight="900"
+        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1"
+        text-anchor="middle">PME</text>
+
+  <rect x="260" y="618" width="280" height="10" rx="5" fill="url(#acc)"/>
+</svg>

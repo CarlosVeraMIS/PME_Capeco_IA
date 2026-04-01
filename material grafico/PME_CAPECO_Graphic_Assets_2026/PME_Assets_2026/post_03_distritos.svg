@@ -1,0 +1,66 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="dist_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B3A5C"/>
+      <stop offset="100%" stop-color="#0B1F38"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#dist_bg)"/>
+  <!-- Logo -->
+  <rect x="60" y="60" width="64" height="64" rx="10" fill="#E8500D"/>
+  <text x="92" y="100" font-family="'DM Sans', 'Arial Black', sans-serif"
+        font-size="20" font-weight="900" fill="white" text-anchor="middle">PME</text>
+  <text x="142" y="85" font-family="'DM Sans', Arial, sans-serif"
+        font-size="16" font-weight="700" fill="rgba(255,255,255,0.65)">PME CAPECO</text>
+  <!-- Title block -->
+  <text x="60" y="200" font-family="'DM Sans', Arial, sans-serif"
+        font-size="18" font-weight="700" fill="#E8500D" letter-spacing="2">PRECIO M² POR DISTRITO · Q4 2025</text>
+  <text x="60" y="270" font-family="Georgia, serif"
+        font-size="64" font-weight="400" fill="white">Top 5 Lima</text>
+  <text x="60" y="340" font-family="Georgia, serif"
+        font-size="64" font-weight="400" fill="rgba(255,255,255,0.5)" font-style="italic">— dato censal</text>
+  
+  <text x="60" y="380" font-family="'DM Sans', Arial, sans-serif"
+        font-size="15" font-weight="700" fill="rgba(255,255,255,0.28)">01</text>
+  <text x="100" y="380" font-family="'DM Sans', Arial, sans-serif"
+        font-size="24" font-weight="600" fill="rgba(255,255,255,0.80)">Miraflores</text>
+  <rect x="100" y="392" width="520" height="16" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <rect x="100" y="392" width="520" height="16" rx="8" fill="#E8500D"/>
+  <text x="640" y="405" font-family="Georgia, serif"
+        font-size="26" fill="rgba(255,255,255,1.00)" font-weight="400">S/ 9,850<tspan font-family="'DM Sans',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" font-weight="500">/m²</tspan></text>
+  <text x="60" y="488" font-family="'DM Sans', Arial, sans-serif"
+        font-size="15" font-weight="700" fill="rgba(255,255,255,0.28)">02</text>
+  <text x="100" y="488" font-family="'DM Sans', Arial, sans-serif"
+        font-size="24" font-weight="600" fill="rgba(255,255,255,0.70)">San Isidro</text>
+  <rect x="100" y="500" width="520" height="16" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <rect x="100" y="500" width="499" height="16" rx="8" fill="#E8500D"/>
+  <text x="640" y="513" font-family="Georgia, serif"
+        font-size="26" fill="rgba(255,255,255,0.88)" font-weight="400">S/ 9,420<tspan font-family="'DM Sans',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" font-weight="500">/m²</tspan></text>
+  <text x="60" y="596" font-family="'DM Sans', Arial, sans-serif"
+        font-size="15" font-weight="700" fill="rgba(255,255,255,0.28)">03</text>
+  <text x="100" y="596" font-family="'DM Sans', Arial, sans-serif"
+        font-size="24" font-weight="600" fill="rgba(255,255,255,0.61)">Barranco</text>
+  <rect x="100" y="608" width="520" height="16" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <rect x="100" y="608" width="400" height="16" rx="8" fill="rgba(255,255,255,0.41800000000000004)"/>
+  <text x="640" y="621" font-family="Georgia, serif"
+        font-size="26" fill="rgba(255,255,255,0.76)" font-weight="400">S/ 7,580<tspan font-family="'DM Sans',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" font-weight="500">/m²</tspan></text>
+  <text x="60" y="704" font-family="'DM Sans', Arial, sans-serif"
+        font-size="15" font-weight="700" fill="rgba(255,255,255,0.28)">04</text>
+  <text x="100" y="704" font-family="'DM Sans', Arial, sans-serif"
+        font-size="24" font-weight="600" fill="rgba(255,255,255,0.51)">Surquillo</text>
+  <rect x="100" y="716" width="520" height="16" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <rect x="100" y="716" width="364" height="16" rx="8" fill="rgba(255,255,255,0.35200000000000004)"/>
+  <text x="640" y="729" font-family="Georgia, serif"
+        font-size="26" fill="rgba(255,255,255,0.64)" font-weight="400">S/ 6,890<tspan font-family="'DM Sans',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" font-weight="500">/m²</tspan></text>
+  <text x="60" y="812" font-family="'DM Sans', Arial, sans-serif"
+        font-size="15" font-weight="700" fill="rgba(255,255,255,0.28)">05</text>
+  <text x="100" y="812" font-family="'DM Sans', Arial, sans-serif"
+        font-size="24" font-weight="600" fill="rgba(255,255,255,0.42)">San Miguel</text>
+  <rect x="100" y="824" width="520" height="16" rx="8" fill="rgba(255,255,255,0.05)"/>
+  <rect x="100" y="824" width="275" height="16" rx="8" fill="rgba(255,255,255,0.28600000000000003)"/>
+  <text x="640" y="837" font-family="Georgia, serif"
+        font-size="26" fill="rgba(255,255,255,0.52)" font-weight="400">S/ 5,210<tspan font-family="'DM Sans',Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.3)" font-weight="500">/m²</tspan></text>
+  <!-- Source -->
+  <text x="1020" y="1050" font-family="'DM Sans', Arial, sans-serif"
+        font-size="13" fill="rgba(255,255,255,0.2)" text-anchor="end" font-style="italic">Fuente: CAPECO PME · Dato censal · pme.pe</text>
+</svg>

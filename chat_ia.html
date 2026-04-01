@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PME IA - Consultas de Mercado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --chat-bg: #1e293b;
+            --user-msg: rgba(56, 189, 248, 0.15);
+            --ai-msg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --danger-color: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--chat-bg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        #chat-container {
+            flex: 1;
+            width: 100%;
+            max-width: 900px;
+            overflow-y: auto;
+            padding: 24px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        .msg-user {
+            background: var(--user-msg);
+            border-color: rgba(56, 189, 248, 0.3);
+            align-self: flex-end;
+            margin-left: auto;
+            max-width: 80%;
+        }
+
+        .msg-ai {
+            background: var(--ai-msg);
+            border-color: rgba(255,255,255,0.08);
+            align-self: flex-start;
+            margin-right: auto;
+            max-width: 90%;
+            font-size: 0.95rem;
+        }
+
+        .metadata {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        /* Markdown overrides */
+        .msg-ai table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .msg-ai th, .msg-ai td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .msg-ai th { background: rgba(0,0,0,0.3); color: var(--accent-color); font-weight: 600; }
+        .msg-ai code { background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #fbbf24; }
+
+        #input-area {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            background: var(--bg-color);
+            position: relative;
+        }
+
+        #query-input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background: var(--chat-bg);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #query-input:focus { border-color: var(--accent-color); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+
+        #send-btn {
+            background: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            border-radius: 30px;
+            padding: 0 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #send-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+        #send-btn:disabled { background: #475569; color: #cbd5e1; cursor: not-allowed; transform: none; }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>PME IA</h1>
+        <p>Motor Analítico sobre Q4 2025 y Scraping Inmobiliario</p>
+    </div>
+
+    <div id="chat-container">
+        <div class="message msg-ai">
+            <div class="metadata">PME IA - SISTEMA</div>
+            Heli, analista experto en datos inmobiliarios. 
+            He cargado las tablas <strong>data-proyectos-immobiliarios.csv</strong> (314 proyectos raspados) y <strong>data2025Q4.xlsx</strong> (consolidado Q4). 
+            ¿En qué te puedo ayudar hoy? ¿Buscas un análisis de precios, un ranking o cruzar variables?
+        </div>
+    </div>
+
+    <div id="input-area">
+        <input type="text" id="query-input" placeholder="Ej. ¿Qué distrito tiene el mayor precio por metro cuadrado promedio en Q4?" autofocus autocomplete="off">
+        <button id="send-btn" onclick="sendQuery()">Analizar</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById("chat-container");
+        const queryInput = document.getElementById("query-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        queryInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendQuery();
+        });
+
+        async function sendQuery() {
+            const query = queryInput.value.trim();
+            if(!query) return;
+
+            // Render User Msg
+            addMessage(query, 'user');
+            queryInput.value = '';
+            
+            // Loading State
+            sendBtn.disabled = true;
+            const loadingId = addMessage('<div class="loader"></div> Analizando miles de filas de datos...', 'ai');
+
+            try {
+                const res = await fetch('http://localhost:5000/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+                
+                const data = await res.json();
+                
+                // Remove loading
+                document.getElementById(loadingId).remove();
+
+                if (res.ok && data.answer) {
+                    // Render HTML with Markdown parser
+                    addMessage(marked.parse(data.answer), 'ai', true);
+                } else {
+                    addMessage(`❌ **Error:**\n\n${data.error}`, 'ai', true);
+                }
+
+            } catch(e) {
+                document.getElementById(loadingId).remove();
+                addMessage(`⚠️ **Conexión fallida:**\nAsegúrate de que el Backend de Python (Flask) esté ejecutándose en localhost:5000.`, 'ai', true);
+            }
+
+            sendBtn.disabled = false;
+        }
+
+        function addMessage(text, role, isHTML=false) {
+            const id = 'msg-' + Date.now();
+            const div = document.createElement("div");
+            div.className = `message msg-${role}`;
+            div.id = id;
+            
+            const meta = role === 'user' ? 'TÚ' : 'PME IA';
+            
+            let content = `<div class="metadata">${meta}</div>`;
+            if (isHTML) {
+                content += `<div>${text}</div>`;
+            } else {
+                content += `<div>${text}</div>`; // Fallback simple
+            }
+            
+            div.innerHTML = content;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+</html>

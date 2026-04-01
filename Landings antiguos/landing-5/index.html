@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PME CAPECO Inmobiliario — Inteligencia Estratégica para el Desarrollo Inmobiliario</title>
+  <meta name="description"
+    content="PME CAPECO Inmobiliario permite a desarrolladores y fondos de inversión monitorear el mercado por NSE, tendencias de tipología y precios de venta reales en Lima." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- TOP AUTHORITY BAR -->
+  <div class="trust-topbar">
+    <div class="trust-inner">
+      <div class="trust-item">★★★★★ <span>Fuente oficial <strong>CAPECO</strong> para el Sector Inmobiliario</span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Monitoreo de <strong>Precios y Plusvalía</strong></span></div>
+      <div class="trust-sep">·</div>
+      <div class="trust-item">★★★★★ <span>Inteligencia en <strong>Tipologías y Tendencias</strong></span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-capeco">
+          <svg class="capeco-sq" width="26" height="26" viewBox="0 0 28 28" fill="none">
+            <rect width="12" height="12" fill="#00E676" />
+            <rect x="16" width="12" height="12" fill="#00E676" />
+            <rect y="16" width="12" height="12" fill="#00E676" />
+          </svg>
+          <span class="capeco-label">CAPECO</span>
+        </div>
+        <span class="brand-sep">·</span>
+        <span class="brand-pme">INMOBILIARIO</span>
+      </div>
+      <div class="nav-links">
+        <a href="#mercado">Mercado</a>
+        <a href="#tendencias">Tendencias</a>
+        <a href="#dashboard">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-login" onclick="openModal()">Portal Inmobiliario</button>
+        <button class="nav-cta" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Análisis →</button>
+      </div>
+      <button class="mobile-toggle" onclick="toggleNav()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#mercado" onclick="toggleNav()">Mercado</a>
+      <a href="#tendencias" onclick="toggleNav()">Tendencias</a>
+      <a href="#dashboard" onclick="toggleNav()">Dashboard</a>
+      <button class="btn-primary" onclick="openModal();toggleNav()">Portal Inmobiliario</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-glow" style="background: radial-gradient(ellipse at center, rgba(0, 230, 118, .1) 0%, transparent 70%);"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <a href="#contacto" class="hero-pill" style="color: #00E676; border-color: rgba(0, 230, 118, 0.4); background: rgba(0, 230, 118, 0.05);">
+        <span class="pill-badge" style="background:#00E676; color:#001228;">REAL ESTATE INSIGHTS</span>
+        Inteligencia para maximizar el ROI en desarrollos Lima 2025 →
+      </a>
+      <h1 class="hero-h1">
+        La inteligencia que <br /><em>acelera el éxito</em><br />de tus proyectos
+      </h1>
+      <p class="hero-sub">
+        Analiza la <strong>sectorización por NSE</strong>, monitorea el <strong>avance de obra</strong> y diseña según las <strong>tendencias de tipología</strong> que el mercado limeño está comprando hoy.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" style="background:#00E676; color:#001228;"
+          onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar Demo Inmobiliario
+          →</button>
+        <button class="btn-outline"
+          onclick="document.getElementById('mercado').scrollIntoView({behavior:'smooth'})">Ver variables clave</button>
+      </div>
+      <p class="hero-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        Dashboard de Precios Reales · Estado de Obra · Plusvalía por Amenidades
+      </p>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-block">
+        <div class="stat-num" data-target="15" data-suffix="k+">0</div>
+        <div class="stat-desc">Unidades inmobiliarias <br/> monitoreadas en tiempo real</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="82" data-suffix="%">0</div>
+        <div class="stat-desc">Precisión en proyecciones <br/> de venta por distrito</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="12" data-suffix=" mo">0</div>
+        <div class="stat-desc">Actualización mensual <br/> de precios de cierre reales</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-block">
+        <div class="stat-num" data-target="100" data-suffix="%">0</div>
+        <div class="stat-desc">Transparencia en <br/> estados de avance de obra</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET LEADERS 2025 CHART (INMOBILIARIAS) -->
+  <section class="leaders-chart-section" id="especialistas">
+    <div class="lcs-inner">
+      <div class="lcs-header">
+        <div class="aud-tag" style="background: rgba(0, 230, 118, 0.1); color: #00E676; border: 1px solid rgba(0, 230, 118, 0.2);">ELITE INMOBILIARIA</div>
+        <h2>Líderes en Desarrollo Inmobiliario</h2>
+        <p>Unidades proyectadas bajo monitoreo PME para el cierre de 2025.</p>
+      </div>
+      
+      <div class="leaders-grid">
+        <div class="leader-bar-item">
+          <div class="lbi-label">IMAGINA</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 82%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">5,200 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">LOS PORTALES</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 78%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">4,800 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">BESCO</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 95%; background:#FFC107"></div>
+          </div>
+          <div class="lbi-val">6,100 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">URBANOVA</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 62%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">3,900 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">CENTENARIO</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 58%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">3,500 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">PAZ CENTENARIO</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 48%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">2,800 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">VIVA MG</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 52%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">3,100 <small>unid</small></div>
+        </div>
+        <div class="leader-bar-item">
+          <div class="lbi-label">SENDA</div>
+          <div class="lbi-track">
+            <div class="lbi-fill" style="width: 42%; background:#00E676"></div>
+          </div>
+          <div class="lbi-val">2,400 <small>unid</small></div>
+        </div>
+      </div>
+      <div class="lcs-footer">
+        *Cifras proyectadas basadas en el estado de avance de obra y factibilidad de entrega 2024-2025.
+      </div>
+    </div>
+  </section>
+
+  <!-- MERCADO & NSE (VAR 1 & 2) -->
+  <section class="audience-section" id="mercado">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <div class="aud-tag" style="background:#00E676; color:#001228;">INTELIGENCIA DE MERCADO</div>
+        <h2>Sectorización por NSE y <br />Ubicación Estratégica</h2>
+        <p class="aud-lead">
+          No inviertas a ciegas. Identifica las zonas con mayor demanda insatisfecha por Nivel Socioeconómico (NSE) y optimiza tu mix de producto.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <span class="ab-ico">🎯</span>
+            <div><strong>Mapas de Calor NSE</strong>: Ubicaciones con mayor tracción de venta real.</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">📊</span>
+            <div><strong>Monitoreo de Obra</strong>: Estado real de la competencia directa en tu zona.</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">🔍</span>
+            <div><strong>Filtros por Distrito</strong>: Segmentación precisa hasta nivel de manzana.</div>
+          </div>
+        </div>
+        <button class="btn-primary" style="background:#00E676; color:#001228;" onclick="setAudience('Mercado')">Solicitar reporte de zona</button>
+      </div>
+      <div class="aud-visual">
+        <div class="dashboard-preview">
+          <div class="dp-header">
+            <span>Market Heatmap - Lima 2025</span>
+            <div class="dp-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="dp-body">
+            <div class="dp-kpis">
+              <div class="kpi">
+                <div class="kpi-val" style="color:#00E676">NSE B1</div>
+                <div class="kpi-label">Déficit de Oferta</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-val">+24%</div>
+                <div class="kpi-label">Absorción Mes</div>
+              </div>
+            </div>
+            <div class="dp-chart-label">Ventas por Sectorización</div>
+            <div class="dp-bars">
+              <div class="dpb-row"><span>Zona 7</span><div class="dpb-bar"><div style="width:85%; background:#00E676"></div></div></div>
+              <div class="dpb-row"><span>Zona 4</span><div class="dpb-bar"><div style="width:60%; background:#00BFA5"></div></div></div>
+              <div class="dpb-row"><span>Zona 8</span><div class="dpb-bar"><div style="width:45%; background:rgba(255,255,255,0.1)"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENDENCIAS & TIPOLOGÍA (VAR 3) -->
+  <section class="audience-section alt" id="tendencias">
+    <div class="aud-inner reverse">
+      <div class="aud-text">
+        <div class="aud-tag" style="background:#FFAB00; color:#001228;">TENDENCIAS DE PRODUCTO</div>
+        <h2>Tipologías que <br />Generan Tendencia</h2>
+        <p class="aud-lead">
+          Analiza el ratio de áreas, número de dormitorios y baños que están liderando las ventas en el último trimestre.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <span class="ab-ico">📐</span>
+            <div><strong>Áreas Eficientes</strong>: ¿Cuál es el m² ideal para cada segmento?</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">🛁</span>
+            <div><strong>Mix de Tipología</strong>: Ratio óptimo de baños y dormitorios.</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">📈</span>
+            <div><strong>Preferencias Reales</strong>: Datos basados en cierres, no en preventa.</div>
+          </div>
+        </div>
+        <button class="btn-primary" style="background:#FFAB00; color:#001228;" onclick="setAudience('Tipologia')">Analizar Tipologías</button>
+      </div>
+      <div class="aud-visual">
+        <div class="sponsor-card">
+          <div class="sc-title">Top Tipologías - Sectores Prime</div>
+          <div class="sc-packages">
+            <div class="sc-pack" style="border-color: rgba(255, 171, 0, 0.3);">
+              <div class="sc-pack-name" style="color:#FFAB00">ESTILO DE VIDA</div>
+              <div class="sc-pack-price">1 Dorm <span>42-55 m²</span></div>
+              <ul>
+                <li>Absorción: <strong>Alta</strong></li>
+                <li>Target: Inversionista / Single</li>
+              </ul>
+            </div>
+            <div class="sc-pack">
+              <div class="sc-pack-name">FAMILIAR</div>
+              <div class="sc-pack-price">3 Dorm <span>78-92 m²</span></div>
+              <ul>
+                <li>Absorción: <strong>Estable</strong></li>
+                <li>Target: Familias NSE B/C</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIOS & PLUSVALÍA (VAR 4 & 5) -->
+  <section class="audience-section" id="dashboard">
+    <div class="aud-inner">
+      <div class="aud-text">
+        <div class="aud-tag" style="background:#00B0FF; color:#fff;">DASHBOARD DE PRECIOS</div>
+        <h2>Precios de Venta Reales <br />y Plusvalía Proyectada</h2>
+        <p class="aud-lead">
+          Compara tus precios con la realidad del mercado. Accede a los cierres reales y detecta cómo las amenidades influyen en la plusvalía.
+        </p>
+        <div class="aud-benefits">
+          <div class="ab-item">
+            <span class="ab-ico">💰</span>
+            <div><strong>Precios m² Reales</strong>: Data depurada de todo el pipeline inmobiliario.</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">🏡</span>
+            <div><strong>Amenidades & Plusvalía</strong>: Impacto de áreas comunes en el precio.</div>
+          </div>
+          <div class="ab-item">
+            <span class="ab-ico">📉</span>
+            <div><strong>Análisis de GAP</strong>: Tu precio vs. Promedio de Zona.</div>
+          </div>
+        </div>
+        <button class="btn-primary" style="background:#00B0FF; color:#fff;" onclick="setAudience('Precios')">Acceder al Dashboard</button>
+      </div>
+      <div class="aud-visual">
+        <div class="use-cases-grid">
+          <div class="ucg-card">
+            <span class="ucg-icon">🛋️</span>
+            <strong>Amenidades</strong>
+            <p>Impacto real en valor de reventa por m².</p>
+          </div>
+          <div class="ucg-card">
+            <span class="ucg-icon">📍</span>
+            <strong>Plusvalía</strong>
+            <p>Histórico de precios y proyección 2026.</p>
+          </div>
+          <div class="ucg-card">
+            <span class="ucg-icon">📑</span>
+            <strong>Dashboard</strong>
+            <p>Interactúa con miles de datos de cierres.</p>
+          </div>
+          <div class="ucg-card" style="border-color: rgba(0, 176, 255, 0.3);">
+            <span class="ucg-icon">💹</span>
+            <strong>Tendencias</strong>
+            <p>Variación trimestral de precios por zona.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section class="prefooter-cta" id="contacto">
+    <div class="pfc-inner">
+      <h2>Maximiza el Potencial de tus Desarrollos</h2>
+      <p>Solicita una demo personalizada de PME CAPECO Inmobiliario y accede a la base de datos más completa del sector.</p>
+    </div>
+    <div class="contact-form-wrap">
+      <form id="cform" onsubmit="handleForm(event)">
+        <div class="cform-row">
+          <div class="cform-group">
+            <label>Nombre Completo</label>
+            <input type="text" required placeholder="Ej. Carlos Mendoza" />
+          </div>
+          <div class="cform-group">
+            <label>Inmobiliaria / Empresa</label>
+            <input type="text" required placeholder="Ej. Inmobiliaria X" />
+          </div>
+        </div>
+        <div class="cform-group">
+          <label>Email Corporativo</label>
+          <input type="email" required placeholder="carlos@empresa.pe" />
+        </div>
+        <div class="cform-group">
+          <label>Interés Principal</label>
+          <select id="interest-select" style="width:100%; padding:12px; border-radius:8px; background:#081524; color:#fff; border:1px solid rgba(255,255,255,0.06);">
+            <option value="Mercado">Inteligencia de Mercado (NSE/Ubicación)</option>
+            <option value="Tendencias">Tendencias de Tipología y Áreas</option>
+            <option value="Precios">Dashboard de Precios y plusvalía</option>
+            <option value="General">Inscripción General PME</option>
+          </select>
+        </div>
+        <div class="cform-group">
+          <label>Mensaje (Opcional)</label>
+          <textarea rows="3" placeholder="Cuéntanos sobre tus proyectos actuales..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#00E676; color:#001228;">Confirmar Solicitud de Análisis</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="nav-brand">
+          <div class="brand-capeco">
+            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+              <rect width="12" height="12" fill="#00E676" />
+              <rect x="16" width="12" height="12" fill="#00E676" />
+              <rect y="16" width="12" height="12" fill="#00E676" />
+            </svg>
+            <span class="capeco-label">CAPECO</span>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: var(--text3); margin-top: 15px;">
+          PME CAPECO Inmobiliario es la plataforma líder en inteligencia de mercado para el sector construcción en Perú.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Plataforma</h4>
+        <a href="#mercado">Mercado & NSE</a>
+        <a href="#tendencias">Tipologías</a>
+        <a href="#dashboard">Precios</a>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="#">Sobre CAPECO</a>
+        <a href="#">Privacidad</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-col">
+        <h4>Síguenos</h4>
+        <a href="https://www.mis.pe">Millennial</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Millennial www.mis.pe - PME CAPECO Inmobiliario. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- MODAL PORTAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="nav-brand" style="margin-bottom: 30px; justify-content: center;">
+        <span class="brand-capeco">CAPECO</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-pme" style="color:#00E676;">INMOBILIARIO</span>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Acceso al portal restringido. Contacte a soporte.')">
+        <div class="cform-group">
+          <label>Usuario / Email</label>
+          <input type="text" required placeholder="User PME" />
+        </div>
+        <div class="cform-group">
+          <label>Contraseña</label>
+          <div class="pw-wrap">
+            <input type="password" id="pw" required placeholder="••••••••" />
+            <button type="button" class="pw-eye" onclick="togglePw()">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full" style="background:#00E676; color:#001228; margin-top:10px;">Ingresar al Portal</button>
+        <p style="text-align: center; font-size: 12px; margin-top:20px; color:var(--text3);">
+          ¿Olvidaste tu acceso? <a href="#" style="color:#00E676;">Recuperar aquí</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

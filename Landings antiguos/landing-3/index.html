@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Exposure & Portfolio Concentration - PME CAPECO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="finance-dashboard">
+    <header class="fin-header">
+        <div class="fin-logo-section">
+            <div class="fin-logo">
+                <div class="cube red"></div>
+                <div class="cube dark"></div>
+            </div>
+            <div class="fin-title">
+                <h1>Risk & Portfolio Intelligence</h1>
+                <p>Monitor de Exposición Bancaria y Contraparte — Lima 2025</p>
+            </div>
+        </div>
+        <div class="fin-kpi-grid">
+            <div class="f-kpi">
+                <span class="f-label">Exposición en Cartera (Market Value)</span>
+                <span class="f-val" id="total_exposure">S/ 0</span>
+            </div>
+            <div class="f-kpi">
+                <span class="f-label">Liquidez (Absorción Promedio)</span>
+                <span class="f-val" id="avg_absorption">0%</span>
+            </div>
+            <div class="f-kpi">
+                <span class="f-label">Proyectos Activos</span>
+                <span class="f-val" id="active_projects">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="fin-grid">
+        <!-- ROW 1: RISK Profile & Top Developers -->
+        <div class="fin-row">
+            <div class="fin-card">
+                <h3>Perfil de Riesgo por Fase (Exposición Económica)</h3>
+                <div class="fin-chart-wrap">
+                    <canvas id="riskPhaseChart"></canvas>
+                </div>
+            </div>
+            <div class="fin-card">
+                <h3>Top 10 Desarrolladoras (Riesgo de Contraparte)</h3>
+                <div class="table-scroll-wrap">
+                    <table id="developerTable">
+                        <thead>
+                            <tr>
+                                <th>Desarrolladora (Prop.)</th>
+                                <th>Proyectos</th>
+                                <th>Exposición (S/.)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 2: LTV & Trend -->
+        <div class="fin-row">
+            <div class="fin-card">
+                <h3>Riesgo LTV por Tier de Mercado (Stock sin Vender)</h3>
+                <div class="fin-chart-wrap">
+                    <canvas id="ltvRiskChart"></canvas>
+                </div>
+            </div>
+            <div class="fin-card">
+                <h3>Tendencia de Liquidez (Absorción Trimestral)</h3>
+                <div class="fin-chart-wrap">
+                    <canvas id="liquidityTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="fin-footer">
+        <div class="fin-footer-inner">
+            <span>Fuente: Inteligencia PME CAPECO — Reporte para Sector Bancario</span>
+            <span>Compliance IFRS-9 / Riesgo Hipotecario</span>
+        </div>
+    </footer>
+
+    <script src="dashboard_data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PME CAPECO — Kit Auspiciadores 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F2340;--navy-m:#1B3A5C;--orange:#E8500D;--orange-p:#FEF3EC;
+  --blue:#1D6FE8;--blue-p:#EBF3FE;--teal:#0D9488;--teal-p:#E6F7F5;
+  --gold:#C9A227;--gold-p:#FBF5E7;
+  --s1:#F1F5F9;--s2:#E2E8F0;--s4:#94A3B8;--s6:#475569;--s8:#1E293B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#DDE3EC;padding:2rem;display:flex;flex-direction:column;gap:0;align-items:center}
+@media print{body{background:#fff;padding:0}.page{box-shadow:none;page-break-after:always}.slabel{display:none}}
+
+.slabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin:.75rem 0 .4rem;text-align:center}
+.page{width:794px;background:#fff;box-shadow:0 6px 32px rgba(0,0,0,.15);position:relative;overflow:hidden;display:flex;flex-direction:column}
+
+/* ─ Shared ─ */
+.ftbar{background:var(--navy);padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.ftbar .fbl{display:flex;align-items:center;gap:8px}
+.ftbar .fbl .sq{width:24px;height:24px;background:var(--orange);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff}
+.ftbar .fbl .ft{font-size:12px;font-weight:700;color:#fff}
+.ftbar .fbl .fs{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.06em}
+.ftbar .fc{font-size:10px;color:rgba(255,255,255,.45);display:flex;gap:1rem}
+.ftbar .fc span{color:rgba(255,255,255,.65);font-weight:500}
+
+/* ══════════ DOC 1 — CARTA ══════════ */
+.d1-hero{background:var(--navy);padding:2.5rem 2.5rem 2rem;position:relative;overflow:hidden}
+.d1-hero::before{content:'';position:absolute;right:-50px;top:-50px;width:250px;height:250px;border-radius:50%;border:1px solid rgba(255,255,255,.04)}
+.d1-hero::after{content:'';position:absolute;right:50px;top:30px;width:150px;height:150px;border-radius:50%;border:1px solid rgba(255,255,255,.03)}
+.d1-eyebrow{display:flex;gap:.75rem;align-items:center;margin-bottom:1.25rem;position:relative}
+.d1-badge{background:rgba(232,80,13,.15);border:1px solid rgba(232,80,13,.25);border-radius:999px;padding:4px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#FCA57D}
+.d1-date{font-size:11px;color:rgba(255,255,255,.35)}
+.d1-hero h1{font-family:'DM Serif Display',serif;font-size:2rem;color:#fff;font-weight:400;line-height:1.15;max-width:420px;position:relative}
+.d1-hero h1 em{color:#F97316;font-style:italic}
+
+.d1-body{padding:2rem 2.5rem;flex:1}
+.d1-greeting{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:1.25rem}
+.d1-para{font-size:14px;color:var(--s6);line-height:1.8;margin-bottom:1rem}
+.d1-para strong{color:var(--navy);font-weight:700}
+.d1-highlight{background:var(--s1);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1.25rem 0}
+.d1-highlight .hl-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:.35rem}
+.d1-highlight .hl-list{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .75rem}
+.d1-highlight .hl-item{font-size:12.5px;color:var(--s6);display:flex;align-items:center;gap:5px}
+.d1-highlight .hl-item::before{content:'✓';color:var(--teal);font-weight:700;font-size:11px;flex-shrink:0}
+
+.d1-firma{margin-top:1.5rem;border-top:1px solid var(--s2);padding-top:1.25rem}
+.d1-firma .firma-name{font-size:14px;font-weight:700;color:var(--navy)}
+.d1-firma .firma-role{font-size:12px;color:var(--s6);margin-top:2px}
+.d1-firma .firma-contact{font-size:11.5px;color:var(--blue);margin-top:4px}
+.d1-firma .firma-sep{height:1px;background:var(--s2);margin:.875rem 0}
+
+/* ══════════ DOC 2 — BENEFICIOS ══════════ */
+.d2-header{background:var(--navy);padding:1.75rem 2.5rem 1.5rem}
+.d2-title{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;font-weight:400;line-height:1.2;margin-bottom:.35rem}
+.d2-sub{font-size:12px;color:rgba(255,255,255,.4)}
+.d2-body{padding:1.5rem 2.5rem;flex:1}
+.d2-tier-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:0;margin-bottom:.5rem}
+.d2-tier-cell{text-align:center;padding:.5rem .4rem;border-radius:6px;font-size:11px;font-weight:700}
+.d2-tier-cell.oro{background:var(--gold-p);color:var(--gold)}
+.d2-tier-cell.plata{background:var(--navy);color:rgba(255,255,255,.7)}
+.d2-tier-cell.bronce{background:var(--s1);color:var(--s6)}
+.d2-tier-cell.lbl{text-align:left;background:transparent;color:var(--s4);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.d2-tier-price{font-family:'DM Serif Display',serif;font-size:1.1rem;display:block;margin-top:2px}
+.d2-tier-price.oro{color:var(--gold)}
+.d2-tier-price.plata{color:#fff}
+.d2-tier-price.bronce{color:var(--navy)}
+.d2-section-label{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin:1rem 0 .5rem;padding-top:.5rem;border-top:1px solid var(--s2)}
+.d2-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:0;margin-bottom:.25rem;align-items:center}
+.d2-row:nth-child(even) .d2-cell{background:var(--s1)}
+.d2-cell{padding:.45rem .5rem;font-size:11.5px}
+.d2-cell.benefit{color:var(--s8);font-weight:500}
+.d2-cell.val{text-align:center;font-size:11px;font-weight:600;color:var(--s6)}
+.d2-cell.val.hl{color:var(--teal);font-weight:700}
+.d2-cell.val.dim{color:var(--s4)}
+
+/* ══════════ DOC 3 — MÉTRICAS ══════════ */
+.d3-header{background:linear-gradient(135deg,#060F1E,var(--navy));padding:1.75rem 2.5rem 1.5rem}
+.d3-title{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;font-weight:400;line-height:1.2;margin-bottom:.35rem}
+.d3-sub{font-size:12px;color:rgba(255,255,255,.4)}
+.d3-body{padding:1.5rem 2.5rem;flex:1}
+.d3-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.d3-stat{background:var(--s1);border-radius:10px;padding:1.125rem 1rem;text-align:center}
+.d3-stat .n{font-family:'DM Serif Display',serif;font-size:2.25rem;color:var(--navy);line-height:1}
+.d3-stat .n sup{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--orange);vertical-align:super}
+.d3-stat .l{font-size:10px;color:var(--s4);text-transform:uppercase;letter-spacing:.04em;margin-top:.35rem;line-height:1.4}
+.d3-audience-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.d3-aud-card{background:#fff;border:1px solid var(--s2);border-radius:10px;padding:1rem 1.125rem}
+.d3-aud-card .ac-title{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.625rem;border-bottom:2px solid var(--orange);padding-bottom:.35rem}
+.d3-aud-row{font-size:11.5px;color:var(--s6);margin-bottom:.3rem;display:flex;align-items:flex-start;gap:5px}
+.d3-aud-row::before{content:'→';color:var(--orange);font-weight:700;flex-shrink:0}
+.d3-mailing{background:var(--navy);border-radius:10px;padding:1.125rem 1.25rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.d3-mail-item .n2{font-family:'DM Serif Display',serif;font-size:2rem;color:#fff;line-height:1}
+.d3-mail-item .n2 sup{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;color:var(--orange-p);vertical-align:super}
+.d3-mail-item .l2{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.04em;margin-top:.3rem;line-height:1.4}
+.d3-separator{width:1px;background:rgba(255,255,255,.07)}
+
+/* ══════════ DOC 4 — FORMULARIO ══════════ */
+.d4-header{background:var(--navy);padding:1.75rem 2.5rem 1.5rem}
+.d4-title{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;font-weight:400;margin-bottom:.35rem}
+.d4-sub{font-size:12px;color:rgba(255,255,255,.4)}
+.d4-body{padding:1.5rem 2.5rem;flex:1}
+.form-section-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.75rem;margin-top:1.25rem}
+.form-section-title:first-child{margin-top:0}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.75rem}
+.form-row.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:.3rem}
+.form-label{font-size:11.5px;font-weight:700;color:var(--navy)}
+.form-field{border:1.5px solid var(--s2);border-radius:6px;padding:.55rem .75rem;font-size:12.5px;color:var(--s4);font-family:'DM Sans',sans-serif;background:var(--s1)}
+.form-field.text{height:44px}
+.form-field.tall{height:64px}
+.selector-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.875rem}
+.sel-option{border:1.5px solid var(--s2);border-radius:8px;padding:.65rem .75rem;text-align:center;position:relative}
+.sel-option .tier-name{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.25rem}
+.sel-option.oro-sel{background:var(--gold-p);border-color:rgba(201,162,39,.3)}
+.sel-option.oro-sel .tier-name{color:var(--gold)}
+.sel-option.plata-sel{background:var(--navy);border-color:var(--navy-m)}
+.sel-option.plata-sel .tier-name{color:rgba(255,255,255,.5)}
+.sel-option.bronce-sel{background:var(--s1)}
+.sel-option.bronce-sel .tier-name{color:var(--s6)}
+.sel-option .price{font-family:'DM Serif Display',serif;font-size:1.3rem;line-height:1}
+.sel-option.oro-sel .price{color:var(--navy)}
+.sel-option.plata-sel .price{color:#fff}
+.sel-option.bronce-sel .price{color:var(--navy)}
+.sel-option .period{font-size:9px;font-weight:500}
+.sel-option.oro-sel .period{color:var(--s6)}
+.sel-option.plata-sel .period{color:rgba(255,255,255,.35)}
+.sel-option.bronce-sel .period{color:var(--s4)}
+.sel-circle{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--s2);position:absolute;top:8px;right:8px}
+.sel-option.plata-sel .sel-circle{border-color:rgba(255,255,255,.2)}
+.d4-submit{background:var(--orange);color:#fff;border-radius:8px;padding:.875rem 1.5rem;font-size:14px;font-weight:700;font-family:'DM Sans',sans-serif;border:none;width:100%;text-align:center;margin-top:.875rem;cursor:pointer;letter-spacing:.01em}
+.d4-legal{font-size:10.5px;color:var(--s4);text-align:center;margin-top:.75rem;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- ═══════ DOC 1 — CARTA DE PRESENTACIÓN ═══════ -->
+<div class="slabel">DOCUMENTO 1 / 4 — CARTA DE PRESENTACIÓN</div>
+<div class="page" style="min-height:1123px">
+  <div class="d1-hero">
+    <div class="d1-eyebrow">
+      <span class="d1-badge">Propuesta de Auspicio · 2026</span>
+      <span class="d1-date">Lima, Marzo 2026 · Confidencial</span>
+    </div>
+    <h1>Kit de Auspicio<br>PME CAPECO <em>2026</em></h1>
+  </div>
+
+  <div class="d1-body">
+    <div class="d1-greeting">Estimados señores de [NOMBRE EMPRESA PROSPECTO],</div>
+
+    <p class="d1-para">
+      En <strong>CAPECO</strong> llevamos 63 años siendo la fuente oficial del mercado de edificaciones del Perú. Nuestra plataforma <strong>PME CAPECO</strong>, operada por Millennial Information Systems (MIS), es el único portal de inteligencia inmobiliaria con datos censales — no muestrales — actualizado trimestralmente y con cobertura completa en 26 distritos de Lima Metropolitana.
+    </p>
+
+    <p class="d1-para">
+      Hoy, <strong>más de 200 empresas</strong> del sector — constructoras, inmobiliarias, bancos, fondos y organismos del Estado — consultan PME para tomar decisiones estratégicas. <strong>Es la audiencia frente a la cual queremos posicionar a [NOMBRE EMPRESA].</strong>
+    </p>
+
+    <p class="d1-para">
+      Le presentamos nuestra propuesta de auspicio para el ciclo 2026, con tres niveles de participación diseñados para adaptarse a sus objetivos de visibilidad y presupuesto. Cada paquete garantiza <strong>presencia permanente</strong> en la plataforma digital, en el informe trimestral de mayor distribución del sector constructor del Perú y en los eventos CAPECO del año.
+    </p>
+
+    <div class="d1-highlight">
+      <div class="hl-title">¿Por qué auspiciar PME CAPECO?</div>
+      <div class="hl-list">
+        <div class="hl-item">Audiencia de 200+ empresas suscriptoras activas</div>
+        <div class="hl-item">Mailing a 45,000+ contactos y 7,000+ empresas</div>
+        <div class="hl-item">Dashboards consultados a diario por líderes del sector</div>
+        <div class="hl-item">Presencia en Congreso Construye Perú 2026</div>
+        <div class="hl-item">Asociación directa con el sello CAPECO (63 años)</div>
+        <div class="hl-item">Exclusividad por rubro — cupos limitados</div>
+      </div>
+    </div>
+
+    <p class="d1-para">
+      El presente kit incluye: esta carta de presentación, la <strong>tabla completa de beneficios</strong> por nivel de auspicio, las <strong>métricas de audiencia PME</strong> verificadas al Q4 2025 y el <strong>formulario de confirmación</strong> para formalizar su participación.
+    </p>
+
+    <p class="d1-para">
+      Quedamos a disposición para cualquier consulta y para coordinar una presentación personalizada ante su directorio.
+    </p>
+
+    <div class="d1-firma">
+      <div class="firma-name">[Nombre del Ejecutivo Comercial]</div>
+      <div class="firma-role">Gerente Comercial PME · Millennial Information Systems</div>
+      <div class="firma-contact">ventas@mis.pe · +51 965 113 510</div>
+      <div class="firma-sep"></div>
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div style="font-size:11px;color:var(--s4)">En alianza con:</div>
+        <div style="font-size:13px;font-weight:800;color:var(--navy);letter-spacing:.02em">CAPECO</div>
+        <div style="font-size:11px;color:var(--s4);font-weight:500">Cámara Peruana de la Construcción · 63 años</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftbar">
+    <div class="fbl"><div class="sq">PME</div><div><div class="ft">PME CAPECO · Kit Auspiciadores 2026</div><div class="fs">Documento 1 de 4 · Carta de Presentación</div></div></div>
+    <div class="fc"><span>ventas@mis.pe</span><span>+51 965 113 510</span><span>www.pme.pe</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════ DOC 2 — TABLA DE BENEFICIOS ═══════ -->
+<div class="slabel">DOCUMENTO 2 / 4 — TABLA COMPLETA DE BENEFICIOS</div>
+<div class="page" style="min-height:1123px">
+  <div class="d2-header">
+    <div class="d2-title">Tabla de Beneficios por Nivel de Auspicio</div>
+    <div class="d2-sub">PME CAPECO 2026 · Ciclo anual enero–diciembre</div>
+  </div>
+  <div class="d2-body">
+
+    <!-- Tier headers -->
+    <div class="d2-tier-header">
+      <div class="d2-tier-cell lbl">Beneficio</div>
+      <div class="d2-tier-cell oro">ORO<span class="d2-tier-price oro">$6,000<span style="font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:500;color:var(--gold)">/año</span></span></div>
+      <div class="d2-tier-cell plata">PLATA<span class="d2-tier-price plata">$3,600<span style="font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:500;color:rgba(255,255,255,.4)">/año</span></span></div>
+      <div class="d2-tier-cell bronce">BRONCE<span class="d2-tier-price bronce">$2,400<span style="font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:500;color:var(--s4)">/año</span></span></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="d2-section-label">Visibilidad en plataforma PME</div>
+    <div class="d2-row"><div class="d2-cell benefit">Logo en todos los dashboards PME (Lima + provincias)</div><div class="d2-cell val hl">✓ Todos</div><div class="d2-cell val dim">Lima</div><div class="d2-cell val dim">Footer</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Banner en informe trimestral PME (portada interior)</div><div class="d2-cell val hl">✓ 1 pág. color</div><div class="d2-cell val">½ pág.</div><div class="d2-cell val dim">Mención</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Ficha técnica de productos/servicios en informe</div><div class="d2-cell val hl">✓ 2 págs. color</div><div class="d2-cell val dim">—</div><div class="d2-cell val dim">—</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Logo en documento de invitación a presentación de resultados</div><div class="d2-cell val hl">✓ Completo</div><div class="d2-cell val hl">✓ Completo</div><div class="d2-cell val hl">✓ Completo</div></div>
+
+    <!-- MAILING -->
+    <div class="d2-section-label">Mailing y presencia digital CAPECO</div>
+    <div class="d2-row"><div class="d2-cell benefit">Presencia en mailing semanal CAPECO AL DÍA (45k+ contactos)</div><div class="d2-cell val hl">6 meses</div><div class="d2-cell val">3 meses</div><div class="d2-cell val dim">1 mes</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Posts quincenales en RRSS CAPECO (LinkedIn + Instagram)</div><div class="d2-cell val hl">6 meses</div><div class="d2-cell val">3 meses</div><div class="d2-cell val dim">1 mes</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Presencia en flyer de promoción del Estudio de Edificaciones</div><div class="d2-cell val hl">6 meses</div><div class="d2-cell val">3 meses</div><div class="d2-cell val dim">1 mes</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Presencia en Revista CAPECO (nacional + internacional)</div><div class="d2-cell val hl">6 meses</div><div class="d2-cell val">3 meses</div><div class="d2-cell val dim">1 mes</div></div>
+
+    <!-- ASESORÍA -->
+    <div class="d2-section-label">Asesoría y acceso al dato</div>
+    <div class="d2-row"><div class="d2-cell benefit">Invitados al evento de presentación oficial (digital o presencial)</div><div class="d2-cell val hl">10 invitados</div><div class="d2-cell val">4 invitados</div><div class="d2-cell val dim">2 invitados</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Consultas sobre el estudio (Nov. 2026 – Nov. 2027)</div><div class="d2-cell val hl">4 consultas</div><div class="d2-cell val">2 consultas</div><div class="d2-cell val dim">2 consultas</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Presentaciones ante directorio o clientes sobre el mercado</div><div class="d2-cell val hl">2 presenta.</div><div class="d2-cell val">1 presenta.</div><div class="d2-cell val dim">1 presenta.</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Acceso a base de datos del Censo de Edificaciones (variables)</div><div class="d2-cell val hl">15 variables</div><div class="d2-cell val">6 variables</div><div class="d2-cell val dim">3 variables</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Derecho a preguntas específicas en Encuesta de Hogares</div><div class="d2-cell val hl">4 preguntas</div><div class="d2-cell val">2 preguntas</div><div class="d2-cell val dim">1 pregunta</div></div>
+
+    <!-- EVENTOS -->
+    <div class="d2-section-label">Eventos y activaciones presenciales</div>
+    <div class="d2-row"><div class="d2-cell benefit">Stand en Congreso Construye Perú 2026</div><div class="d2-cell val hl">✓ Incluido</div><div class="d2-cell val dim">—</div><div class="d2-cell val dim">—</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Mención en apertura del Congreso Construye Perú</div><div class="d2-cell val hl">✓</div><div class="d2-cell val dim">—</div><div class="d2-cell val dim">—</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Descuento en publicidad en banners de plataforma PME</div><div class="d2-cell val hl">15%</div><div class="d2-cell val">10%</div><div class="d2-cell val dim">5%</div></div>
+
+    <!-- SUSCRIPCIONES -->
+    <div class="d2-section-label">Suscripciones incluidas y accesos digitales</div>
+    <div class="d2-row"><div class="d2-cell benefit">Licencias de acceso a plataforma PME (Power BI + dashboards)</div><div class="d2-cell val hl">2 licencias</div><div class="d2-cell val">1 licencia</div><div class="d2-cell val dim">1 acceso</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Acceso a base de contactos suscriptores PME (para networking)</div><div class="d2-cell val hl">✓</div><div class="d2-cell val dim">—</div><div class="d2-cell val dim">—</div></div>
+    <div class="d2-row"><div class="d2-cell benefit">Acceso beta prioritario a Tasamelo (valoración con IA + CAPECO)</div><div class="d2-cell val hl">✓ Plan PRO</div><div class="d2-cell val">✓ Plan PRO</div><div class="d2-cell val dim">—</div></div>
+
+  </div>
+  <div class="ftbar">
+    <div class="fbl"><div class="sq">PME</div><div><div class="ft">PME CAPECO · Kit Auspiciadores 2026</div><div class="fs">Documento 2 de 4 · Tabla de Beneficios</div></div></div>
+    <div class="fc"><span>ventas@mis.pe</span><span>+51 965 113 510</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════ DOC 3 — MÉTRICAS DE AUDIENCIA ═══════ -->
+<div class="slabel">DOCUMENTO 3 / 4 — MÉTRICAS DE AUDIENCIA PME</div>
+<div class="page" style="min-height:1123px">
+  <div class="d3-header">
+    <div class="d3-title">Métricas de Audiencia PME CAPECO</div>
+    <div class="d3-sub">Datos verificados al Q4 2025 · Fuente: Millennial Information Systems</div>
+  </div>
+  <div class="d3-body">
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:1rem">Plataforma PME — Indicadores clave</div>
+    <div class="d3-stats-grid">
+      <div class="d3-stat"><div class="n">200<sup>+</sup></div><div class="l">Empresas suscriptoras activas Lima</div></div>
+      <div class="d3-stat"><div class="n">26</div><div class="l">Distritos Lima con data censal completa</div></div>
+      <div class="d3-stat"><div class="n">63</div><div class="l">Años de trayectoria CAPECO</div></div>
+      <div class="d3-stat"><div class="n">4x</div><div class="l">Sesiones promedio por usuario / mes</div></div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:1rem">Composición de la audiencia por sector</div>
+    <div class="d3-audience-row">
+      <div class="d3-aud-card">
+        <div class="ac-title">🏗️ Sector constructor e inmobiliario</div>
+        <div class="d3-aud-row">Constructoras e inmobiliarias promotoras</div>
+        <div class="d3-aud-row">Consultoras de proyectos y gerencias</div>
+        <div class="d3-aud-row">Tasadores y valuadores profesionales</div>
+        <div class="d3-aud-row">Empresas de ingeniería y desarrollo urbano</div>
+      </div>
+      <div class="d3-aud-card">
+        <div class="ac-title">🏦 Sector financiero y asegurador</div>
+        <div class="d3-aud-row">Bancos: BCP, BBVA, Scotiabank, Interbank</div>
+        <div class="d3-aud-row">Financieras y cooperativas hipotecarias</div>
+        <div class="d3-aud-row">Aseguradoras: Mapfre, La Positiva, Rimac</div>
+        <div class="d3-aud-row">Fintechs y proptechs con portafolio Lima</div>
+      </div>
+    </div>
+    <div class="d3-audience-row">
+      <div class="d3-aud-card">
+        <div class="ac-title">🏛️ Sector público y académico</div>
+        <div class="d3-aud-row">Ministerio de Vivienda y Mivivienda</div>
+        <div class="d3-aud-row">Municipalidades distritales y provinciales</div>
+        <div class="d3-aud-row">Universidades: PUCP, UPC, USMP, ULIMA</div>
+        <div class="d3-aud-row">Centros de investigación y think tanks</div>
+      </div>
+      <div class="d3-aud-card">
+        <div class="ac-title">💼 Proveedores y servicios al sector</div>
+        <div class="d3-aud-row">Empresas de materiales de construcción</div>
+        <div class="d3-aud-row">Proveedores de tecnología para el sector</div>
+        <div class="d3-aud-row">Firmas de abogados especializadas en real estate</div>
+        <div class="d3-aud-row">Fondos de inversión con portafolio inmobiliario</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin:1rem 0 .875rem">Alcance del ecosistema CAPECO para auspiciadores</div>
+    <div class="d3-mailing">
+      <div class="d3-mail-item">
+        <div class="n2">45k<sup>+</sup></div>
+        <div class="l2">Contactos en base de mailing CAPECO</div>
+      </div>
+      <div class="d3-separator"></div>
+      <div class="d3-mail-item">
+        <div class="n2">7k<sup>+</sup></div>
+        <div class="l2">Empresas del sector en la base</div>
+      </div>
+      <div class="d3-separator"></div>
+      <div class="d3-mail-item">
+        <div class="n2">52</div>
+        <div class="l2">Envíos de mailing semanales / año</div>
+      </div>
+    </div>
+
+    <div style="background:var(--s1);border-radius:8px;padding:1rem 1.125rem;margin-top:1.25rem">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:.625rem">Empresas con presencia activa en PME (muestra)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Banco GNB</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">BBVA</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Apoyo Consultoría</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">BESCO</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Invertir.pe</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">ADI Perú</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">La Casa</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">ENACORP</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Movistar</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Promart</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">Sika</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">UNICON</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">GLASST</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">ULIMA</span>
+        <span style="font-size:11px;background:#fff;border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s6)">ZETA</span>
+        <span style="font-size:11px;background:var(--s1);border:1px solid var(--s2);border-radius:4px;padding:3px 9px;color:var(--s4)">+ 185 más</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="ftbar">
+    <div class="fbl"><div class="sq">PME</div><div><div class="ft">PME CAPECO · Kit Auspiciadores 2026</div><div class="fs">Documento 3 de 4 · Métricas de Audiencia</div></div></div>
+    <div class="fc"><span>Datos Q4 2025</span><span>ventas@mis.pe</span></div>
+  </div>
+</div>
+
+
+<!-- ═══════ DOC 4 — FORMULARIO DE CONFIRMACIÓN ═══════ -->
+<div class="slabel">DOCUMENTO 4 / 4 — FORMULARIO DE CONFIRMACIÓN</div>
+<div class="page" style="min-height:1123px">
+  <div class="d4-header">
+    <div class="d4-title">Formulario de Confirmación de Auspicio</div>
+    <div class="d4-sub">Completa y envía a ventas@mis.pe · Procesamos en 24 horas hábiles</div>
+  </div>
+  <div class="d4-body">
+
+    <div class="form-section-title">Datos de la empresa</div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Razón social</div><div class="form-field text"></div></div>
+      <div class="form-group"><div class="form-label">RUC</div><div class="form-field text"></div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Nombre del contacto</div><div class="form-field text"></div></div>
+      <div class="form-group"><div class="form-label">Cargo</div><div class="form-field text"></div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Correo corporativo</div><div class="form-field text"></div></div>
+      <div class="form-group"><div class="form-label">Teléfono</div><div class="form-field text"></div></div>
+    </div>
+    <div class="form-row full">
+      <div class="form-group"><div class="form-label">Rubro / sector de la empresa</div><div class="form-field text"></div></div>
+    </div>
+
+    <div class="form-section-title">Selección de paquete</div>
+    <div class="selector-grid">
+      <div class="sel-option oro-sel">
+        <span class="tier-name">ORO</span>
+        <div class="price">$6,000</div>
+        <div class="period">/año · Máxima visibilidad</div>
+        <div class="sel-circle"></div>
+      </div>
+      <div class="sel-option plata-sel">
+        <span class="tier-name">PLATA</span>
+        <div class="price">$3,600</div>
+        <div class="period">/año · Visibilidad sectorial</div>
+        <div class="sel-circle"></div>
+      </div>
+      <div class="sel-option bronce-sel">
+        <span class="tier-name">BRONCE</span>
+        <div class="price">$2,400</div>
+        <div class="period">/año · Presencia institucional</div>
+        <div class="sel-circle"></div>
+      </div>
+    </div>
+
+    <div class="form-section-title">Datos de facturación</div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Dirección fiscal</div><div class="form-field text"></div></div>
+      <div class="form-group"><div class="form-label">Distrito / Ciudad</div><div class="form-field text"></div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Nombre del responsable de pago</div><div class="form-field text"></div></div>
+      <div class="form-group"><div class="form-label">Correo para factura</div><div class="form-field text"></div></div>
+    </div>
+
+    <div class="form-section-title">Comentarios adicionales</div>
+    <div class="form-row full">
+      <div class="form-group">
+        <div class="form-label">¿Tiene algún requerimiento específico o preferencia de activación?</div>
+        <div class="form-field tall"></div>
+      </div>
+    </div>
+
+    <div class="d4-submit">Confirmar participación como Auspiciador PME 2026 →</div>
+    <div class="d4-legal">
+      Al enviar este formulario, acepta los términos del auspicio PME CAPECO 2026. La facturación se emite a nombre de Millennial Information Systems SAC (RUC: [RUC MIS]).<br>
+      Vigencia del contrato: enero–diciembre 2026 · Pago al inicio del ciclo · ventas@mis.pe · +51 965 113 510
+    </div>
+
+  </div>
+  <div class="ftbar">
+    <div class="fbl"><div class="sq">PME</div><div><div class="ft">PME CAPECO · Kit Auspiciadores 2026</div><div class="fs">Documento 4 de 4 · Formulario de Confirmación</div></div></div>
+    <div class="fc"><span>ventas@mis.pe</span><span>pme_ux@capeco.org</span><span>+51 965 113 510</span></div>
+  </div>
+</div>
+
+<!-- PRINT BTN -->
+<div style="text-align:center;padding:1.5rem 0">
+  <button onclick="window.print()" style="background:#0F2340;color:#fff;border:none;border-radius:8px;padding:.75rem 2rem;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">
+    🖨️ Imprimir Kit Completo (4 documentos A4)
+  </button>
+</div>
+
+</body>
+</html>

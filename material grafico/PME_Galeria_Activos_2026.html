@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PME CAPECO — Galería de Activos Gráficos 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F2340;--navy-m:#1B3A5C;
+  --orange:#E8500D;--orange-w:#F97316;
+  --teal:#0D9488;--teal-d:#065F59;
+  --s1:#F1F5F9;--s2:#E2E8F0;--s4:#94A3B8;--s6:#475569;--s8:#1E293B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#E8EDF3;color:var(--s8)}
+
+.page-header{background:var(--navy);padding:2.5rem 3rem;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 60px)}
+.ph-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(232,80,13,.15);border:1px solid rgba(232,80,13,.3);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#FCA57D;margin-bottom:.875rem}
+.ph-title{font-family:'DM Serif Display',serif;font-size:2.25rem;font-weight:400;color:#fff;margin-bottom:.5rem}
+.ph-title em{color:var(--orange-w);font-style:italic}
+.ph-desc{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:1.5rem;line-height:1.65;max-width:540px}
+.ph-stats{display:flex;gap:2rem;flex-wrap:wrap}
+.ph-stat .n{font-family:'DM Serif Display',serif;font-size:2rem;color:#fff;line-height:1}
+.ph-stat .n sup{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;color:var(--orange-w);vertical-align:super}
+.ph-stat .l{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-top:.2rem}
+
+.content{max-width:1400px;margin:0 auto;padding:2.5rem 3rem}
+
+.category-header{margin:2.5rem 0 1.25rem}
+.cat-num{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--orange);margin-bottom:.25rem}
+.cat-title{font-family:'DM Serif Display',serif;font-size:1.625rem;color:var(--navy);font-weight:400}
+.cat-desc{font-size:13px;color:var(--s6);margin-top:.35rem;line-height:1.65}
+
+.assets-grid{display:grid;gap:1rem}
+.assets-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+.assets-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.assets-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.assets-grid.cols-5{grid-template-columns:repeat(5,1fr)}
+
+.asset-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--s2);transition:transform .15s,box-shadow .15s}
+.asset-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.asset-preview{background:var(--s1);display:flex;align-items:center;justify-content:center;padding:.75rem;min-height:120px;position:relative}
+.asset-preview img{max-width:100%;max-height:220px;object-fit:contain;border-radius:4px;display:block}
+.asset-preview.dark{background:var(--navy)}
+.asset-preview.teal{background:var(--teal-d)}
+.asset-badge{position:absolute;top:8px;right:8px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:4px;padding:2px 8px}
+.badge-png{background:rgba(29,111,232,.15);color:var(--navy);border:1px solid rgba(29,111,232,.2)}
+.badge-svg{background:rgba(13,148,136,.12);color:var(--teal-d);border:1px solid rgba(13,148,136,.2)}
+.badge-zip{background:rgba(232,80,13,.12);color:var(--orange);border:1px solid rgba(232,80,13,.2)}
+
+.asset-info{padding:.875rem 1rem}
+.asset-name{font-size:12.5px;font-weight:700;color:var(--s8);margin-bottom:.2rem}
+.asset-meta{font-size:11px;color:var(--s4);margin-bottom:.625rem}
+.asset-dl{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;border-radius:6px;padding:.375rem .875rem;font-size:11.5px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:background .15s}
+.asset-dl:hover{background:var(--navy-m)}
+.asset-dl-svg{background:transparent;color:var(--teal-d);border:1.5px solid var(--teal);margin-left:.4rem}
+.asset-dl-svg:hover{background:var(--teal);color:#fff}
+
+.zip-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-m) 100%);border-radius:16px;padding:2rem;display:flex;align-items:center;gap:2rem;margin-top:2.5rem;flex-wrap:wrap}
+.zip-icon{font-size:3rem;flex-shrink:0}
+.zip-info{flex:1}
+.zip-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;font-weight:400;margin-bottom:.35rem}
+.zip-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.65}
+.zip-dl{background:var(--orange);color:#fff;border:none;border-radius:10px;padding:.875rem 2rem;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.01em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-top:.75rem}
+.zip-dl:hover{background:#C94410}
+
+.format-note{font-size:11px;color:var(--s4);background:var(--s1);border-radius:6px;padding:.5rem .875rem;margin-top:.75rem;line-height:1.5}
+
+/* Story preview aspect */
+.story-thumb{max-height:300px;width:auto}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="ph-tag">Activos gráficos · Producción lista</div>
+  <h1 class="ph-title">PME CAPECO — <em>Graphic Assets</em> 2026</h1>
+  <p class="ph-desc">30 archivos de producción generados: logos, banner LinkedIn, avatar, 5 posts 1080×1080, 4 stories 1080×1920. Formatos PNG @2x y SVG vectorial.</p>
+  <div class="ph-stats">
+    <div class="ph-stat"><div class="n">30</div><div class="l">Archivos</div></div>
+    <div class="ph-stat"><div class="n">8</div><div class="l">Logos</div></div>
+    <div class="ph-stat"><div class="n">2</div><div class="l">Banners LI</div></div>
+    <div class="ph-stat"><div class="n">5</div><div class="l">Posts 1080</div></div>
+    <div class="ph-stat"><div class="n">4</div><div class="l">Stories</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ─── LOGOS ─── -->
+  <div class="category-header">
+    <div class="cat-num">01 — Logos</div>
+    <h2 class="cat-title">Logos — 8 variantes</h2>
+    <p class="cat-desc">PNG @2x y @3x para pantallas retina + SVG vectorial editable. Usar SVG para impresión o tamaños grandes.</p>
+  </div>
+  <div class="assets-grid cols-4">
+
+    <div class="asset-card">
+      <div class="asset-preview">
+        <span class="asset-badge badge-png">PNG @2x</span>
+        <img src="pme_graphics/logo_pme_primary_light.png" alt="Logo primario">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Logo principal — fondo claro</div>
+        <div class="asset-meta">800×240 px · Uso en documentos, web, email</div>
+        <a class="asset-dl" href="pme_graphics/logo_pme_primary_light@2x.png" download>↓ PNG @3x</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/logo_pme_primary.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark">
+        <span class="asset-badge badge-png">PNG @2x</span>
+        <img src="pme_graphics/logo_pme_negative_dark.png" alt="Logo negativo">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Logo negativo — fondo oscuro</div>
+        <div class="asset-meta">800×240 px · Uso en fondos navy, presentaciones</div>
+        <a class="asset-dl" href="pme_graphics/logo_pme_negative_dark.png" download>↓ PNG</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/logo_pme_negative.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview">
+        <span class="asset-badge badge-png">PNG</span>
+        <img src="pme_graphics/logo_pme_compact.png" alt="Logo compacto">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Logo compacto horizontal</div>
+        <div class="asset-meta">560×160 px · Uso en headers web y email</div>
+        <a class="asset-dl" href="pme_graphics/logo_pme_compact.png" download>↓ PNG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark">
+        <span class="asset-badge badge-png">PNG @4x</span>
+        <img src="pme_graphics/logo_pme_icon_200.png" alt="Ícono" style="max-height:80px">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Ícono solo — avatar / app</div>
+        <div class="asset-meta">400×400 px @4x · Solo para íconos, no para docs</div>
+        <a class="asset-dl" href="pme_graphics/logo_pme_icon_400.png" download>↓ PNG 400px</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/logo_pme_icon.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview teal">
+        <span class="asset-badge badge-png">PNG @2x</span>
+        <img src="pme_graphics/logo_tasamelo.png" alt="Logo Tasamelo">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Logo Tasamelo</div>
+        <div class="asset-meta">720×200 px · Exclusivo para app y materiales Tasamelo</div>
+        <a class="asset-dl" href="pme_graphics/logo_tasamelo.png" download>↓ PNG</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/logo_tasamelo.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview">
+        <span class="asset-badge badge-png">PNG @2x</span>
+        <img src="pme_graphics/logo_lockup_capeco_pme.png" alt="Lockup CAPECO PME">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Lockup CAPECO × PME</div>
+        <div class="asset-meta">720×200 px · Para materiales institucionales CAPECO</div>
+        <a class="asset-dl" href="pme_graphics/logo_lockup_capeco_pme.png" download>↓ PNG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="min-height:100px">
+        <span class="asset-badge badge-png">PNG</span>
+        <img src="pme_graphics/avatar_pme_800x800.png" alt="Avatar" style="max-height:100px;border-radius:50%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Avatar LinkedIn / Redes</div>
+        <div class="asset-meta">800×800 px · Para Company Page y perfil personal MIS</div>
+        <a class="asset-dl" href="pme_graphics/avatar_pme_800x800.png" download>↓ PNG 800px</a>
+        <a class="asset-dl" href="pme_graphics/avatar_pme_400x400.png" download style="margin-left:.25rem">↓ 400px</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── BANNERS ─── -->
+  <div class="category-header">
+    <div class="cat-num">02 — LinkedIn Banners</div>
+    <h2 class="cat-title">Banners 1584 × 396 px</h2>
+    <p class="cat-desc">Dimensiones exactas de LinkedIn. Subir directamente a la Company Page o al perfil personal desde el botón "Editar portada".</p>
+  </div>
+  <div class="assets-grid cols-2">
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:160px">
+        <span class="asset-badge badge-png">1584×396</span>
+        <img src="pme_graphics/banner_linkedin_1584x396_main.png" alt="Banner PME principal" style="width:100%;border-radius:4px">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Banner PME CAPECO — General</div>
+        <div class="asset-meta">1584×396 px · Para Company Page PME CAPECO</div>
+        <a class="asset-dl" href="pme_graphics/banner_linkedin_1584x396_main.png" download>↓ PNG principal</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/banner_linkedin_main.svg" download>↓ SVG editable</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:160px">
+        <span class="asset-badge badge-png">1584×396</span>
+        <img src="pme_graphics/banner_linkedin_1584x396_finance.png" alt="Banner PME Finance" style="width:100%;border-radius:4px">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Banner PME FINANCE — Banca</div>
+        <div class="asset-meta">1584×396 px · Para perfil vocero / outreach banca</div>
+        <a class="asset-dl" href="pme_graphics/banner_linkedin_1584x396_finance.png" download>↓ PNG finance</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/banner_linkedin_finance.svg" download>↓ SVG editable</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="format-note">Para subir a LinkedIn: Perfil → Editar portada → Subir foto. LinkedIn recorta verticalmente en mobile, asegúrate de que el texto central quede entre y=80 e y=316.</div>
+
+  <!-- ─── POSTS ─── -->
+  <div class="category-header">
+    <div class="cat-num">03 — Posts Feed</div>
+    <h2 class="cat-title">Posts 1080 × 1080 px</h2>
+    <p class="cat-desc">5 templates de imagen para el feed de LinkedIn e Instagram. Cada uno con un diseño específico para el tipo de contenido. PNG listo para publicar.</p>
+  </div>
+  <div class="assets-grid cols-5">
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:180px">
+        <span class="asset-badge badge-png">1080×1080</span>
+        <img src="pme_graphics/post_01_precio_m2_lima.png" alt="Post precio m²" style="width:100%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Post 01 · Precio m² Lima</div>
+        <div class="asset-meta">El dato de la semana · Precio grande + distritos</div>
+        <a class="asset-dl" href="pme_graphics/post_01_precio_m2_lima.png" download>↓ PNG</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/post_01_precio_m2.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:180px">
+        <span class="asset-badge badge-png">1080×1080</span>
+        <img src="pme_graphics/post_02_absorcion_corredor.png" alt="Post absorción" style="width:100%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Post 02 · Absorción Lima</div>
+        <div class="asset-meta">Barras por corredor · Pregunta + data</div>
+        <a class="asset-dl" href="pme_graphics/post_02_absorcion_corredor.png" download>↓ PNG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:180px">
+        <span class="asset-badge badge-png">1080×1080</span>
+        <img src="pme_graphics/post_03_top_distritos.png" alt="Post distritos" style="width:100%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Post 03 · Top 5 distritos</div>
+        <div class="asset-meta">Ranking visual con barras y precios</div>
+        <a class="asset-dl" href="pme_graphics/post_03_top_distritos.png" download>↓ PNG</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/post_03_distritos.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:180px">
+        <span class="asset-badge badge-png">1080×1080</span>
+        <img src="pme_graphics/post_04_credibilidad_63.png" alt="Post credibilidad" style="width:100%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Post 04 · 63 años CAPECO</div>
+        <div class="asset-meta">Credibilidad institucional · Número grande</div>
+        <a class="asset-dl" href="pme_graphics/post_04_credibilidad_63.png" download>↓ PNG</a>
+        <a class="asset-dl asset-dl-svg" href="pme_graphics/post_04_credibilidad.svg" download>↓ SVG</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem;min-height:180px">
+        <span class="asset-badge badge-png">1080×1080</span>
+        <img src="pme_graphics/post_05_caso_uso_promotora.png" alt="Post caso uso" style="width:100%">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Post 05 · Caso uso promotora</div>
+        <div class="asset-meta">Narrativo oscuro · USD 15k ahorrados</div>
+        <a class="asset-dl" href="pme_graphics/post_05_caso_uso_promotora.png" download>↓ PNG</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── STORIES ─── -->
+  <div class="category-header">
+    <div class="cat-num">04 — Instagram & LinkedIn Stories</div>
+    <h2 class="cat-title">Stories 1080 × 1920 px</h2>
+    <p class="cat-desc">Formato vertical 9:16. Subir a Instagram Stories y LinkedIn Stories. Cada template actualizable trimestralmente con el nuevo dato.</p>
+  </div>
+  <div class="assets-grid cols-4">
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem">
+        <span class="asset-badge badge-png">1080×1920</span>
+        <img class="story-thumb" src="pme_graphics/story_01_precio_m2_1080x1920.png" alt="Story precio m²" style="max-height:300px;margin:0 auto;display:block">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Story 01 · Precio m² Lima</div>
+        <div class="asset-meta">Navy · Dato grande · CTA naranja</div>
+        <a class="asset-dl" href="pme_graphics/story_01_precio_m2_1080x1920.png" download>↓ PNG 1080×1920</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview teal" style="padding:.5rem">
+        <span class="asset-badge badge-png">1080×1920</span>
+        <img class="story-thumb" src="pme_graphics/story_02_absorcion_1080x1920.png" alt="Story absorción" style="max-height:300px;margin:0 auto;display:block">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Story 02 · Absorción Lima</div>
+        <div class="asset-meta">Teal · Barras por corredor · Swipe up</div>
+        <a class="asset-dl" href="pme_graphics/story_02_absorcion_1080x1920.png" download>↓ PNG 1080×1920</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview teal" style="padding:.5rem">
+        <span class="asset-badge badge-png">1080×1920</span>
+        <img class="story-thumb" src="pme_graphics/story_03_tasamelo_1080x1920.png" alt="Story Tasamelo" style="max-height:300px;margin:0 auto;display:block">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Story 03 · Tasamelo Beta</div>
+        <div class="asset-meta">Teal dark · Wordmark + 3 pasos · CTA blanco</div>
+        <a class="asset-dl" href="pme_graphics/story_03_tasamelo_1080x1920.png" download>↓ PNG 1080×1920</a>
+      </div>
+    </div>
+
+    <div class="asset-card">
+      <div class="asset-preview dark" style="padding:.5rem">
+        <span class="asset-badge badge-png">1080×1920</span>
+        <img class="story-thumb" src="pme_graphics/story_04_credibilidad_1080x1920.png" alt="Story credibilidad" style="max-height:300px;margin:0 auto;display:block">
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Story 04 · 63 años CAPECO</div>
+        <div class="asset-meta">Navy · Número grande + testimonio</div>
+        <a class="asset-dl" href="pme_graphics/story_04_credibilidad_1080x1920.png" download>↓ PNG 1080×1920</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── ZIP DOWNLOAD ─── -->
+  <div class="zip-card">
+    <div class="zip-icon">📦</div>
+    <div class="zip-info">
+      <div class="zip-title">Descargar todo el kit completo</div>
+      <div class="zip-desc">30 archivos · Logos (PNG + SVG), banners LinkedIn, avatar, 5 posts 1080×1080, 4 stories 1080×1920 · ~1.2 MB comprimido</div>
+      <a class="zip-dl" href="../PME_CAPECO_Graphic_Assets_2026.zip" download>📦 Descargar ZIP completo (1.2 MB)</a>
+    </div>
+    <div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:.5rem">Incluye carpeta</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);font-family:monospace">PME_Assets_2026/</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:.35rem;line-height:1.6">
+        ├── logos/ (8 archivos)<br>
+        ├── banners/ (4 archivos)<br>
+        ├── posts/ (8 archivos)<br>
+        └── stories/ (4 archivos)
+      </div>
+    </div>
+  </div>
+
+  <!-- Format notes -->
+  <div style="background:#fff;border:1px solid var(--s2);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:.875rem">Guía de uso por plataforma</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;font-size:12px;color:var(--s6)">
+      <div><strong style="color:var(--navy)">LinkedIn Company Page:</strong><br>Banner: 1584×396 banner_main<br>Logo: avatar_pme_800x800</div>
+      <div><strong style="color:var(--navy)">LinkedIn Posts:</strong><br>post_01 a post_05 (1080×1080)<br>Cargar como imagen nativa</div>
+      <div><strong style="color:var(--navy)">Instagram Feed:</strong><br>post_01 a post_05 (1080×1080)<br>Ratio 1:1 perfecto</div>
+      <div><strong style="color:var(--navy)">Instagram / LI Stories:</strong><br>story_01 a story_04 (1080×1920)<br>Ratio 9:16 nativo</div>
+      <div><strong style="color:var(--navy)">Documentos / Email:</strong><br>logo_pme_primary_light@2x<br>o SVG para máxima calidad</div>
+      <div><strong style="color:var(--navy)">Imprimir / Gran formato:</strong><br>Usar archivos SVG siempre<br>Escala sin pérdida de calidad</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:2rem 0;color:var(--s4);font-size:12px">
+    PME CAPECO · Activos Gráficos v1.0 · Marzo 2026 · Millennial Information Systems · www.pme.pe
+  </div>
+
+</div>
+</body>
+</html>

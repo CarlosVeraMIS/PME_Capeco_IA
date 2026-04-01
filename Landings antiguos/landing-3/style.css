@@ -1,0 +1,199 @@
+/* ═══════════════════════════════════════════
+   CORPORATE FINANCE — PME CAPECO 
+   Risk and Credit Intelligence Dashboard
+   ═══════════════════════════════════════════ */
+:root {
+  --fin-red: #C62828;
+  --fin-dark: #1A1A1A;
+  --fin-gray: #6C757D;
+  --fin-bg: #F8F9FA;
+  --fin-border: #E9ECEF;
+  --fin-accent: #0288D1;
+  --fin-white: #ffffff;
+  --fin-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.finance-dashboard {
+  font-family: 'Public Sans', 'Segoe UI', sans-serif;
+  background-color: var(--fin-bg);
+  color: #1A1A1A;
+}
+
+/* Header Section */
+.fin-header {
+  background: var(--fin-white);
+  padding: 30px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--fin-red);
+  box-shadow: var(--fin-shadow);
+}
+
+.fin-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.fin-logo {
+  display: flex;
+  gap: 4px;
+}
+
+.cube { width: 14px; height: 14px; }
+.cube.red { background: var(--fin-red); }
+.cube.dark { background: var(--fin-dark); }
+
+.fin-title h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.fin-title p {
+  font-size: 13px;
+  color: var(--fin-gray);
+  font-weight: 600;
+}
+
+.fin-kpi-grid {
+  display: flex;
+  gap: 60px;
+}
+
+.f-kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.f-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--fin-gray);
+  margin-bottom: 4px;
+}
+
+.f-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--fin-dark);
+}
+
+/* Dashboard Body */
+.fin-grid {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.fin-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.fin-card {
+  background: var(--fin-white);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: var(--fin-shadow);
+  border: 1px solid var(--fin-border);
+}
+
+.fin-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--fin-dark);
+  border-left: 5px solid var(--fin-red);
+  padding-left: 15px;
+}
+
+.fin-chart-wrap {
+  height: 320px;
+  position: relative;
+}
+
+/* Tables */
+.table-scroll-wrap {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 280px;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--fin-bg);
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--fin-border);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fin-gray);
+  letter-spacing: .05em;
+}
+
+tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--fin-border);
+  color: var(--fin-dark);
+}
+
+tbody tr:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+tbody td strong {
+  font-weight: 800;
+  color: var(--fin-red);
+}
+
+/* Footer Section */
+.fin-footer {
+  margin-top: 40px;
+  padding: 30px 50px;
+  border-top: 1px solid var(--fin-border);
+  background: #fff;
+}
+
+.fin-footer-inner {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fin-gray);
+}
+
+/* Responsive and Adjustments */
+@media (max-width: 1024px) {
+  .fin-row { grid-template-columns: 1fr; }
+  .fin-kpi-grid { gap: 30px; }
+  .fin-header { flex-direction: column; gap: 30px; align-items: flex-start; }
+  .fin-kpi-grid { width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 768px) {
+  .f-val { font-size: 20px; }
+  .f-label { font-size: 10px; }
+}

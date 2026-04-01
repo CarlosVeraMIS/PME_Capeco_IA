@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PME CAPECO — Manual de Marca 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* ── TOKENS ───────────────────────────────────────────────── */
+  :root {
+    --navy:        #0F2340;
+    --navy-mid:    #1B3A5C;
+    --navy-soft:   #243F63;
+    --blue:        #1D6FE8;
+    --blue-light:  #3B82F6;
+    --blue-pale:   #EBF3FE;
+    --orange:      #E8500D;
+    --orange-warm: #F97316;
+    --orange-pale: #FEF3EC;
+    --teal:        #0D9488;
+    --teal-pale:   #E6F7F5;
+    --gold:        #C9A227;
+    --gold-pale:   #FBF5E7;
+    --white:       #FFFFFF;
+    --off-white:   #F8FAFC;
+    --slate-100:   #F1F5F9;
+    --slate-200:   #E2E8F0;
+    --slate-400:   #94A3B8;
+    --slate-600:   #475569;
+    --slate-800:   #1E293B;
+    --text-primary:   #0F2340;
+    --text-secondary: #475569;
+    --text-muted:     #94A3B8;
+    --radius-sm:  4px;
+    --radius-md:  8px;
+    --radius-lg:  12px;
+    --radius-xl:  20px;
+    --radius-pill: 999px;
+    --shadow-sm: 0 1px 3px rgba(15,35,64,.08), 0 1px 2px rgba(15,35,64,.04);
+    --shadow-md: 0 4px 16px rgba(15,35,64,.10), 0 2px 6px rgba(15,35,64,.06);
+    --shadow-lg: 0 12px 40px rgba(15,35,64,.14), 0 4px 12px rgba(15,35,64,.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 16px; line-height: 1.65;
+    color: var(--text-primary);
+    background: var(--off-white);
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR NAV ─────────────────────────────────────────── */
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: 220px;
+    background: var(--navy);
+    z-index: 100;
+    display: flex; flex-direction: column;
+    padding: 0 0 2rem;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    margin-bottom: .5rem;
+  }
+  .sidebar-logo .brand { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .04em; text-transform: uppercase; }
+  .sidebar-logo .sub { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+  .sidebar-section { font-size: 9px; font-weight: 700; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .1em; padding: .75rem 1.25rem .25rem; }
+  .sidebar a {
+    display: flex; align-items: center; gap: 8px;
+    padding: .45rem 1.25rem; font-size: 12.5px; font-weight: 400;
+    color: rgba(255,255,255,.6); text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+  }
+  .sidebar a:hover { color: #fff; background: rgba(255,255,255,.05); }
+  .sidebar a.active { color: #fff; border-left-color: var(--orange); background: rgba(232,80,13,.08); font-weight: 600; }
+  .sidebar a .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .5; flex-shrink: 0; }
+
+  /* ── MAIN ─────────────────────────────────────────────────── */
+  .main { margin-left: 220px; }
+
+  /* ── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    background: var(--navy);
+    padding: 4rem 3rem 3.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.012) 0, rgba(255,255,255,.012) 1px,
+      transparent 1px, transparent 60px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.012) 0, rgba(255,255,255,.012) 1px,
+      transparent 1px, transparent 60px
+    );
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,80,13,.18); border: 1px solid rgba(232,80,13,.35);
+    color: #FCA57D; border-radius: var(--radius-pill);
+    font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+    padding: 4px 12px; margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    color: #fff; line-height: 1.15; font-weight: 400;
+    margin-bottom: .75rem;
+  }
+  .hero h1 em { color: var(--orange-warm); font-style: italic; }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,.55); max-width: 540px; line-height: 1.7; }
+  .hero-meta {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .hero-meta-item { }
+  .hero-meta-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.35); font-weight: 600; }
+  .hero-meta-item .value { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 2px; font-weight: 500; }
+
+  /* ── SECTION LAYOUT ──────────────────────────────────────── */
+  .section { padding: 3rem; border-bottom: 1px solid var(--slate-200); }
+  .section:last-child { border-bottom: none; }
+  .section-header { margin-bottom: 2rem; }
+  .section-number { font-size: 11px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .35rem; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 1.75rem; color: var(--navy); font-weight: 400; line-height: 1.2; }
+  .section-desc { font-size: 14px; color: var(--text-secondary); margin-top: .5rem; line-height: 1.7; max-width: 640px; }
+  .subsection { margin-top: 2.5rem; }
+  .subsection-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 1.25rem; padding-bottom: .5rem; border-bottom: 1px solid var(--slate-200); }
+
+  /* ── COLOR PALETTE ───────────────────────────────────────── */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+  .color-card {
+    border-radius: var(--radius-lg); overflow: hidden;
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: var(--shadow-sm);
+  }
+  .color-swatch { height: 80px; position: relative; }
+  .color-swatch .copy-btn {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0,0,0,.3); border: none; border-radius: 4px;
+    color: #fff; font-size: 10px; padding: 3px 7px; cursor: pointer; font-family: inherit;
+    opacity: 0; transition: opacity .2s;
+  }
+  .color-card:hover .copy-btn { opacity: 1; }
+  .color-info { padding: 10px 12px; background: #fff; }
+  .color-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .color-hex { font-size: 11px; color: var(--text-muted); margin-top: 1px; font-family: 'DM Sans', monospace; }
+  .color-usage { font-size: 10px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
+  /* ── TYPOGRAPHY ──────────────────────────────────────────── */
+  .type-specimen {
+    background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius-lg);
+    padding: 2rem; margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .type-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .75rem; display: flex; align-items: center; justify-content: space-between; }
+  .type-meta { font-size: 10px; color: var(--text-muted); font-family: monospace; }
+  .t-display { font-family: 'DM Serif Display', serif; font-size: 3rem; color: var(--navy); line-height: 1.1; font-weight: 400; }
+  .t-display em { color: var(--orange); font-style: italic; }
+  .t-h1 { font-family: 'DM Serif Display', serif; font-size: 2.25rem; color: var(--navy); font-weight: 400; line-height: 1.2; }
+  .t-h2 { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .t-h3 { font-family: 'DM Sans', sans-serif; font-size: 1.125rem; font-weight: 600; color: var(--navy); }
+  .t-body { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
+  .t-body-sm { font-size: .875rem; color: var(--text-secondary); line-height: 1.65; }
+  .t-caption { font-size: .75rem; color: var(--text-muted); letter-spacing: .02em; }
+  .t-label { font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--orange); }
+  .t-mono { font-family: 'Courier New', monospace; font-size: .875rem; color: var(--blue); background: var(--blue-pale); padding: 2px 6px; border-radius: 3px; }
+  .scale-grid { display: grid; grid-template-columns: 90px 1fr; gap: 1px; background: var(--slate-200); border-radius: var(--radius-md); overflow: hidden; }
+  .scale-cell { background: #fff; padding: .6rem 1rem; font-size: 11px; }
+  .scale-cell.label { color: var(--text-muted); font-family: monospace; font-size: 10px; display: flex; align-items: center; }
+
+  /* ── SPACING ─────────────────────────────────────────────── */
+  .spacing-row { display: flex; align-items: center; gap: 1rem; margin-bottom: .75rem; }
+  .spacing-bar { height: 8px; background: var(--blue); border-radius: 2px; flex-shrink: 0; }
+  .spacing-meta { font-size: 12px; color: var(--text-secondary); }
+  .spacing-meta strong { color: var(--navy); margin-right: 6px; font-family: monospace; }
+
+  /* ── GRID ────────────────────────────────────────────────── */
+  .grid-demo { position: relative; }
+  .grid-canvas {
+    display: grid; grid-template-columns: 220px 1fr; gap: 0;
+    background: var(--navy); border-radius: var(--radius-lg); overflow: hidden; min-height: 120px;
+  }
+  .grid-side { background: rgba(255,255,255,.04); border-right: 1px solid rgba(255,255,255,.08); padding: 1rem; }
+  .grid-main { padding: 1rem; display: grid; grid-template-columns: repeat(12,1fr); gap: 4px; }
+  .grid-col { height: 28px; border-radius: 2px; }
+
+  /* ── COMPONENTS ──────────────────────────────────────────── */
+  .comp-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    padding: .625rem 1.25rem; border-radius: var(--radius-md);
+    border: none; cursor: pointer; text-decoration: none;
+    transition: all .18s; white-space: nowrap; line-height: 1;
+  }
+  .btn-primary { background: var(--orange); color: #fff; box-shadow: 0 1px 3px rgba(232,80,13,.35); }
+  .btn-primary:hover { background: #C94410; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(232,80,13,.4); }
+  .btn-secondary { background: var(--navy); color: #fff; }
+  .btn-secondary:hover { background: var(--navy-soft); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy-mid); }
+  .btn-outline:hover { background: var(--navy); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--blue); border: none; padding-left: 0; padding-right: 0; }
+  .btn-ghost:hover { color: var(--navy); }
+  .btn-sm { font-size: 12px; padding: .45rem 1rem; }
+  .btn-lg { font-size: 16px; padding: .875rem 1.75rem; }
+  .btn-icon { font-size: 16px; padding: .625rem; border-radius: var(--radius-md); }
+
+  /* Badges / Pills */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; letter-spacing: .03em;
+    padding: 3px 10px; border-radius: var(--radius-pill); line-height: 1.4;
+  }
+  .badge-navy { background: var(--navy); color: rgba(255,255,255,.9); }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); border: 1px solid rgba(29,111,232,.15); }
+  .badge-orange { background: var(--orange-pale); color: var(--orange); border: 1px solid rgba(232,80,13,.15); }
+  .badge-teal { background: var(--teal-pale); color: var(--teal); border: 1px solid rgba(13,148,136,.15); }
+  .badge-gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(201,162,39,.2); }
+  .badge-trust {
+    display: inline-flex; gap: 6px; align-items: center;
+    background: rgba(15,35,64,.05); border: 1px solid rgba(15,35,64,.1);
+    border-radius: var(--radius-pill); padding: 5px 14px;
+    font-size: 12px; font-weight: 500; color: var(--navy);
+  }
+  .badge-trust .star { color: var(--gold); font-size: 11px; }
+
+  /* Nav bar */
+  .nav-demo {
+    background: rgba(15,35,64,.97); backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg); padding: .875rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-box { width: 28px; height: 28px; background: var(--orange); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+  .nav-logo-box span { font-size: 10px; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+  .nav-brand-text .brand { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em; }
+  .nav-brand-text .sub { font-size: 9px; color: rgba(255,255,255,.4); letter-spacing: .05em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,.65); text-decoration: none; font-weight: 500; transition: color .15s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-actions { display: flex; gap: .5rem; align-items: center; }
+  .nav-login { font-size: 12px; color: rgba(255,255,255,.6); text-decoration: none; padding: .4rem .875rem; font-weight: 500; }
+  .nav-cta { background: var(--orange); color: #fff; border: none; border-radius: 6px; padding: .45rem 1rem; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+  /* Divider / trust bar */
+  .trust-bar {
+    background: var(--navy); border-radius: var(--radius-md);
+    padding: .75rem 1.25rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .trust-item { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 500; display: flex; align-items: center; gap: 5px; }
+  .trust-item::after { content: '·'; margin-left: 1rem; opacity: .3; }
+  .trust-item:last-child::after { display: none; }
+  .trust-item strong { color: rgba(255,255,255,.85); }
+
+  /* Stat counter */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .75rem; }
+  .stat-card {
+    background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius-lg);
+    padding: 1.25rem 1rem; text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .stat-number { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--navy); line-height: 1; }
+  .stat-number sup { font-family: 'DM Sans', sans-serif; font-size: .875rem; font-weight: 600; color: var(--orange); vertical-align: super; }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: .4rem; line-height: 1.4; }
+
+  /* Feature card */
+  .feature-card {
+    background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius-xl);
+    padding: 1.75rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all .2s;
+  }
+  .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--blue-pale); }
+  .feature-icon { font-size: 22px; margin-bottom: .875rem; }
+  .feature-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: .5rem; }
+  .feature-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Pricing card */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .pricing-card {
+    border-radius: var(--radius-xl); padding: 1.75rem 1.5rem;
+    border: 1.5px solid var(--slate-200);
+    background: #fff;
+    position: relative; overflow: hidden;
+  }
+  .pricing-card.featured { background: var(--navy); border-color: var(--navy); }
+  .pricing-card.featured * { color: rgba(255,255,255,.85); }
+  .pricing-card.featured .pricing-price { color: #fff; }
+  .pricing-card.featured .pricing-name { color: rgba(255,255,255,.5); }
+  .pricing-tier { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .75rem; }
+  .pricing-card.featured .pricing-tier { color: var(--orange); }
+  .pricing-price { font-family: 'DM Serif Display', serif; font-size: 2.25rem; color: var(--navy); line-height: 1; }
+  .pricing-price small { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .pricing-name { font-size: 13px; color: var(--text-secondary); margin: .5rem 0 1.25rem; }
+  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .pricing-list li { font-size: 12.5px; color: var(--text-secondary); display: flex; gap: 8px; align-items: flex-start; }
+  .pricing-list li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+  .pricing-card.featured .pricing-list li::before { color: var(--orange-warm); }
+  .featured-badge {
+    position: absolute; top: 0; right: 0;
+    background: var(--orange); color: #fff;
+    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+    padding: 5px 12px; border-bottom-left-radius: var(--radius-md);
+  }
+
+  /* Comparison table */
+  .comp-table { width: 100%; border-collapse: collapse; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .comp-table th { background: var(--navy); color: rgba(255,255,255,.8); font-size: 12px; font-weight: 600; text-align: center; padding: .875rem 1rem; }
+  .comp-table th:first-child { text-align: left; }
+  .comp-table td { font-size: 13px; padding: .75rem 1rem; text-align: center; border-bottom: 1px solid var(--slate-100); background: #fff; color: var(--text-secondary); }
+  .comp-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); background: var(--slate-100); font-size: 12.5px; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table .check { color: var(--teal); font-weight: 700; font-size: 15px; }
+  .comp-table .cross { color: var(--slate-400); font-size: 15px; }
+  .comp-table .highlight { color: var(--orange); font-weight: 700; font-size: 13px; }
+
+  /* Testimonial card */
+  .testimonial-card {
+    background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius-xl);
+    padding: 1.75rem 1.5rem; position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .testimonial-card::before { content: '"'; font-family: 'DM Serif Display', serif; font-size: 5rem; color: var(--blue-pale); position: absolute; top: -8px; left: 16px; line-height: 1; }
+  .testimonial-text { font-size: 14px; color: var(--text-secondary); line-height: 1.75; font-style: italic; margin-bottom: 1.25rem; position: relative; z-index: 1; padding-top: 1rem; }
+  .testimonial-author { display: flex; align-items: center; gap: .75rem; }
+  .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--navy-mid); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .author-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .author-role { font-size: 11px; color: var(--text-muted); }
+
+  /* Form elements */
+  .form-group { margin-bottom: 1rem; }
+  .form-label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-bottom: .375rem; }
+  .form-input {
+    width: 100%; padding: .65rem .875rem;
+    border: 1.5px solid var(--slate-200); border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-primary);
+    background: #fff; transition: border-color .15s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(29,111,232,.1); }
+  .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .75rem center; padding-right: 2rem; }
+  .form-hint { font-size: 11px; color: var(--text-muted); margin-top: .25rem; }
+
+  /* Alert / Banner */
+  .alert { border-radius: var(--radius-md); padding: .875rem 1rem; display: flex; gap: .75rem; align-items: flex-start; font-size: 13.5px; }
+  .alert-info { background: var(--blue-pale); border-left: 3px solid var(--blue); color: #0F4DA3; }
+  .alert-orange { background: var(--orange-pale); border-left: 3px solid var(--orange); color: #9A3610; }
+  .alert-success { background: var(--teal-pale); border-left: 3px solid var(--teal); color: #0A5C53; }
+
+  /* Data metric */
+  .data-card {
+    background: var(--navy); border-radius: var(--radius-xl);
+    padding: 1.5rem; color: #fff;
+  }
+  .data-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+  .data-metric { font-family: 'DM Serif Display', serif; font-size: 2.5rem; line-height: 1; }
+  .data-metric .unit { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,.6); }
+  .data-label { font-size: 12px; color: rgba(255,255,255,.5); margin-top: .35rem; }
+  .data-trend { display: inline-flex; align-items: center; gap: 4px; background: rgba(13,148,136,.2); color: #5EEAD4; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; padding: 3px 9px; }
+  .data-divider { height: 1px; background: rgba(255,255,255,.07); margin: 1rem 0; }
+  .data-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: .5rem; }
+  .data-row .dlabel { color: rgba(255,255,255,.4); }
+  .data-row .dval { color: rgba(255,255,255,.8); font-weight: 600; }
+  .data-source { font-size: 10px; color: rgba(255,255,255,.25); margin-top: .75rem; font-style: italic; }
+
+  /* Logo usage */
+  .logo-variants { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+  .logo-box {
+    border-radius: var(--radius-lg); padding: 1.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; min-height: 110px;
+    border: 1px solid var(--slate-200);
+  }
+  .logo-box .logo-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+  .logo-full { display: flex; align-items: center; gap: 10px; }
+  .logo-icon-large { width: 40px; height: 40px; background: var(--orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo-icon-large span { font-size: 14px; font-weight: 800; color: #fff; }
+  .logo-text-group .primary { font-size: 16px; font-weight: 800; color: var(--navy); letter-spacing: .01em; line-height: 1.1; }
+  .logo-text-group .secondary { font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
+  .logo-on-dark { background: var(--navy); }
+  .logo-on-dark .logo-text-group .primary { color: #fff; }
+  .logo-on-dark .logo-text-group .secondary { color: rgba(255,255,255,.4); }
+
+  /* Icon system */
+  .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: .75rem; }
+  .icon-item { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: .875rem .5rem; background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius-md); }
+  .icon-emoji { font-size: 20px; }
+  .icon-name { font-size: 9.5px; color: var(--text-muted); text-align: center; line-height: 1.3; }
+
+  /* Segment color strip */
+  .segment-card {
+    border-radius: var(--radius-xl); overflow: hidden;
+    border: 1px solid var(--slate-200);
+    box-shadow: var(--shadow-sm);
+  }
+  .segment-header { padding: 1.25rem 1.5rem; }
+  .segment-body { background: #fff; padding: 1.25rem 1.5rem; }
+  .segment-name { font-size: 13px; font-weight: 700; color: #fff; }
+  .segment-tagline { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 3px; }
+  .segment-chip { display: inline-block; font-size: 10px; font-weight: 600; background: rgba(255,255,255,.15); color: rgba(255,255,255,.85); border-radius: var(--radius-pill); padding: 2px 9px; margin-top: .5rem; }
+  .segment-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Scroll indicator + active */
+  .toc-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Code block */
+  .code-block { background: var(--navy); border-radius: var(--radius-md); padding: 1rem 1.25rem; font-family: 'Courier New', monospace; font-size: 12px; color: rgba(255,255,255,.75); line-height: 1.7; overflow-x: auto; }
+  .code-block .var { color: #93C5FD; }
+  .code-block .val { color: #6EE7B7; }
+  .code-block .comment { color: rgba(255,255,255,.3); }
+
+  /* ── PRINT OVERRIDE ──────────────────────────────────────── */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .section { page-break-inside: avoid; }
+  }
+
+  /* ── SCROLLBAR ───────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 99px; }
+
+  /* ── COPY FEEDBACK ───────────────────────────────────────── */
+  .copied-toast {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: var(--navy); color: #fff;
+    font-size: 13px; font-weight: 500; padding: .65rem 1.25rem;
+    border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+    opacity: 0; pointer-events: none; transition: opacity .2s;
+    z-index: 999;
+  }
+  .copied-toast.show { opacity: 1; }
+
+  .divider { height: 1px; background: var(--slate-200); margin: 2rem 0; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media(max-width:800px){
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .pricing-grid, .two-col, .three-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">PME CAPECO</div>
+    <div class="sub">Manual de Marca 2026</div>
+  </div>
+  <div class="sidebar-section">Identidad</div>
+  <a href="#logo" class="active"><span class="dot"></span>Logo & marca</a>
+  <a href="#colores"><span class="dot"></span>Paleta de colores</a>
+  <a href="#tipografia"><span class="dot"></span>Tipografía</a>
+  <a href="#espaciado"><span class="dot"></span>Espaciado & grilla</a>
+  <div class="sidebar-section">Componentes UI</div>
+  <a href="#botones"><span class="dot"></span>Botones & acciones</a>
+  <a href="#badges"><span class="dot"></span>Badges & etiquetas</a>
+  <a href="#navegacion"><span class="dot"></span>Navegación</a>
+  <a href="#estadisticas"><span class="dot"></span>Estadísticas</a>
+  <a href="#tarjetas"><span class="dot"></span>Tarjetas de features</a>
+  <a href="#precios"><span class="dot"></span>Precios & planes</a>
+  <a href="#comparativa"><span class="dot"></span>Tabla comparativa</a>
+  <a href="#testimonios"><span class="dot"></span>Testimonios</a>
+  <a href="#formularios"><span class="dot"></span>Formularios</a>
+  <a href="#datos"><span class="dot"></span>Tarjetas de datos</a>
+  <div class="sidebar-section">Segmentos</div>
+  <a href="#segmentos"><span class="dot"></span>Identidad por segmento</a>
+  <a href="#iconos"><span class="dot"></span>Sistema de iconos</a>
+  <div class="sidebar-section">Aplicación</div>
+  <a href="#voz"><span class="dot"></span>Voz & tono</a>
+  <a href="#errores"><span class="dot"></span>Uso incorrecto</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Manual de Marca Oficial</div>
+    <h1>PME CAPECO<br><em>Design System</em> 2026</h1>
+    <p class="hero-sub">Guía visual completa para todos los materiales comerciales, digitales e impresos de la plataforma de inteligencia de mercado inmobiliario del Perú.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><div class="label">Versión</div><div class="value">1.0 — Marzo 2026</div></div>
+      <div class="hero-meta-item"><div class="label">Operado por</div><div class="value">Millennial Information Systems</div></div>
+      <div class="hero-meta-item"><div class="label">Institución</div><div class="value">CAPECO · 63 años</div></div>
+      <div class="hero-meta-item"><div class="label">Plataforma</div><div class="value">www.pme.pe</div></div>
+    </div>
+  </div>
+
+  <!-- ══ 1. LOGO ══════════════════════════════════════════════ -->
+  <section class="section" id="logo">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2 class="section-title">Logo & marca</h2>
+      <p class="section-desc">El logotipo PME CAPECO combina el sello institucional del gremio con una identidad digital moderna. Se construye siempre con el lockup completo: ícono cuadrado + nombre + descriptor.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Variantes del logo</div>
+      <div class="logo-variants">
+
+        <div class="logo-box" style="background:#F8FAFC;">
+          <div class="logo-full">
+            <div class="logo-icon-large"><span>PME</span></div>
+            <div class="logo-text-group">
+              <div class="primary">PME</div>
+              <div class="secondary">CAPECO · Desde 1961</div>
+            </div>
+          </div>
+          <div class="logo-label">Positivo / Fondo claro</div>
+        </div>
+
+        <div class="logo-box logo-on-dark" style="border-color:rgba(255,255,255,.1);">
+          <div class="logo-full">
+            <div class="logo-icon-large"><span>PME</span></div>
+            <div class="logo-text-group">
+              <div class="primary">PME</div>
+              <div class="secondary">CAPECO · Desde 1961</div>
+            </div>
+          </div>
+          <div class="logo-label" style="color:rgba(255,255,255,.3)">Negativo / Fondo oscuro</div>
+        </div>
+
+        <div class="logo-box" style="background:#F8FAFC; flex-direction:row; gap:1rem;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.05em;">CAPECO</div>
+            <div style="width:1px;height:20px;background:var(--slate-200);"></div>
+            <div style="font-size:11px;font-weight:800;color:var(--orange);letter-spacing:.05em;">PME</div>
+          </div>
+          <div class="logo-label">Lockup horizontal compacto</div>
+        </div>
+
+        <div class="logo-box" style="background:var(--orange);">
+          <div class="logo-icon-large" style="background:rgba(255,255,255,.25);">
+            <span style="font-size:14px;font-weight:800;color:#fff;">P</span>
+          </div>
+          <div class="logo-label" style="color:rgba(255,255,255,.6)">Ícono solo · Solo para apps</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Zona de protección mínima</div>
+      <div style="display:inline-flex;align-items:center;padding:2rem;background:#fff;border:1.5px dashed var(--slate-200);border-radius:var(--radius-lg);gap:1rem;">
+        <div style="width:2px;background:rgba(29,111,232,.2);align-self:stretch;"></div>
+        <div class="logo-full" style="gap:10px;">
+          <div class="logo-icon-large"><span>PME</span></div>
+          <div class="logo-text-group"><div class="primary">PME</div><div class="secondary">CAPECO</div></div>
+        </div>
+        <div style="width:2px;background:rgba(29,111,232,.2);align-self:stretch;"></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:.75rem;">Zona de exclusión mínima: equivalente a la altura de la letra "P" del logotipo en todos los lados.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Submarcas por segmento</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;">
+          <span style="color:var(--orange);">PME</span>&nbsp;CAPECO
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;">
+          <span style="color:var(--orange);">PME</span>&nbsp;<span style="color:rgba(255,255,255,.5);font-weight:400;font-size:10px;">FINANCE</span>
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;">
+          <span style="color:var(--orange);">PME</span>&nbsp;<span style="color:rgba(255,255,255,.5);font-weight:400;font-size:10px;">ACADÉMICO</span>
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;">
+          TASA<span style="color:rgba(255,255,255,.6);">MELO</span>
+          <span style="font-size:8px;font-weight:600;opacity:.6;">by PME</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 2. COLORES ══════════════════════════════════════════ -->
+  <section class="section" id="colores">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <h2 class="section-title">Paleta de colores</h2>
+      <p class="section-desc">Sistema de color construido sobre un navy institucional profundo y un naranja de acción. Cada color tiene un rol específico — nunca intercambiables.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Colores primarios</div>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-swatch" style="background:#0F2340;">
+            <button class="copy-btn" onclick="copyColor('#0F2340',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Navy Deep</div>
+            <div class="color-hex">#0F2340</div>
+            <div class="color-usage">Fondo hero · Sidebar · Fondo oscuro principal</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#1B3A5C;">
+            <button class="copy-btn" onclick="copyColor('#1B3A5C',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Navy Mid</div>
+            <div class="color-hex">#1B3A5C</div>
+            <div class="color-usage">Navbar · Fondo de cards oscuras · Botón secondary</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#E8500D;">
+            <button class="copy-btn" onclick="copyColor('#E8500D',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Orange CTA</div>
+            <div class="color-hex">#E8500D</div>
+            <div class="color-usage">Botón primario · Ícono logo · Bordes de acento</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#F97316;">
+            <button class="copy-btn" onclick="copyColor('#F97316',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Orange Warm</div>
+            <div class="color-hex">#F97316</div>
+            <div class="color-usage">Texto de énfasis · Superíndice en métricas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Colores secundarios</div>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-swatch" style="background:#1D6FE8;">
+            <button class="copy-btn" onclick="copyColor('#1D6FE8',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Blue Action</div>
+            <div class="color-hex">#1D6FE8</div>
+            <div class="color-usage">Links · Badges informativos · Focus states</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#0D9488;">
+            <button class="copy-btn" onclick="copyColor('#0D9488',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Teal / Tasamelo</div>
+            <div class="color-hex">#0D9488</div>
+            <div class="color-usage">Checkmarks · Badges de éxito · Marca Tasamelo</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#C9A227;">
+            <button class="copy-btn" onclick="copyColor('#C9A227',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Gold Premium</div>
+            <div class="color-hex">#C9A227</div>
+            <div class="color-usage">Badge ORO · Estrellas de rating · Tier premium</div>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-swatch" style="background:#EBF3FE;">
+            <button class="copy-btn" onclick="copyColor('#EBF3FE',this)">Copiar</button>
+          </div>
+          <div class="color-info">
+            <div class="color-name">Blue Pale</div>
+            <div class="color-hex">#EBF3FE</div>
+            <div class="color-usage">Fondos de badges · Citas · Bloques info</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Grises neutros (texto & bordes)</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#1E293B;border-radius:8px;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#1E293B</span>
+          <span style="font-size:9px;color:var(--text-muted);">texto primary</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#475569;border-radius:8px;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#475569</span>
+          <span style="font-size:9px;color:var(--text-muted);">texto secondary</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#94A3B8;border-radius:8px;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#94A3B8</span>
+          <span style="font-size:9px;color:var(--text-muted);">texto muted</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#E2E8F0;border-radius:8px;border:1px solid #E2E8F0;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#E2E8F0</span>
+          <span style="font-size:9px;color:var(--text-muted);">borde default</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#F1F5F9;border-radius:8px;border:1px solid #E2E8F0;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#F1F5F9</span>
+          <span style="font-size:9px;color:var(--text-muted);">fondo alterno</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#F8FAFC</span>
+          <span style="font-size:9px;color:var(--text-muted);">fondo página</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:.35rem;">
+          <div style="width:56px;height:56px;background:#FFFFFF;border-radius:8px;border:1px solid #E2E8F0;"></div>
+          <span style="font-size:10px;color:var(--text-muted);font-family:monospace;">#FFFFFF</span>
+          <span style="font-size:9px;color:var(--text-muted);">blanco puro</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Variables CSS — tokens para desarrollo</div>
+      <div class="code-block">
+<span class="comment">/* Pegar en :root del proyecto */</span>
+<span class="var">--pme-navy-deep:</span>    <span class="val">#0F2340</span>;
+<span class="var">--pme-navy-mid:</span>     <span class="val">#1B3A5C</span>;
+<span class="var">--pme-orange:</span>       <span class="val">#E8500D</span>;
+<span class="var">--pme-orange-warm:</span>  <span class="val">#F97316</span>;
+<span class="var">--pme-orange-pale:</span>  <span class="val">#FEF3EC</span>;
+<span class="var">--pme-blue:</span>         <span class="val">#1D6FE8</span>;
+<span class="var">--pme-blue-pale:</span>    <span class="val">#EBF3FE</span>;
+<span class="var">--pme-teal:</span>         <span class="val">#0D9488</span>;  <span class="comment">/* Tasamelo */</span>
+<span class="var">--pme-gold:</span>         <span class="val">#C9A227</span>;  <span class="comment">/* Plan ORO */</span>
+<span class="var">--pme-text-primary:</span> <span class="val">#0F2340</span>;
+<span class="var">--pme-text-body:</span>    <span class="val">#475569</span>;
+<span class="var">--pme-border:</span>       <span class="val">#E2E8F0</span>;</div>
+    </div>
+  </section>
+
+  <!-- ══ 3. TIPOGRAFÍA ════════════════════════════════════════ -->
+  <section class="section" id="tipografia">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <h2 class="section-title">Tipografía</h2>
+      <p class="section-desc">Dos familias tipográficas complementarias: DM Serif Display para los títulos con autoridad y elegancia editorial; DM Sans para todo el texto funcional y de interfaz.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="type-specimen">
+          <div class="type-label">Display — DM Serif Display <span class="type-meta">font-weight: 400 (regular) · italic</span></div>
+          <div class="t-display">La inteligencia que <em>mueve</em> el sector</div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Usar en: Titulares de hero, h1 principales de landing, portadas de presentación y documentos. <strong>Siempre en peso regular (400)</strong> — nunca bold. La cursiva se usa solo para énfasis editorial, preferiblemente en naranja o color de acento.</p>
+      </div>
+      <div>
+        <div class="type-specimen">
+          <div class="type-label">Funcional — DM Sans <span class="type-meta">weights: 300 · 400 · 500 · 600 · 700</span></div>
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.25rem;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);">Bold 700 — Títulos de sección, labels</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;color:var(--navy);">Semibold 600 — Feature titles, precios</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--navy);">Medium 500 — Nav links, subtítulos</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:400;color:var(--text-secondary);">Regular 400 — Texto de cuerpo, descripciones</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:300;color:var(--text-muted);">Light 300 — Hints, captions, metadatos</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">DM Sans es la fuente para toda la interfaz: botones, navegación, body text, tablas, formularios y material impreso.</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Escala tipográfica</div>
+      <div class="scale-grid">
+        <div class="scale-cell label">Display</div>
+        <div class="scale-cell"><span class="t-display" style="font-size:2.5rem;">Dato censal</span></div>
+        <div class="scale-cell label">H1 · 2.25rem</div>
+        <div class="scale-cell"><span class="t-h1" style="font-size:2.25rem;">Inteligencia de mercado</span></div>
+        <div class="scale-cell label">H2 · 1.5rem</div>
+        <div class="scale-cell"><span class="t-h2">Para Suscriptores</span></div>
+        <div class="scale-cell label">H3 · 1.125rem</div>
+        <div class="scale-cell"><span class="t-h3">Acceso completo a datos</span></div>
+        <div class="scale-cell label">Body · 1rem</div>
+        <div class="scale-cell"><span class="t-body">El dato censal que el sector acepta sin cuestionamientos. Actualizado trimestralmente.</span></div>
+        <div class="scale-cell label">Small · .875rem</div>
+        <div class="scale-cell"><span class="t-body-sm">Metodología auditada · Sello CAPECO institucional · Cobertura 26 distritos Lima</span></div>
+        <div class="scale-cell label">Caption · .75rem</div>
+        <div class="scale-cell"><span class="t-caption">Fuente: CAPECO PME · Dato censal Q4 2025 · Actualización trimestral</span></div>
+        <div class="scale-cell label">Label · .6875rem</div>
+        <div class="scale-cell"><span class="t-label">Para Auspiciadores</span></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Combinaciones correctas de tipografía + color</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+        <div style="background:var(--navy);padding:1.25rem;border-radius:var(--radius-lg);">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.5rem;">Label en naranja</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;line-height:1.2;">Título en blanco</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:.5rem;">Descripción en blanco 50%</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);padding:1.25rem;border-radius:var(--radius-lg);">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.5rem;">Label en azul</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:700;color:var(--navy);line-height:1.3;">Título en navy</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:.5rem;">Descripción en gris secundario</div>
+        </div>
+        <div style="background:var(--orange-pale);border:1px solid rgba(232,80,13,.15);padding:1.25rem;border-radius:var(--radius-lg);">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.5rem;">Destacado</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:700;color:#7C2D0D;line-height:1.3;">Título en naranja oscuro</div>
+          <div style="font-size:12px;color:#9A3610;margin-top:.5rem;">Para alertas o mensajes de urgencia</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 4. ESPACIADO ════════════════════════════════════════ -->
+  <section class="section" id="espaciado">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <h2 class="section-title">Espaciado & grilla</h2>
+      <p class="section-desc">Sistema de 8pt base. Todos los espacios son múltiplos de 4px, con énfasis en 8, 12, 16, 24, 32 y 48px como unidades principales.</p>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Escala de espaciado</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem;">
+        <div class="spacing-row"><div class="spacing-bar" style="width:4px;"></div><span class="spacing-meta"><strong>4px</strong> — micro gaps, separación entre ícono y texto</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:8px;"></div><span class="spacing-meta"><strong>8px</strong> — gap entre elementos internos de un componente</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:12px;"></div><span class="spacing-meta"><strong>12px</strong> — padding interno de badges y chips</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:16px;"></div><span class="spacing-meta"><strong>16px</strong> — padding de cards pequeñas, gap en grillas</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:24px;"></div><span class="spacing-meta"><strong>24px</strong> — padding de cards medianas, separación entre secciones internas</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:32px;"></div><span class="spacing-meta"><strong>32px</strong> — padding generoso en cards grandes, hero padding lateral</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:48px;"></div><span class="spacing-meta"><strong>48px</strong> — separación entre secciones de la página</span></div>
+        <div class="spacing-row"><div class="spacing-bar" style="width:64px;"></div><span class="spacing-meta"><strong>64px</strong> — padding de secciones hero, márgenes de página</span></div>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Border radius</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+        <div style="text-align:center;"><div style="width:48px;height:48px;background:var(--navy);border-radius:4px;margin:0 auto .5rem;"></div><span style="font-size:10px;color:var(--text-muted);">4px · sm<br>Badges</span></div>
+        <div style="text-align:center;"><div style="width:48px;height:48px;background:var(--navy);border-radius:8px;margin:0 auto .5rem;"></div><span style="font-size:10px;color:var(--text-muted);">8px · md<br>Botones</span></div>
+        <div style="text-align:center;"><div style="width:48px;height:48px;background:var(--navy);border-radius:12px;margin:0 auto .5rem;"></div><span style="font-size:10px;color:var(--text-muted);">12px · lg<br>Cards</span></div>
+        <div style="text-align:center;"><div style="width:48px;height:48px;background:var(--navy);border-radius:20px;margin:0 auto .5rem;"></div><span style="font-size:10px;color:var(--text-muted);">20px · xl<br>Feature cards</span></div>
+        <div style="text-align:center;"><div style="width:48px;height:48px;background:var(--navy);border-radius:999px;margin:0 auto .5rem;"></div><span style="font-size:10px;color:var(--text-muted);">999px · pill<br>Badges/pills</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 5. BOTONES ══════════════════════════════════════════ -->
+  <section class="section" id="botones">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2 class="section-title">Botones & acciones</h2>
+      <p class="section-desc">El botón primario es siempre el naranja CTA. El navy es para acciones secundarias relevantes. Ghost y outline para contextos donde el fondo ya tiene color.</p>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Variantes</div>
+      <div class="comp-row">
+        <button class="btn btn-primary">Quiero suscribirme →</button>
+        <button class="btn btn-secondary">Ser auspiciador</button>
+        <button class="btn btn-outline">Ver planes</button>
+        <button class="btn btn-ghost">Más información →</button>
+      </div>
+      <div class="comp-row">
+        <button class="btn btn-primary btn-sm">Solicitar demo</button>
+        <button class="btn btn-primary">Agendar presentación →</button>
+        <button class="btn btn-primary btn-lg">Únete a PME →</button>
+      </div>
+      <div class="comp-row" style="background:var(--navy);padding:1rem;border-radius:var(--radius-lg);">
+        <button class="btn" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.2);">Ingresar</button>
+        <button class="btn btn-primary">Únete a PME →</button>
+        <button class="btn btn-ghost" style="color:rgba(255,255,255,.6);">Saber más</button>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Estados</div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-primary">Normal</button>
+        <button class="btn btn-primary" style="background:#C94410;box-shadow:0 4px 12px rgba(232,80,13,.4);transform:translateY(-1px);">Hover</button>
+        <button class="btn btn-primary" style="opacity:.45;cursor:not-allowed;">Disabled</button>
+        <button class="btn btn-primary" style="background:#C94410;">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:spin 1s linear infinite;display:inline-block;"><circle cx="7" cy="7" r="5" stroke="rgba(255,255,255,.4)" stroke-width="2"/><path d="M7 2a5 5 0 0 1 5 5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          Enviando...
+        </button>
+      </div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  </section>
+
+  <!-- ══ 6. BADGES ══════════════════════════════════════════ -->
+  <section class="section" id="badges">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <h2 class="section-title">Badges & etiquetas</h2>
+      <p class="section-desc">Sistema de etiquetas para clasificar contenido, indicar estado y comunicar el nivel de servicio. Nunca usar colores arbitrarios.</p>
+    </div>
+    <div class="comp-row" style="flex-wrap:wrap;">
+      <span class="badge badge-navy">CAPECO Oficial</span>
+      <span class="badge badge-blue">Suscriptor</span>
+      <span class="badge badge-orange">Auspiciador ORO</span>
+      <span class="badge badge-teal">API Activa</span>
+      <span class="badge badge-gold">⭐ Plan ORO</span>
+      <span class="badge" style="background:#F8F0FB;color:#7C3AED;border:1px solid rgba(124,58,237,.15);">Beta</span>
+      <span class="badge" style="background:var(--teal-pale);color:var(--teal);border:1px solid rgba(13,148,136,.15);">✓ Activo</span>
+      <span class="badge" style="background:#FEF2F2;color:#DC2626;border:1px solid rgba(220,38,38,.15);">Vencido</span>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Trust bar / Barra de credibilidad</div>
+      <div class="trust-bar">
+        <div class="trust-item"><strong>★★★★★</strong> Fuente oficial CAPECO</div>
+        <div class="trust-item">Única plataforma con <strong>datos censales</strong></div>
+        <div class="trust-item"><strong>200+</strong> empresas suscriptoras activas</div>
+        <div class="trust-item">Desde <strong>1961</strong></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:.75rem;">Esta barra va siempre en el hero de todas las landings, sobre el título principal.</p>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Badge de trust institucional</div>
+      <div class="comp-row">
+        <span class="badge-trust"><span class="star">★★★★★</span> Fuente oficial CAPECO · desde 1961</span>
+        <span class="badge-trust"><span class="star">✓</span> Sello institucional CAPECO · Metodología auditada</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 7. NAVEGACIÓN ══════════════════════════════════════ -->
+  <section class="section" id="navegacion">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <h2 class="section-title">Navegación</h2>
+      <p class="section-desc">Navbar sticky con fondo navy semitransparente y blur. Siempre el lockup de marca a la izquierda, links en el centro y acciones (login + CTA naranja) a la derecha.</p>
+    </div>
+    <div class="nav-demo">
+      <div class="nav-brand">
+        <div class="nav-logo-box"><span>PME</span></div>
+        <div class="nav-brand-text">
+          <div class="brand">PME CAPECO</div>
+          <div class="sub">Inteligencia de mercado</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#">Auspiciadores</a>
+        <a href="#">Suscriptores</a>
+        <a href="#">Usuarios</a>
+        <a href="#">Blog</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="nav-login">Ingresar</a>
+        <button class="nav-cta">Únete a PME →</button>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:.75rem;">Nota: En mobile, el menú colapsa a hamburger manteniendo la marca y el botón CTA siempre visibles.</p>
+  </section>
+
+  <!-- ══ 8. ESTADÍSTICAS ════════════════════════════════════ -->
+  <section class="section" id="estadisticas">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <h2 class="section-title">Estadísticas & métricas</h2>
+      <p class="section-desc">Los contadores de KPI usan DM Serif Display para el número y DM Sans para la etiqueta. En el hero, siempre sobre fondo navy. En secciones claras, sobre blanco con borde sutil.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">200<sup>+</sup></div>
+        <div class="stat-label">Empresas suscriptoras activas en Lima</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">26</div>
+        <div class="stat-label">Distritos de Lima con data completa</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">63</div>
+        <div class="stat-label">Años de trayectoria institucional CAPECO</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100<sup>%</sup></div>
+        <div class="stat-label">Cobertura censal Lima Metropolitana</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Estadísticas sobre fondo dark (hero)</div>
+      <div style="background:var(--navy);border-radius:var(--radius-xl);padding:2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+        <div style="text-align:center;border-right:1px solid rgba(255,255,255,.07);padding-right:1rem;">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;line-height:1;">200<span style="font-family:'DM Sans',sans-serif;font-size:1.2rem;font-weight:700;color:var(--orange-warm);">+</span></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:.4rem;line-height:1.4;">Empresas suscriptoras</div>
+        </div>
+        <div style="text-align:center;border-right:1px solid rgba(255,255,255,.07);padding-right:1rem;">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;line-height:1;">26</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:.4rem;line-height:1.4;">Distritos cubiertos</div>
+        </div>
+        <div style="text-align:center;border-right:1px solid rgba(255,255,255,.07);padding-right:1rem;">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;line-height:1;">63</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:.4rem;line-height:1.4;">Años CAPECO</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;line-height:1;">100<span style="font-family:'DM Sans',sans-serif;font-size:1.2rem;font-weight:700;color:var(--orange-warm);">%</span></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:.4rem;line-height:1.4;">Cobertura censal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 9. TARJETAS FEATURES ════════════════════════════════ -->
+  <section class="section" id="tarjetas">
+    <div class="section-header">
+      <div class="section-number">09</div>
+      <h2 class="section-title">Tarjetas de features</h2>
+      <p class="section-desc">Las feature cards usan ícono grande (emoji o SVG), título en navy bold y descripción en gris. Borde radius 20px. Hover con elevación sutil.</p>
+    </div>
+    <div class="three-col">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Detecta el precio real</div>
+        <div class="feature-desc">PME registra transacciones reales, no anuncios. La diferencia puede ser hasta el 15% en ciertos distritos.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <div class="feature-title">26 distritos de Lima</div>
+        <div class="feature-desc">Filtra por zona, tipología, rango social y estado de obra. Data completa por corredor.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Reportes listos para presentar</div>
+        <div class="feature-desc">Dashboards exportables en PDF, Excel y PowerPoint. Sin construcción manual.</div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Tarjeta de usuario / perfil</div>
+      <div class="three-col">
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:1.25rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;box-shadow:var(--shadow-sm);">
+          <div style="font-size:2rem;">🏗️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Gerentes de proyectos</div>
+          <div style="font-size:11px;color:var(--text-muted);">Análisis de viabilidad con data censal real</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:1.25rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;box-shadow:var(--shadow-sm);">
+          <div style="font-size:2rem;">🏦</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Analistas de riesgo</div>
+          <div style="font-size:11px;color:var(--text-muted);">Calibración de LTV y aprobación hipotecaria</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:1.25rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;box-shadow:var(--shadow-sm);">
+          <div style="font-size:2rem;">📐</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Tasadores</div>
+          <div style="font-size:11px;color:var(--text-muted);">Fuente institucional CAPECO en informes de valor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 10. PRECIOS ═════════════════════════════════════════ -->
+  <section class="section" id="precios">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2 class="section-title">Tarjetas de precios</h2>
+      <p class="section-desc">El plan destacado (PLATA/ORO) usa fondo navy con badge "Más popular" en naranja. Los otros planes en blanco. Checkmarks en teal, precios en DM Serif Display.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">BRONCE</div>
+        <div class="pricing-price">USD 2,400 <small>/año</small></div>
+        <div class="pricing-name">Para empresas que quieren presencia institucional</div>
+        <ul class="pricing-list">
+          <li>Logo en footer de dashboards</li>
+          <li>Mención en informe trimestral</li>
+          <li>1 acceso usuario PME</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;margin-top:1.25rem;justify-content:center;">Solicitar →</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="featured-badge">Más popular</div>
+        <div class="pricing-tier">PLATA</div>
+        <div class="pricing-price">USD 3,600 <small style="color:rgba(255,255,255,.45);">/año</small></div>
+        <div class="pricing-name">Para marcas con foco en visibilidad sectorial</div>
+        <ul class="pricing-list">
+          <li>Logo en dashboards Lima</li>
+          <li>Mención en informe trimestral</li>
+          <li>Mención en RRSS CAPECO</li>
+          <li>1 suscripción PME incluida</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;">Ser auspiciador →</button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">ORO</div>
+        <div class="pricing-price">USD 6,000 <small>/año</small></div>
+        <div class="pricing-name">Para líderes del sector con máxima exposición</div>
+        <ul class="pricing-list">
+          <li>Logo en todos los dashboards</li>
+          <li>Banner en informe trimestral</li>
+          <li>Stand en Congreso Construye</li>
+          <li>Acceso a base de suscriptores</li>
+          <li>2 suscripciones PME incluidas</li>
+        </ul>
+        <button class="btn btn-secondary" style="width:100%;margin-top:1.25rem;justify-content:center;">Contactar →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 11. TABLA COMPARATIVA ════════════════════════════════ -->
+  <section class="section" id="comparativa">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2 class="section-title">Tabla comparativa</h2>
+      <p class="section-desc">Componente de diferenciación clave. Header en navy, filas alternas, checkmarks en teal y cruces en gris. La columna PME siempre es la primera de data.</p>
+    </div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th style="background:#1B3A5C;">✓ PME CAPECO</th>
+          <th>Nexo / Portales</th>
+          <th>Estudios ad-hoc</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Metodología</td><td><span class="highlight">Censal 100%</span></td><td><span class="cross">Muestral</span></td><td><span class="cross">Muestral</span></td></tr>
+        <tr><td>Actualización</td><td><span class="check">✓ Trimestral</span></td><td>Tiempo real (anuncios)</td><td>Anual / bajo demanda</td></tr>
+        <tr><td>Cobertura Lima</td><td><span class="check">✓ 26 distritos</span></td><td>Parcial</td><td>Limitada</td></tr>
+        <tr><td>Sello institucional</td><td><span class="check">✓ CAPECO 1961</span></td><td><span class="cross">—</span></td><td>Variable</td></tr>
+        <tr><td>Dashboard integrado</td><td><span class="check">✓ Power BI + IA</span></td><td>Básico</td><td><span class="cross">—</span></td></tr>
+        <tr><td>Precio de cierre real</td><td><span class="check">✓ Sí</span></td><td><span class="cross">No (anuncios)</span></td><td><span class="cross">No</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══ 12. TESTIMONIOS ═════════════════════════════════════ -->
+  <section class="section" id="testimonios">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h2 class="section-title">Tarjetas de testimonios</h2>
+      <p class="section-desc">Comilla decorativa grande en azul pálido como fondo. Texto en cursiva gris. Avatar con iniciales en navy. Nombre bold + rol en gris.</p>
+    </div>
+    <div class="three-col">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"PME es la única fuente que nuestro directorio acepta sin pedir más sustento. Cuando la cifra viene de CAPECO, el debate termina."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">GF</div>
+          <div><div class="author-name">Gerente de Finanzas</div><div class="author-role">Inmobiliaria líder Lima Norte</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Antes hacíamos estudios ad-hoc que costaban meses. Con PME armamos nuestro análisis de competencia en media mañana."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">DP</div>
+          <div><div class="author-name">Director de Proyectos</div><div class="author-role">Grupo promotor Miraflores</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Incorporamos PME al proceso de evaluación de riesgo hipotecario. Bajamos los desacuerdos de tasación en un 40%."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AR</div>
+          <div><div class="author-name">Analista de Riesgo</div><div class="author-role">Entidad financiera suscriptora</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 13. FORMULARIOS ═════════════════════════════════════ -->
+  <section class="section" id="formularios">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h2 class="section-title">Formularios</h2>
+      <p class="section-desc">Inputs con borde 1.5px slate-200, focus en azul con halo suave. Labels en navy semibold. Placeholder en gris 400. Sin sombras en reposo.</p>
+    </div>
+    <div style="max-width:480px;">
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" type="text" placeholder="Tu nombre completo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empresa</label>
+          <input class="form-input" type="text" placeholder="Nombre de la empresa">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo corporativo</label>
+        <input class="form-input" type="email" placeholder="nombre@empresa.com">
+        <p class="form-hint">Te contactamos en menos de 24 horas hábiles.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Me interesa</label>
+        <select class="form-input form-select">
+          <option>Ser Auspiciador de PME</option>
+          <option>Suscribir mi empresa a PME</option>
+          <option>Acceder como usuario final</option>
+          <option>Conocer la API</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;">Enviar y empezar →</button>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Alertas & mensajes del sistema</div>
+      <div style="display:flex;flex-direction:column;gap:.75rem;max-width:480px;">
+        <div class="alert alert-info">ℹ️ Tu solicitud fue recibida. Te contactamos en menos de 24 horas hábiles.</div>
+        <div class="alert alert-orange">⚠️ Solo quedan 3 cupos disponibles para el paquete PLATA 2026.</div>
+        <div class="alert alert-success">✓ Convenio activado. Tu universidad ya tiene acceso a PME Académico.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 14. TARJETAS DE DATOS ══════════════════════════════ -->
+  <section class="section" id="datos">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <h2 class="section-title">Tarjetas de datos de mercado</h2>
+      <p class="section-desc">El componente más característico de PME. Fondo navy, métrica en DM Serif Display, badge de tendencia en teal. Fuente CAPECO siempre al pie.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;">
+      <div class="data-card">
+        <div class="data-card-header">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.35rem;">Lima Metropolitana</div>
+            <div class="data-metric">S/ 6,240 <span class="unit">/m²</span></div>
+            <div class="data-label">Precio promedio · Q4 2025</div>
+          </div>
+          <span class="data-trend">↑ +9.3%</span>
+        </div>
+        <div class="data-divider"></div>
+        <div class="data-row"><span class="dlabel">Miraflores</span><span class="dval">S/ 9,850</span></div>
+        <div class="data-row"><span class="dlabel">San Isidro</span><span class="dval">S/ 9,420</span></div>
+        <div class="data-row"><span class="dlabel">Surquillo</span><span class="dval">S/ 6,890</span></div>
+        <div class="data-source">Fuente: CAPECO PME · Dato censal — no estimado</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-header">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.35rem;">Absorción de mercado</div>
+            <div class="data-metric">4.8 <span class="unit">meses</span></div>
+            <div class="data-label">Velocidad promedio Lima</div>
+          </div>
+          <span class="data-trend" style="background:rgba(232,80,13,.2);color:#FCA57D;">→ estable</span>
+        </div>
+        <div class="data-divider"></div>
+        <div class="data-row"><span class="dlabel">Lima Top</span><span class="dval">3.2 meses</span></div>
+        <div class="data-row"><span class="dlabel">Lima Moderna</span><span class="dval">4.2 meses</span></div>
+        <div class="data-row"><span class="dlabel">Conos</span><span class="dval">6.1 meses</span></div>
+        <div class="data-source">Fuente: CAPECO PME · Dato censal Q4 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 15. SEGMENTOS ══════════════════════════════════════ -->
+  <section class="section" id="segmentos">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <h2 class="section-title">Identidad por segmento</h2>
+      <p class="section-desc">Cada landing tiene su propia identidad de color sobre la base PME. Los tres segmentos comparten la paleta navy + orange pero varían el acento secundario.</p>
+    </div>
+    <div class="three-col">
+      <div class="segment-card">
+        <div class="segment-header" style="background:var(--navy);">
+          <div class="segment-name">PME CAPECO General</div>
+          <div class="segment-tagline">pme.pe — Sector constructor</div>
+          <span class="segment-chip">Navy · Orange</span>
+        </div>
+        <div class="segment-body">
+          <div class="segment-desc">Constructoras, promotoras, valuadores, consultoras y organismos del Estado. Énfasis en dato censal y comparativa vs competencia.</div>
+          <div style="display:flex;gap:.5rem;margin-top:1rem;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#0F2340;border:2px solid var(--slate-200);"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#E8500D;"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#1D6FE8;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-header" style="background:#0B1F38;">
+          <div class="segment-name">PME FINANCE</div>
+          <div class="segment-tagline">pme.pe/bancos — Banca & seguros</div>
+          <span class="segment-chip">Navy Dark · Blue</span>
+        </div>
+        <div class="segment-body">
+          <div class="segment-desc">Bancos, financieras, aseguradoras y fintechs. Énfasis en compliance SBS, LTV, riesgo hipotecario y APIs de integración.</div>
+          <div style="display:flex;gap:.5rem;margin-top:1rem;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#0B1F38;border:2px solid var(--slate-200);"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#1D6FE8;"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#E8500D;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="segment-card">
+        <div class="segment-header" style="background:linear-gradient(135deg,#0F2340 0%,#1D3D6F 100%);">
+          <div class="segment-name">PME ACADÉMICO</div>
+          <div class="segment-tagline">pme.pe/academico — Universidades</div>
+          <span class="segment-chip">Navy · Green · Blue</span>
+        </div>
+        <div class="segment-body">
+          <div class="segment-desc">Facultades de Arquitectura, Ingeniería y Gestión Inmobiliaria. Énfasis en tesis, investigación y formación con dato real.</div>
+          <div style="display:flex;gap:.5rem;margin-top:1rem;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#0F2340;border:2px solid var(--slate-200);"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#15803D;"></div>
+            <div style="width:24px;height:24px;border-radius:50%;background:#1D6FE8;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Tasamelo — submarca independiente</div>
+      <div style="background:linear-gradient(135deg,#0D4A45 0%,#0D9488 100%);border-radius:var(--radius-xl);padding:1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.5rem;">Producto PME</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:1.75rem;font-weight:800;color:#fff;letter-spacing:-.02em;">TASA<span style="color:rgba(255,255,255,.5);font-weight:300;">MELO</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:.25rem;">by PME CAPECO</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:13px;color:rgba(255,255,255,.7);">Paleta exclusiva Tasamelo</div>
+          <div style="display:flex;gap:.5rem;margin-top:.5rem;justify-content:flex-end;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#0D9488;border:2px solid rgba(255,255,255,.2);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#5EEAD4;"></div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#F0FDFA;border:2px solid rgba(255,255,255,.1);"></div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#0F2340;border:2px solid rgba(255,255,255,.2);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 16. ICONOS ══════════════════════════════════════════ -->
+  <section class="section" id="iconos">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <h2 class="section-title">Sistema de iconos</h2>
+      <p class="section-desc">PME usa emoji institucionales como iconos de features. Tamaño 20–24px en componentes. Se acepta también iconografía Heroicons outline (línea fina) para interfaces técnicas.</p>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Iconos de segmento y perfil de usuario</div>
+      <div class="icon-grid">
+        <div class="icon-item"><div class="icon-emoji">🤝</div><div class="icon-name">Auspiciadores</div></div>
+        <div class="icon-item"><div class="icon-emoji">📊</div><div class="icon-name">Suscriptores</div></div>
+        <div class="icon-item"><div class="icon-emoji">🏢</div><div class="icon-name">Usuarios finales</div></div>
+        <div class="icon-item"><div class="icon-emoji">🏗️</div><div class="icon-name">Gerente proyectos</div></div>
+        <div class="icon-item"><div class="icon-emoji">💼</div><div class="icon-name">Dir. comercial</div></div>
+        <div class="icon-item"><div class="icon-emoji">🏦</div><div class="icon-name">Riesgo bancario</div></div>
+        <div class="icon-item"><div class="icon-emoji">📐</div><div class="icon-name">Tasadores</div></div>
+        <div class="icon-item"><div class="icon-emoji">🔍</div><div class="icon-name">Consultores</div></div>
+        <div class="icon-item"><div class="icon-emoji">🏛️</div><div class="icon-name">Entidades públicas</div></div>
+        <div class="icon-item"><div class="icon-emoji">🎯</div><div class="icon-name">Precio real</div></div>
+        <div class="icon-item"><div class="icon-emoji">🗺️</div><div class="icon-name">Cobertura</div></div>
+        <div class="icon-item"><div class="icon-emoji">⚡</div><div class="icon-name">Velocidad</div></div>
+        <div class="icon-item"><div class="icon-emoji">🔒</div><div class="icon-name">Seguridad</div></div>
+        <div class="icon-item"><div class="icon-emoji">📈</div><div class="icon-name">Tendencia</div></div>
+        <div class="icon-item"><div class="icon-emoji">⚙️</div><div class="icon-name">API / Tech</div></div>
+        <div class="icon-item"><div class="icon-emoji">📱</div><div class="icon-name">Tasamelo app</div></div>
+        <div class="icon-item"><div class="icon-emoji">🏆</div><div class="icon-name">Sello CAPECO</div></div>
+        <div class="icon-item"><div class="icon-emoji">📣</div><div class="icon-name">Presencia marca</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 17. VOZ ════════════════════════════════════════════ -->
+  <section class="section" id="voz">
+    <div class="section-header">
+      <div class="section-number">17</div>
+      <h2 class="section-title">Voz & tono</h2>
+      <p class="section-desc">PME habla con autoridad institucional sin sonar arrogante. El dato habla por sí mismo — no se necesitan adjetivos inflados.</p>
+    </div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:.75rem;">✓ PME sí dice</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          <div style="background:var(--teal-pale);border-left:3px solid var(--teal);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#0A5C53;font-style:italic;">"El dato censal que el sector acepta sin cuestionamientos."</div>
+          <div style="background:var(--teal-pale);border-left:3px solid var(--teal);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#0A5C53;font-style:italic;">"S/ 9,420/m² en San Isidro — Q4 2025."</div>
+          <div style="background:var(--teal-pale);border-left:3px solid var(--teal);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#0A5C53;font-style:italic;">"26 distritos de Lima con data completa."</div>
+          <div style="background:var(--teal-pale);border-left:3px solid var(--teal);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#0A5C53;font-style:italic;">"CAPECO lleva 63 años recopilando este dato."</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:.75rem;">✗ PME no dice</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          <div style="background:var(--orange-pale);border-left:3px solid var(--orange);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#7C2D0D;font-style:italic;">"La plataforma más innovadora y disruptiva del mercado."</div>
+          <div style="background:var(--orange-pale);border-left:3px solid var(--orange);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#7C2D0D;font-style:italic;">"Datos increíblemente precisos y confiables."</div>
+          <div style="background:var(--orange-pale);border-left:3px solid var(--orange);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#7C2D0D;font-style:italic;">"Muchos distritos de Lima cubiertos."</div>
+          <div style="background:var(--orange-pale);border-left:3px solid var(--orange);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:.75rem 1rem;font-size:13.5px;color:#7C2D0D;font-style:italic;">"La mejor plataforma del sector inmobiliario peruano."</div>
+        </div>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Principios de comunicación</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem;">🎯</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Específico</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:.25rem;">Cifras exactas siempre. "26 distritos", no "muchos distritos".</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem;">🏛️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Institucional</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:.25rem;">El aval de CAPECO es el argumento. No hay que "vender" — hay que demostrar.</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem;">⚡</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Directo</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:.25rem;">Sin rodeos ni adjetivos inflados. El dato habla por sí solo.</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem;">🤝</div>
+          <div style="font-size:13px;font-weight:700;color:var(--navy);">Sectorial</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:.25rem;">Hablar el idioma del sector: LTV, absorción, censo, precio de cierre.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 18. ERRORES ════════════════════════════════════════ -->
+  <section class="section" id="errores">
+    <div class="section-header">
+      <div class="section-number">18</div>
+      <h2 class="section-title">Uso incorrecto — qué evitar</h2>
+      <p class="section-desc">Errores comunes que diluyen la identidad institucional de PME. Compartir con todo el equipo de diseño y marketing.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      <div class="alert alert-orange">✗ NO usar el logo en fondos de color que no sean blanco, navy o negro. Nunca sobre fotografías sin overlay.</div>
+      <div class="alert alert-orange">✗ NO usar tipografías ajenas al sistema (Arial, Calibri, Comic Sans, decorativas). Solo DM Sans y DM Serif Display.</div>
+      <div class="alert alert-orange">✗ NO cambiar los colores del logo. El ícono es siempre naranja #E8500D sobre fondo navy o blanco.</div>
+      <div class="alert alert-orange">✗ NO usar el botón CTA naranja para acciones secundarias. El naranja es solo para la acción principal de cada pantalla.</div>
+      <div class="alert alert-orange">✗ NO presentar datos sin citar la fuente. Siempre "Fuente: CAPECO PME · Q[N] [AÑO] · Dato censal".</div>
+      <div class="alert alert-orange">✗ NO separar el lockup PME y CAPECO en piezas formales. Siempre aparecen juntos como "PME CAPECO".</div>
+      <div class="alert alert-orange">✗ NO usar gradientes de colores no definidos ni efectos de blur o glow sobre el logo.</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Taglines aprobadas para uso en materiales</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem;max-width:540px;">
+        <div style="background:var(--blue-pale);border-radius:var(--radius-md);padding:.75rem 1rem;font-size:14px;font-weight:500;color:var(--navy);">"La inteligencia que mueve el sector inmobiliario del Perú."</div>
+        <div style="background:var(--blue-pale);border-radius:var(--radius-md);padding:.75rem 1rem;font-size:14px;font-weight:500;color:var(--navy);">"El dato censal que el sector acepta sin cuestionamientos."</div>
+        <div style="background:var(--blue-pale);border-radius:var(--radius-md);padding:.75rem 1rem;font-size:14px;font-weight:500;color:var(--navy);">"Inteligencia que mitiga el riesgo y acelera el crédito inmobiliario."</div>
+        <div style="background:var(--blue-pale);border-radius:var(--radius-md);padding:.75rem 1rem;font-size:14px;font-weight:500;color:var(--navy);">"Formando líderes con data real del mercado inmobiliario."</div>
+        <div style="background:var(--teal-pale);border-radius:var(--radius-md);padding:.75rem 1rem;font-size:14px;font-weight:500;color:#0A5C53;">[Tasamelo] "El precio real de cualquier inmueble en Lima — en 30 segundos."</div>
+      </div>
+    </div>
+
+    <!-- FOOTER DEL MANUAL -->
+    <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--slate-200);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);">PME CAPECO — Design System v1.0</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Operado por Millennial Information Systems · www.pme.pe</div>
+      </div>
+      <div style="display:flex;gap:1rem;">
+        <span style="font-size:12px;color:var(--text-muted);">pme_ux@capeco.org</span>
+        <span style="font-size:12px;color:var(--text-muted);">ventas@mis.pe</span>
+        <span style="font-size:12px;color:var(--text-muted);">+51 965 113 510</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- COPY TOAST -->
+<div class="copied-toast" id="toast">¡Color copiado al portapapeles!</div>
+
+<script>
+// ── Active nav on scroll ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar a[href^="#"]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// ── Copy color ──
+function copyColor(hex, btn) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const t = document.getElementById('toast');
+    t.textContent = `${hex} copiado al portapapeles`;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+</script>
+
+</body>
+</html>

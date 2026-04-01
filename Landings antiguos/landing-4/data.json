@@ -1,0 +1,272 @@
+[
+  {
+    "district": "San Isidro",
+    "projects": 42,
+    "units": 2039,
+    "avg_price": 621321.2727272727,
+    "avg_area": 111.60714285714286,
+    "price_per_m2": 5567.038603636363,
+    "lat": -12.095,
+    "lng": -77.035
+  },
+  {
+    "district": "Surquillo",
+    "projects": 35,
+    "units": 2645,
+    "avg_price": 318314.0857142857,
+    "avg_area": 63.614285714285714,
+    "price_per_m2": 5003.814507073883,
+    "lat": -12.115,
+    "lng": -77.018
+  },
+  {
+    "district": "San Miguel",
+    "projects": 63,
+    "units": 4199,
+    "avg_price": 292456.4603174603,
+    "avg_area": 68.91269841269842,
+    "price_per_m2": 4243.868939306691,
+    "lat": -12.078,
+    "lng": -77.095
+  },
+  {
+    "district": "Miraflores",
+    "projects": 85,
+    "units": 2019,
+    "avg_price": 643452.1690140845,
+    "avg_area": 105.08235294117647,
+    "price_per_m2": 6123.313296708149,
+    "lat": -12.122,
+    "lng": -77.029
+  },
+  {
+    "district": "Jesus Maria",
+    "projects": 72,
+    "units": 3328,
+    "avg_price": 379925.52777777775,
+    "avg_area": 73.15277777777777,
+    "price_per_m2": 5193.589899373457,
+    "lat": -12.075,
+    "lng": -77.048
+  },
+  {
+    "district": "Santiago De Surco",
+    "projects": 86,
+    "units": 2137,
+    "avg_price": 534897.5584415584,
+    "avg_area": 109.53488372093024,
+    "price_per_m2": 4883.35350594204,
+    "lat": -12.145,
+    "lng": -76.985
+  },
+  {
+    "district": "Cercado De Lima",
+    "projects": 39,
+    "units": 3311,
+    "avg_price": 293724.6153846154,
+    "avg_area": 65.1025641025641,
+    "price_per_m2": 4511.721150059078,
+    "lat": -12.046,
+    "lng": -77.042
+  },
+  {
+    "district": "Magdalena Del Mar",
+    "projects": 40,
+    "units": 1586,
+    "avg_price": 402243.775,
+    "avg_area": 77.15,
+    "price_per_m2": 5213.788399222294,
+    "lat": -12.091,
+    "lng": -77.069
+  },
+  {
+    "district": "Chorrillos",
+    "projects": 34,
+    "units": 2794,
+    "avg_price": 256088.75757575757,
+    "avg_area": 66.73529411764706,
+    "price_per_m2": 3837.381118367456,
+    "lat": -12.185,
+    "lng": -77.012
+  },
+  {
+    "district": "La Victoria",
+    "projects": 25,
+    "units": 1963,
+    "avg_price": 340584.68,
+    "avg_area": 66.7,
+    "price_per_m2": 5106.217091454272,
+    "lat": -12.065,
+    "lng": -77.025
+  },
+  {
+    "district": "Lince",
+    "projects": 37,
+    "units": 1578,
+    "avg_price": 396356.8108108108,
+    "avg_area": 75.35135135135135,
+    "price_per_m2": 5260.11549497848,
+    "lat": -12.083,
+    "lng": -77.035
+  },
+  {
+    "district": "Pueblo Libre",
+    "projects": 40,
+    "units": 1202,
+    "avg_price": 346746.95,
+    "avg_area": 78.35,
+    "price_per_m2": 4425.615188257818,
+    "lat": -12.076,
+    "lng": -77.061
+  },
+  {
+    "district": "Breña",
+    "projects": 18,
+    "units": 1410,
+    "avg_price": 294816.8888888889,
+    "avg_area": 71.52777777777777,
+    "price_per_m2": 4121.711844660194,
+    "lat": -12.06,
+    "lng": -77.045
+  },
+  {
+    "district": "Barranco",
+    "projects": 14,
+    "units": 742,
+    "avg_price": 339888.14285714284,
+    "avg_area": 66.42857142857143,
+    "price_per_m2": 5116.595698924731,
+    "lat": -12.148,
+    "lng": -77.021
+  },
+  {
+    "district": "San Borja",
+    "projects": 25,
+    "units": 583,
+    "avg_price": 681583.7727272727,
+    "avg_area": 121.98,
+    "price_per_m2": 5587.668246657425,
+    "lat": -12.106,
+    "lng": -76.998
+  },
+  {
+    "district": "San Luis",
+    "projects": 3,
+    "units": 203,
+    "avg_price": 279300.0,
+    "avg_area": 77.83333333333333,
+    "price_per_m2": 3588.436830835118,
+    "lat": -12.075,
+    "lng": -76.995
+  },
+  {
+    "district": "San Bartolo",
+    "projects": 3,
+    "units": 77,
+    "avg_price": 382513.3333333333,
+    "avg_area": 81.16666666666667,
+    "price_per_m2": 4712.689938398356,
+    "lat": -12.385,
+    "lng": -76.775
+  },
+  {
+    "district": "Los Olivos",
+    "projects": 2,
+    "units": 121,
+    "avg_price": 346600.0,
+    "avg_area": 80.5,
+    "price_per_m2": 4305.590062111802,
+    "lat": -11.983,
+    "lng": -77.067
+  },
+  {
+    "district": "Rimac",
+    "projects": 2,
+    "units": 120,
+    "avg_price": 254100.0,
+    "avg_area": 64.25,
+    "price_per_m2": 3954.863813229572,
+    "lat": -12.03,
+    "lng": -77.025
+  },
+  {
+    "district": "La Molina",
+    "projects": 1,
+    "units": 35,
+    "avg_price": 758892.0,
+    "avg_area": 152.0,
+    "price_per_m2": 4992.710526315789,
+    "lat": -12.072,
+    "lng": -76.942
+  },
+  {
+    "district": "Ate",
+    "projects": 3,
+    "units": 107,
+    "avg_price": 259777.66666666666,
+    "avg_area": 80.16666666666667,
+    "price_per_m2": 3240.469854469854,
+    "lat": -12.025,
+    "lng": -76.915
+  },
+  {
+    "district": "Carabayllo",
+    "projects": 2,
+    "units": 73,
+    "avg_price": 126486.5,
+    "avg_area": 68.5,
+    "price_per_m2": 1846.5182481751824,
+    "lat": -11.875,
+    "lng": -77.025
+  },
+  {
+    "district": "Comas",
+    "projects": 2,
+    "units": 255,
+    "avg_price": 340086.0,
+    "avg_area": 85.5,
+    "price_per_m2": 3977.6140350877195,
+    "lat": -11.932,
+    "lng": -77.046
+  },
+  {
+    "district": "Santa Anita",
+    "projects": 1,
+    "units": 84,
+    "avg_price": 324100.0,
+    "avg_area": 72.0,
+    "price_per_m2": 4501.388888888889,
+    "lat": -12.043,
+    "lng": -76.961
+  },
+  {
+    "district": "San Juan De Lurigancho",
+    "projects": 2,
+    "units": 209,
+    "avg_price": 272437.0,
+    "avg_area": 56.75,
+    "price_per_m2": 4800.651982378855,
+    "lat": -12.0,
+    "lng": -77.0
+  },
+  {
+    "district": "Independencia",
+    "projects": 2,
+    "units": 303,
+    "avg_price": 265672.0,
+    "avg_area": 93.0,
+    "price_per_m2": 2856.6881720430106,
+    "lat": -11.993,
+    "lng": -77.052
+  },
+  {
+    "district": "Lurin",
+    "projects": 1,
+    "units": 93,
+    "avg_price": 80973.0,
+    "avg_area": 84.0,
+    "price_per_m2": 963.9642857142857,
+    "lat": -12.245,
+    "lng": -76.855
+  }
+]

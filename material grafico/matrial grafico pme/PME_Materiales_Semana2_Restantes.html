@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PME CAPECO — Materiales Semana 2 (Restantes)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0F2340; --navy-m:#1B3A5C; --orange:#E8500D; --orange-w:#F97316;
+  --blue:#1D6FE8; --blue-p:#EBF3FE; --teal:#0D9488; --teal-p:#E6F7F5; --teal-d:#065F59;
+  --gold:#C9A227; --gold-p:#FBF5E7;
+  --s1:#F1F5F9; --s2:#E2E8F0; --s4:#94A3B8; --s6:#475569; --s8:#1E293B; --w:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#dde3ec}
+
+/* ── NAV TABS ── */
+.tabs{background:var(--navy);padding:.75rem 2rem;display:flex;gap:.375rem;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.tab{border:none;background:rgba(255,255,255,.07);color:rgba(255,255,255,.55);border-radius:6px;padding:.4rem 1rem;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab:hover{background:rgba(255,255,255,.12);color:#fff}
+.tab.active{background:var(--orange);color:#fff}
+.tab-count{font-size:9px;background:rgba(255,255,255,.15);border-radius:3px;padding:1px 5px;margin-left:4px}
+
+/* ── PAGES ── */
+.page{display:none;padding:2rem;max-width:900px;margin:0 auto}
+.page.visible{display:block}
+
+/* ── A4 DOCUMENT ── */
+.doc{background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.12);margin-bottom:1.5rem;position:relative;overflow:hidden}
+.doc-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--s4);margin-bottom:.5rem;text-align:center}
+
+/* ── SHARED DOC STYLES ── */
+.doc-hero{background:var(--navy);padding:2rem 2.5rem;position:relative;overflow:hidden}
+.doc-hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(0,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 60px)}
+.doc-hero-teal{background:linear-gradient(135deg,#033A37,var(--teal))}
+.doc-body{padding:2rem 2.5rem}
+.doc-footer{background:var(--navy);padding:.875rem 2.5rem;display:flex;align-items:center;justify-content:space-between}
+.doc-footer .ft{font-size:11px;font-weight:700;color:#fff}
+.doc-footer .fs{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+.doc-footer .fc{font-size:10px;color:rgba(255,255,255,.45);display:flex;gap:1.25rem;flex-wrap:wrap}
+.doc-footer .fc span{color:rgba(255,255,255,.65);font-weight:500}
+.doc-footer-teal{background:linear-gradient(90deg,#033A37,var(--teal-d))}
+
+.logo-sq{width:24px;height:24px;background:var(--orange);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0;vertical-align:middle;margin-right:7px}
+.logo-sq-teal{background:var(--teal)}
+
+.eyebrow{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--orange);margin-bottom:.5rem}
+.eyebrow-teal{color:#5EEAD4}
+.eyebrow-blue{color:#93C5FD}
+.doc-title{font-family:'DM Serif Display',serif;font-size:1.75rem;color:#fff;font-weight:400;line-height:1.2;margin-bottom:.5rem}
+.doc-sub{font-size:12px;color:rgba(255,255,255,.45);line-height:1.65}
+
+.section-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin:.875rem 0 .5rem}
+.section-label-teal{color:var(--teal)}
+.section-label-blue{color:var(--blue)}
+
+.card{background:var(--s1);border-radius:8px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.card-white{background:#fff;border:1px solid var(--s2)}
+.card-navy{background:var(--navy);border-radius:8px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.card-teal{background:var(--teal-p);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:.875rem 1rem;margin-bottom:.625rem}
+.card-orange{background:var(--orange-pale,#FEF3EC);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:.875rem 1rem;margin-bottom:.625rem}
+
+.body-text{font-size:13.5px;color:var(--s6);line-height:1.8;margin-bottom:.875rem}
+.body-text strong{color:var(--s8);font-weight:700}
+
+.check-list{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.875rem}
+.check-item{display:flex;align-items:flex-start;gap:.5rem;font-size:12.5px;color:var(--s6);line-height:1.55}
+.check-item::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0;font-size:11px;margin-top:1px}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem}
+
+.stat-row{display:flex;gap:1rem;margin-bottom:.875rem;flex-wrap:wrap}
+.stat-box{flex:1;min-width:100px;background:var(--s1);border-radius:8px;padding:.875rem 1rem;text-align:center}
+.stat-n{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);line-height:1}
+.stat-n sup{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--orange);vertical-align:super}
+.stat-l{font-size:9.5px;color:var(--s4);text-transform:uppercase;letter-spacing:.05em;margin-top:.3rem;line-height:1.4}
+
+.step{display:flex;gap:.875rem;margin-bottom:.75rem;align-items:flex-start}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--orange);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.step-num-teal{background:var(--teal)}
+.step-text .st{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:.15rem}
+.step-text .sd{font-size:12px;color:var(--s6);line-height:1.55}
+
+.conv-plan{border-radius:8px;padding:.875rem 1rem;display:flex;align-items:center;gap:1rem;margin-bottom:.5rem;border:1.5px solid}
+.conv-navy{background:var(--navy);border-color:var(--navy-m)}
+.conv-blue{background:var(--blue-p);border-color:rgba(29,111,232,.2)}
+.conv-light{background:var(--s1);border-color:var(--s2)}
+.conv-price{font-family:'DM Serif Display',serif;font-size:1.4rem;line-height:1;width:90px;flex-shrink:0}
+
+.divider{height:1px;background:var(--s2);margin:.875rem 0}
+
+.table-simple{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:.875rem}
+.table-simple th{background:var(--navy);color:rgba(255,255,255,.75);padding:.5rem .75rem;text-align:left;font-size:11px;font-weight:700}
+.table-simple td{padding:.5rem .75rem;border-bottom:1px solid var(--s2);color:var(--s6)}
+.table-simple tr:nth-child(even) td{background:var(--s1)}
+.table-simple tr:last-child td{border-bottom:none}
+.table-simple .hl{color:var(--teal);font-weight:700}
+.table-simple .price{color:var(--orange);font-weight:700}
+
+/* ── EMAIL STYLES ── */
+.email-shell{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);margin-bottom:1rem}
+.email-meta{background:var(--s1);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;font-size:12.5px;color:var(--s6)}
+.email-meta strong{color:var(--navy)}
+
+/* ── FIRMA ── */
+.firma-preview{background:#fff;border:1px solid var(--s2);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.firma-name{font-size:14px;font-weight:700;color:var(--navy)}
+.firma-role{font-size:12px;color:var(--s6);margin-top:2px}
+.firma-links{font-size:11.5px;color:var(--blue);margin-top:6px;display:flex;gap:1rem;flex-wrap:wrap}
+.firma-banner{background:var(--navy);border-radius:5px;padding:.5rem 1rem;margin-top:.75rem;display:flex;align-items:center;justify-content:space-between}
+.firma-banner-text{font-size:11px;font-weight:600;color:rgba(255,255,255,.7)}
+.firma-banner-url{font-size:10px;color:var(--orange);font-weight:700}
+.firma-sep{width:1px;height:40px;background:var(--s2)}
+
+/* ── ROI CALC ── */
+.roi-box{background:var(--navy);border-radius:12px;padding:1.5rem;color:#fff;margin-bottom:1rem}
+.roi-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;line-height:1}
+.roi-num sup{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--orange-w,#F97316);vertical-align:super}
+.roi-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-top:.3rem}
+
+.vs-col{background:var(--s1);border-radius:10px;padding:1.125rem;flex:1}
+.vs-col.dark{background:var(--navy)}
+.vs-col .vc-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:.75rem}
+.vs-col.dark .vc-title{color:rgba(255,255,255,.45)}
+.vs-row{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid var(--s2);font-size:12px}
+.vs-row:last-child{border-bottom:none}
+.vs-col.dark .vs-row{border-bottom-color:rgba(255,255,255,.06)}
+.vs-label{color:var(--s6)}
+.vs-col.dark .vs-label{color:rgba(255,255,255,.5)}
+.vs-val{font-weight:700;color:var(--navy)}
+.vs-col.dark .vs-val{color:var(--orange-w,#F97316)}
+
+/* ── NEWSLETTER ── */
+.nl-shell{max-width:640px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.nl-trust-bar{background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);padding:.5rem 2rem;text-align:center;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.nl-header{background:var(--navy);padding:1.5rem 2rem}
+.nl-data-block{padding:1.25rem 2rem;border-bottom:1px solid var(--s2)}
+.nl-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.875rem}
+.nl-metric{display:flex;align-items:flex-start;gap:1rem;margin-bottom:.875rem}
+.nl-metric-num{font-family:'DM Serif Display',serif;font-size:2.25rem;color:var(--navy);line-height:1;flex-shrink:0;min-width:80px}
+.nl-metric-num sup{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--orange)}
+.nl-metric-text .mt{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:.2rem}
+.nl-metric-text .md{font-size:11.5px;color:var(--s6);line-height:1.6}
+.nl-sponsor-banner{background:var(--s1);border:1px solid var(--s2);border-radius:8px;padding:1rem 1.25rem;margin:1rem 2rem;display:flex;align-items:center;gap:1rem}
+.nl-sponsor-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);background:var(--orange-pale,#FEF3EC);border-radius:3px;padding:2px 6px;margin-bottom:.2rem}
+.nl-cta-block{background:var(--navy);padding:1.5rem 2rem;text-align:center}
+.nl-footer-block{background:#060F1E;padding:1rem 2rem;text-align:center}
+
+/* ── COPY BTN ── */
+.copy-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:.35rem .875rem;font-size:11px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:4px;float:right;margin-top:-2px}
+.copy-btn:hover{background:var(--navy-m)}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;font-size:12px;font-weight:600;padding:.625rem 1.25rem;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s;z-index:999}
+.toast.show{opacity:1}
+
+@media print{.tabs{display:none}.page{display:block;padding:0}}
+</style>
+</head>
+<body>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="show('acad')">Kit Académico <span class="tab-count">4 docs</span></button>
+  <button class="tab" onclick="show('firma')">Firma Email MIS</button>
+  <button class="tab" onclick="show('outreach')">Outreach Universidades <span class="tab-count">3 emails</span></button>
+  <button class="tab" onclick="show('roi')">Propuesta ROI Banca</button>
+  <button class="tab" onclick="show('newsletter')">Newsletter Trimestral</button>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     KIT CONVENIO ACADÉMICO
+════════════════════════════════════════════════ -->
+<div class="page visible" id="acad">
+
+  <!-- DOC A1 — CARTA -->
+  <div class="doc-label">DOCUMENTO 1/4 · Carta de Presentación Académica</div>
+  <div class="doc">
+    <div class="doc-hero doc-hero-teal">
+      <div class="eyebrow-teal eyebrow" style="margin-bottom:.5rem">
+        <span class="logo-sq logo-sq-teal">PME</span>
+        Programa Académico CAPECO · Propuesta de Convenio · 2026
+      </div>
+      <div class="doc-title">Kit Convenio<br>PME Académico <em style="font-style:italic;color:rgba(255,255,255,.55)">2026</em></div>
+      <div class="doc-sub">Conectando las aulas de Arquitectura, Ingeniería y Gestión Inmobiliaria con el dato censal oficial del mercado edificador del Perú</div>
+    </div>
+    <div class="doc-body">
+      <div class="body-text">Estimados señores de <strong>[NOMBRE DE LA UNIVERSIDAD / FACULTAD]</strong>,</div>
+      <div class="body-text">En <strong>CAPECO</strong> llevamos 63 años siendo la fuente oficial del mercado de edificaciones del Perú. A través de <strong>PME CAPECO</strong>, operado por Millennial Information Systems (MIS), ponemos ese dato censal — no muestral — al alcance de las principales instituciones académicas del país.</div>
+      <div class="body-text">Creemos que los futuros líderes de la industria constructora deben formarse con el mismo dato que usan hoy las gerencias de las inmobiliarias más grandes de Lima. Por eso hemos diseñado el <strong>Programa PME Académico</strong>, un convenio institucional que da acceso a docentes y estudiantes de Arquitectura, Ingeniería Civil y Gestión Inmobiliaria a la plataforma de inteligencia de mercado más confiable del sector.</div>
+
+      <div class="section-label-teal section-label">¿Por qué convenir con PME CAPECO?</div>
+      <div class="check-list">
+        <div class="check-item">Los estudiantes tienen acceso al mismo dato que usan diariamente los directores de las principales inmobiliarias del Perú.</div>
+        <div class="check-item">Las tesis de Arquitectura, Ingeniería y Gestión Inmobiliaria ganan credibilidad con la fuente censal oficial de CAPECO.</div>
+        <div class="check-item">Los docentes pueden actualizar su syllabus con casos de estudio reales del mercado vigente en Lima Metropolitana.</div>
+        <div class="check-item">La universidad se asocia al sello institucional de CAPECO — 63 años de trayectoria — en sus comunicaciones.</div>
+        <div class="check-item">Acceso a la serie histórica completa desde 2017 para investigación y generación de papers académicos.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="body-text">El presente kit incluye: esta carta de presentación, la <strong>propuesta de modelos de convenio</strong> con precios y beneficios, los <strong>materiales de onboarding docente</strong> y el <strong>modelo de acuerdo marco</strong> para formalizar el convenio.</div>
+      <div class="body-text">Quedamos a disposición para coordinar una <strong>charla demostrativa gratuita</strong> para su facultad, en formato presencial o Zoom, antes de formalizar cualquier compromiso.</div>
+
+      <div class="divider"></div>
+      <div style="display:flex;align-items:center;gap:1rem;padding-top:.25rem">
+        <div style="flex:1">
+          <div style="font-size:13.5px;font-weight:700;color:var(--navy)">[Nombre del Ejecutivo Académico]</div>
+          <div style="font-size:12px;color:var(--s6);margin-top:2px">Ejecutivo Académico PME · Millennial Information Systems</div>
+          <div style="font-size:12px;color:var(--teal);margin-top:3px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5f3e3c3e3b3a32363e1f32362c712f3a">[email&#160;protected]</a> · +51 965 113 510</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--s4)">En alianza con:</div>
+          <div style="font-size:14px;font-weight:800;color:var(--navy);margin-top:2px">CAPECO</div>
+          <div style="font-size:10px;color:var(--s4)">63 años · Lima, Perú</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-footer doc-footer-teal">
+      <div><div class="ft"><span class="logo-sq logo-sq-teal">PME</span> PME Académico · CAPECO</div><div class="fs">Documento 1 de 4 · Carta de Presentación</div></div>
+      <div class="fc"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1273717376777f7b73527f7b613c6277">[email&#160;protected]</a></span><span>pme.pe/academico</span><span>+51 965 113 510</span></div>
+    </div>
+  </div>
+
+  <!-- DOC A2 — MODELOS DE CONVENIO -->
+  <div class="doc-label" style="margin-top:2rem">DOCUMENTO 2/4 · Modelos de Convenio</div>
+  <div class="doc">
+    <div class="doc-hero doc-hero-teal" style="padding:1.5rem 2.5rem">
+      <div class="eyebrow-teal eyebrow">PME ACADÉMICO · Modelos de acceso institucional</div>
+      <div class="doc-title" style="font-size:1.5rem">Modalidades de Convenio 2026</div>
+      <div class="doc-sub">Elige el modelo que mejor se adapte al tamaño y necesidades de tu facultad</div>
+    </div>
+    <div class="doc-body">
+      <div class="conv-plan conv-blue">
+        <div style="flex:1">
+          <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.25rem">RED CAMPUS · Máxima cobertura</div>
+          <div class="conv-price" style="color:var(--navy)">USD 4,800<span style="font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;color:var(--s4)">/año</span></div>
+        </div>
+        <div style="flex:2;font-size:12px;color:var(--s6);line-height:1.6">
+          Acceso para <strong>toda la comunidad estudiantil y docente</strong> vía correo institucional .edu.pe. Logo CAPECO en comunicaciones + talleres anuales de uso para docentes.
+        </div>
+      </div>
+      <div class="conv-plan conv-navy">
+        <div style="flex:1">
+          <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-bottom:.25rem">LICENCIA FACULTAD · Recomendado</div>
+          <div class="conv-price" style="color:#fff">USD 2,400<span style="font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;color:rgba(255,255,255,.35)">/año</span></div>
+        </div>
+        <div style="flex:2;font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">
+          Facultad específica. Hasta <strong style="color:#fff">200 usuarios</strong>. Materiales didácticos listos para clase + acceso a data histórica 2017–2025.
+        </div>
+      </div>
+      <div class="conv-plan conv-light">
+        <div style="flex:1">
+          <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--s4);margin-bottom:.25rem">INVESTIGACIÓN · Tesistas</div>
+          <div class="conv-price" style="color:var(--navy)">USD 960<span style="font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;color:var(--s4)">/año</span></div>
+        </div>
+        <div style="flex:2;font-size:12px;color:var(--s6);line-height:1.6">
+          Hasta <strong>10 investigadores o tesistas</strong>. Acceso completo a la base histórica censal de Lima para publicaciones académicas y tesis.
+        </div>
+      </div>
+
+      <div class="card" style="background:linear-gradient(135deg,#033A37,var(--teal-d));border-radius:10px;padding:1.125rem;margin-top:.875rem">
+        <div style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.35rem">Oferta especial de inicio: primer semestre gratuito</div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,.55);line-height:1.6">Mientras se formaliza el convenio marco, la facultad recibe acceso demo completo sin compromiso. Sin tarjeta. Sin firma previa.</div>
+      </div>
+
+      <div class="section-label-teal section-label" style="margin-top:1.25rem">Proceso de formalización</div>
+      <div class="step"><div class="step-num step-num-teal">1</div><div class="step-text"><div class="st">Solicitud a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="442527252021292d2504292d376a3421">[email&#160;protected]</a></div><div class="sd">Envía datos de la facultad: universidad, carrera, número aproximado de alumnos y nombre del director de carrera o decano.</div></div></div>
+      <div class="step"><div class="step-num step-num-teal">2</div><div class="step-text"><div class="st">Charla demo gratuita (presencial o Zoom)</div><div class="sd">30 minutos con el aula o el comité docente. Caso real de tesis con PME + tour del dashboard.</div></div></div>
+      <div class="step"><div class="step-num step-num-teal">3</div><div class="step-text"><div class="st">Firma del convenio marco</div><div class="sd">Acuerdo entre CAPECO / MIS y la universidad. Proceso administrativo según los plazos internos de cada institución.</div></div></div>
+      <div class="step"><div class="step-num" style="background:var(--orange)">✓</div><div class="step-text"><div class="st">Activación de accesos en 48 horas</div><div class="sd">Credenciales configuradas por MIS. Onboarding para docentes + guía de inicio para estudiantes.</div></div></div>
+    </div>
+    <div class="doc-footer doc-footer-teal">
+      <div><div class="ft"><span class="logo-sq logo-sq-teal">PME</span> PME Académico · CAPECO</div><div class="fs">Documento 2 de 4 · Modelos de Convenio</div></div>
+      <div class="fc"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bcdddfddd8d9d1d5ddfcd1d5cf92ccd9">[email&#160;protected]</a></span><span>pme.pe/academico</span></div>
+    </div>
+  </div>
+
+  <!-- DOC A3 — GUÍA DOCENTE -->
+  <div class="doc-label" style="margin-top:2rem">DOCUMENTO 3/4 · Guía de Onboarding Docente</div>
+  <div class="doc">
+    <div class="doc-hero doc-hero-teal" style="padding:1.5rem 2.5rem">
+      <div class="eyebrow-teal eyebrow">PME ACADÉMICO · Para docentes e investigadores</div>
+      <div class="doc-title" style="font-size:1.5rem">Cómo usar PME en el aula</div>
+      <div class="doc-sub">Guía de inicio rápido para docentes con convenio PME Académico activo</div>
+    </div>
+    <div class="doc-body">
+      <div class="two-col">
+        <div>
+          <div class="section-label-teal section-label">Primer acceso</div>
+          <div class="step"><div class="step-num step-num-teal" style="font-size:9px">1</div><div class="step-text"><div class="st">Ingresa a pme.pe/academico</div><div class="sd">Usa tu correo institucional .edu.pe para iniciar sesión.</div></div></div>
+          <div class="step"><div class="step-num step-num-teal" style="font-size:9px">2</div><div class="step-text"><div class="st">Selecciona "Docente / Investigador"</div><div class="sd">El perfil docente da acceso a datos históricos y exportación extendida.</div></div></div>
+          <div class="step"><div class="step-num step-num-teal" style="font-size:9px">3</div><div class="step-text"><div class="st">Explora el dashboard Lima</div><div class="sd">Filtra por distrito, tipología y trimestre. Exporta en PDF o Excel.</div></div></div>
+
+          <div class="section-label-teal section-label" style="margin-top:1.25rem">Casos de uso en clase</div>
+          <div class="card-teal"><strong>Clase de Formulación de Proyectos:</strong> Análisis de absorción y precio por corredor antes de definir el programa arquitectónico.</div>
+          <div class="card-teal"><strong>Taller de Urbanismo:</strong> Mapas de densidad y expansión vertical por zona de Lima (2017–2025).</div>
+          <div class="card-teal"><strong>Gestión Inmobiliaria:</strong> Evaluación de inversiones con precio de cierre real vs precio de lista.</div>
+        </div>
+        <div>
+          <div class="section-label-teal section-label">Variables disponibles</div>
+          <table class="table-simple">
+            <thead><tr><th>Variable</th><th>Detalle</th></tr></thead>
+            <tbody>
+              <tr><td>Precio m² cierre</td><td class="hl">Real, no de lista</td></tr>
+              <tr><td>Precio m² oferta</td><td>Para comparativas</td></tr>
+              <tr><td>Absorción (meses)</td><td>Velocidad de venta</td></tr>
+              <tr><td>Stock disponible</td><td>Unidades activas</td></tr>
+              <tr><td>Tipología</td><td>1D / 2D / 3D+</td></tr>
+              <tr><td>Estado de obra</td><td>En planos / construcción / entregado</td></tr>
+              <tr><td>NSE de zona</td><td>Alto / Medio / Bajo</td></tr>
+              <tr><td>Serie histórica</td><td>2017 – presente</td></tr>
+            </tbody>
+          </table>
+          <div class="section-label-teal section-label">Exportación</div>
+          <div class="check-list">
+            <div class="check-item">PDF del dashboard listo para adjuntar en informe de tesis</div>
+            <div class="check-item">Excel con datos tabulados para análisis estadístico</div>
+            <div class="check-item">Gráficas en PNG para incluir en presentaciones</div>
+          </div>
+          <div class="card-teal" style="margin-top:.5rem"><strong>Soporte:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d4b5b7b5b0b1b9bdb594b9bda7faa4b1">[email&#160;protected]</a> · respuesta en 24 horas hábiles</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-footer doc-footer-teal">
+      <div><div class="ft"><span class="logo-sq logo-sq-teal">PME</span> PME Académico · CAPECO</div><div class="fs">Documento 3 de 4 · Guía Onboarding Docente</div></div>
+      <div class="fc"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5a3b393b3e3f37333b1a373329742a3f">[email&#160;protected]</a></span><span>pme.pe/academico</span></div>
+    </div>
+  </div>
+
+  <!-- DOC A4 — MODELO DE ACUERDO MARCO -->
+  <div class="doc-label" style="margin-top:2rem">DOCUMENTO 4/4 · Modelo de Acuerdo Marco</div>
+  <div class="doc">
+    <div class="doc-hero doc-hero-teal" style="padding:1.5rem 2.5rem">
+      <div class="eyebrow-teal eyebrow">ACUERDO MARCO · Para uso como referencia</div>
+      <div class="doc-title" style="font-size:1.5rem">Convenio de Acceso Académico<br>PME CAPECO × [UNIVERSIDAD]</div>
+    </div>
+    <div class="doc-body">
+      <div class="body-text" style="font-size:12px">Conste por el presente documento el Convenio de Acceso Académico que suscriben, de una parte, <strong>CAPECO</strong> (Cámara Peruana de la Construcción) y <strong>Millennial Information Systems S.A.C.</strong> (en adelante "MIS"), y de otra parte, <strong>[NOMBRE DE LA UNIVERSIDAD]</strong> (en adelante "La Universidad").</div>
+
+      <div class="section-label-teal section-label">Objeto del convenio</div>
+      <div class="body-text" style="font-size:12px">MIS otorga a La Universidad acceso a la plataforma PME CAPECO bajo la modalidad <strong>[RED CAMPUS / LICENCIA FACULTAD / INVESTIGACIÓN]</strong> conforme a los términos descritos en la Propuesta Comercial adjunta (Anexo 1), para uso exclusivo en actividades académicas, docentes e investigativas.</div>
+
+      <div class="two-col" style="margin-top:.875rem">
+        <div>
+          <div class="section-label-teal section-label">Obligaciones de MIS / CAPECO</div>
+          <div class="check-list">
+            <div class="check-item">Proveer acceso funcional a la plataforma PME durante la vigencia del convenio.</div>
+            <div class="check-item">Actualizar la base de datos con el dato censal trimestral.</div>
+            <div class="check-item">Brindar soporte técnico a docentes con tiempo de respuesta máximo de 24 horas.</div>
+            <div class="check-item">Entregar materiales didácticos de uso para el aula.</div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label-teal section-label">Obligaciones de la Universidad</div>
+          <div class="check-list">
+            <div class="check-item">Garantizar que el uso de PME sea exclusivamente académico y no comercial.</div>
+            <div class="check-item">No reproducir ni redistribuir los datos sin autorización previa escrita de CAPECO.</div>
+            <div class="check-item">Citar a CAPECO / PME como fuente en toda publicación académica que use los datos.</div>
+            <div class="check-item">Pagar la contraprestación acordada en el plazo pactado.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:.875rem">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--s4);margin-bottom:.875rem">Por CAPECO / MIS</div>
+          <div style="height:40px;border-bottom:1px solid var(--s2);margin-bottom:.5rem"></div>
+          <div style="font-size:12px;color:var(--navy);font-weight:700">_______________________________</div>
+          <div style="font-size:11px;color:var(--s6);margin-top:3px">Representante Legal · Millennial Information Systems</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--s4);margin-bottom:.875rem">Por [UNIVERSIDAD]</div>
+          <div style="height:40px;border-bottom:1px solid var(--s2);margin-bottom:.5rem"></div>
+          <div style="font-size:12px;color:var(--navy);font-weight:700">_______________________________</div>
+          <div style="font-size:11px;color:var(--s6);margin-top:3px">Decano / Director de Carrera · [Facultad]</div>
+        </div>
+      </div>
+      <div style="font-size:10.5px;color:var(--s4);margin-top:.875rem;font-style:italic">Lugar y fecha: Lima, Perú · _________ de _________ de 2026</div>
+    </div>
+    <div class="doc-footer doc-footer-teal">
+      <div><div class="ft"><span class="logo-sq logo-sq-teal">PME</span> PME Académico · CAPECO</div><div class="fs">Documento 4 de 4 · Modelo de Acuerdo Marco</div></div>
+      <div class="fc"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ed8c8e8c898880848cad80849ec39d88">[email&#160;protected]</a></span><span>pme.pe/academico</span></div>
+    </div>
+  </div>
+
+</div><!-- /acad -->
+
+
+<!-- ════════════════════════════════════════════════
+     FIRMA EMAIL MIS
+════════════════════════════════════════════════ -->
+<div class="page" id="firma">
+  <div class="doc-label">FIRMA DE EMAIL — Ejecutivos MIS · Copiar el HTML en configuración de firma</div>
+
+  <!-- Preview visual -->
+  <div style="background:#fff;border-radius:8px;border:1px solid var(--s2);padding:1.5rem;margin-bottom:1rem">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--s4);margin-bottom:1rem">PREVIEW — Así se verá en el email</div>
+    <div style="display:flex;align-items:flex-start;gap:1.5rem;padding:1rem;border:1px solid var(--s2);border-radius:8px">
+      <div style="width:1px;background:var(--orange);align-self:stretch;flex-shrink:0"></div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--navy)">[Nombre Completo]</div>
+        <div style="font-size:12px;color:var(--s6);margin-top:2px">[Cargo] · Millennial Information Systems</div>
+        <div style="display:flex;gap:.875rem;flex-wrap:wrap;margin-top:.5rem">
+          <a style="font-size:11.5px;color:var(--blue);text-decoration:none">📞 +51 965 113 510</a>
+          <a style="font-size:11.5px;color:var(--blue);text-decoration:none">✉ <span class="__cf_email__" data-cfemail="a9dfccc7ddc8dae9c4c0da87d9cc">[email&#160;protected]</span></a>
+          <a style="font-size:11.5px;color:var(--blue);text-decoration:none">🌐 www.pme.pe</a>
+          <a style="font-size:11.5px;color:var(--blue);text-decoration:none">in LinkedIn</a>
+        </div>
+        <div style="background:var(--navy);border-radius:5px;padding:.5rem 1rem;margin-top:.75rem;display:flex;align-items:center;justify-content:space-between;max-width:420px">
+          <div>
+            <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4)">Plataforma oficial CAPECO</div>
+            <div style="font-size:11.5px;font-weight:700;color:#fff;margin-top:1px">PME CAPECO · Inteligencia de mercado inmobiliario</div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:var(--orange);margin-left:.875rem">pme.pe →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTML para copiar -->
+  <div style="background:#fff;border-radius:8px;border:1px solid var(--s2);overflow:hidden;margin-bottom:1rem">
+    <div style="background:var(--navy);padding:.625rem 1rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5)">HTML de la firma — copiar completo</span>
+      <button class="copy-btn" onclick="copyFirma()">Copiar HTML</button>
+    </div>
+    <pre id="firma-html" style="padding:1.25rem;font-size:11px;color:var(--s6);white-space:pre-wrap;line-height:1.6;overflow-x:auto;background:#F8FAFC"><!-- FIRMA PME CAPECO — EJECUTIVOS MIS -->
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Helvetica Neue',Arial,sans-serif">
+  <tr>
+    <td style="border-left:3px solid #E8500D;padding-left:14px">
+      <p style="margin:0;font-size:14px;font-weight:700;color:#0F2340">[NOMBRE COMPLETO]</p>
+      <p style="margin:2px 0 0;font-size:12px;color:#475569">[CARGO] · Millennial Information Systems</p>
+      <p style="margin:6px 0 0;font-size:11.5px">
+        <a href="tel:+51965113510" style="color:#1D6FE8;text-decoration:none;margin-right:12px">📞 +51 965 113 510</a>
+        <a href="/cdn-cgi/l/email-protection#57213239233624173a3e24792732" style="color:#1D6FE8;text-decoration:none;margin-right:12px">✉ <span class="__cf_email__" data-cfemail="82f4e7ecf6e3f1c2efebf1acf2e7">[email&#160;protected]</span></a>
+        <a href="https://www.pme.pe" style="color:#1D6FE8;text-decoration:none;margin-right:12px">🌐 www.pme.pe</a>
+        <a href="https://linkedin.com/company/pme-capeco" style="color:#1D6FE8;text-decoration:none">in LinkedIn</a>
+      </p>
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="margin-top:10px;background:#0F2340;border-radius:5px;max-width:420px">
+        <tr>
+          <td style="padding:8px 14px">
+            <p style="margin:0;font-size:9px;font-weight:700;text-transform:uppercase;
+               letter-spacing:1px;color:rgba(255,255,255,0.4)">Plataforma oficial CAPECO</p>
+            <p style="margin:2px 0 0;font-size:11.5px;font-weight:700;color:#ffffff">
+              PME CAPECO · Inteligencia de mercado inmobiliario</p>
+          </td>
+          <td style="padding:8px 14px 8px 0">
+            <a href="https://www.pme.pe" style="font-size:11px;font-weight:700;
+               color:#E8500D;text-decoration:none">pme.pe →</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table></pre>
+  </div>
+
+  <!-- Variante Académica -->
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--s4);margin-bottom:.5rem;margin-top:1.5rem">VARIANTE ACADÉMICA (para el ejecutivo de universidades)</div>
+  <div style="background:#fff;border-radius:8px;border:1px solid var(--s2);overflow:hidden">
+    <div style="background:var(--teal-d);padding:.625rem 1rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5)">Firma variante académica</span>
+      <button class="copy-btn" style="background:var(--teal)" onclick="copyFirmaAcad()">Copiar HTML</button>
+    </div>
+    <pre id="firma-acad-html" style="padding:1.25rem;font-size:11px;color:var(--s6);white-space:pre-wrap;line-height:1.6;background:#F0FDFA"><!-- FIRMA PME ACADÉMICO -->
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Helvetica Neue',Arial,sans-serif">
+  <tr>
+    <td style="border-left:3px solid #0D9488;padding-left:14px">
+      <p style="margin:0;font-size:14px;font-weight:700;color:#0F2340">[NOMBRE COMPLETO]</p>
+      <p style="margin:2px 0 0;font-size:12px;color:#475569">Ejecutivo Académico PME · Millennial Information Systems</p>
+      <p style="margin:6px 0 0;font-size:11.5px">
+        <a href="tel:+51965113510" style="color:#0D9488;text-decoration:none;margin-right:12px">📞 +51 965 113 510</a>
+        <a href="/cdn-cgi/l/email-protection#dabbb9bbbebfb7b3bb9ab7b3a9f4aabf" style="color:#0D9488;text-decoration:none;margin-right:12px">✉ <span class="__cf_email__" data-cfemail="d7b6b4b6b3b2babeb697babea4f9a7b2">[email&#160;protected]</span></a>
+        <a href="https://www.pme.pe/academico" style="color:#0D9488;text-decoration:none">🌐 pme.pe/academico</a>
+      </p>
+      <table cellpadding="0" cellspacing="0" border="0"
+             style="margin-top:10px;background:linear-gradient(90deg,#033A37,#065F59);border-radius:5px;max-width:420px">
+        <tr>
+          <td style="padding:8px 14px">
+            <p style="margin:0;font-size:9px;font-weight:700;text-transform:uppercase;
+               letter-spacing:1px;color:rgba(255,255,255,0.4)">Programa universitario CAPECO</p>
+            <p style="margin:2px 0 0;font-size:11.5px;font-weight:700;color:#ffffff">
+              PME Académico · Dato censal para investigación y tesis</p>
+          </td>
+          <td style="padding:8px 14px 8px 0">
+            <a href="https://www.pme.pe/academico" style="font-size:11px;font-weight:700;
+               color:#5EEAD4;text-decoration:none">pme.pe →</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table></pre>
+  </div>
+</div><!-- /firma -->
+
+
+<!-- ════════════════════════════════════════════════
+     OUTREACH UNIVERSIDADES (3 EMAILS)
+════════════════════════════════════════════════ -->
+<div class="page" id="outreach">
+
+  <!-- EMAIL 1 -->
+  <div class="doc-label">EMAIL 1/3 · Presentación al Decano / Director de Carrera</div>
+  <div class="email-meta">
+    <div><strong>Para:</strong> [Nombre del Decano / Director] · [cargo]@[universidad].edu.pe</div>
+    <div style="margin-top:.35rem"><strong>Asunto:</strong> <span style="color:var(--navy);font-weight:700">PME CAPECO lleva el dato censal del sector inmobiliario a las aulas de [UNIVERSIDAD]</span></div>
+    <div style="margin-top:.25rem"><strong>Preheader:</strong> Tesis más sólidas, clases más actuales — con el mismo dato que usan los líderes del sector.</div>
+  </div>
+  <div class="email-shell">
+    <div style="background:var(--navy);padding:1.25rem 1.5rem;border-bottom:3px solid var(--teal)">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="width:32px;height:32px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0">PME</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#fff">PME CAPECO Académico</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="19787a787d7c7470785974706a37697c">[email&#160;protected]</a></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:1.5rem">
+      <div class="body-text">Estimado/a <strong>[Nombre]</strong>,</div>
+      <div class="body-text">Me dirijo a usted en nombre de <strong>CAPECO</strong> y <strong>Millennial Information Systems</strong> para presentarles el <strong>Programa PME Académico</strong> — una iniciativa que lleva el dato censal oficial del mercado de edificaciones de Lima directamente a las aulas de Arquitectura, Ingeniería Civil y Gestión Inmobiliaria.</div>
+      <div class="body-text">La realidad hoy: la mayoría de tesis de proyectos inmobiliarios utiliza datos de portales de avisos o estudios desactualizados. Con PME CAPECO, sus estudiantes acceden al <strong>único dato censal del mercado inmobiliario de Lima</strong>, actualizado trimestralmente, con cobertura en 49 distritos — el mismo que usan diariamente las gerencias de las principales inmobiliarias del país.</div>
+      <div class="card-teal">
+        <strong>Lo que gana [UNIVERSIDAD] con el convenio:</strong> tesis con sustento irrefutable · docentes con data real en el aula · ventaja competitiva de los egresados en el sector · asociación al sello CAPECO (63 años)
+      </div>
+      <div class="body-text" style="margin-top:.875rem">Adjunto encontrará nuestro kit de presentación del convenio. <strong>¿Podemos coordinar una charla demostrativa gratuita de 30 minutos</strong> para su facultad — ya sea presencial o vía Zoom?</div>
+      <div style="text-align:center;margin:1.25rem 0">
+        <div style="display:inline-block;background:var(--teal);color:#fff;border-radius:8px;padding:.625rem 1.5rem;font-size:13px;font-weight:700">Agenda la demo gratuita → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f697959792939b9f97b69b9f85d88693">[email&#160;protected]</a></div>
+      </div>
+      <div class="body-text" style="font-size:12px;color:var(--s4)">Adjunto: Kit Convenio PME Académico 2026 (4 documentos PDF)</div>
+    </div>
+    <div style="background:var(--teal-d);padding:.875rem 1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+      <div style="font-size:11px;color:rgba(255,255,255,.6)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc9d9f9d989991959dbc91958fd28c99">[email&#160;protected]</a> · +51 965 113 510 · pme.pe/academico</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4)">PME CAPECO · Millennial Information Systems</div>
+    </div>
+  </div>
+
+  <!-- EMAIL 2 -->
+  <div class="doc-label" style="margin-top:2rem">EMAIL 2/3 · Follow-up con invitación a demo (Día 4–5)</div>
+  <div class="email-meta">
+    <div><strong>Asunto:</strong> <span style="color:var(--navy);font-weight:700">Charla demo PME para sus alumnos de [Arquitectura / Ing. Civil / Gestión] — sin costo</span></div>
+    <div style="margin-top:.25rem"><strong>Preheader:</strong> 30 minutos, un caso real de tesis, el dato que cambia las sustentaciones.</div>
+  </div>
+  <div class="email-shell">
+    <div style="background:var(--navy);padding:1.25rem 1.5rem;border-bottom:3px solid var(--teal)">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="width:32px;height:32px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0">PME</div>
+        <div style="font-size:13px;font-weight:700;color:#fff">PME CAPECO Académico</div>
+      </div>
+    </div>
+    <div style="padding:1.5rem">
+      <div class="body-text">Estimado/a <strong>[Nombre]</strong>,</div>
+      <div class="body-text">La semana pasada le enviamos nuestra propuesta de convenio PME Académico. Hoy le escribo con una oferta concreta: <strong>organizar una charla demostrativa gratuita de 30 minutos para sus estudiantes</strong> de la próxima semana.</div>
+      <div class="body-text">La dinámica es simple: tomamos un caso real de tesis de viabilidad inmobiliaria y lo resolvemos en vivo con PME CAPECO frente a los alumnos. En esos 30 minutos los estudiantes entienden la diferencia entre un dato de portal y un dato censal.</div>
+      <div class="card" style="background:var(--s1)">
+        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:.4rem">Qué incluye la charla demo:</div>
+        <div class="check-list">
+          <div class="check-item">Tour del dashboard PME con datos reales de Lima Q4 2025</div>
+          <div class="check-item">Caso en vivo: análisis de viabilidad de un proyecto en Surquillo o Miraflores</div>
+          <div class="check-item">Q&A con estudiantes sobre aplicación en tesis</div>
+          <div class="check-item">Acceso temporal para que los alumnos practiquen post-charla (2 semanas)</div>
+        </div>
+      </div>
+      <div class="body-text">Sin compromiso previo. La charla funciona igual ya sea que formalicemos el convenio después o no.</div>
+      <div style="background:var(--navy);border-radius:8px;padding:1rem 1.25rem;margin:.875rem 0">
+        <div style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.35rem">Para coordinar la demo:</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6)">Responda este email con su disponibilidad de días y horario. Nos adaptamos al calendario de la facultad.</div>
+        <div style="font-size:12px;color:var(--teal);margin-top:.35rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b7d6d4d6d3d2daded6f7dadec499c7d2">[email&#160;protected]</a> · +51 965 113 510 (también WhatsApp)</div>
+      </div>
+    </div>
+    <div style="background:var(--teal-d);padding:.875rem 1.5rem;display:flex;justify-content:space-between">
+      <div style="font-size:11px;color:rgba(255,255,255,.6)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9afbf9fbfefff7f3fbdaf7f3e9b4eaff">[email&#160;protected]</a> · pme.pe/academico</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4)">PME CAPECO · MIS</div>
+    </div>
+  </div>
+
+  <!-- EMAIL 3 -->
+  <div class="doc-label" style="margin-top:2rem">EMAIL 3/3 · CTA final — acceso gratuito primer semestre (Día 8–10)</div>
+  <div class="email-meta">
+    <div><strong>Asunto:</strong> <span style="color:var(--navy);font-weight:700">Acceso PME para sus estudiantes — primer semestre sin costo mientras formalizamos</span></div>
+    <div style="margin-top:.25rem"><strong>Preheader:</strong> No necesita esperar la firma del convenio para que sus alumnos empiecen a usar PME.</div>
+  </div>
+  <div class="email-shell">
+    <div style="background:var(--navy);padding:1.25rem 1.5rem;border-bottom:3px solid var(--orange)">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="width:32px;height:32px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0">PME</div>
+        <div style="font-size:13px;font-weight:700;color:#fff">PME CAPECO Académico</div>
+      </div>
+    </div>
+    <div style="padding:1.5rem">
+      <div class="body-text">Estimado/a <strong>[Nombre]</strong>,</div>
+      <div class="body-text">Entendemos que los procesos de convenio en universidades tienen sus tiempos administrativos. Por eso hemos habilitado una política especial: <strong>el primer semestre de acceso PME Académico es gratuito para su facultad, mientras el convenio se formaliza.</strong></div>
+      <div class="body-text">Sus estudiantes empiezan a usar PME esta semana. Usted evalúa el impacto real en sus clases y tesis. Y firmamos el convenio cuando los plazos administrativos lo permitan.</div>
+      <div class="card-orange">
+        <div style="font-size:12.5px;font-weight:700;color:var(--orange);margin-bottom:.35rem">Para activar el acceso gratuito:</div>
+        <div style="font-size:12px;color:var(--s8);line-height:1.6">Solo necesitamos: nombre de la facultad + carrera + nombre del docente responsable + número estimado de alumnos. En 48 horas el acceso está activo.</div>
+      </div>
+      <div class="body-text">¿Le parece si coordinamos los datos esta semana?</div>
+      <div style="text-align:center;margin:1.25rem 0">
+        <div style="display:inline-block;background:var(--orange);color:#fff;border-radius:8px;padding:.625rem 1.5rem;font-size:13px;font-weight:700">Activar acceso gratuito → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3051535154555d5951705d59431e4055">[email&#160;protected]</a></div>
+      </div>
+    </div>
+    <div style="background:var(--navy);padding:.875rem 1.5rem;display:flex;justify-content:space-between">
+      <div style="font-size:11px;color:rgba(255,255,255,.6)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="58393b393c3d3531391835312b76283d">[email&#160;protected]</a> · pme.pe/academico</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4)">PME CAPECO · MIS</div>
+    </div>
+  </div>
+
+</div><!-- /outreach -->
+
+
+<!-- ════════════════════════════════════════════════
+     PROPUESTA ROI BANCA
+════════════════════════════════════════════════ -->
+<div class="page" id="roi">
+  <div class="doc-label">PROPUESTA ROI PARA BANCA — 3 páginas · Adjuntar a reunión ejecutiva</div>
+  <div class="doc">
+    <div class="doc-hero">
+      <div class="eyebrow eyebrow-blue"><span class="logo-sq" style="background:var(--blue)">PME</span> PME FINANCE · Propuesta de valor cuantificada</div>
+      <div class="doc-title">El costo real de las<br>tasaciones hipotecarias</div>
+      <div class="doc-sub">Cómo PME CAPECO transforma el proceso de evaluación de riesgo hipotecario de su institución — con impacto medible desde el primer mes</div>
+    </div>
+    <div class="doc-body">
+      <div class="section-label section-label-blue">Página 1 · El problema cuantificado</div>
+
+      <!-- Stats del problema -->
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-n">4–7</div><div class="stat-l">días por tasación externa</div></div>
+        <div class="stat-box"><div class="stat-n">USD 150<sup>+</sup></div><div class="stat-l">costo por tasador externo</div></div>
+        <div class="stat-box"><div class="stat-n">15<sup>%</sup></div><div class="stat-l">sobrevaluación portal vs cierre</div></div>
+        <div class="stat-box"><div class="stat-n">40<sup>%</sup></div><div class="stat-l">desacuerdos en tasación</div></div>
+      </div>
+
+      <div class="body-text">Una hipoteca bloqueada en validación de tasación durante 4 días tiene un costo invisible: el analista de riesgo dedicado, la operación en espera y el cliente que evalúa otras entidades. Cuando el precio del colateral proviene de un portal de avisos — no de transacciones reales — el banco está aprobando créditos sobre una base que puede diferir hasta un 15% del valor real del mercado.</div>
+
+      <div class="card" style="background:var(--navy);padding:1.25rem">
+        <div class="section-label-blue section-label" style="margin-top:0">Cálculo de exposición anual (banco mediano Lima)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:.35rem">Hipotecas procesadas/mes</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#fff;font-family:'DM Serif Display',serif">~120 ops</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:.35rem">Costo tasadores externos/año</div>
+            <div style="font-size:1.5rem;font-weight:700;color:var(--orange-w,#F97316);font-family:'DM Serif Display',serif">USD 36,000+</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:.35rem">Tiempo analista bloqueado/hipoteca</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#fff;font-family:'DM Serif Display',serif">4–7 días</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:.35rem">Hipotecas con desacuerdos de tasación</div>
+            <div style="font-size:1.5rem;font-weight:700;color:var(--orange-w,#F97316);font-family:'DM Serif Display',serif">~40%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label section-label-blue">Página 2 · Cómo PME lo resuelve</div>
+
+      <div class="two-col">
+        <div class="vs-col">
+          <div class="vc-title">Sin PME — proceso actual</div>
+          <div class="vs-row"><span class="vs-label">Fuente de precio</span><span class="vs-val" style="color:var(--s4)">Portales (lista)</span></div>
+          <div class="vs-row"><span class="vs-label">Tiempo de tasación</span><span class="vs-val" style="color:var(--s4)">4–7 días</span></div>
+          <div class="vs-row"><span class="vs-label">Costo por hipoteca</span><span class="vs-val" style="color:var(--s4)">USD 150–300</span></div>
+          <div class="vs-row"><span class="vs-label">Sustento SBS</span><span class="vs-val" style="color:var(--s4)">Variable</span></div>
+          <div class="vs-row"><span class="vs-label">Desacuerdos de tasación</span><span class="vs-val" style="color:var(--s4)">~40% ops</span></div>
+          <div class="vs-row"><span class="vs-label">Escalabilidad</span><span class="vs-val" style="color:var(--s4)">Limitada</span></div>
+        </div>
+        <div class="vs-col dark">
+          <div class="vc-title">Con PME — proceso integrado</div>
+          <div class="vs-row"><span class="vs-label">Fuente de precio</span><span class="vs-val">Censal CAPECO (cierre)</span></div>
+          <div class="vs-row"><span class="vs-label">Tiempo de validación</span><span class="vs-val">Horas (API automática)</span></div>
+          <div class="vs-row"><span class="vs-label">Costo por hipoteca</span><span class="vs-val">Incluido en suscripción</span></div>
+          <div class="vs-row"><span class="vs-label">Sustento SBS</span><span class="vs-val">CAPECO institucional 63 años</span></div>
+          <div class="vs-row"><span class="vs-label">Desacuerdos de tasación</span><span class="vs-val">−40% verificado</span></div>
+          <div class="vs-row"><span class="vs-label">Escalabilidad</span><span class="vs-val">Ilimitada vía API</span></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label section-label-blue">Página 3 · ROI calculado</div>
+
+      <div class="roi-box">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.4rem">Costo actual / año</div>
+            <div class="roi-num">USD 36k<sup>+</sup></div>
+            <div class="roi-label">Tasadores externos (est. 120 hipotecas/mes × USD 250)</div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.4rem">Suscripción PME Enterprise</div>
+            <div class="roi-num">USD 18k</div>
+            <div class="roi-label">Precio fijo anual · Hipotecas ilimitadas</div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.4rem">Ahorro directo / año</div>
+            <div class="roi-num" style="color:var(--teal,#0D9488)">USD 18k+</div>
+            <div class="roi-label">Solo en costo de tasadores. Sin contar tiempo de analistas.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="background:var(--s1);margin-top:1rem">
+        <div style="font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:.5rem">Fórmula de ROI expandida</div>
+        <div style="font-size:12px;color:var(--s6);line-height:1.7;font-style:italic">(Hipotecas/mes × Días ahorrados × Costo/día analista × 12) + (Ahorro tasadores externos/año) − Costo suscripción PME = <strong style="color:var(--navy);font-style:normal">ROI multiplicador confirmado &gt;2x</strong></div>
+      </div>
+
+      <div class="card-orange" style="margin-top:1rem">
+        <div style="font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:.35rem">Próximo paso recomendado</div>
+        <div style="font-size:12px;color:var(--s6);line-height:1.6">PoC gratuito de 30 días para su área de Riesgo Hipotecario. Medimos juntos el impacto real antes de cualquier firma. Contacto: <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fa8c9f948e9b89ba979389d48a9f">[email&#160;protected]</a></strong> · +51 965 113 510</div>
+      </div>
+    </div>
+    <div class="doc-footer">
+      <div><div class="ft"><span class="logo-sq" style="background:var(--blue)">PME</span> PME FINANCE · CAPECO</div><div class="fs">Propuesta ROI para Banca · Confidencial</div></div>
+      <div class="fc"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e294878c968391a28f8b91cc9287">[email&#160;protected]</a></span><span>pme.pe/bancos</span><span>+51 965 113 510</span></div>
+    </div>
+  </div>
+</div><!-- /roi -->
+
+
+<!-- ════════════════════════════════════════════════
+     NEWSLETTER TRIMESTRAL HTML
+════════════════════════════════════════════════ -->
+<div class="page" id="newsletter">
+  <div class="doc-label">NEWSLETTER TRIMESTRAL PME — Template HTML · Actualizar datos cada Q</div>
+
+  <div class="email-meta" style="margin-bottom:1rem">
+    <div><strong>Asunto:</strong> <span style="color:var(--navy);font-weight:700">Informe Trimestral PME CAPECO · Q4 2025 — Los datos que mueven el sector</span></div>
+    <div style="margin-top:.25rem"><strong>Preheader:</strong> Precio m² Lima, absorción por corredor, top distritos y análisis del trimestre. Para suscriptores y auspiciadores PME.</div>
+    <div style="margin-top:.25rem"><strong>Enviar a:</strong> Base suscriptores activos + auspiciadores · Frecuencia: trimestral (enero, abril, julio, octubre)</div>
+  </div>
+
+  <div class="nl-shell">
+    <!-- Trust bar -->
+    <div style="background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);padding:.4rem 2rem;background:var(--navy);text-align:center">
+      <span style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em">★★★★★ &nbsp; Fuente oficial CAPECO · Dato censal · ~50 empresas suscriptoras</span>
+    </div>
+    <!-- Header -->
+    <div class="nl-header" style="padding:1.5rem 2rem">
+      <div style="display:flex;align-items:center;gap:.875rem;margin-bottom:1.25rem">
+        <div style="width:36px;height:36px;background:var(--orange);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0">PME</div>
+        <div>
+          <div style="font-size:14px;font-weight:800;color:#fff">PME CAPECO</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em">Informe Trimestral del Mercado</div>
+        </div>
+        <div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.35)">Q4 2025 · [ACTUALIZAR CADA TRIMESTRE]</div>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;line-height:1.2;margin-bottom:.5rem">El mercado inmobiliario de Lima cerró Q4 2025 con <em style="color:var(--orange-w,#F97316);font-style:italic">señales mixtas</em></div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5)">Precio m² sube +9.3% interanual · Absorción estable en 37% promedio · San Miguel el distrito de mayor alza</div>
+    </div>
+
+    <!-- Datos principales -->
+    <div class="nl-data-block">
+      <div class="nl-section-title">Indicadores clave Q4 2025</div>
+      <div class="nl-metric">
+        <div class="nl-metric-num">S/ 6,174<sup>/m²</sup></div>
+        <div class="nl-metric-text"><div class="mt">Precio promedio Lima Metropolitana</div><div class="md">↑ +9.3% vs Q3 2025 · Lima Moderna lidera con S/ 7,180/m²</div></div>
+      </div>
+      <div class="nl-metric">
+        <div class="nl-metric-num">4.8 <sup style="font-size:.85rem">m</sup></div>
+        <div class="nl-metric-text"><div class="mt">Velocidad de absorción promedio</div><div class="md">→ Estable vs trimestre anterior · Lima Top en 40% Lima Top, Lima Sur en 30% Lima Sur</div></div>
+      </div>
+      <div class="nl-metric">
+        <div class="nl-metric-num">26k<sup>+</sup></div>
+        <div class="nl-metric-text"><div class="mt">Unidades proyectadas para el año</div><div class="md">↑ +28% vs proyección Q3 · Segmento 2D sigue siendo el driver principal</div></div>
+      </div>
+    </div>
+
+    <!-- Top distritos -->
+    <div class="nl-data-block">
+      <div class="nl-section-title">Top 5 distritos · Precio m² cierre Q4 2025</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+        <thead><tr style="background:var(--s1)">
+          <th style="text-align:left;padding:.5rem .75rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--s4)">#</th>
+          <th style="text-align:left;padding:.5rem .75rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--s4)">Distrito</th>
+          <th style="text-align:right;padding:.5rem .75rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--s4)">Precio m²</th>
+          <th style="text-align:right;padding:.5rem .75rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--s4)">Var. interanual</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--s2)"><td style="padding:.5rem .75rem;color:var(--s4)">1</td><td style="padding:.5rem .75rem;font-weight:700;color:var(--navy)">Miraflores</td><td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:var(--orange)">S/ 8,417</td><td style="padding:.5rem .75rem;text-align:right;color:var(--teal)">+11.2%</td></tr>
+          <tr style="border-bottom:1px solid var(--s2);background:var(--s1)"><td style="padding:.5rem .75rem;color:var(--s4)">2</td><td style="padding:.5rem .75rem;font-weight:700;color:var(--navy)">San Isidro</td><td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:var(--orange)">S/ 8,467</td><td style="padding:.5rem .75rem;text-align:right;color:var(--teal)">+8.7%</td></tr>
+          <tr style="border-bottom:1px solid var(--s2)"><td style="padding:.5rem .75rem;color:var(--s4)">3</td><td style="padding:.5rem .75rem;font-weight:700;color:var(--navy)">Barranco</td><td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:var(--s8)">S/ 7,887</td><td style="padding:.5rem .75rem;text-align:right;color:var(--teal)">+8.3%</td></tr>
+          <tr style="border-bottom:1px solid var(--s2);background:var(--s1)"><td style="padding:.5rem .75rem;color:var(--s4)">4</td><td style="padding:.5rem .75rem;font-weight:700;color:var(--navy)">Surquillo</td><td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:var(--s8)">S/ 6,557</td><td style="padding:.5rem .75rem;text-align:right;color:var(--teal)">+5.1%</td></tr>
+          <tr><td style="padding:.5rem .75rem;color:var(--s4)">5</td><td style="padding:.5rem .75rem;font-weight:700;color:var(--navy)">San Miguel ⭐</td><td style="padding:.5rem .75rem;text-align:right;font-weight:700;color:var(--s8)">S/ 5,947</td><td style="padding:.5rem .75rem;text-align:right;color:var(--orange);font-weight:700">+14.8% ↑</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10.5px;color:var(--s4);margin-top:.625rem;font-style:italic">Fuente: CAPECO PME · Dato censal Q4 2025 · No estimado · pme.pe</div>
+    </div>
+
+    <!-- Espacio auspiciadores -->
+    <div class="nl-sponsor-banner">
+      <div>
+        <div class="nl-sponsor-badge">Auspiciado por</div>
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">[NOMBRE DEL AUSPICIADOR]</div>
+        <div style="font-size:11.5px;color:var(--s6);margin-top:2px">[Tagline / servicio del auspiciador]</div>
+      </div>
+      <div style="text-align:right">
+        <div style="width:80px;height:40px;background:var(--s2);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--s4)">Logo aquí</div>
+        <div style="font-size:10px;color:var(--s4);margin-top:.25rem">Auspiciador [TIER]</div>
+      </div>
+    </div>
+
+    <!-- Análisis -->
+    <div class="nl-data-block">
+      <div class="nl-section-title">Análisis del trimestre</div>
+      <div style="font-size:13px;color:var(--s8);line-height:1.8;margin-bottom:.875rem"><strong>San Miguel es la historia del Q4.</strong> Con un alza interanual del 14.8%, es el distrito con mayor crecimiento de precio en Lima Metropolitana. Los factores: mayor disponibilidad de terrenos para desarrollo, migración de demanda desde Lima Moderna y absorción de 4.1 meses — por debajo del promedio de Lima.</div>
+      <div style="font-size:13px;color:var(--s8);line-height:1.8;margin-bottom:.875rem"><strong>El segmento 2D sigue siendo el driver.</strong> En Lima Moderna, los departamentos de 2 dormitorios concentran el 58% de las unidades en oferta activa con la mayor velocidad de absorción. El segmento 3D+ en Lima Norte muestra señales de sobreoferta.</div>
+      <div style="background:var(--blue-p);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:.875rem 1rem;font-size:12.5px;color:var(--navy);line-height:1.65"><strong>Para el Q1 2026:</strong> Proyectamos una absorción estable en Lima Moderna y Lima Top, con ligero ajuste en distritos periféricos. La demanda de 1D continúa siendo sólida en el segmento de inversión.</div>
+    </div>
+
+    <!-- CTA block -->
+    <div class="nl-cta-block">
+      <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:#fff;margin-bottom:.5rem">¿Tu empresa ya tiene acceso a todos estos datos?</div>
+      <div style="font-size:12px;color:rgba(255,255,

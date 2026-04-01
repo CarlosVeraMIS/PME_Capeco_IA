@@ -1,0 +1,17 @@
+# Vercel
+.vercel/
+
+# Node (si algún día se agrega build)
+node_modules/
+npm-debug.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# Temp
+*.tmp
