@@ -318,29 +318,69 @@
                 bar.style.bottom = '30px';
                 bar.style.left = '50%';
                 bar.style.transform = 'translateX(-50%)';
-                bar.style.background = 'rgba(15, 23, 42, 0.9)';
+                bar.style.background = 'rgba(15, 23, 42, 0.95)';
                 bar.style.border = '1px solid var(--accent-color)';
                 bar.style.padding = '10px 20px';
                 bar.style.borderRadius = '30px';
                 bar.style.zIndex = '2000';
                 bar.style.display = 'flex';
-                bar.style.gap = '15px';
+                bar.style.gap = '10px';
                 bar.style.alignItems = 'center';
-                bar.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+                bar.style.boxShadow = '0 10px 25px rgba(0,0,0,0.8)';
                 bar.innerHTML = `
-                    <span id="sel-count-text" style="font-weight:600; font-size:0.85rem; color:#fff;"></span>
-                    <button onclick="analyzeSelected()" style="background:var(--accent-color); color:#000; border:none; padding:5px 12px; border-radius:15px; cursor:pointer; font-weight:700; font-size:0.8rem;">Analizar</button>
-                    <button onclick="clearSelection()" style="background:transparent; color:var(--text-secondary); border:1px solid var(--text-secondary); padding:5px 12px; border-radius:15px; cursor:pointer; font-size:0.8rem;">Limpiar</button>
+                    <span id="sel-count-text" style="font-weight:600; font-size:0.85rem; color:#fff; margin-right:5px;"></span>
+                    <button onclick="showStatsModal()" style="background:var(--success-color); color:#fff; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:600; font-size:0.75rem;">📊 Estadísticas Rápidas</button>
+                    <button onclick="analyzeSelected(false)" style="background:var(--accent-color); color:#000; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:700; font-size:0.75rem;">☁️ Analizar Nube</button>
+                    <button onclick="analyzeSelected(true)" style="background:#f59e0b; color:#fff; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:600; font-size:0.75rem;">⚡ Analizar Local</button>
+                    <button onclick="clearSelection()" style="background:transparent; color:var(--text-secondary); border:1px solid var(--text-secondary); padding:6px 14px; border-radius:15px; cursor:pointer; font-size:0.75rem; margin-left:5px;">Limpiar</button>
                 `;
                 document.getElementById('map-container').appendChild(bar);
             }
             
             if (selectedProjectsForAI.size > 0) {
                 bar.style.display = 'flex';
-                document.getElementById('sel-count-text').innerText = `${selectedProjectsForAI.size} proyectos listos`;
+                document.getElementById('sel-count-text').innerText = `${selectedProjectsForAI.size} seleccionados:`;
             } else {
                 bar.style.display = 'none';
             }
+        }
+
+        function showStatsModal() {
+            if(selectedProjectsForAI.size === 0) return;
+            
+            let html = '<div style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--panel-bg); padding:25px; border:1px solid var(--accent-color); border-radius:12px; z-index:3000; box-shadow:0 0 30px rgba(0,0,0,0.8); width: 450px; color:#fff;" id="stats-modal">';
+            html += '<h2 style="font-size:1.2rem; margin-bottom:15px; color:var(--accent-color);">📊 Estadísticas de tu Selección</h2>';
+            
+            let arr = masterData.filter(d => selectedProjectsForAI.has(d.title));
+            let totalStock = arr.reduce((acc, p) => acc + (p.total_units || 0), 0);
+            
+            let validPrices = arr.filter(p => p.avg_price_m2 > 0);
+            let avgM2 = validPrices.reduce((acc, p) => acc + p.avg_price_m2, 0) / (validPrices.length || 1);
+            let sortedByPrice = [...validPrices].sort((a,b) => a.avg_price_m2 - b.avg_price_m2);
+            
+            html += `<div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                        <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; flex:1; margin-right:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Promedio m²</div>
+                            <div style="font-size:1.1rem; font-weight:700;">S/ ${Math.round(avgM2).toLocaleString('en-US')}</div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; flex:1; border:1px solid var(--border-color);">
+                            <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Stock Total</div>
+                            <div style="font-size:1.1rem; font-weight:700;">${totalStock} unds.</div>
+                        </div>
+                     </div>`;
+                     
+            if(sortedByPrice.length > 0) {
+                html += '<div style="font-size:0.8rem; margin-bottom:5px; color:var(--text-secondary);">Más accesible:</div>';
+                html += `<div style="font-size:0.9rem; font-weight:600; color:var(--success-color); margin-bottom:10px;">📉 ${sortedByPrice[0].title} (S/ ${Math.round(sortedByPrice[0].avg_price_m2).toLocaleString('en-US')}/m²)</div>`;
+                
+                html += '<div style="font-size:0.8rem; margin-bottom:5px; color:var(--text-secondary);">Más exclusivo:</div>';
+                html += `<div style="font-size:0.9rem; font-weight:600; color:var(--danger-color); margin-bottom:15px;">📈 ${sortedByPrice[sortedByPrice.length-1].title} (S/ ${Math.round(sortedByPrice[sortedByPrice.length-1].avg_price_m2).toLocaleString('en-US')}/m²)</div>`;
+            }
+
+            html += `<button onclick="document.getElementById('stats-modal').remove()" style="width:100%; padding:8px; background:transparent; color:#fff; border:1px solid var(--border-color); border-radius:6px; cursor:pointer;">Cerrar Panel</button>`;
+            html += '</div>';
+            
+            document.body.insertAdjacentHTML('beforeend', html);
         }
 
         function clearSelection() {
@@ -350,14 +390,16 @@
             renderMap(masterData, true); // True to skip fitbounds jump
         }
 
-        function analyzeSelected() {
+        function analyzeSelected(use_local) {
             if(selectedProjectsForAI.size === 0) return;
             const list = Array.from(selectedProjectsForAI).join(', ');
             const qInput = document.getElementById('query-input');
-            qInput.value = `Compara de forma ejecutiva estos proyectos: ${list}. Analiza m2, precios y dime cuál es el más destacado.`;
+            const localIndicator = use_local ? '[LOCAL IA] ' : '';
+            qInput.value = `${localIndicator}Compara de forma ejecutiva estos proyectos: ${list}. Analiza m2, precios y dime cuál es el más destacado.`;
+            
+            window.lastUseLocalFlag = use_local;
             document.getElementById('send-btn').click();
             
-            // Optionally clear after sending
             clearSelection();
         }
 
@@ -643,17 +685,21 @@
             const query = queryInput.value.trim();
             if(!query) return;
 
+            const useLocal = !!window.lastUseLocalFlag;
+            window.lastUseLocalFlag = false;
+
             addChatMessage(query, 'user');
             queryInput.value = '';
             
             sendBtn.disabled = true;
-            const loadingId = addChatMessage('<div class="loader"></div> Pensando...', 'ai');
+            const loadingText = useLocal ? '⚡ Lanzando Ollama Local...' : '🧠 Consultando a OpenAI...';
+            const loadingId = addChatMessage(`<div class="loader"></div> ${loadingText}`, 'ai');
 
             try {
                 const res = await fetch('http://127.0.0.1:5000/query', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query })
+                    body: JSON.stringify({ query: query, use_local: useLocal })
                 });
                 const data = await res.json();
                 document.getElementById(loadingId).remove();
@@ -662,7 +708,7 @@
                 else addChatMessage(`❌ **Error:**\n\n${data.error}`, 'ai', true);
             } catch(e) {
                 document.getElementById(loadingId).remove();
-                addChatMessage(`⚠️ **Sin conexión:** Asegúrate de que app_ia.py esté en el puerto 5000.`, 'ai', true);
+                addChatMessage(`⚠️ **Sin conexión:** Asegúrate de que app_ia.py esté corriendo en el puerto 5000.`, 'ai', true);
             }
             sendBtn.disabled = false;
         }

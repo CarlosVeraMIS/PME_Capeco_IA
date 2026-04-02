@@ -26,7 +26,22 @@ except Exception as e:
 # ==========================================
 # Motor LangChain
 # ==========================================
-def get_agent():
+def get_agent(use_local=False):
+    if use_local:
+        try:
+            from langchain_community.chat_models import ChatOllama
+            llm = ChatOllama(model="llama3", temperature=0)
+            agent = create_pandas_dataframe_agent(
+                llm, 
+                [df_csv, df_xl], 
+                verbose=True, 
+                agent_type="zero-shot-react-description",
+                allow_dangerous_code=True
+            )
+            return agent
+        except Exception as e:
+            raise Exception(f"No se pudo iniciar el Agente Local o falta una dependencia. Error exacto: {e}")
+
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         return None
@@ -48,14 +63,18 @@ def get_agent():
 def query_ai():
     data = request.json
     question = data.get('query', '')
+    use_local = data.get('use_local', False)
     
     if not question:
         return jsonify({"error": "Pregunta vacía"}), 400
 
-    agent = get_agent()
+    try:
+        agent = get_agent(use_local)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
     # MODO SIMULADOR SI NO HAY API KEY
-    if not agent:
+    if not agent and not use_local:
         import time
         time.sleep(1.5) # Simular latencia de red/IA
         
