@@ -52,6 +52,43 @@ for title in df_csv_clean['title'].unique():
         csv_projects_status[title] = True
 
 # Preparar la extraccion final de la data
+project_models = {}
+for idx, row in df_csv_clean.iterrows():
+    t = row['title']
+    if pd.isna(t): continue
+    if t not in project_models:
+        project_models[t] = {'total_units': 0, 'models': []}
+    
+    payload_str = row['payload_jsonb'] if 'payload_jsonb' in row and pd.notna(row['payload_jsonb']) else "{}"
+    try:
+        payload = json.loads(payload_str)
+    except:
+        payload = {}
+        
+    modelo = payload.get('modelo', payload.get('tipo_modelo_label', 'Unidad'))
+    area = payload.get('area_m2', row['area_m2'] if 'area_m2' in row and pd.notna(row['area_m2']) else 0)
+    precio_num = payload.get('precio_amount', row['price_amount'] if 'price_amount' in row and pd.notna(row['price_amount']) else 0)
+    moneda = payload.get('precio_currency', 'S/')
+    unidades = payload.get('unidades_disponibles', row['units_available'] if 'units_available' in row and pd.notna(row['units_available']) else 0)
+    
+    # Manejar nulos en unidades
+    if pd.isna(unidades) or unidades == 'null': unidades = 0
+    else:
+        try: unidades = int(unidades)
+        except: unidades = 0
+
+    # Evitar duplicados exactos en modelos
+    model_str = f"{modelo}-{area}-{precio_num}"
+    if not any(f"{m['modelo']}-{m['area_m2']}-{m['raw_price']}" == model_str for m in project_models[t]['models']):
+        project_models[t]['total_units'] += unidades
+        project_models[t]['models'].append({
+            'modelo': modelo,
+            'area_m2': area,
+            'precio_string': f"{moneda} {precio_num:,.0f}" if precio_num > 0 else "Consultar",
+            'unidades_disponibles': unidades,
+            'raw_price': precio_num
+        })
+
 df_csv_clean.drop_duplicates(subset=['title'], inplace=True)
 export_data = []
 
@@ -77,6 +114,9 @@ for idx, row in df_csv_clean.iterrows():
     url = row['url'] if 'url' in row and pd.notna(row['url']) else "#"
 
     is_missing = csv_projects_status.get(t, True)
+    
+    # Obtener modelos y unidades agrupadas
+    pm = project_models.get(t, {'total_units': 0, 'models': []})
 
     export_data.append({
         "title": t,
@@ -91,7 +131,9 @@ for idx, row in df_csv_clean.iterrows():
         "rooms": rooms,
         "description": desc[:200] + "..." if len(desc) > 200 else desc,
         "url": url,
-        "is_missing": is_missing
+        "is_missing": is_missing,
+        "total_units": pm['total_units'],
+        "models": pm['models']
     })
 
 out_path = "Dashboard Faltantes/all_projects.json"

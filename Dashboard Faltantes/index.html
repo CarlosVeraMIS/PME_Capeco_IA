@@ -319,7 +319,13 @@
                         <span>🛏️ ${p.rooms || '-'} dor</span>
                         <span>📐 ${p.area_m2 ? p.area_m2+' m²' : '-'}</span>
                     </div>
-                    <div class="card-price">${p.price_string}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                        <div class="card-price">${p.price_string}</div>
+                        <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.75rem; font-weight: 600;" onclick="event.stopPropagation()">Ver Proyecto ↗</a>
+                    </div>
+                    <div style="font-size: 0.65rem; color: var(--text-secondary); margin-top: 6px;">
+                        Fuente: Nexo Inmobiliario
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -342,12 +348,40 @@
                 const tagClass = p.is_missing ? '' : 'found';
                 const tagText = p.is_missing ? 'Faltante en Q4' : 'Verificado en Q4';
 
+                let modelsHtml = '';
+                if(p.models && p.models.length > 0) {
+                    modelsHtml += '<div style="margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px;">';
+                    modelsHtml += '<strong style="font-size:0.75rem; color:var(--text-secondary);">Tipos de Departamento:</strong>';
+                    modelsHtml += '<div style="max-height: 90px; overflow-y: auto; margin-top: 4px; margin-bottom: 5px; padding-right: 4px;">';
+                    p.models.forEach(m => {
+                        modelsHtml += `<div style="font-size: 0.7rem; color:#cbd5e1; margin-bottom:3px; display: flex; justify-content: space-between; border-bottom: 1px dotted rgba(255,255,255,0.1); padding-bottom: 2px;">
+                            <span>${m.modelo} (${m.area_m2}m²)</span>
+                            <span>${m.precio_string} | ${m.unidades_disponibles} unds.</span>
+                        </div>`;
+                    });
+                    modelsHtml += '</div>';
+                    modelsHtml += `<div style="margin-top:4px; font-size: 0.75rem; color: var(--accent-color); font-weight: 600;">
+                        Stock total: ${p.total_units} unidades disponibles
+                    </div>`;
+                    modelsHtml += '</div>';
+                }
+
+                let avg_string = '';
+                if(p.avg_price_m2 && p.avg_price_m2 > 0) {
+                    let moneda = p.project_currency || (p.price_string ? p.price_string.split(' ')[0] : 'S/');
+                    if (moneda !== '$' && moneda !== 'S/') moneda = 'S/';
+                    avg_string = ` | ${moneda} ${Math.round(p.avg_price_m2).toLocaleString('en-US')} Promedio (precio m2)`;
+                }
+
                 const popContent = `
-                    <div class="popup-content">
+                    <div class="popup-content" style="min-width: 250px;">
                         <h3>${p.title}</h3>
-                        <p>📍 ${p.distrito} | 🛏️ ${p.rooms}dor | 📐 ${p.area_m2}m²</p>
-                        <p style="margin-top: 5px; font-weight:bold">${p.price_string}</p>
-                        <div class="popup-tag ${tagClass}">${tagText}</div>
+                        <p style="margin-bottom: 6px;">📍 ${p.distrito}${avg_string}</p>
+                        ${modelsHtml}
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
+                            <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;">Ver Proyecto ↗</a>
+                            <span style="font-size: 0.65rem; color: #94a3b8;">Nexo Inmobiliario</span>
+                        </div>
                     </div>`;
                 marker.bindPopup(popContent);
                 markers[p.title] = marker;
