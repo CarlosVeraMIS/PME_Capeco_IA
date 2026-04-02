@@ -128,6 +128,22 @@
         
         .loader { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--accent-color); animation: spin 1s infinite linear; display: inline-block; vertical-align: middle; margin-right: 6px;}
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        #btn-marquee {
+            position: absolute; top: 15px; left: 60px; z-index: 1000;
+            background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: var(--text-secondary);
+            padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        #btn-marquee:hover { background: rgba(0,0,0,0.9); color: #fff; border-color: var(--accent-color); }
+        
+        #btn-locate {
+            position: absolute; bottom: 30px; left: 15px; z-index: 1000;
+            background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981;
+            padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        #btn-locate:hover { background: rgba(16, 185, 129, 0.4); color: #fff; }
     </style>
 </head>
 <body>
@@ -192,6 +208,8 @@
 
     <!-- CENTER MAP -->
     <main id="map-container">
+        <button id="btn-marquee" onclick="enableMarqueeSelection()">🔲 Seleccionar Zona</button>
+        <button id="btn-locate" onclick="locateUser()">🧭 Cerca de Mí</button>
         <div id="map"></div>
     </main>
 
@@ -226,6 +244,9 @@
         let masterData = [];
         let markers = {};
         let currentRoomFilter = 0;
+        let selectedProjectsForAI = new Set();
+        let userLocation = null;
+        let userMarker = null;
 
         fetch('./all_projects.json')
             .then(res => res.json())
@@ -234,6 +255,216 @@
                 populateDistricts(data);
                 applyFilters(); // Renders everything initially
             });
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+        }
+
+        function locateUser() {
+            if ("geolocation" in navigator) {
+                const btn = document.getElementById('btn-locate');
+                btn.innerText = "Buscando...";
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    userLocation = { lat, lon };
+                    
+                    if(userMarker) map.removeLayer(userMarker);
+                    const icon = L.divIcon({ className: 'custom-icon', html: `<div style="width:20px;height:20px;border:3px solid #fff;border-radius:50%;background:#10b981;box-shadow:0 0 15px #10b981;"></div>`, iconSize: [20,20] });
+                    userMarker = L.marker([lat, lon], {icon: icon, zIndexOffset: 1000}).addTo(map).bindPopup("<b style='color:#000'>Tu Ubicación</b>").openPopup();
+                    
+                    map.flyTo([lat, lon], 14);
+                    btn.innerText = "🧭 Cerca de Mí (Activo)";
+                    
+                    applyFilters(); // Re-sorts using distance
+                }, (err) => {
+                    btn.innerText = "Ubicación Fallida";
+                    alert("No se pudo obtener la ubicación. Comprueba los permisos de tu navegador.");
+                });
+            } else {
+                alert("Geolocalización no soportada por el navegador.");
+            }
+        }
+
+        function toggleProjectSelection(encodedTitle) {
+            const title = decodeURIComponent(encodedTitle);
+            if (selectedProjectsForAI.has(title)) {
+                selectedProjectsForAI.delete(title);
+            } else {
+                selectedProjectsForAI.add(title);
+            }
+            updateSelectionBar();
+            
+            const btn = document.getElementById('btn-sel-' + encodedTitle);
+            if (btn) {
+                btn.innerText = selectedProjectsForAI.has(title) ? '❌ Quitar de Selección' : '➕ Añadir para IA';
+                btn.style.background = selectedProjectsForAI.has(title) ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.2)';
+                btn.style.color = selectedProjectsForAI.has(title) ? '#ef4444' : '#38bdf8';
+            }
+        }
+
+        function updateSelectionBar() {
+            let bar = document.getElementById('selection-bar');
+            if (!bar) {
+                bar = document.createElement('div');
+                bar.id = 'selection-bar';
+                bar.style.position = 'absolute';
+                bar.style.bottom = '30px';
+                bar.style.left = '50%';
+                bar.style.transform = 'translateX(-50%)';
+                bar.style.background = 'rgba(15, 23, 42, 0.9)';
+                bar.style.border = '1px solid var(--accent-color)';
+                bar.style.padding = '10px 20px';
+                bar.style.borderRadius = '30px';
+                bar.style.zIndex = '2000';
+                bar.style.display = 'flex';
+                bar.style.gap = '15px';
+                bar.style.alignItems = 'center';
+                bar.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+                bar.innerHTML = `
+                    <span id="sel-count-text" style="font-weight:600; font-size:0.85rem; color:#fff;"></span>
+                    <button onclick="analyzeSelected()" style="background:var(--accent-color); color:#000; border:none; padding:5px 12px; border-radius:15px; cursor:pointer; font-weight:700; font-size:0.8rem;">Analizar</button>
+                    <button onclick="clearSelection()" style="background:transparent; color:var(--text-secondary); border:1px solid var(--text-secondary); padding:5px 12px; border-radius:15px; cursor:pointer; font-size:0.8rem;">Limpiar</button>
+                `;
+                document.getElementById('map-container').appendChild(bar);
+            }
+            
+            if (selectedProjectsForAI.size > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('sel-count-text').innerText = `${selectedProjectsForAI.size} proyectos listos`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function clearSelection() {
+            selectedProjectsForAI.clear();
+            updateSelectionBar();
+            map.closePopup(); // Refresh buttons if they reopen
+            renderMap(masterData, true); // True to skip fitbounds jump
+        }
+
+        function analyzeSelected() {
+            if(selectedProjectsForAI.size === 0) return;
+            const list = Array.from(selectedProjectsForAI).join(', ');
+            const qInput = document.getElementById('query-input');
+            qInput.value = `Compara de forma ejecutiva estos proyectos: ${list}. Analiza m2, precios y dime cuál es el más destacado.`;
+            document.getElementById('send-btn').click();
+            
+            // Optionally clear after sending
+            clearSelection();
+        }
+
+        // ==========================================
+        // MARQUEE ZONE SELECTION
+        // ==========================================
+        let selectionBox = null;
+        let startPoint = null;
+
+        function enableMarqueeSelection() {
+            const mapContainer = document.getElementById('map');
+            if (mapContainer.classList.contains('marquee-mode')) {
+                disableMarqueeSelection();
+                return;
+            }
+            
+            mapContainer.classList.add('marquee-mode');
+            map.dragging.disable();
+            document.getElementById('btn-marquee').style.background = 'var(--accent-color)';
+            document.getElementById('btn-marquee').style.color = '#000';
+            document.getElementById('btn-marquee').innerText = '❌ Cancelar Selección';
+            mapContainer.style.cursor = 'crosshair';
+
+            mapContainer.addEventListener('mousedown', onMarqueeDown);
+        }
+
+        function disableMarqueeSelection() {
+            const mapContainer = document.getElementById('map');
+            mapContainer.classList.remove('marquee-mode');
+            map.dragging.enable();
+            document.getElementById('btn-marquee').style.background = 'rgba(0,0,0,0.7)';
+            document.getElementById('btn-marquee').style.color = 'var(--text-secondary)';
+            document.getElementById('btn-marquee').innerText = '🔲 Seleccionar Zona';
+            mapContainer.style.cursor = '';
+
+            mapContainer.removeEventListener('mousedown', onMarqueeDown);
+        }
+
+        function onMarqueeDown(e) {
+            if (e.button !== 0) return; 
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            
+            selectionBox = document.createElement('div');
+            selectionBox.style.position = 'absolute';
+            selectionBox.style.border = '2px dashed #38bdf8';
+            selectionBox.style.background = 'rgba(56, 189, 248, 0.2)';
+            selectionBox.style.zIndex = '9999';
+            selectionBox.style.pointerEvents = 'none';
+            mapContainer.appendChild(selectionBox);
+
+            document.addEventListener('mousemove', onMarqueeMove);
+            document.addEventListener('mouseup', onMarqueeUp);
+            e.preventDefault();
+        }
+
+        function onMarqueeMove(e) {
+            if (!selectionBox) return;
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            const currX = e.clientX - rect.left;
+            const currY = e.clientY - rect.top;
+
+            const left = Math.min(startPoint.x, currX);
+            const top = Math.min(startPoint.y, currY);
+            const width = Math.abs(currX - startPoint.x);
+            const height = Math.abs(currY - startPoint.y);
+
+            selectionBox.style.left = left + 'px';
+            selectionBox.style.top = top + 'px';
+            selectionBox.style.width = width + 'px';
+            selectionBox.style.height = height + 'px';
+        }
+
+        function onMarqueeUp(e) {
+            if (!selectionBox) return;
+            document.removeEventListener('mousemove', onMarqueeMove);
+            document.removeEventListener('mouseup', onMarqueeUp);
+
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            const endX = e.clientX - rect.left;
+            const endY = e.clientY - rect.top;
+
+            const latlng1 = map.containerPointToLatLng(L.point(startPoint.x, startPoint.y));
+            const latlng2 = map.containerPointToLatLng(L.point(endX, endY));
+            const bounds = L.latLngBounds(latlng1, latlng2);
+
+            selectionBox.remove();
+            selectionBox = null;
+            
+            masterData.forEach(p => {
+                if (!p.latitude || !p.longitude) return;
+                if (markers[p.title]) { // Solo interactúa con los que están renderizados/filtrados
+                    if (bounds.contains([p.latitude, p.longitude])) {
+                        selectedProjectsForAI.add(p.title);
+                    }
+                }
+            });
+
+            updateSelectionBar();
+            disableMarqueeSelection();
+            
+            // Re-render map to update the popup buttons if any are open (pass true to skip zoom jump)
+            renderMap(masterData.filter(d => !!markers[d.title]), true);
+        }
 
         function populateDistricts(data) {
             const select = document.getElementById('filterDistrito');
@@ -258,18 +489,20 @@
             const pMin = parseFloat(document.getElementById('filterPriceMin').value) || 0;
             const pMax = parseFloat(document.getElementById('filterPriceMax').value) || 999999999;
             
-            const filtered = masterData.filter(p => {
-                // Text Search
+            let filtered = masterData.filter(p => {
                 if (text && !p.title.toLowerCase().includes(text) && !(p.description || '').toLowerCase().includes(text)) return false;
-                // District
                 if (dist !== 'ALL' && p.distrito !== dist) return false;
-                // Price
                 if (p.price_value > 0 && (p.price_value < pMin || p.price_value > pMax)) return false;
-                // Rooms
                 if (p.rooms < currentRoomFilter) return false;
-                
                 return true;
             });
+
+            if (userLocation) {
+                filtered.forEach(p => {
+                    p.distanceToUser = calculateDistance(userLocation.lat, userLocation.lon, p.latitude, p.longitude);
+                });
+                filtered.sort((a,b) => a.distanceToUser - b.distanceToUser);
+            }
 
             updateStats(filtered);
             renderList(filtered);
@@ -315,7 +548,7 @@
                         <div class="card-title">${p.title}</div>
                     </div>
                     <div class="card-meta">
-                        <span>📍 ${p.distrito}</span>
+                        <span>📍 ${p.distrito} ${p.distanceToUser !== undefined ? '(' + p.distanceToUser.toFixed(1) + 'km)' : ''}</span>
                         <span>🛏️ ${p.rooms || '-'} dor</span>
                         <span>📐 ${p.area_m2 ? p.area_m2+' m²' : '-'}</span>
                     </div>
@@ -331,7 +564,7 @@
             });
         }
 
-        function renderMap(data) {
+        function renderMap(data, skipFitBounds=false) {
             for(let key in markers) map.removeLayer(markers[key]);
             markers = {};
             const bounds = [];
@@ -344,8 +577,7 @@
                 
                 const marker = L.marker([p.latitude, p.longitude], {icon: customIcon}).addTo(map);
                 bounds.push([p.latitude, p.longitude]);
-                
-                const tagClass = p.is_missing ? '' : 'found';
+                //...
                 const tagText = p.is_missing ? 'Faltante en Q4' : 'Verificado en Q4';
 
                 let modelsHtml = '';
@@ -373,21 +605,30 @@
                     avg_string = ` | ${moneda} ${Math.round(p.avg_price_m2).toLocaleString('en-US')} Promedio (precio m2)`;
                 }
 
+                const encodedTitle = encodeURIComponent(p.title);
+                const isSel = typeof selectedProjectsForAI !== 'undefined' && selectedProjectsForAI.has(p.title);
+                const btnText = isSel ? '❌ Quitar de Selección' : '➕ Añadir para IA';
+                const btnBg = isSel ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.2)';
+                const btnCol = isSel ? '#ef4444' : '#38bdf8';
+
                 const popContent = `
                     <div class="popup-content" style="min-width: 250px;">
                         <h3>${p.title}</h3>
                         <p style="margin-bottom: 6px;">📍 ${p.distrito}${avg_string}</p>
                         ${modelsHtml}
-                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
-                            <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;">Ver Proyecto ↗</a>
-                            <span style="font-size: 0.65rem; color: #94a3b8;">Nexo Inmobiliario</span>
+                        <div style="margin-top: 10px; padding-top: 8px;">
+                            <button id="btn-sel-${encodedTitle}" onclick="toggleProjectSelection('${encodedTitle}')" style="width:100%; border:none; background:${btnBg}; color:${btnCol}; padding:6px; border-radius:6px; cursor:pointer; font-weight:600; font-size:0.75rem; transition:0.2s; margin-bottom:8px;">${btnText}</button>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
+                                <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;">Ver Proyecto ↗</a>
+                                <span style="font-size: 0.65rem; color: #94a3b8;">Nexo Inmobiliario</span>
+                            </div>
                         </div>
                     </div>`;
                 marker.bindPopup(popContent);
                 markers[p.title] = marker;
             });
 
-            if(bounds.length > 0) map.fitBounds(bounds, { padding: [50, 50] });
+            if(bounds.length > 0 && !skipFitBounds) map.fitBounds(bounds, { padding: [50, 50] });
         }
 
         // ==========================================
