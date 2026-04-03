@@ -33,7 +33,7 @@ def get_agent(use_local=False):
             llm = ChatOllama(model="llama3", temperature=0)
             agent = create_pandas_dataframe_agent(
                 llm, 
-                [df_csv, df_xl], 
+                df_csv, 
                 verbose=True, 
                 agent_type="zero-shot-react-description",
                 allow_dangerous_code=True
@@ -42,17 +42,35 @@ def get_agent(use_local=False):
         except Exception as e:
             raise Exception(f"No se pudo iniciar el Agente Local o falta una dependencia. Error exacto: {e}")
 
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        return None
+    from dotenv import load_dotenv
+    load_dotenv(override=True)
     
-    # Configuramos el LLM
-    llm = ChatOpenAI(temperature=0, model="gpt-4o-mini", api_key=api_key)
+    # Revisar si hay credenciales de Azure OpenAI
+    azure_api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
     
-    # Creamos el agente capaz de leer múltiples dataframes
+    if azure_api_key and azure_endpoint:
+        from langchain_openai import AzureChatOpenAI
+        llm = AzureChatOpenAI(
+            azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4o-mini"),
+            openai_api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+            azure_endpoint=azure_endpoint,
+            api_key=azure_api_key,
+            temperature=0
+        )
+    else:
+        # Fallback a la API de OpenAI convencional
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            return None
+        
+        # Configuramos el LLM
+        llm = ChatOpenAI(temperature=0, model="gpt-4o-mini", api_key=api_key)
+    
+    # Creamos el agente capaz de leer del dataframe
     agent = create_pandas_dataframe_agent(
         llm, 
-        [df_csv, df_xl], 
+        df_csv, 
         verbose=True, 
         agent_type="openai-tools",
         allow_dangerous_code=True
@@ -97,14 +115,17 @@ He analizado tu solicitud sobre *"{question}"*. Al cruzar la base de datos de Ca
     # MODO REAL (CON API KEY)
     try:
         prompt = f"""
-        Actúa como un experto consultor inmobiliario de Capeco.
-        Tienes acceso a dos dataframes:
-        - df1: Resultados de web scraping (data-proyectos-immobiliarios.csv)
-        - df2: Base consolidada oficial Q4 2025 (data2025Q4.xlsx)
+        Actúa como un analista de datos avanzado.
+        Tienes acceso a una herramienta fundamental llamada `python_repl_ast`. **DEBES OBLIGATORIAMENTE invocar esta herramienta** para ejecutar consultas de Python en memoria para responder.
+        
+        Dentro de ese entorno ya está pre-cargada una variable DataFrame llamada `df`:
+        - `df`: contiene los resultados de web scraping (Columnas principales: 'title', 'distrito', 'price_value', 'model_name').
+        
+        REGLA DE ORO: NO me sugieras cómo escribir el código ni me digas que no tienes acceso. **Usa tu herramienta `python_repl_ast`** para ejecutar el código necesario directamente sobre `df`, extrae el resultado de la herramienta y luego usa esa información para darme una respuesta tabular.
         
         Pregunta del usuario: {question}
         
-        Responde en español, de forma clara, amigable y estructurada. Si te piden top/lista, usa formato markdown.
+        Filtra y extrae correctamente la metadata. Responde en español y entrégame sólamente los resultados directos de forma clara usando formato markdown.
         """
         response = agent.invoke(prompt)
         return jsonify({"answer": response.get("output", "Sin respuesta")})
