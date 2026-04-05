@@ -278,9 +278,11 @@
         fetch('./all_projects.json')
             .then(res => res.json())
             .then(data => {
-                masterData = data;
-                calculateDistrictAverages(data);
-                populateDistricts(data);
+                // Filter out any occurrences of Arequipa from the entire map dataset
+                const filteredData = data.filter(d => !d.distrito || !d.distrito.toLowerCase().includes('arequipa'));
+                masterData = filteredData;
+                calculateDistrictAverages(filteredData);
+                populateDistricts(filteredData);
                 applyFilters(); // Renders everything initially
             });
 
