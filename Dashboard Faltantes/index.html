@@ -98,6 +98,8 @@
         .custom-marker:hover { transform: scale(1.5); z-index: 1000 !important; }
         .marker-missing { background-color: var(--danger-color); box-shadow: 0 0 10px var(--danger-color);}
         .marker-found { background-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color);}
+        .marker-atypical { background-color: #facc15; box-shadow: 0 0 15px #facc15; animation: pulse 1s infinite alternate;}
+        @keyframes pulse { from { box-shadow: 0 0 5px #facc15; } to { box-shadow: 0 0 25px #facc15, 0 0 8px #fff; } }
 
         /* RIGHT SIDEBAR (AI Chat) */
         #chat-sidebar {
@@ -151,8 +153,13 @@
     <!-- LEFT SIDEBAR -->
     <aside id="sidebar">
         <div class="header">
-            <h1>Dashboard Global Scraping</h1>
-            <p>Análisis de Mercado Inmobiliario</p>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <h1>Dashboard Global Scraping</h1>
+                    <p>Análisis de Mercado Inmobiliario</p>
+                </div>
+                <button onclick="openProfileModal()" style="background:transparent; color:var(--accent-color); border:1px solid var(--accent-color); padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--accent-color)'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='var(--accent-color)';">👤 Mi Perfil PME</button>
+            </div>
             <div class="stats-container">
                 <div class="stat-box">
                     <div class="stat-val total" id="stat-total">0</div>
@@ -248,10 +255,31 @@
         let userLocation = null;
         let userMarker = null;
 
+        let districtAverages = {};
+
+        function calculateDistrictAverages(data) {
+            const distMap = {};
+            data.forEach(p => {
+                if(p.distrito && p.avg_price_m2 > 0) {
+                    if(!distMap[p.distrito]) distMap[p.distrito] = { sum: 0, count: 0, projects: 0 };
+                    distMap[p.distrito].sum += p.avg_price_m2;
+                    distMap[p.distrito].count++;
+                    distMap[p.distrito].projects++;
+                }
+            });
+            for(let d in distMap) {
+                districtAverages[d] = {
+                    avgM2: distMap[d].sum / distMap[d].count,
+                    totalComp: distMap[d].projects
+                };
+            }
+        }
+
         fetch('./all_projects.json')
             .then(res => res.json())
             .then(data => {
                 masterData = data;
+                calculateDistrictAverages(data);
                 populateDistricts(data);
                 applyFilters(); // Renders everything initially
             });
@@ -516,6 +544,12 @@
                 opt.value = d; opt.innerText = d;
                 select.appendChild(opt);
             });
+            
+            // Perfil PME: Cargar distrito favorito
+            const fav = localStorage.getItem('pme_fav_district');
+            if (fav && dists.includes(fav)) {
+                select.value = fav;
+            }
         }
 
         function setRoomFilter(btn, rooms) {
@@ -614,7 +648,17 @@
             data.forEach(p => {
                 if(!p.latitude || !p.longitude) return;
                 
-                const mClass = p.is_missing ? 'marker-missing' : 'marker-found';
+                let mClass = p.is_missing ? 'marker-missing' : 'marker-found';
+                let isAtypical = false;
+                
+                // Métrica 3: Alerta de Precio Atípico (20% por debajo del distrito)
+                if (p.avg_price_m2 > 0 && districtAverages[p.distrito]) {
+                    if (p.avg_price_m2 < (districtAverages[p.distrito].avgM2 * 0.8)) {
+                        mClass = 'marker-atypical';
+                        isAtypical = true;
+                    }
+                }
+                
                 const customIcon = L.divIcon({ className: 'custom-icon', html: `<div class="custom-marker ${mClass}"></div>`, iconSize: [14,14], iconAnchor: [7,7] });
                 
                 const marker = L.marker([p.latitude, p.longitude], {icon: customIcon}).addTo(map);
@@ -652,11 +696,20 @@
                 const btnText = isSel ? '❌ Quitar de Selección' : '➕ Añadir para IA';
                 const btnBg = isSel ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.2)';
                 const btnCol = isSel ? '#ef4444' : '#38bdf8';
+                
+                let compWidgetHtml = '';
+                if(districtAverages[p.distrito]) {
+                    compWidgetHtml = `<div style="font-size:0.65rem; color:#facc15; margin-bottom:5px; padding:3px; background:rgba(250,204,21,0.1); border-radius:4px; border:1px solid rgba(250,204,21,0.3);">📊 Compite contra ${districtAverages[p.distrito].totalComp} proyectos en ${p.distrito}</div>`;
+                }
+                
+                let atypicalBadge = isAtypical ? `<div style="font-size:0.7rem; font-weight:700; color:#000; background:#facc15; padding:3px 8px; border-radius:15px; display:inline-block; margin-bottom:6px; box-shadow:0 0 10px #facc15;">🔥 OPORTUNIDAD: +20% barato vs ${p.distrito}</div>` : '';
 
                 const popContent = `
                     <div class="popup-content" style="min-width: 250px;">
+                        ${atypicalBadge}
                         <h3>${p.title}</h3>
                         <p style="margin-bottom: 6px;">📍 ${p.distrito}${avg_string}</p>
+                        ${compWidgetHtml}
                         ${modelsHtml}
                         <div style="margin-top: 10px; padding-top: 8px;">
                             <button id="btn-sel-${encodedTitle}" onclick="toggleProjectSelection('${encodedTitle}')" style="width:100%; border:none; background:${btnBg}; color:${btnCol}; padding:6px; border-radius:6px; cursor:pointer; font-weight:600; font-size:0.75rem; transition:0.2s; margin-bottom:8px;">${btnText}</button>
@@ -687,6 +740,14 @@
 
             const useLocal = !!window.lastUseLocalFlag;
             window.lastUseLocalFlag = false;
+
+            // Perfil PME: Guardar historial
+            let hist = JSON.parse(localStorage.getItem('pme_history') || '[]');
+            if(!hist.includes(query)) {
+                hist.unshift(query);
+                if(hist.length > 5) hist = hist.slice(0,5);
+                localStorage.setItem('pme_history', JSON.stringify(hist));
+            }
 
             addChatMessage(query, 'user');
             queryInput.value = '';
@@ -725,6 +786,171 @@
             document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
             return id;
         }
+
+        // ==========================================
+        // PERFIL PME ENTERPRISE
+        // ==========================================
+        function openProfileModal() {
+            let hist = JSON.parse(localStorage.getItem('pme_history') || '[]');
+            let fav = localStorage.getItem('pme_fav_district') || 'ALL';
+            
+            let histHtml = hist.length === 0 ? '<p style="color:var(--text-secondary); font-size:0.8rem;">No hay consultas recientes.</p>' : '';
+            hist.forEach(h => {
+                histHtml += `<div style="padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:4px; margin-bottom:5px; font-size:0.75rem; color:#cbd5e1; cursor:pointer;" onclick="document.getElementById('query-input').value='${h.replace(/'/g,"\\")}'; document.getElementById('profile-modal').remove();">🔍 ${h}</div>`;
+            });
+            
+            const dists = [...new Set(masterData.map(d => d.distrito))].filter(Boolean).sort();
+            let opts = '<option value="ALL">Ninguno (Ver todos)</option>';
+            dists.forEach(d => { opts += `<option value="${d}" ${fav===d?'selected':''}>${d}</option>`; });
+
+            let html = `
+            <div id="profile-modal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--panel-bg); padding:25px; border:1px solid var(--accent-color); border-radius:12px; z-index:3000; box-shadow:0 0 40px rgba(0,0,0,0.9); width: 450px; color:#fff; max-height: 90vh; overflow-y:auto;">
+                <h2 style="font-size:1.3rem; margin-bottom:5px; color:var(--accent-color);">👤 Perfil Empresarial PME</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:20px;">Configuración guardada en esta estación.</p>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">⭐ Tu Distrito Base de Operaciones</label>
+                <select id="pme-fav-select" style="width:100%; padding:8px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); color:#fff; border-radius:6px; margin-bottom:20px;">
+                    ${opts}
+                </select>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">🕒 Consultas Recientes al Motor IA</label>
+                <div style="margin-bottom:20px;">${histHtml}</div>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">🔔 Tus Alertas Comerciales</label>
+                <div id="alerts-container" style="padding:10px; border:1px solid rgba(255,255,255,0.1); border-radius:6px; background:rgba(0,0,0,0.3); margin-bottom:10px;">
+                    <!-- Alerts will be rendered here -->
+                </div>
+                
+                <!-- NEW ALERT FORM -->
+                <div style="padding:10px; border:1px dashed var(--accent-color); border-radius:6px; background:rgba(56, 189, 248, 0.05); margin-bottom:20px;">
+                    <div style="font-size:0.75rem; font-weight:600; margin-bottom:8px; color:var(--text-primary);">Añadir Nueva Alerta</div>
+                    <div style="display:flex; gap:8px; margin-bottom:8px;">
+                        <select id="alert-distrito" style="flex:1; padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;">
+                            ${opts}
+                        </select>
+                        <select id="alert-condition" style="padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;">
+                            <option value="<">Precio m² menor a:</option>
+                            <option value=">">Precio m² mayor a:</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <span style="font-size:0.75rem;">S/</span>
+                        <input type="number" id="alert-value" style="flex:1; padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;" placeholder="Ej. 6500">
+                        <button onclick="addCustomAlert()" style="padding:6px 10px; font-size:0.7rem; font-weight:600; background:var(--accent-color); color:#000; border:none; border-radius:4px; cursor:pointer;">+ Añadir</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button onclick="document.getElementById('profile-modal').remove()" style="flex:1; padding:10px; background:transparent; color:#fff; border:1px solid var(--border-color); border-radius:6px; cursor:pointer;">Cancelar</button>
+                    <button onclick="saveProfile()" style="flex:1; padding:10px; background:var(--accent-color); color:#000; font-weight:700; border:none; border-radius:6px; cursor:pointer;">Guardar Perfil</button>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', html);
+            renderAlertsList();
+        }
+
+        function renderAlertsList() {
+            const container = document.getElementById('alerts-container');
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            
+            if(alerts.length === 0) {
+                container.innerHTML = '<span style="font-size:0.75rem; color:var(--text-secondary);">No tienes alertas configuradas.</span>';
+                return;
+            }
+            
+            let html = '';
+            alerts.forEach((aln, idx) => {
+                const distText = aln.distrito === 'ALL' ? 'Todos los distritos' : aln.distrito;
+                const condText = aln.condition === '<' ? 'menor a' : 'mayor a';
+                html += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; border-bottom:1px dotted rgba(255,255,255,0.1); padding-bottom:4px;">
+                    <span>📍 ${distText} | m² ${condText} <b>S/ ${aln.value}</b></span>
+                    <button onclick="deleteCustomAlert(${idx})" style="background:transparent; border:none; color:var(--danger-color); cursor:pointer; font-size:0.8rem;">❌</button>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function addCustomAlert() {
+            const dist = document.getElementById('alert-distrito').value;
+            const cond = document.getElementById('alert-condition').value;
+            const val = parseFloat(document.getElementById('alert-value').value);
+            
+            if(!val) return alert('Ingresa un precio límite válido.');
+            
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            alerts.push({ distrito: dist, condition: cond, value: val });
+            localStorage.setItem('pme_custom_alerts', JSON.stringify(alerts));
+            
+            document.getElementById('alert-value').value = '';
+            renderAlertsList();
+            checkAlertsMatch(); // Check immediately
+        }
+
+        function deleteCustomAlert(idx) {
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            alerts.splice(idx, 1);
+            localStorage.setItem('pme_custom_alerts', JSON.stringify(alerts));
+            renderAlertsList();
+        }
+
+        function saveProfile() {
+            const val = document.getElementById('pme-fav-select').value;
+            localStorage.setItem('pme_fav_district', val);
+            document.getElementById('filterDistrito').value = val;
+            applyFilters();
+            document.getElementById('profile-modal').remove();
+        }
+
+        function checkAlertsMatch() {
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            if(alerts.length === 0 || !masterData || masterData.length === 0) return;
+            
+            let matches = [];
+            masterData.forEach(p => {
+                if(!p.avg_price_m2) return;
+                alerts.forEach(a => {
+                    if(a.distrito !== 'ALL' && a.distrito !== p.distrito) return;
+                    if(a.condition === '<' && p.avg_price_m2 < a.value) matches.push(p);
+                    if(a.condition === '>' && p.avg_price_m2 > a.value) matches.push(p);
+                });
+            });
+            
+            matches = [...new Set(matches)]; // Unique
+            if(matches.length > 0) {
+                window.alertMatches = matches;
+                // Show notification badge
+                const existing = document.getElementById('pme-alert-toast');
+                if(existing) existing.remove();
+                
+                const toast = document.createElement('div');
+                toast.id = 'pme-alert-toast';
+                toast.style.cssText = 'position:absolute; top:20px; right:420px; z-index:2000; background:rgba(250,204,21,0.9); color:#000; font-weight:700; font-size:0.8rem; padding:10px 15px; border-radius:6px; box-shadow:0 5px 15px rgba(0,0,0,0.5); cursor:pointer;';
+                toast.innerHTML = `🔔 Tienes ${matches.length} oportunidades filtradas según tus Alertas`;
+                toast.onclick = () => { showOpportunityMatches(); toast.remove(); };
+                document.getElementById('map-container').appendChild(toast);
+            }
+        }
+
+        function showOpportunityMatches() {
+            if(!window.alertMatches || window.alertMatches.length === 0) return;
+            
+            updateStats(window.alertMatches);
+            renderList(window.alertMatches);
+            renderMap(window.alertMatches);
+            
+            // Auto select them
+            selectedProjectsForAI.clear();
+            window.alertMatches.forEach(p => selectedProjectsForAI.add(p.title));
+            updateSelectionBar();
+            
+            document.getElementById('filterText').value = '';
+            document.getElementById('filterDistrito').value = 'ALL';
+            
+            alert('¡Mostrando oportunidades de alertas en el Dashboard!\\nSe han filtrado en el radar y han sido pre-seleccionadas automáticamente para un rápido "Analizar Nube".');
+        }
+
+        // Hook up checkAlertsMatch after data is loaded around line 258.
+        setTimeout(checkAlertsMatch, 2000);
     </script>
 </body>
 </html>
