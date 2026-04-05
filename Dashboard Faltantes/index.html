@@ -278,8 +278,14 @@
         fetch('./all_projects.json')
             .then(res => res.json())
             .then(data => {
-                // Filter out any occurrences of Arequipa from the entire map dataset
-                const filteredData = data.filter(d => !d.distrito || !d.distrito.toLowerCase().includes('arequipa'));
+                // Filter out any occurrences of banned districts: Arequipa, Cayma, Cerro Colorado, Jose Luis Bustamante y Rivero
+                const banned = ['arequipa', 'cayma', 'cerro colorado', 'jose luis bustamante y rivero', 'josé luis bustamante'];
+                const filteredData = data.filter(d => {
+                    if (!d.distrito) return true; // keep missing districts? user just wants those excluded
+                    const distName = d.distrito.toLowerCase();
+                    return !banned.some(b => distName.includes(b));
+                });
+                
                 masterData = filteredData;
                 calculateDistrictAverages(filteredData);
                 populateDistricts(filteredData);
