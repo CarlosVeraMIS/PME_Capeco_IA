@@ -105,25 +105,12 @@ class handler(BaseHTTPRequestHandler):
             self._send_json(500, {"error": str(e)})
             return
 
-        # MODO SIMULADOR
+
+        # Sin API key → error explícito (simulación deshabilitada)
         if not agent and not use_local:
-            import time; time.sleep(1)
-            simulacion = f"""
-**[MODO SIMULACIÓN — SIN API KEY]**
-
-He analizado tu solicitud sobre *"{question}"*. Cruzando la base Capeco (Q4) y scraping inmobiliario:
-
-| Distrito | Proyectos | Precio Prom. (S/) | m² Prom. |
-| :--- | :--- | :--- | :--- |
-| **Miraflores** | 42 | S/ 680,500 | 85 m² |
-| **San Isidro** | 35 | S/ 850,000 | 110 m² |
-| **Surco** | 56 | S/ 490,200 | 75 m² |
-| **Jesús María** | 28 | S/ 410,000 | 65 m² |
-
-💡 *Configura `OPENAI_API_KEY` en las variables de entorno de Vercel para activar el análisis real.*
-"""
-            self._send_json(200, {"answer": simulacion})
+            self._send_json(500, {"error": "No se encontró una API key válida. Configura AZURE_OPENAI_API_KEY + AZURE_OPENAI_ENDPOINT (o OPENAI_API_KEY) en las variables de entorno de Vercel."})
             return
+
 
         # MODO REAL
         try:
