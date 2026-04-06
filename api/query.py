@@ -35,28 +35,36 @@ def get_agent(df_csv, use_local=False):
 
     azure_api_key = os.getenv("AZURE_OPENAI_API_KEY")
     azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    openai_api_key = os.getenv("OPENAI_API_KEY")
 
     if azure_api_key and azure_endpoint:
         from langchain_openai import AzureChatOpenAI
-        llm = AzureChatOpenAI(
-            azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4o-mini"),
-            openai_api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-            azure_endpoint=azure_endpoint,
-            api_key=azure_api_key,
-            temperature=0
-        )
-    else:
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            return None
+        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "gpt-4o-mini")
+        api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview")
+        try:
+            llm = AzureChatOpenAI(
+                azure_deployment=deployment,
+                openai_api_version=api_version,
+                azure_endpoint=azure_endpoint,
+                api_key=azure_api_key,
+                temperature=0
+            )
+        except Exception as e:
+            raise Exception(f"Error al iniciar AzureChatOpenAI (deployment={deployment}, version={api_version}): {e}")
+    elif openai_api_key:
         from langchain_openai import ChatOpenAI
-        llm = ChatOpenAI(temperature=0, model="gpt-4o-mini", api_key=api_key)
+        llm = ChatOpenAI(temperature=0, model="gpt-4o-mini", api_key=openai_api_key)
+    else:
+        raise Exception("No se encontró AZURE_OPENAI_API_KEY+ENDPOINT ni OPENAI_API_KEY en las variables de entorno.")
 
-    return create_pandas_dataframe_agent(
-        llm, df_csv, verbose=True,
-        agent_type="openai-tools",
-        allow_dangerous_code=True
-    )
+    try:
+        return create_pandas_dataframe_agent(
+            llm, df_csv, verbose=True,
+            agent_type="openai-tools",
+            allow_dangerous_code=True
+        )
+    except Exception as e:
+        raise Exception(f"Error al crear el agente Pandas: {e}")
 
 
 class handler(BaseHTTPRequestHandler):
@@ -106,10 +114,7 @@ class handler(BaseHTTPRequestHandler):
             return
 
 
-        # Sin API key → error explícito (simulación deshabilitada)
-        if not agent and not use_local:
-            self._send_json(500, {"error": "No se encontró una API key válida. Configura AZURE_OPENAI_API_KEY + AZURE_OPENAI_ENDPOINT (o OPENAI_API_KEY) en las variables de entorno de Vercel."})
-            return
+        # get_agent ahora lanza excepción si falla — nunca retorna None
 
 
         # MODO REAL
