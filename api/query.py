@@ -9,16 +9,27 @@ load_dotenv()
 # ==========================================
 # Cache global para lambdas "warm"
 # ==========================================
-_df_csv = None
-_df_xl = None
+_df_main  = None  # all_projects.json  → misma data que el dashboard
+_df_xl    = None  # data2025Q4.xlsx   → datos oficiales Q4
 
 def get_dataframes():
-    global _df_csv, _df_xl
-    if _df_csv is None:
+    global _df_main, _df_xl
+    if _df_main is None:
         base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        _df_csv = pd.read_csv(os.path.join(base, 'Material datos', 'data-proyectos-immobiliarios.csv'))
-        _df_xl  = pd.read_excel(os.path.join(base, 'Material datos', 'data2025Q4.xlsx'), sheet_name='data2025Q4')
-    return _df_csv, _df_xl
+
+        # Cargamos all_projects.json — la fuente consolidada que usa el dashboard
+        json_path = os.path.join(base, 'Dashboard Faltantes', 'all_projects.json')
+        with open(json_path, 'r', encoding='utf-8') as f:
+            raw = json.load(f)
+        _df_main = pd.json_normalize(raw)
+
+        # Cargamos Excel Q4 como referencia adicional
+        _df_xl = pd.read_excel(
+            os.path.join(base, 'Material datos', 'data2025Q4.xlsx'),
+            sheet_name='data2025Q4'
+        )
+    return _df_main, _df_xl
+
 
 
 def get_agent(df_csv, use_local=False):
@@ -102,13 +113,13 @@ class handler(BaseHTTPRequestHandler):
             return
 
         try:
-            df_csv, _ = get_dataframes()
+            df_main, _ = get_dataframes()
         except Exception as e:
             self._send_json(500, {"error": f"Error cargando datos: {e}"})
             return
 
         try:
-            agent = get_agent(df_csv, use_local)
+            agent = get_agent(df_main, use_local)
         except Exception as e:
             self._send_json(500, {"error": str(e)})
             return
@@ -120,10 +131,24 @@ class handler(BaseHTTPRequestHandler):
         # MODO REAL
         try:
             prompt = f"""
-Actúa como un analista de datos avanzado de mercado inmobiliario peruano.
-Tienes acceso a `python_repl_ast`. DEBES usarla para ejecutar código Pandas sobre `df`.
-`df` contiene scraping inmobiliario (columnas principales: 'title', 'distrito', 'price_value', 'model_name').
-Responde en español con formato markdown. Pregunta: {question}
+Actúa como un analista experto en el mercado inmobiliario peruano.
+Tienes acceso a `python_repl_ast`. DEBES ejecutar código Pandas sobre `df` para responder.
+
+`df` es el inventario consolidado de proyectos inmobiliarios de Lima (misma data que el dashboard).
+Columnas clave:
+- 'title': nombre del proyecto
+- 'distrito': ubicación
+- 'avg_price_m2': precio promedio por m² (numérico)
+- 'price_value': precio base (numérico)
+- 'price_string': precio formateado (texto)
+- 'area_m2': área en m²
+- 'rooms': número de dormitorios
+- 'total_units': unidades disponibles
+- 'is_missing': True si no está en la base oficial Q4
+- 'models': lista de tipos de departamento con precios
+
+IMPORTANTE: Usa df['avg_price_m2'] para precios por m², no 'price_value'.
+Responde en español con tablas markdown bien formateadas. Pregunta: {question}
 """
             response = agent.invoke(prompt)
             self._send_json(200, {"answer": response.get("output", "Sin respuesta")})
