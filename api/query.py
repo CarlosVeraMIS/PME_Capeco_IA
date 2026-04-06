@@ -131,24 +131,29 @@ class handler(BaseHTTPRequestHandler):
         # MODO REAL
         try:
             prompt = f"""
-Actúa como un analista experto en el mercado inmobiliario peruano.
-Tienes acceso a `python_repl_ast`. DEBES ejecutar código Pandas sobre `df` para responder.
+Eres un analista experto en el mercado inmobiliario peruano.
+Tienes la herramienta `python_repl_ast` y DEBES usarla para ejecutar código Pandas sobre `df`.
 
-`df` es el inventario consolidado de proyectos inmobiliarios de Lima (misma data que el dashboard).
-Columnas clave:
-- 'title': nombre del proyecto
-- 'distrito': ubicación
-- 'avg_price_m2': precio promedio por m² (numérico)
-- 'price_value': precio base (numérico)
-- 'price_string': precio formateado (texto)
-- 'area_m2': área en m²
-- 'rooms': número de dormitorios
-- 'total_units': unidades disponibles
-- 'is_missing': True si no está en la base oficial Q4
-- 'models': lista de tipos de departamento con precios
+DATOS DISPONIBLES EN `df` (columnas exactas):
+- 'title'           → nombre del proyecto (string)
+- 'distrito'        → distrito de Lima (string)
+- 'avg_price_m2'    → precio promedio por m² YA CALCULADO (float) — USA ESTE CAMPO DIRECTAMENTE
+- 'price_value'     → precio base del proyecto (float, puede ser 0 si no aplica)
+- 'price_string'    → precio formateado como texto (string)
+- 'area_m2'         → área en m² (float)
+- 'rooms'           → dormitorios (int)
+- 'total_units'     → unidades disponibles (int)
+- 'is_missing'      → True si NO está en la base oficial Q4 (bool)
+- 'project_currency'→ moneda del proyecto ('S/' o '$')
 
-IMPORTANTE: Usa df['avg_price_m2'] para precios por m², no 'price_value'.
-Responde en español con tablas markdown bien formateadas. Pregunta: {question}
+⚠️ REGLA CRÍTICA: NUNCA calcules el precio por m² tú mismo.
+Lee DIRECTAMENTE el valor de `df['avg_price_m2']`. Ya está calculado correctamente.
+Ejemplo correcto: `df[df['title']=='RESIDENCIAL LOBO']['avg_price_m2'].iloc[0]` → devuelve 2374.83
+
+Cuando muestres precios por m², incluye la moneda del campo 'project_currency'.
+
+Responde en español con tablas markdown bien formateadas.
+Pregunta del usuario: {question}
 """
             response = agent.invoke(prompt)
             self._send_json(200, {"answer": response.get("output", "Sin respuesta")})
