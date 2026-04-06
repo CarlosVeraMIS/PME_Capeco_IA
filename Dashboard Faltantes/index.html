@@ -367,7 +367,7 @@
                     <span id="sel-count-text" style="font-weight:600; font-size:0.85rem; color:#fff; margin-right:5px;"></span>
                     <button onclick="showStatsModal()" style="background:var(--success-color); color:#fff; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:600; font-size:0.75rem;">📊 Estadísticas Rápidas</button>
                     <button onclick="analyzeSelected(false)" style="background:var(--accent-color); color:#000; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:700; font-size:0.75rem;">☁️ Analizar Nube</button>
-                    <button onclick="analyzeSelected(true)" style="background:#f59e0b; color:#fff; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:600; font-size:0.75rem;">⚡ Analizar Local</button>
+                    <button onclick="analyzeSelected(true)" style="display:none;">⚡ Analizar Local</button>
                     <button onclick="clearSelection()" style="background:transparent; color:var(--text-secondary); border:1px solid var(--text-secondary); padding:6px 14px; border-radius:15px; cursor:pointer; font-size:0.75rem; margin-left:5px;">Limpiar</button>
                 `;
                 document.getElementById('map-container').appendChild(bar);
@@ -765,7 +765,10 @@
             const loadingId = addChatMessage(`<div class="loader"></div> ${loadingText}`, 'ai');
 
             try {
-                const res = await fetch('http://127.0.0.1:5000/query', {
+                const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                    ? 'http://127.0.0.1:5000/query'
+                    : '/api/query';
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ query: query, use_local: useLocal })
@@ -777,7 +780,11 @@
                 else addChatMessage(`❌ **Error:**\n\n${data.error}`, 'ai', true);
             } catch(e) {
                 document.getElementById(loadingId).remove();
-                addChatMessage(`⚠️ **Sin conexión:** Asegúrate de que app_ia.py esté corriendo en el puerto 5000.`, 'ai', true);
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const errMsg = isLocal
+                    ? `⚠️ **Sin conexión:** Asegúrate de que app_ia.py esté corriendo en el puerto 5000.`
+                    : `⚠️ **Error de API:** La función serverless no respondió. Revisa los logs en Vercel.`;
+                addChatMessage(errMsg, 'ai', true);
             }
             sendBtn.disabled = false;
         }
