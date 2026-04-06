@@ -205,7 +205,10 @@
             const loadingId = addMessage('<div class="loader"></div> Analizando miles de filas de datos...', 'ai');
 
             try {
-                const res = await fetch('http://localhost:5000/query', {
+                const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5000/query'
+                    : '/api/query';
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ query })
@@ -225,7 +228,11 @@
 
             } catch(e) {
                 document.getElementById(loadingId).remove();
-                addMessage(`⚠️ **Conexión fallida:**\nAsegúrate de que el Backend de Python (Flask) esté ejecutándose en localhost:5000.`, 'ai', true);
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const errMsg = isLocal
+                    ? `⚠️ **Sin conexión:** Asegúrate de que \`app_ia.py\` esté corriendo en el puerto 5000.`
+                    : `⚠️ **Error de API:** La función serverless \`/api/query\` no respondió. Revisa los logs en el dashboard de Vercel.`;
+                addMessage(errMsg, 'ai', true);
             }
 
             sendBtn.disabled = false;
