@@ -146,6 +146,27 @@
             backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         #btn-locate:hover { background: rgba(16, 185, 129, 0.4); color: #fff; }
+        /* Download CSV Button */
+        .btn-download-csv {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-download-csv:hover {
+            background: var(--success-color);
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -799,9 +820,48 @@
             let content = `<div class="msg-meta">${role === 'user' ? 'TÚ' : 'PME IA'}</div>`;
             content += `<div>${text}</div>`;
             div.innerHTML = content;
+            
+            // Si es AI y tiene tablas, añadir botón de descarga
+            if (role === 'ai' && isHTML) {
+                setTimeout(() => {
+                    const tables = div.querySelectorAll('table');
+                    tables.forEach((table, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'btn-download-csv';
+                        btn.innerHTML = '📊 Descargar Tabla (CSV)';
+                        btn.onclick = () => downloadChatTable(table);
+                        table.parentNode.insertBefore(btn, table.nextSibling);
+                    });
+                }, 0);
+            }
+
             document.getElementById("chat-messages").appendChild(div);
             document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
             return id;
+        }
+
+        function downloadChatTable(table) {
+            let csv = [];
+            const rows = table.querySelectorAll("tr");
+            
+            for (let i = 0; i < rows.length; i++) {
+                let row = [], cols = rows[i].querySelectorAll("td, th");
+                for (let j = 0; j < cols.length; j++) {
+                    let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").replace(/(\s\s+)/gm, ' ');
+                    data = data.replace(/"/g, '""');
+                    row.push('"' + data + '"');
+                }
+                csv.push(row.join(","));
+            }
+
+            const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csv.join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `pme_analisis_${new Date().getTime()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // ==========================================
