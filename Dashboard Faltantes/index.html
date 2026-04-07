@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- JS Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Marker Cluster -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     
     <style>
         :root {
@@ -167,6 +170,22 @@
             background: var(--success-color);
             color: #000;
         }
+
+        /* Marker Cluster Custom Style */
+        .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+            background-color: rgba(56, 189, 248, 0.2) !important;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid var(--accent-color);
+        }
+        .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+            background-color: rgba(56, 189, 248, 0.4) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -260,6 +279,7 @@
     </aside>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     
     <script>
         // ==========================================
@@ -268,6 +288,15 @@
         const map = L.map('map', { zoomControl: false }).setView([-12.046374, -77.042793], 12);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
         L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Marker Cluster Group
+        const markerCluster = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            maxClusterRadius: 50
+        });
+        map.addLayer(markerCluster);
 
         let masterData = [];
         let markers = {};
@@ -626,7 +655,21 @@
 
         function flyToProject(lat, lon, title) {
             map.flyTo([lat, lon], 17, { duration: 1 });
-            if(markers[title]) markers[title].openPopup();
+            
+            // Si el marcador está en un cluster, hay que expandirlo
+            setTimeout(() => {
+                if(markers[title]) {
+                    const marker = markers[title];
+                    if (markerCluster.hasLayer(marker)) {
+                        const parent = markerCluster.getVisibleParent(marker);
+                        if (parent && parent.spiderfy) {
+                            // No es necesario spiderfy si ya es visible
+                        }
+                    }
+                    marker.openPopup();
+                }
+            }, 1100);
+            
             document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
             const card = document.getElementById(`card-${title.replace(/[^a-zA-Z0-9]/g, '')}`);
             if(card) { card.classList.add('active'); card.scrollIntoView({ behavior: 'smooth', block: 'center' });}
@@ -671,7 +714,7 @@
         }
 
         function renderMap(data, skipFitBounds=false) {
-            for(let key in markers) map.removeLayer(markers[key]);
+            markerCluster.clearLayers();
             markers = {};
             const bounds = [];
             
@@ -692,7 +735,8 @@
                 
                 const customIcon = L.divIcon({ className: 'custom-icon', html: `<div class="custom-marker ${mClass}"></div>`, iconSize: [14,14], iconAnchor: [7,7] });
                 
-                const marker = L.marker([p.latitude, p.longitude], {icon: customIcon}).addTo(map);
+                const marker = L.marker([p.latitude, p.longitude], {icon: customIcon});
+                markerCluster.addLayer(marker);
                 bounds.push([p.latitude, p.longitude]);
                 //...
                 const tagText = isOutofStock ? 'Sin Stock (Agotado)' : '🔥 Con Unidades Libres';
