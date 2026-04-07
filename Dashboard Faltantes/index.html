@@ -12,6 +12,8 @@
     <!-- Marker Cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <!-- Leaflet Heat -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     
     <style>
         :root {
@@ -186,7 +188,38 @@
             text-shadow: 0 0 5px rgba(0,0,0,0.5);
             box-shadow: 0 0 15px var(--accent-color);
         }
+
+        /* Analysis Layers UI */
+        .analysis-layers {
+            padding: 15px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(56, 189, 248, 0.05);
+        }
+        .layer-toggle-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .layer-toggle:hover { border-color: var(--accent-color); }
+        .layer-toggle.active { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-color); }
+        .layer-label { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
+        .layer-status { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+        .layer-toggle.active .layer-status { color: var(--accent-color); }
+
+        .poi-icon { font-size: 1.2rem; text-align: center; line-height: 1.2; }
     </style>
+
 </head>
 <body>
 
@@ -244,6 +277,27 @@
                     <button class="btn-filter" data-rooms="1" onclick="setRoomFilter(this, 1)">1+</button>
                     <button class="btn-filter" data-rooms="2" onclick="setRoomFilter(this, 2)">2+</button>
                     <button class="btn-filter" data-rooms="3" onclick="setRoomFilter(this, 3)">3+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYSIS LAYERS -->
+        <div class="analysis-layers">
+            <div class="filter-group">
+                <label>Capas de Análisis</label>
+                <div class="layer-toggle-group">
+                    <div class="layer-toggle" id="toggle-heat" onclick="togglePriceHeatmap()">
+                        <span class="layer-label">🔥 Mapa Calor (Precio)</span>
+                        <span class="layer-status">Off</span>
+                    </div>
+                    <div class="layer-toggle" id="toggle-apprec" onclick="toggleAppreciationLayer()">
+                        <span class="layer-label">💎 Potencial Plusvalía</span>
+                        <span class="layer-status">Off</span>
+                    </div>
+                    <div class="layer-toggle" id="toggle-poi" onclick="togglePOILayer()">
+                        <span class="layer-label">⛲ Servicios (POI)</span>
+                        <span class="layer-status">Off</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -306,6 +360,12 @@
         let userMarker = null;
 
         let districtAverages = {};
+        
+        // Layers
+        let heatLayer = null;
+        let appreciationLayer = null;
+        let poiLayer = L.layerGroup();
+        map.addLayer(poiLayer);
 
         function calculateDistrictAverages(data) {
             const distMap = {};
@@ -906,6 +966,125 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // ==========================================
+        // ANALYSIS LAYERS LOGIC
+        // ==========================================
+        
+        function togglePriceHeatmap() {
+            const btn = document.getElementById('toggle-heat');
+            if (heatLayer) {
+                map.removeLayer(heatLayer);
+                heatLayer = null;
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                const heatData = masterData
+                    .filter(p => p.latitude && p.longitude && p.avg_price_m2 > 0)
+                    .map(p => [p.latitude, p.longitude, p.avg_price_m2 / 1000]); // Normalizar peso
+                
+                heatLayer = L.heatLayer(heatData, {
+                    radius: 25,
+                    blur: 15,
+                    maxZoom: 17,
+                    gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'}
+                }).addTo(map);
+                btn.classList.add('active');
+                btn.querySelector('.layer-status').innerText = 'On';
+            }
+        }
+
+        function toggleAppreciationLayer() {
+            const btn = document.getElementById('toggle-apprec');
+            if (appreciationLayer) {
+                map.removeLayer(appreciationLayer);
+                appreciationLayer = null;
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                appreciationLayer = L.layerGroup();
+                masterData.forEach(p => {
+                    if (p.latitude && p.longitude && p.avg_price_m2 > 0 && districtAverages[p.distrito]) {
+                        const distAvg = districtAverages[p.distrito].avgM2;
+                        if (p.avg_price_m2 < distAvg * 0.85) {
+                            const size = 15 + ((distAvg - p.avg_price_m2) / distAvg * 30);
+                            const circle = L.circleMarker([p.latitude, p.longitude], {
+                                radius: size,
+                                fillColor: '#facc15',
+                                color: '#fff',
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity: 0.4
+                            }).bindTooltip(`💎 Potencial Alto: ${Math.round((1 - p.avg_price_m2/distAvg)*100)}% bajo promedio`, {permanent: false});
+                            appreciationLayer.addLayer(circle);
+                        }
+                    }
+                });
+                appreciationLayer.addTo(map);
+                btn.classList.add('active');
+                btn.querySelector('.layer-status').innerText = 'On';
+            }
+        }
+
+        async function togglePOILayer() {
+            const btn = document.getElementById('toggle-poi');
+            if (poiLayer.getLayers().length > 0) {
+                poiLayer.clearLayers();
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                btn.querySelector('.layer-status').innerText = 'Loading...';
+                try {
+                    const bounds = map.getBounds();
+                    const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`;
+                    
+                    // Solo consultamos si el zoom es suficiente para evitar saturar Overpass
+                    if(map.getZoom() < 13) {
+                        alert("Acércate más al mapa para cargar servicios (POI).");
+                        btn.querySelector('.layer-status').innerText = 'Off';
+                        return;
+                    }
+
+                    const query = `
+                        [out:json][timeout:25];
+                        (
+                          node["amenity"="school"](${bbox});
+                          node["shop"="mall"](${bbox});
+                          node["railway"="station"](${bbox});
+                          node["amenity"="hospital"](${bbox});
+                        );
+                        out body;
+                    `;
+                    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    data.elements.forEach(el => {
+                        let icon = '📍';
+                        if(el.tags.amenity === 'school') icon = '🎓';
+                        if(el.tags.shop === 'mall') icon = '🛍️';
+                        if(el.tags.railway === 'station') icon = '🚆';
+                        if(el.tags.amenity === 'hospital') icon = '🏥';
+
+                        const poiMarker = L.marker([el.lat, el.lon], {
+                            icon: L.divIcon({
+                                className: 'poi-icon',
+                                html: `<div title="${el.tags.name || 'Servicio'}">${icon}</div>`,
+                                iconSize: [20, 20]
+                            })
+                        }).bindPopup(`<b>${el.tags.name || 'Servicio'}</b><br>${el.tags.amenity || el.tags.shop || 'Punto de Interés'}`);
+                        poiLayer.addLayer(poiMarker);
+                    });
+                    
+                    btn.classList.add('active');
+                    btn.querySelector('.layer-status').innerText = 'On';
+                } catch(e) {
+                    console.error(e);
+                    alert("Error cargando servicios de OpenStreetMap.");
+                    btn.querySelector('.layer-status').innerText = 'Error';
+                }
+            }
         }
 
         // ==========================================
