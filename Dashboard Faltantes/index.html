@@ -391,15 +391,21 @@
                 // Filter out any occurrences of banned districts: Arequipa, Cayma, Cerro Colorado, Jose Luis Bustamante y Rivero
                 const banned = ['arequipa', 'cayma', 'cerro colorado', 'jose luis bustamante y rivero', 'josé luis bustamante'];
                 const filteredData = data.filter(d => {
-                    if (!d.distrito) return true; // keep missing districts? user just wants those excluded
+                    if (!d.distrito) return true; 
                     const distName = d.distrito.toLowerCase();
                     return !banned.some(b => distName.includes(b));
+                }).map(p => {
+                    // Enriquecimiento de datos: Calcular avg_price_m2 si no existe
+                    if (!p.avg_price_m2 && p.price_value && p.area_m2) {
+                        p.avg_price_m2 = p.price_value / p.area_m2;
+                    }
+                    return p;
                 });
                 
                 masterData = filteredData;
                 calculateDistrictAverages(filteredData);
                 populateDistricts(filteredData);
-                applyFilters(); // Renders everything initially
+                applyFilters(); 
             });
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -1051,17 +1057,23 @@
                     }
 
                     const query = `
-                        [out:json][timeout:25];
+                        [out:json][timeout:20];
                         (
-                          node["amenity"="school"](${bbox});
-                          node["shop"="mall"](${bbox});
+                          node["amenity"~"school|university|hospital"](${bbox});
+                          node["shop"~"mall|supermarket"](${bbox});
                           node["railway"="station"](${bbox});
-                          node["amenity"="hospital"](${bbox});
+                          node["amenity"="bus_station"](${bbox});
                         );
                         out body;
                     `;
-                    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-                    const res = await fetch(url);
+                    // Usamos el mirror lz4 que es más estable
+                    const url = `https://lz4.overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
+                    
+                    const res = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
                     if (!res.ok) {
                         throw new Error(`API de Overpass fuera de servicio (Status: ${res.status}). Intenta de nuevo en unos momentos.`);
                     }
