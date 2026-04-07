@@ -12,8 +12,6 @@
     <!-- Marker Cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- Leaflet Heat -->
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     
     <style>
         :root {
@@ -176,8 +174,8 @@
         /* Marker Cluster Custom Style */
         .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
             background-color: rgba(56, 189, 248, 0.2) !important;
-            backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
             border: 1px solid var(--accent-color);
         }
         .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
@@ -334,6 +332,8 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet Heat (MUST load after Leaflet) -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     
     <script>
         // ==========================================
