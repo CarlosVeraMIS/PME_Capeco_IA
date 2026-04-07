@@ -395,14 +395,23 @@
                     const distName = d.distrito.toLowerCase();
                     return !banned.some(b => distName.includes(b));
                 }).map(p => {
+                    // Asegurar que lat/lon/precios sean Números
+                    p.latitude = parseFloat(p.latitude);
+                    p.longitude = parseFloat(p.longitude);
+                    p.price_value = parseFloat(p.price_value) || 0;
+                    p.area_m2 = parseFloat(p.area_m2) || 0;
+
                     // Enriquecimiento de datos: Calcular avg_price_m2 si no existe
-                    if (!p.avg_price_m2 && p.price_value && p.area_m2) {
+                    if (!p.avg_price_m2 && p.price_value > 0 && p.area_m2 > 0) {
                         p.avg_price_m2 = p.price_value / p.area_m2;
+                    } else {
+                        p.avg_price_m2 = parseFloat(p.avg_price_m2) || 0;
                     }
                     return p;
                 });
                 
                 masterData = filteredData;
+                console.log("PME Data Loaded:", masterData.length, "projects");
                 calculateDistrictAverages(filteredData);
                 populateDistricts(filteredData);
                 applyFilters(); 
@@ -987,19 +996,29 @@
                 btn.querySelector('.layer-status').innerText = 'Off';
             } else {
                 if (!masterData || masterData.length === 0) {
-                    alert("Aún no se han cargado los datos globales. Si estás viendo el archivo localmente, necesitas abrirlo con un servidor (ej. Live Server o npx serve) debido a políticas de CORS.");
+                    alert("Aún no se han cargado los datos globales. Si estás viendo el archivo localmente, necesitas abrirlo con un servidor (Live Server) debido a CORS.");
                     return;
                 }
-                const heatData = masterData
-                    .filter(p => p.latitude && p.longitude && p.avg_price_m2 > 0)
-                    .map(p => [p.latitude, p.longitude, p.avg_price_m2 / 1000]); // Normalizar peso
                 
+                // Preparar datos con pesos normalizados (0 a 1 aprox)
+                const heatData = masterData
+                    .filter(p => !isNaN(p.latitude) && !isNaN(p.longitude) && p.avg_price_m2 > 0)
+                    .map(p => [p.latitude, p.longitude, p.avg_price_m2 / 15000]); // Peso relativo (15k m2 = 1.0)
+                
+                console.log("Heatmap data points:", heatData.length);
+                if (heatData.length === 0) {
+                    alert("No hay suficientes datos de precio/m2 para generar el mapa de calor.");
+                    return;
+                }
+
                 heatLayer = L.heatLayer(heatData, {
-                    radius: 25,
-                    blur: 15,
-                    maxZoom: 17,
-                    gradient: {0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1: 'red'}
+                    radius: 30,
+                    blur: 20,
+                    maxZoom: 16,
+                    max: 1.0,
+                    gradient: {0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1.0: 'red'}
                 }).addTo(map);
+                
                 btn.classList.add('active');
                 btn.querySelector('.layer-status').innerText = 'On';
             }
