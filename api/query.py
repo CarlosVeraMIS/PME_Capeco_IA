@@ -160,16 +160,9 @@ REGLAS PARA EVITAR ERRORES DE CÓDIGO:
    - Top 3 proyectos más baratos usando 'price_amount' (donde sea > 0).
 
 RESTRICCIÓN DE SALIDA:
-1. Si el código falla 2 veces, responde basado en los datos obtenidos.
-2. No expliques el código de Python, solo muestra los resultados en tablas Markdown.
-3. COMANDOS DE MAPA: Si tu respuesta se refiere a proyectos específicos o distritos, puedes incluir al FINAL de tu respuesta un bloque JSON para controlar el mapa:
-   ```json
-   { "map_action": "zoom_to", "target": "Nombre del Proyecto" }
-   ```
-   O para filtros:
-   ```json
-   { "map_action": "filter", "criteria": { "distrito": "Miraflores", "rooms": 3 } }
-   ```
+- Si el código falla 2 veces, deja de intentar código y responde basado en los datos que lograste leer o pide al usuario que sea más específico.
+- No expliques el código de Python, solo muestra los resultados en tablas Markdown.
+
 
 Responde en español con tablas markdown bien formateadas.
 Pregunta del usuario: {question}
