@@ -167,11 +167,11 @@
                 </div>
                 <div class="stat-box">
                     <div class="stat-val found" id="stat-found">0</div>
-                    <div class="stat-label">En Base (Q4)</div>
+                    <div class="stat-label">Distritos</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-val missing" id="stat-missing">0</div>
-                    <div class="stat-label">Ausentes</div>
+                    <div class="stat-label">Unidades</div>
                 </div>
             </div>
         </div>
@@ -595,12 +595,12 @@
 
         function updateStats(data) {
             const total = data.length;
-            const missing = data.filter(d => d.is_missing).length;
-            const found = total - missing;
+            const distritos = new Set(data.map(d => d.distrito).filter(Boolean)).size;
+            const unidades  = data.reduce((sum, d) => sum + (d.total_units || 0), 0);
             
             document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-missing').innerText = missing;
-            document.getElementById('stat-found').innerText = found;
+            document.getElementById('stat-found').innerText = distritos;
+            document.getElementById('stat-missing').innerText = unidades.toLocaleString('en-US');
         }
 
         function flyToProject(lat, lon, title) {

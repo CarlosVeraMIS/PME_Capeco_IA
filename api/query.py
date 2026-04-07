@@ -9,26 +9,19 @@ load_dotenv()
 # ==========================================
 # Cache global para lambdas "warm"
 # ==========================================
-_df_main  = None  # all_projects.json  → misma data que el dashboard
-_df_xl    = None  # data2025Q4.xlsx   → datos oficiales Q4
+_df_csv = None
+_df_xl  = None
 
 def get_dataframes():
-    global _df_main, _df_xl
-    if _df_main is None:
+    global _df_csv, _df_xl
+    if _df_csv is None:
         base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-        # Cargamos all_projects.json — la fuente consolidada que usa el dashboard
-        json_path = os.path.join(base, 'Dashboard Faltantes', 'all_projects.json')
-        with open(json_path, 'r', encoding='utf-8') as f:
-            raw = json.load(f)
-        _df_main = pd.json_normalize(raw)
-
-        # Cargamos Excel Q4 como referencia adicional
-        _df_xl = pd.read_excel(
+        _df_csv = pd.read_csv(os.path.join(base, 'Material datos', 'data-proyectos-immobiliarios.csv'))
+        _df_xl  = pd.read_excel(
             os.path.join(base, 'Material datos', 'data2025Q4.xlsx'),
             sheet_name='data2025Q4'
         )
-    return _df_main, _df_xl
+    return _df_csv, _df_xl
 
 
 
@@ -113,13 +106,13 @@ class handler(BaseHTTPRequestHandler):
             return
 
         try:
-            df_main, _ = get_dataframes()
+            df_csv, _ = get_dataframes()
         except Exception as e:
             self._send_json(500, {"error": f"Error cargando datos: {e}"})
             return
 
         try:
-            agent = get_agent(df_main, use_local)
+            agent = get_agent(df_csv, use_local)
         except Exception as e:
             self._send_json(500, {"error": str(e)})
             return
@@ -134,30 +127,26 @@ class handler(BaseHTTPRequestHandler):
 Eres un analista experto en el mercado inmobiliario peruano.
 Tienes la herramienta `python_repl_ast` y DEBES usarla para ejecutar código Pandas sobre `df`.
 
-COLUMNAS EXACTAS DE `df`:
-- 'title'            → nombre del proyecto (string)
-- 'distrito'         → distrito de Lima (string)
-- 'avg_price_m2'     → precio promedio por m² YA CALCULADO (float) — LÉELO DIRECTAMENTE, NO LO CALCULES
-- 'price_value'      → precio numérico base (float) — PUEDE SER 0 si el precio es "Consultar"
-- 'price_string'     → precio formateado listo para mostrar (string, ej: "S/ 856,000" o "Consultar")
-- 'area_m2'          → área en m² (float)
-- 'rooms'            → dormitorios (int)
-- 'total_units'      → unidades disponibles (int)
-- 'is_missing'       → True si NO está en la base oficial Q4 (bool)
-- 'project_currency' → moneda ('S/' o '$')
-- 'models'           → lista de modelos de dept. con precios detallados
+COLUMNAS EXACTAS DE `df` (scraping Nexo Inmobiliario):
+- 'title'            → nombre del proyecto
+- 'distrito'         → distrito de Lima
+- 'price_amount'     → precio numérico del modelo (float)
+- 'price_currency'   → moneda ('S/' o '$')
+- 'area_m2'          → área del modelo en m² (float)
+- 'num_rooms'        → dormitorios del modelo (int)
+- 'num_bathrooms'    → baños del modelo (int)
+- 'units_available'  → unidades disponibles por modelo (int)
+- 'model_name'       → nombre del tipo de departamento
+- 'model_type'       → tipo (FLAT, DÚPLEX, etc.)
 
-⚠️ REGLAS CRÍTICAS PARA PRECIOS:
-1. Para "Precio por m²": usa df['avg_price_m2'] DIRECTAMENTE. Muestra junto con df['project_currency'].
-2. Para "Precio Base": usa df['price_string'] (ya formateado). NUNCA uses price_value — puede ser 0.
-3. NUNCA muestres 0 en precios. Si price_value=0, muéstrate price_string que puede decir "Consultar".
-4. NUNCA calcules precio/m² tú mismo. El campo avg_price_m2 ya tiene el valor correcto.
+NOTA: Cada fila es un MODELO de departamento, no un proyecto completo.
+Para datos por proyecto: agrupa con df.groupby('title').
 
-Ejemplo correcto para una tabla:
-| Proyecto | Precio Base | Precio/m² |
-|---|---|---|
-| GARDEN HOMES | Consultar | $ 2,232 |
-| Serenity | S/ 856,000 | S/ 8,258 |
+⚠️ REGLAS DE PRECIO:
+1. Para precio/m²: calcula price_amount / area_m2 por modelo, luego promedia por proyecto.
+2. Para precio base del proyecto: usa el mínimo de price_amount por proyecto (df.groupby('title')['price_amount'].min()).
+3. Muestra siempre la moneda de price_currency junto al precio.
+4. Filtra filas donde price_amount > 0 antes de calcular promedios.
 
 Responde en español con tablas markdown bien formateadas.
 Pregunta del usuario: {question}
