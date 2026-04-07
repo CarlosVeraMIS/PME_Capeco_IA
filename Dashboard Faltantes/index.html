@@ -980,6 +980,10 @@
                 btn.classList.remove('active');
                 btn.querySelector('.layer-status').innerText = 'Off';
             } else {
+                if (!masterData || masterData.length === 0) {
+                    alert("Aún no se han cargado los datos globales. Si estás viendo el archivo localmente, necesitas abrirlo con un servidor (ej. Live Server o npx serve) debido a políticas de CORS.");
+                    return;
+                }
                 const heatData = masterData
                     .filter(p => p.latitude && p.longitude && p.avg_price_m2 > 0)
                     .map(p => [p.latitude, p.longitude, p.avg_price_m2 / 1000]); // Normalizar peso
@@ -1058,14 +1062,21 @@
                     `;
                     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
                     const res = await fetch(url);
+                    if (!res.ok) {
+                        throw new Error(`API de Overpass fuera de servicio (Status: ${res.status}). Intenta de nuevo en unos momentos.`);
+                    }
                     const data = await res.json();
+                    
+                    if (!data || !data.elements) {
+                        throw new Error("No se encontraron servicios en esta zona.");
+                    }
                     
                     data.elements.forEach(el => {
                         let icon = '📍';
-                        if(el.tags.amenity === 'school') icon = '🎓';
-                        if(el.tags.shop === 'mall') icon = '🛍️';
-                        if(el.tags.railway === 'station') icon = '🚆';
-                        if(el.tags.amenity === 'hospital') icon = '🏥';
+                        if(el.tags.amenity === 'school' || el.tags.amenity === 'university') icon = '🎓';
+                        if(el.tags.shop === 'mall' || el.tags.shop === 'supermarket') icon = '🛍️';
+                        if(el.tags.railway === 'station' || el.tags.amenity === 'bus_station') icon = '🚆';
+                        if(el.tags.amenity === 'hospital' || el.tags.amenity === 'clinic') icon = '🏥';
 
                         const poiMarker = L.marker([el.lat, el.lon], {
                             icon: L.divIcon({
@@ -1080,8 +1091,8 @@
                     btn.classList.add('active');
                     btn.querySelector('.layer-status').innerText = 'On';
                 } catch(e) {
-                    console.error(e);
-                    alert("Error cargando servicios de OpenStreetMap.");
+                    console.error("Error POI:", e);
+                    alert(e.message || "Error cargando servicios de OpenStreetMap.");
                     btn.querySelector('.layer-status').innerText = 'Error';
                 }
             }
