@@ -148,22 +148,6 @@ Para datos por proyecto: agrupa con df.groupby('title').
 3. Muestra siempre la moneda de price_currency junto al precio.
 4. Filtra filas donde price_amount > 0 antes de calcular promedios.
 
-
-
-REGLAS PARA EVITAR ERRORES DE CÓDIGO:
-1. NO intentes cargar archivos externos. El objeto `df` YA está cargado en el entorno.
-2. ANTES de calcular promedios, filtra por moneda. 
-   Ejemplo: `df[df['price_currency'] == 'S/']['price_amount'].mean()`
-3. Si el usuario pide un análisis general, genera UNA SOLA ejecución de Python que extraiga:
-   - Conteo de proyectos.
-   - Promedio de (price_amount / area_m2) agrupado por 'price_currency'.
-   - Top 3 proyectos más baratos usando 'price_amount' (donde sea > 0).
-
-RESTRICCIÓN DE SALIDA:
-- Si el código falla 2 veces, deja de intentar código y responde basado en los datos que lograste leer o pide al usuario que sea más específico.
-- No expliques el código de Python, solo muestra los resultados en tablas Markdown.
-
-
 Responde en español con tablas markdown bien formateadas.
 Pregunta del usuario: {question}
 """
