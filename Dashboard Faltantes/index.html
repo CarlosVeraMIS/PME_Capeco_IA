@@ -623,7 +623,8 @@
             data.forEach(p => {
                 const safeId = p.title.replace(/[^a-zA-Z0-9]/g, '');
                 const card = document.createElement('div');
-                card.className = `project-card ${p.is_missing ? 'card-missing' : 'card-found'}`;
+                const isOutofStock = (p.total_units === 0);
+                card.className = `project-card ${isOutofStock ? 'card-missing' : 'card-found'}`;
                 card.id = `card-${safeId}`;
                 card.onclick = () => flyToProject(p.latitude, p.longitude, p.title);
                 
@@ -656,7 +657,8 @@
             data.forEach(p => {
                 if(!p.latitude || !p.longitude) return;
                 
-                let mClass = p.is_missing ? 'marker-missing' : 'marker-found';
+                const isOutofStock = (p.total_units === 0);
+                let mClass = isOutofStock ? 'marker-missing' : 'marker-found';
                 let isAtypical = false;
                 
                 // Métrica 3: Alerta de Precio Atípico (20% por debajo del distrito)
@@ -672,7 +674,7 @@
                 const marker = L.marker([p.latitude, p.longitude], {icon: customIcon}).addTo(map);
                 bounds.push([p.latitude, p.longitude]);
                 //...
-                const tagText = p.is_missing ? 'Faltante en Q4' : 'Verificado en Q4';
+                const tagText = isOutofStock ? 'Sin Stock (Agotado)' : '🔥 Con Unidades Libres';
 
                 let modelsHtml = '';
                 if(p.models && p.models.length > 0) {
