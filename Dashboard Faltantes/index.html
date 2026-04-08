@@ -330,10 +330,10 @@
         </div>
     </aside>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <!-- Leaflet Heat (MUST load after Leaflet) -->
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <!-- Leaflet Heat (Using Unpkg for better reliability) -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     
     <script>
         // ==========================================
@@ -995,6 +995,11 @@
                 btn.classList.remove('active');
                 btn.querySelector('.layer-status').innerText = 'Off';
             } else {
+                if (typeof L.heatLayer !== 'function') {
+                    alert("Error: La librería de mapa de calor no ha cargado correctamente. Por favor, refresca la página (F5).");
+                    return;
+                }
+                
                 if (!masterData || masterData.length === 0) {
                     alert("Aún no se han cargado los datos globales. Si estás viendo el archivo localmente, necesitas abrirlo con un servidor (Live Server) debido a CORS.");
                     return;
