@@ -102,6 +102,7 @@
         .marker-missing { background-color: var(--danger-color); box-shadow: 0 0 10px var(--danger-color);}
         .marker-found { background-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color);}
         .marker-atypical { background-color: #facc15; box-shadow: 0 0 15px #facc15; animation: pulse 1s infinite alternate;}
+        .marker-active { background-color: #facc15 !important; border-color: #fff !important; width: 20px !important; height: 20px !important; box-shadow: 0 0 25px #facc15, 0 0 10px #fff !important; z-index: 2000 !important; transform: scale(1.4); }
         @keyframes pulse { from { box-shadow: 0 0 5px #facc15; } to { box-shadow: 0 0 25px #facc15, 0 0 8px #fff; } }
 
         /* RIGHT SIDEBAR (AI Chat) */
@@ -728,6 +729,7 @@
             document.getElementById('stat-missing').innerText = unidades.toLocaleString('en-US');
         }
 
+        let lastHighlightedMarker = null;
         function flyToProject(lat, lon, title) {
             map.flyTo([lat, lon], 17, { duration: 1 });
             
@@ -735,10 +737,25 @@
             setTimeout(() => {
                 if(markers[title]) {
                     const marker = markers[title];
+                    
+                    // Quitar resalte previo
+                    if(lastHighlightedMarker && lastHighlightedMarker._icon) {
+                        const innerCircle = lastHighlightedMarker._icon.querySelector('.custom-marker');
+                        if(innerCircle) innerCircle.classList.remove('marker-active');
+                    }
+                    
+                    // Aplicar nuevo resalte
+                    if(marker._icon) {
+                        const innerCircle = marker._icon.querySelector('.custom-marker');
+                        if(innerCircle) innerCircle.classList.add('marker-active');
+                        lastHighlightedMarker = marker;
+                    }
+                    
                     if (markerCluster.hasLayer(marker)) {
                         const parent = markerCluster.getVisibleParent(marker);
                         if (parent && parent.spiderfy) {
                             // No es necesario spiderfy si ya es visible
+                            // Pero expande el grupo si el zoom no es máximo
                         }
                     }
                     marker.openPopup();
