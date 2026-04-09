@@ -12,6 +12,8 @@
     <!-- Marker Cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
@@ -1104,6 +1106,9 @@
                           node["shop"~"mall|supermarket"](${bbox});
                           node["railway"="station"](${bbox});
                           node["amenity"="bus_station"](${bbox});
+                          node["amenity"="police"](${bbox});
+                          node["amenity"="cafe"](${bbox});
+                          node["leisure"="park"](${bbox});
                         );
                         out body;
                     `;
@@ -1125,19 +1130,39 @@
                     }
                     
                     data.elements.forEach(el => {
-                        let icon = '📍';
-                        if(el.tags.amenity === 'school' || el.tags.amenity === 'university') icon = '🎓';
-                        if(el.tags.shop === 'mall' || el.tags.shop === 'supermarket') icon = '🛍️';
-                        if(el.tags.railway === 'station' || el.tags.amenity === 'bus_station') icon = '🚆';
-                        if(el.tags.amenity === 'hospital' || el.tags.amenity === 'clinic') icon = '🏥';
+                        let iconHtml = '<i class="fa-solid fa-location-dot"></i>';
+                        let color = 'white';
+                        
+                        if(el.tags.amenity === 'school' || el.tags.amenity === 'university') {
+                            iconHtml = '<i class="fa-solid fa-graduation-cap"></i>';
+                            color = '#38bdf8';
+                        } else if(el.tags.shop === 'mall' || el.tags.shop === 'supermarket') {
+                            iconHtml = '<i class="fa-solid fa-bag-shopping"></i>';
+                            color = '#f87171';
+                        } else if(el.tags.railway === 'station' || el.tags.amenity === 'bus_station') {
+                            iconHtml = '<i class="fa-solid fa-train-subway"></i>';
+                            color = '#facc15';
+                        } else if(el.tags.amenity === 'hospital' || el.tags.amenity === 'clinic') {
+                            iconHtml = '<i class="fa-solid fa-house-medical"></i>';
+                            color = '#ef4444';
+                        } else if(el.tags.amenity === 'police') {
+                            iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
+                            color = '#1d4ed8'; // Azul Policía
+                        } else if(el.tags.amenity === 'cafe') {
+                            iconHtml = '<i class="fa-solid fa-mug-hot"></i>';
+                            color = '#b45309'; // Color Café
+                        } else if(el.tags.leisure === 'park') {
+                            iconHtml = '<i class="fa-solid fa-tree"></i>';
+                            color = '#10b981'; // Verde Esmeralda
+                        }
 
                         const poiMarker = L.marker([el.lat, el.lon], {
                             icon: L.divIcon({
                                 className: 'poi-icon',
-                                html: `<div title="${el.tags.name || 'Servicio'}">${icon}</div>`,
+                                html: `<div style="color:${color};" title="${el.tags.name || 'Servicio'}">${iconHtml}</div>`,
                                 iconSize: [20, 20]
                             })
-                        }).bindPopup(`<b>${el.tags.name || 'Servicio'}</b><br>${el.tags.amenity || el.tags.shop || 'Punto de Interés'}`);
+                        }).bindPopup(`<b>${el.tags.name || 'Servicio'}</b><br>${el.tags.amenity || el.tags.shop || el.tags.leisure || 'Punto de Interés'}`);
                         poiLayer.addLayer(poiMarker);
                     });
                     
