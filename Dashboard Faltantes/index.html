@@ -27,6 +27,19 @@
             --accent-glow: rgba(56, 189, 248, 0.4);
             --danger-color: #ef4444;
             --success-color: #10b981;
+            --card-hover: rgba(56, 189, 248, 0.1);
+        }
+
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --panel-bg: #ffffff;
+            --chat-bg: #f8fafc;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-color: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.2);
+            --card-hover: rgba(2, 132, 199, 0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -39,7 +52,11 @@
             z-index: 1000; box-shadow: 4px 0 25px rgba(0,0,0,0.5); font-size: 0.9rem;
         }
 
-        .header { padding: 20px 24px 15px; border-bottom: 1px solid var(--border-color); }
+        .header { padding: 20px 24px 15px; border-bottom: 1px solid var(--border-color); position: relative; }
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.1); border: 1px solid var(--border-color); color: var(--text-primary); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        body.light-mode .theme-toggle { background: #f1f5f9; }
+        .theme-toggle:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        
         .header h1 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
         .header p { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.3; }
 
@@ -56,7 +73,7 @@
         .filter-group { margin-bottom: 12px; }
         .filter-group label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; text-transform: uppercase;}
         
-        .search-input, .select-input { width: 100%; padding: 8px 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 6px; color: white; font-size: 0.85rem; outline: none; transition: 0.2s;}
+        .search-input, .select-input { width: 100%; padding: 8px 12px; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 0.85rem; outline: none; transition: 0.2s;}
         .search-input:focus, .select-input:focus { border-color: var(--accent-color); }
         
         .price-range { display: flex; gap: 10px; align-items: center; }
@@ -219,6 +236,25 @@
         .layer-toggle.active .layer-status { color: var(--accent-color); }
 
         .poi-icon { font-size: 1.2rem; text-align: center; line-height: 1.2; }
+        #sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Ajustes de Modo Claro para Cards */
+        body.light-mode .project-card { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        body.light-mode .project-card:hover { background: var(--card-hover); }
+        body.light-mode .stat-box { background: #fff; }
+        body.light-mode #chat-messages { background: #f8fafc; }
+        body.light-mode #chat-input-area { background: #fff; }
+        body.light-mode #query-input { background: #fff; color: #000; }
+        
+        /* Ajustes Leaflet para modo claro */
+        body.light-mode .leaflet-popup-content-wrapper { background: #fff; color: #2d3748; }
+        body.light-mode .leaflet-popup-tip { background: #fff; }
+        body.light-mode .popup-content h3 { color: #1a202c; }
+        body.light-mode .popup-content p { color: #4a5568; }
     </style>
 
 </head>
@@ -227,13 +263,11 @@
     <!-- LEFT SIDEBAR -->
     <aside id="sidebar">
         <div class="header">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <div>
-                    <h1>Dashboard Global Scraping</h1>
-                    <p>Análisis de Mercado Inmobiliario</p>
-                </div>
-                <button onclick="openProfileModal()" style="background:transparent; color:var(--accent-color); border:1px solid var(--accent-color); padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='var(--accent-color)'; this.style.color='#000';" onmouseout="this.style.background='transparent'; this.style.color='var(--accent-color)';">👤 Mi Perfil PME</button>
-            </div>
+            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Cambiar Tema">
+                <i data-lucide="moon" id="theme-icon"></i>
+            </button>
+            <h1>PME Real Estate Dashboard</h1>
+            <p>Agente Pandas sobre CSV & Excel</p>
             <div class="stats-container">
                 <div class="stat-box">
                     <div class="stat-val total" id="stat-total">0</div>
@@ -342,8 +376,38 @@
         // ==========================================
         // SMART SEARCH & MAP LOGIC
         // ==========================================
+        // Temas y Configuración de Mapa
+        let currentTheme = localStorage.getItem('pme_theme') || 'dark';
+        if (currentTheme === 'light') document.body.classList.add('light-mode');
+
         const map = L.map('map', { zoomControl: false }).setView([-12.046374, -77.042793], 12);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
+        
+        let darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+        let lightLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+        
+        if (currentTheme === 'light') lightLayer.addTo(map);
+        else darkLayer.addTo(map);
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-mode');
+            const theme = isLight ? 'light' : 'dark';
+            localStorage.setItem('pme_theme', theme);
+            
+            // Cambiar capa del mapa
+            if (isLight) {
+                map.removeLayer(darkLayer);
+                lightLayer.addTo(map);
+            } else {
+                map.removeLayer(lightLayer);
+                darkLayer.addTo(map);
+            }
+            
+            // Actualizar icono
+            const icon = document.getElementById('theme-icon');
+            icon.setAttribute('data-lucide', isLight ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
         // Marker Cluster Group
