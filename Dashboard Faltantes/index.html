@@ -12,8 +12,8 @@
     <!-- Marker Cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
         :root {
@@ -1130,41 +1130,48 @@
                     }
                     
                     data.elements.forEach(el => {
-                        let iconHtml = '<i class="fa-solid fa-location-dot"></i>';
+                        let iconName = 'map-pin';
                         let color = 'white';
                         
                         if(el.tags.amenity === 'school' || el.tags.amenity === 'university') {
-                            iconHtml = '<i class="fa-solid fa-graduation-cap"></i>';
+                            iconName = 'graduation-cap';
                             color = '#38bdf8';
                         } else if(el.tags.shop === 'mall' || el.tags.shop === 'supermarket') {
-                            iconHtml = '<i class="fa-solid fa-bag-shopping"></i>';
+                            iconName = 'shopping-bag';
                             color = '#f87171';
                         } else if(el.tags.railway === 'station' || el.tags.amenity === 'bus_station') {
-                            iconHtml = '<i class="fa-solid fa-train-subway"></i>';
+                            iconName = 'train-front';
                             color = '#facc15';
                         } else if(el.tags.amenity === 'hospital' || el.tags.amenity === 'clinic') {
-                            iconHtml = '<i class="fa-solid fa-house-medical"></i>';
+                            iconName = 'hospital';
                             color = '#ef4444';
                         } else if(el.tags.amenity === 'police') {
-                            iconHtml = '<i class="fa-solid fa-shield-halved"></i>';
-                            color = '#1d4ed8'; // Azul Policía
+                            iconName = 'shield';
+                            color = '#1d4ed8'; 
                         } else if(el.tags.amenity === 'cafe') {
-                            iconHtml = '<i class="fa-solid fa-mug-hot"></i>';
-                            color = '#b45309'; // Color Café
+                            iconName = 'coffee';
+                            color = '#b45309'; 
                         } else if(el.tags.leisure === 'park') {
-                            iconHtml = '<i class="fa-solid fa-tree"></i>';
-                            color = '#10b981'; // Verde Esmeralda
+                            iconName = 'tree-pine';
+                            color = '#10b981'; 
                         }
 
                         const poiMarker = L.marker([el.lat, el.lon], {
                             icon: L.divIcon({
                                 className: 'poi-icon',
-                                html: `<div style="color:${color};" title="${el.tags.name || 'Servicio'}">${iconHtml}</div>`,
+                                html: `<div style="color:${color}; display:flex; justify-content:center; align-items:center;" title="${el.tags.name || 'Servicio'}">
+                                            <i data-lucide="${iconName}" style="width:16px; height:16px; stroke-width:2px;"></i>
+                                       </div>`,
                                 iconSize: [20, 20]
                             })
                         }).bindPopup(`<b>${el.tags.name || 'Servicio'}</b><br>${el.tags.amenity || el.tags.shop || el.tags.leisure || 'Punto de Interés'}`);
                         poiLayer.addLayer(poiMarker);
                     });
+                    
+                    // Inicializar los iconos de Lucide cargados dinámicamente
+                    if (window.lucide) {
+                        lucide.createIcons();
+                    }
                     
                     btn.classList.add('active');
                     btn.querySelector('.layer-status').innerText = 'On';
