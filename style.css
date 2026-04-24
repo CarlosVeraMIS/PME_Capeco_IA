@@ -477,6 +477,48 @@ strong {
   color: var(--text3);
 }
 
+/* Trusted Section */
+.trusted {
+  padding: 60px 24px;
+  border-bottom: 1px solid var(--gb);
+}
+
+.trusted-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trusted-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: var(--text3);
+  margin-bottom: 30px;
+}
+
+.trusted-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.tl-item {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text4);
+  letter-spacing: -.03em;
+  transition: var(--tr);
+  cursor: default;
+}
+
+.tl-item:hover {
+  color: var(--text);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
 /* Sections */
 .audience-section {
   padding: 100px 24px;
@@ -683,6 +725,34 @@ strong {
   text-align: center;
 }
 
+.pfc-audience-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.pab {
+  background: var(--glass);
+  border: 1px solid var(--gb);
+  color: var(--text2);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--tr);
+}
+
+.pab:hover, .pab.active {
+  background: var(--gh);
+  border-color: rgba(0, 200, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 4px 15px var(--blue-glow);
+}
+
 .contact-form-wrap {
   max-width: 600px;
   margin: 0 auto;
@@ -811,6 +881,11 @@ strong {
   .btn-primary, .btn-outline { width: 100%; justify-content: center; }
 
   .use-cases-grid { grid-template-columns: 1fr; }
+  
+  .dp-kpis { grid-template-columns: 1fr; }
+  .trusted-logos { gap: 20px; }
+  .pfc-audience-btns { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 24px; }
+  .pab { width: 100%; }
 }
 
 @media (max-width: 480px) {
@@ -821,4 +896,7 @@ strong {
   .stat-num { font-size: 2rem; }
   .stats-strip { padding: 40px 10px; }
   .contact-form-wrap { padding: 20px; }
+  
+  .trust-topbar { padding: 6px 12px; }
+  .trust-item { font-size: 10px; }
 }
