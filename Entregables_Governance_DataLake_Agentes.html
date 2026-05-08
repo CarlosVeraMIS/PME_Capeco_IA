@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PME CAPECO — Entregables Governance + Data Lake + Agentes · 60 Días</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --navy:#0F2340; --orange:#E8500D; --teal:#0D9488; --blue:#1D6FE8;
+  --gov:#1D4ED8; --lake:#0D9488; --agent:#7C3AED;
+  --s1:#F8FAFC; --s2:#F1F5F9; --s3:#E2E8F0;
+  --s4:#64748B; --s6:#334155; --s8:#0F172A;
+  --pm:#DC2626; --de:#0369A1; --fs:#0D9488; --da:#7C3AED; --qa:#B45309;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:var(--s8);font-size:14px;line-height:1.65;}
+
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;background:var(--navy);z-index:100;display:flex;flex-direction:column;padding:1.25rem 0;overflow-y:auto;}
+.sb-logo{padding:0 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.75rem;}
+.sb-badge{display:inline-block;background:var(--orange);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.1em;padding:.12rem .45rem;border-radius:.2rem;margin-bottom:.3rem;}
+.sb-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.9);line-height:1.3;}
+.sb-sub{font-size:.62rem;color:rgba(255,255,255,.32);margin-top:.15rem;}
+.sb-sec{padding:0 .7rem;margin-bottom:.1rem;}
+.sb-lbl{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.27);padding:.25rem .4rem;}
+.sb-a{display:flex;align-items:center;gap:.5rem;padding:.36rem .5rem;border-radius:.32rem;text-decoration:none;color:rgba(255,255,255,.48);font-size:.76rem;font-weight:600;transition:all .13s;}
+.sb-a:hover{background:rgba(255,255,255,.07);color:#fff;}
+.sb-a.active{background:rgba(29,111,232,.22);color:#93C5FD;}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.sb-cnt{font-family:'IBM Plex Mono',monospace;font-size:.58rem;background:rgba(0,0,0,.2);color:rgba(255,255,255,.35);padding:.06rem .3rem;border-radius:.18rem;margin-left:auto;}
+.sb-foot{margin-top:auto;padding:.85rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);font-size:.62rem;color:rgba(255,255,255,.27);line-height:1.5;}
+
+.main{margin-left:245px;}
+
+.hero{background:var(--s1);border-bottom:1px solid var(--s3);padding:2.5rem 3.5rem 2rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gov),var(--lake),var(--agent));}
+.hero-eye{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--blue);letter-spacing:.1em;margin-bottom:.65rem;display:flex;align-items:center;gap:.55rem;}
+.hero-eye::before{content:'//';opacity:.35;}
+.hero-h1{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--navy);margin-bottom:.65rem;}
+.hero-sub{font-size:.95rem;color:var(--s4);max-width:680px;line-height:1.75;margin-bottom:1.5rem;}
+
+/* Stat chips */
+.hero-stats{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.stat-chip{display:flex;align-items:center;gap:.45rem;padding:.4rem .85rem;border-radius:.4rem;border:1px solid;font-size:.8rem;font-weight:700;}
+.chip-gov{background:#EFF6FF;border-color:#BFDBFE;color:var(--gov);}
+.chip-lake{background:#F0FDFA;border-color:#99F6E4;color:var(--teal);}
+.chip-agent{background:#FAF5FF;border-color:#DDD6FE;color:var(--agent);}
+.chip-total{background:var(--s1);border-color:var(--s3);color:var(--s6);}
+
+/* Callout */
+.callout{display:flex;gap:.8rem;align-items:flex-start;padding:.95rem 1.2rem;border-radius:.5rem;margin:.85rem 0;font-size:.875rem;line-height:1.65;}
+.callout-warn{background:#FFFBEB;border:1px solid #FCD34D;}
+.callout-info{background:#EFF6FF;border:1px solid #BFDBFE;}
+.callout-ok{background:#F0FDF4;border:1px solid #86EFAC;}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem;}
+.callout-body{color:var(--s6);}
+.callout-body strong{color:var(--navy);font-weight:700;}
+
+/* Section */
+.section{padding:2.25rem 3.5rem;border-bottom:1px solid var(--s3);}
+.section.gov-bg{background:#F8FBFF;}
+.section.lake-bg{background:#F0FDFA;}
+.section.agent-bg{background:#FAF5FF;}
+
+.sec-header{margin-bottom:1.5rem;}
+.sec-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;padding:.18rem .55rem;border-radius:.25rem;margin-bottom:.55rem;}
+.tag-gov{background:rgba(29,78,216,.1);color:var(--gov);}
+.tag-lake{background:rgba(13,148,136,.1);color:var(--teal);}
+.tag-agent{background:rgba(124,58,237,.1);color:var(--agent);}
+.sec-h2{font-size:1.5rem;font-weight:800;color:var(--navy);line-height:1.15;letter-spacing:-.01em;margin-bottom:.35rem;}
+.sec-sub{font-size:.9rem;color:var(--s4);line-height:1.7;max-width:680px;}
+.divider{height:1px;background:var(--s3);margin:1.5rem 0;}
+
+/* Deliverable card */
+.del-grid{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.25rem;}
+
+.del-card{border:1px solid var(--s3);border-radius:.65rem;overflow:hidden;}
+.del-card.gov{border-left:3px solid var(--gov);}
+.del-card.lake{border-left:3px solid var(--lake);}
+.del-card.agent{border-left:3px solid var(--agent);}
+
+.del-header{display:flex;align-items:flex-start;gap:.85rem;padding:1rem 1.25rem;background:var(--s1);border-bottom:1px solid var(--s3);cursor:pointer;}
+.del-num{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;color:var(--s4);flex-shrink:0;padding-top:.1rem;min-width:36px;}
+.del-meta{flex:1;}
+.del-name{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.2rem;}
+.del-desc{font-size:.82rem;color:var(--s4);line-height:1.55;}
+.del-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.45rem;}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600;padding:.1rem .4rem;border-radius:.22rem;}
+.badge-day{background:#FEF3EC;color:#C2410C;}
+.badge-owner{background:rgba(0,0,0,.05);color:var(--s6);}
+.badge-dod{background:#F0FDF4;color:#166534;}
+.del-check{font-size:1.1rem;flex-shrink:0;padding-top:.05rem;}
+
+.del-body{padding:1.1rem 1.25rem;background:#fff;}
+
+/* Content inside del-body */
+.spec-label{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--s4);margin-bottom:.45rem;margin-top:.85rem;}
+.spec-label:first-child{margin-top:0;}
+
+.spec-list{list-style:none;margin-bottom:.5rem;}
+.spec-list li{display:flex;gap:.6rem;font-size:.83rem;color:var(--s6);padding:.28rem 0;border-bottom:1px solid var(--s2);line-height:1.5;}
+.spec-list li:last-child{border-bottom:none;padding-bottom:0;}
+.spec-list li::before{content:'→';font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--s4);flex-shrink:0;margin-top:.1rem;}
+
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.5rem;}
+.spec-box{background:var(--s1);border:1px solid var(--s3);border-radius:.45rem;padding:.75rem;}
+.spec-box-title{font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;}
+.spec-box-body{font-size:.78rem;color:var(--s6);line-height:1.55;}
+
+/* Role tag inline */
+.role{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:.2rem;margin-right:.2rem;}
+.r-pm{background:rgba(220,38,38,.1);color:#DC2626;}
+.r-de{background:rgba(3,105,161,.1);color:#0369A1;}
+.r-fs{background:rgba(13,148,136,.1);color:#0D9488;}
+.r-da{background:rgba(124,58,237,.1);color:#7C3AED;}
+.r-qa{background:rgba(180,83,9,.1);color:#B45309;}
+
+/* Code block */
+.code-block{font-family:'IBM Plex Mono',monospace;font-size:.75rem;background:#0F172A;color:#E2E8F0;padding:1rem 1.25rem;border-radius:.5rem;overflow-x:auto;line-height:1.7;margin:.5rem 0;}
+.code-block .cm{color:#64748B;}
+.code-block .ky{color:#7DD3FC;}
+.code-block .st{color:#86EFAC;}
+.code-block .fn{color:#FCA5A5;}
+
+/* Summary table */
+.sum-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+.sum-table th{text-align:left;padding:.65rem 1rem;background:var(--navy);color:rgba(255,255,255,.65);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;}
+.sum-table th:first-child{border-radius:.45rem 0 0 0;}
+.sum-table th:last-child{border-radius:0 .45rem 0 0;}
+.sum-table td{padding:.65rem 1rem;border-bottom:1px solid var(--s3);vertical-align:top;color:var(--s6);}
+.sum-table tr:nth-child(even) td{background:var(--s1);}
+.sum-table tr:last-child td{border-bottom:none;}
+.sum-table .td-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--s4);}
+.sum-table .td-name{font-weight:700;color:var(--navy);}
+.sum-table .td-ok{color:#166534;font-weight:700;}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge">ENTREGABLES</div>
+    <div class="sb-title">Governance + Lake<br>+ Agentes</div>
+    <div class="sb-sub">Plan 60 días · Sprint 1 · Días 1–20</div>
+  </div>
+
+  <div class="sb-sec">
+    <div class="sb-lbl">Overview</div>
+    <a href="#resumen" class="sb-a"><span class="sb-dot" style="background:#E8500D"></span>Tabla resumen<span class="sb-cnt">28</span></a>
+    <a href="#criterios" class="sb-a"><span class="sb-dot" style="background:#1D6FE8"></span>Criterios de aceptación</a>
+  </div>
+
+  <div class="sb-sec" style="margin-top:.4rem">
+    <div class="sb-lbl">A · Governance <span style="opacity:.5">(11)</span></div>
+    <a href="#a1" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A1 · Inventario de datos<span class="sb-cnt">D1-5</span></a>
+    <a href="#a2" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A2 · Clasificación PII<span class="sb-cnt">D3-7</span></a>
+    <a href="#a3" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A3 · Data Contract C→M<span class="sb-cnt">D5-10</span></a>
+    <a href="#a4" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A4 · Data Contract M→P<span class="sb-cnt">D5-10</span></a>
+    <a href="#a5" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A5 · Política RBAC<span class="sb-cnt">D7-12</span></a>
+    <a href="#a6" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A6 · Schema Registry<span class="sb-cnt">D8-12</span></a>
+    <a href="#a7" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A7 · Diccionario Gold<span class="sb-cnt">D10-15</span></a>
+    <a href="#a8" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A8 · SLA por campo<span class="sb-cnt">D10-15</span></a>
+    <a href="#a9" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A9 · Audit log PII<span class="sb-cnt">D12-15</span></a>
+    <a href="#a10" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A10 · Sign-off CAPECO<span class="sb-cnt">D1→15</span></a>
+    <a href="#a11" class="sb-a"><span class="sb-dot" style="background:#1D4ED8"></span>A11 · Linaje de datos<span class="sb-cnt">D15-20</span></a>
+  </div>
+
+  <div class="sb-sec" style="margin-top:.4rem">
+    <div class="sb-lbl">B · Data Lake <span style="opacity:.5">(9)</span></div>
+    <a href="#b1" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B1 · Infra Azure ADLS<span class="sb-cnt">D1-5</span></a>
+    <a href="#b2" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B2 · Capa Bronze<span class="sb-cnt">D5-12</span></a>
+    <a href="#b3" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B3 · Pipeline Br→Si<span class="sb-cnt">D10-17</span></a>
+    <a href="#b4" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B4 · Capa Silver<span class="sb-cnt">D12-18</span></a>
+    <a href="#b5" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B5 · Pipeline Si→Go<span class="sb-cnt">D15-20</span></a>
+    <a href="#b6" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B6 · Capa Gold<span class="sb-cnt">D17-20</span></a>
+    <a href="#b7" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B7 · API interna REST<span class="sb-cnt">D5-15</span></a>
+    <a href="#b8" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B8 · Snapshots + versión<span class="sb-cnt">D8-14</span></a>
+    <a href="#b9" class="sb-a"><span class="sb-dot" style="background:#0D9488"></span>B9 · Dashboard admin<span class="sb-cnt">D10-18</span></a>
+  </div>
+
+  <div class="sb-sec" style="margin-top:.4rem">
+    <div class="sb-lbl">C · Agentes <span style="opacity:.5">(8)</span></div>
+    <a href="#c1" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C1 · Diseño agentes<span class="sb-cnt">D1-5</span></a>
+    <a href="#c2" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C2 · DataQualityAgent<span class="sb-cnt">D12-18</span></a>
+    <a href="#c3" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C3 · NormalizAgent<span class="sb-cnt">D14-19</span></a>
+    <a href="#c4" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C4 · LineageAgent<span class="sb-cnt">D15-20</span></a>
+    <a href="#c5" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C5 · Orquestador<span class="sb-cnt">D16-20</span></a>
+    <a href="#c6" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C6 · Tests agentes<span class="sb-cnt">D17-20</span></a>
+    <a href="#c7" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C7 · AlertAgent v1<span class="sb-cnt">D21-30</span></a>
+    <a href="#c8" class="sb-a"><span class="sb-dot" style="background:#7C3AED"></span>C8 · ReportAgent v1<span class="sb-cnt">D46-52</span></a>
+  </div>
+
+  <div class="sb-foot">MIS × CAPECO · Sprint 1<br>28 entregables · Días 1–20</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eye">PME CAPECO · Sprint 1 · Entregables técnicos · Días 1–20</div>
+  <h1 class="hero-h1">28 entregables para cerrar<br>Governance + Data Lake + Agentes</h1>
+  <p class="hero-sub">Cada entregable tiene número, dueño, día de entrega, criterio de aceptación (DoD) y dependencias. Están ordenados por el plan de 60 días. Ninguno es opcional para la demo ante CAPECO el Día 60.</p>
+
+  <div class="hero-stats">
+    <div class="stat-chip chip-gov">📋 11 entregables Governance · Días 1–20</div>
+    <div class="stat-chip chip-lake">🗄️ 9 entregables Data Lake · Días 1–20</div>
+    <div class="stat-chip chip-agent">🤖 8 entregables Agentes · Días 12–52</div>
+    <div class="stat-chip chip-total">Total: 28 entregables · Equipo: 10 personas</div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">🚨</span>
+    <div class="callout-body">
+      <strong>Dependencia crítica del plan:</strong> El entregable A10 (Sign-off CAPECO sobre uso comercial de TELEFONO CONSTRUCTOR) bloquea la capa Gold de PME Proveedores. Se inicia el Día 1 y debe cerrarse antes del Día 15. Si no llega, PME Proveedores sale sin ese campo en la demo y se añade post-Día 60. El resto del plan no se bloquea.
+    </div>
+  </div>
+</section>
+
+<!-- TABLA RESUMEN -->
+<section class="section" id="resumen">
+  <div class="sec-header">
+    <div class="sec-tag tag-gov">Resumen ejecutivo</div>
+    <h2 class="sec-h2">Los 28 entregables de un vistazo</h2>
+    <p class="sec-sub">Ordenados por sprint day. Los entregables en negrita son bloqueantes para los que siguen.</p>
+  </div>
+
+  <div style="overflow:hidden;border-radius:.65rem;border:1px solid var(--s3)">
+  <table class="sum-table">
+    <thead><tr><th>#</th><th>Entregable</th><th>Owner</th><th>Días</th><th>DoD clave</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">A1</td><td class="td-name">Inventario completo de campos BD</td><td><span class="role r-da">DA</span></td><td>1–5</td><td>150 campos clasificados con tipo, completitud y descripción</td></tr>
+      <tr><td class="td-num">A2</td><td class="td-name">Clasificación PII por nivel</td><td><span class="role r-de">DE1</span></td><td>3–7</td><td>Cada campo tiene nivel PII 0/1/2 + restricción de acceso</td></tr>
+      <tr><td class="td-num">A10</td><td class="td-name">Sign-off CAPECO (TELEFONO CONSTRUCTOR)</td><td><span class="role r-pm">PM</span></td><td>1→15</td><td>Documento firmado por representante legal CAPECO</td></tr>
+      <tr><td class="td-num">B1</td><td class="td-name">Infraestructura Azure ADLS Gen2</td><td><span class="role r-de">DE2</span></td><td>1–5</td><td>3 contenedores creados: bronze / silver / gold</td></tr>
+      <tr><td class="td-num">C1</td><td class="td-name">Diseño arquitectura de agentes</td><td><span class="role r-de">DE1</span><span class="role r-fs">FS1</span></td><td>1–5</td><td>Documento: interface, inputs, outputs y triggers de cada agente</td></tr>
+      <tr><td class="td-num">A3</td><td class="td-name">Data Contract CAPECO → MIS</td><td><span class="role r-de">DE1</span><span class="role r-pm">PM</span></td><td>5–10</td><td>Firmado por CAPECO + MIS. Define schema, SLA, frecuencia</td></tr>
+      <tr><td class="td-num">A4</td><td class="td-name">Data Contract MIS → PME Proveedores</td><td><span class="role r-de">DE1</span><span class="role r-pm">PM</span></td><td>5–10</td><td>Firmado por MIS. Define campos permitidos por producto</td></tr>
+      <tr><td class="td-num">B2</td><td class="td-name">Capa Bronze operativa</td><td><span class="role r-de">DE2</span></td><td>5–12</td><td>Snapshot de data_capeco_full completa con todos los campos, inmutable</td></tr>
+      <tr><td class="td-num">B7</td><td class="td-name">API REST interna (Gold Layer)</td><td><span class="role r-fs">FS1</span><span class="role r-fs">FS2</span></td><td>5–15</td><td>Endpoints /obras, /distritos, /fases con auth + filtros. &lt;200ms p95</td></tr>
+      <tr><td class="td-num">A5</td><td class="td-name">Política y roles RBAC</td><td><span class="role r-fs">FS3</span><span class="role r-pm">PM</span></td><td>7–12</td><td>4 roles definidos: admin / analista / pme-capeco / pme-proveedores</td></tr>
+      <tr><td class="td-num">A6</td><td class="td-name">Schema Registry (Gold)</td><td><span class="role r-de">DE1</span></td><td>8–12</td><td>Cada campo Gold tiene tipo, descripción, owner y versión</td></tr>
+      <tr><td class="td-num">B8</td><td class="td-name">Snapshots trimestrales inmutables</td><td><span class="role r-de">DE2</span></td><td>8–14</td><td>Snapshot Q4-2025 creado, versionado, con hash de integridad</td></tr>
+      <tr><td class="td-num">A7</td><td class="td-name">Diccionario de datos (lenguaje negocio)</td><td><span class="role r-da">DA</span></td><td>10–15</td><td>Cada campo Gold tiene nombre de negocio + ejemplo real + restricción</td></tr>
+      <tr><td class="td-num">A8</td><td class="td-name">SLA de calidad por campo</td><td><span class="role r-de">DE1</span><span class="role r-da">DA</span></td><td>10–15</td><td>Umbral mínimo % completitud + regla de validación por campo crítico</td></tr>
+      <tr><td class="td-num">B3</td><td class="td-name">Pipeline Bronze → Silver</td><td><span class="role r-de">DE1</span></td><td>10–17</td><td>Corre sin errores. Dedup + tipo + GPS + PII enmascarado</td></tr>
+      <tr><td class="td-num">B9</td><td class="td-name">Dashboard admin de governance</td><td><span class="role r-fs">FS3</span></td><td>10–18</td><td>Muestra completitud, owners, SLAs y alertas de campos fuera de umbral</td></tr>
+      <tr><td class="td-num">A9</td><td class="td-name">Audit log de acceso a campos PII</td><td><span class="role r-fs">FS3</span></td><td>12–15</td><td>Cada acceso a campo PII-1/2 queda registrado con user, timestamp, query</td></tr>
+      <tr><td class="td-num">B4</td><td class="td-name">Capa Silver validada</td><td><span class="role r-de">DE1</span><span class="role r-qa">QA1</span></td><td>12–18</td><td>Cero registros con GPS fuera de Lima. "No precisan" → NULL estructurado</td></tr>
+      <tr><td class="td-num">C2</td><td class="td-name">DataQualityAgent v1</td><td><span class="role r-de">DE1</span><span class="role r-de">DE2</span></td><td>12–18</td><td>Valida GPS, rango precios, duplicados. Genera reporte JSON por carga</td></tr>
+      <tr><td class="td-num">C3</td><td class="td-name">NormalizationAgent v1</td><td><span class="role r-fs">FS1</span></td><td>14–19</td><td>Estandariza marcas (Trébol/TREBOL/trebol → Trébol). Diccionario actualizable</td></tr>
+      <tr><td class="td-num">B5</td><td class="td-name">Pipeline Silver → Gold</td><td><span class="role r-de">DE2</span></td><td>15–20</td><td>Solo campos aprobados. Métricas calculadas. PII excluida del Gold público</td></tr>
+      <tr><td class="td-num">A11</td><td class="td-name">Linaje de datos (automático)</td><td><span class="role r-fs">FS2</span></td><td>15–20</td><td>Cada campo Gold tiene ruta trazable: formulario CAPECO → Bronze → Silver → Gold</td></tr>
+      <tr><td class="td-num">C4</td><td class="td-name">LineageAgent v1</td><td><span class="role r-fs">FS2</span></td><td>15–20</td><td>Registra cada transformación con timestamp, versión y diff de schema</td></tr>
+      <tr><td class="td-num">B6</td><td class="td-name">Capa Gold certificada</td><td><span class="role r-de">DE2</span><span class="role r-qa">QA</span></td><td>17–20</td><td>163,914 registros. Métricas Gold validan vs valores conocidos de la BD original</td></tr>
+      <tr><td class="td-num">C5</td><td class="td-name">Orquestador de agentes</td><td><span class="role r-fs">FS1</span><span class="role r-de">DE1</span></td><td>16–20</td><td>Pipeline: carga → DQAgent → NormAgent → Silver → LineageAgent → Gold</td></tr>
+      <tr><td class="td-num">C6</td><td class="td-name">Test suite de agentes</td><td><span class="role r-qa">QA1</span><span class="role r-qa">QA2</span></td><td>17–20</td><td>Cobertura &gt;80%. Casos: dato corrupto, campo PII expuesto, GPS inválido</td></tr>
+      <tr><td class="td-num">C7</td><td class="td-name">AlertAgent v1 (Sprint 2)</td><td><span class="role r-de">DE1</span></td><td>21–30</td><td>Detecta obras nuevas por trimestre. Envía email por zona + fase</td></tr>
+      <tr><td class="td-num">C8</td><td class="td-name">ReportAgent v1 (Sprint 3)</td><td><span class="role r-de">DE1</span><span class="role r-de">DE2</span></td><td>46–52</td><td>Genera PDF trimestral desde Gold Layer. Demostrable ante CAPECO Día 60</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- CRITERIOS -->
+<section class="section" id="criterios" style="background:var(--s1)">
+  <div class="sec-header">
+    <div class="sec-tag tag-gov">Criterios de aceptación globales</div>
+    <h2 class="sec-h2">Definition of Done del Sprint 1</h2>
+    <p class="sec-sub">Un entregable está Done cuando cumple TODOS estos criterios, no cuando el código compila.</p>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-box">
+      <div class="spec-box-title">✅ Para entregables de Governance</div>
+      <div class="spec-box-body">
+        Documento firmado o aprobado por dueño del dato<br>
+        Disponible en Confluence/Notion del proyecto<br>
+        Revisado por PM + DE + representante CAPECO si aplica<br>
+        Sin campos sin owner asignado<br>
+        Versionado con fecha y autor
+      </div>
+    </div>
+    <div class="spec-box">
+      <div class="spec-box-title">✅ Para entregables de Data Lake</div>
+      <div class="spec-box-body">
+        Pipeline corre sin errores en staging<br>
+        QA valida que Bronze = fuente original (sin pérdidas)<br>
+        QA valida que Silver no expone PII de nivel 1/2<br>
+        Tiempo de ejecución documentado y dentro de SLA<br>
+        Snapshot versionado con hash SHA256
+      </div>
+    </div>
+    <div class="spec-box">
+      <div class="spec-box-title">✅ Para entregables de Agentes</div>
+      <div class="spec-box-body">
+        Agente tiene inputs, outputs y trigger documentados<br>
+        Test unitarios con cobertura &gt;80%<br>
+        Agente falla de forma controlada (no bloquea el pipeline)<br>
+        Genera log estructurado en JSON por ejecución<br>
+        QA valida casos borde: dato corrupto, campo vacío, GPS fuera de Lima
+      </div>
+    </div>
+    <div class="spec-box">
+      <div class="spec-box-title">✅ Para la demo Día 60</div>
+      <div class="spec-box-body">
+        Cada entregable demostrable en &lt;2 minutos<br>
+        Datos reales de la BD (cero datos ficticios en la demo)<br>
+        Rehearsal completo el Día 50 con todo el equipo<br>
+        Guión técnico y ejecutivo validados por DA + PM<br>
+        Ambiente de producción freeze desde Día 55
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN A: GOVERNANCE -->
+<section class="section gov-bg" id="a1">
+  <div class="sec-header">
+    <div class="sec-tag tag-gov">A · Governance · 11 entregables · Días 1–20</div>
+    <h2 class="sec-h2">Gobernanza de la información CAPECO</h2>
+    <p class="sec-sub">El governance no es burocracia — es lo que hace que los agentes confíen en los datos que procesan y que CAPECO confíe en lo que MIS hace con su BD.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body"><strong>Punto de partida real:</strong> La BD tiene 150 columnas en <code style="font-family:monospace;background:rgba(0,0,0,.06);padding:.1rem .3rem;border-radius:.2rem">data_capeco_full</code>. Algunas tienen espacios en el nombre (requieren backtick quoting). MARCA_PINTURA_1 tiene 0% de completitud. MARCA_SANITARIO tiene 100% de registros pero 85% dice "No precisan". Esos son los problemas que el governance debe documentar y resolver antes de que cualquier agente procese esos campos.</div>
+  </div>
+
+  <div class="del-grid">
+
+    <!-- A1 -->
+    <div class="del-card gov" id="a1-card">
+      <div class="del-header">
+        <div class="del-num">A1</div>
+        <div class="del-meta">
+          <div class="del-name">Inventario completo de campos BD CAPECO</div>
+          <div class="del-desc">Auditoría de las 150 columnas de data_capeco_full: tipo, completitud real, valores frecuentes y descripción de negocio.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 1–5</span>
+            <span class="badge badge-owner"><span class="role r-da">DA</span> Data Analyst</span>
+            <span class="badge badge-dod">DoD: spreadsheet aprobado por DE + PM</span>
+          </div>
+        </div>
+        <div class="del-check">📋</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Contenido del entregable</div>
+        <ul class="spec-list">
+          <li>Nombre exacto de columna (con espacios tal cual en MySQL)</li>
+          <li>Tipo de dato en MySQL (varchar, int, float, datetime)</li>
+          <li>% completitud real Q4 2025 (ejecutado con query COUNT vs total)</li>
+          <li>Top 5 valores más frecuentes con conteo</li>
+          <li>Descripción en lenguaje de negocio (no técnico)</li>
+          <li>Clasificación preliminar: Core / Enriquecimiento / PII / Excluido</li>
+        </ul>
+        <div class="spec-label">Campos críticos ya identificados (resultado esperado)</div>
+        <div class="code-block"><span class="cm"># Completitud conocida de campos clave (2025, 38,744 registros)</span>
+FASE                 → 100%  <span class="st">Core</span>
+X / Y (GPS)          → 100%  <span class="st">Core</span>
+BANCO                → 100%  <span class="st">Core</span>
+NRO_PISOS            →  99.9% <span class="st">Core</span>
+AREA_CONSTRUCCION    →  99.5% <span class="st">Core</span>
+TELEFONO CONSTRUCTOR →  91.8% <span class="fn">PII-1 · requiere sign-off</span>
+MARCA_SANITARIO      → 100% reg / 14.8% útil  <span class="ky">Enriq.</span>
+MARCA_PINTURA_1      →   0%  <span class="fn">Excluido v1</span>
+MARCA_DRYWALL        →  74.9% <span class="ky">Enriq.</span></div>
+        <div class="spec-label">Herramientas</div>
+        <ul class="spec-list">
+          <li>Script Python sobre Azure MySQL (query_pme.py existente como base)</li>
+          <li>Claude API para generar descripciones de negocio a partir de los valores frecuentes</li>
+          <li>Google Sheets o Notion para el inventario colaborativo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- A2 -->
+    <div class="del-card gov" id="a2">
+      <div class="del-header">
+        <div class="del-num">A2</div>
+        <div class="del-meta">
+          <div class="del-name">Clasificación PII por nivel de sensibilidad</div>
+          <div class="del-desc">Asignar a cada campo un nivel PII (0 = público / 1 = restringido / 2 = confidencial) con la restricción de acceso correspondiente por producto.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 3–7</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-pm">PM</span></span>
+            <span class="badge badge-dod">DoD: aprobado por CAPECO legal + firmado</span>
+          </div>
+        </div>
+        <div class="del-check">🔐</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Niveles PII definidos para el proyecto</div>
+        <ul class="spec-list">
+          <li><strong>PII-0 (Público):</strong> FASE, GPS, PRECIO_X_M2, NRO_PISOS, BANCO, MARCA_PORCELANATO → disponible en capa Gold sin restricción</li>
+          <li><strong>PII-1 (Restringido):</strong> NOMBRE DEL CONSTRUCTOR, TELEFONO CONSTRUCTOR, NOMBRE PROPIETARIO → solo accesible si el producto tiene autorización explícita CAPECO</li>
+          <li><strong>PII-2 (Confidencial):</strong> TELEFONO PROPIETARIO, datos de personas naturales → solo en capa Bronze, nunca en productos</li>
+          <li><strong>Excluido:</strong> MARCA_PINTURA_1 (0% completitud), campos de encuesta interna sin valor comercial</li>
+        </ul>
+        <div class="spec-label">Matriz de acceso por producto</div>
+        <div class="code-block">Producto           PII-0   PII-1   PII-2
+PME CAPECO         SI      NO      NO
+PME Proveedores    SI      COND*   NO
+Tasamelo           SI      NO      NO
+API Externa        SI      NO      NO
+Admin interno      SI      SI      SI (Bronze only)
+
+* COND = condicional a sign-off A10 firmado</div>
+      </div>
+    </div>
+
+    <!-- A3 -->
+    <div class="del-card gov" id="a3">
+      <div class="del-header">
+        <div class="del-num">A3</div>
+        <div class="del-meta">
+          <div class="del-name">Data Contract: CAPECO → MIS (ingesta trimestral)</div>
+          <div class="del-desc">Contrato formal que define cómo CAPECO entrega la data a MIS cada trimestre. Schema, formato, SLA de entrega y responsabilidades.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 5–10</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-pm">PM</span></span>
+            <span class="badge badge-dod">DoD: firmado por ambas partes antes del Día 12</span>
+          </div>
+        </div>
+        <div class="del-check">📄</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Cláusulas obligatorias del contrato</div>
+        <ul class="spec-list">
+          <li><strong>Schema comprometido:</strong> Lista de columnas, tipos y reglas de validación que CAPECO garantiza en cada entrega</li>
+          <li><strong>SLA de entrega:</strong> Máximo 15 días calendario después del cierre de cada trimestre (Q1→15 abr, Q2→15 jul, Q3→15 oct, Q4→15 ene)</li>
+          <li><strong>Formato de entrega:</strong> Dump MySQL comprimido o acceso directo a Azure MySQL — a definir en el contrato</li>
+          <li><strong>Notificación de cambios de schema:</strong> CAPECO notifica con 30 días de anticipación si agrega o elimina columnas</li>
+          <li><strong>Registro histórico:</strong> MIS conserva cada entrega trimestral como snapshot inmutable mínimo 7 años</li>
+          <li><strong>Uso permitido:</strong> Operación de plataformas PME CAPECO, PME Proveedores y Tasamelo bajo marca MIS×CAPECO</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- A4 -->
+    <div class="del-card gov" id="a4">
+      <div class="del-header">
+        <div class="del-num">A4</div>
+        <div class="del-meta">
+          <div class="del-name">Data Contract: MIS → PME Proveedores (uso comercial)</div>
+          <div class="del-desc">Define exactamente qué campos del Gold Layer puede usar PME Proveedores, bajo qué condiciones y con qué restricciones legales.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 5–10</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-pm">PM</span></span>
+            <span class="badge badge-dod">DoD: firmado por MIS legal. Referencia A10 si incluye PII-1</span>
+          </div>
+        </div>
+        <div class="del-check">📄</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Campos autorizados en PME Proveedores (versión sin sign-off A10)</div>
+        <div class="code-block"><span class="st"># Campos Gold disponibles SIN sign-off CAPECO (PII-0)</span>
+NOMBRE DEL PROYECTO, FASE, PCT_AVANCE, SUB_FASE
+NRO_PISOS, AREA_CONSTRUCCION, NRO_UNIDADES
+X, Y, DIRECCION, DISTRITO, URBANIZACION
+BANCO, BANCO_1, BANCO_2
+MARCA_SANITARIO, MARCA_PORCELANATO, MARCA_DRYWALL
+TECHOS, PAREDES, PISOS
+ASCENSOR_TIENE, SISTEMA_GAS
+ANIO, TRIM
+
+<span class="fn"># Campos que requieren A10 firmado (PII-1)</span>
+NOMBRE DEL CONSTRUCTOR
+TELEFONO CONSTRUCTOR
+CONSTRUCTOR_DIRECCION</div>
+        <div class="spec-label">Restricciones de uso</div>
+        <ul class="spec-list">
+          <li>Los datos solo pueden mostrarse agregados o por proyecto — no exportar listados masivos de teléfonos</li>
+          <li>El suscriptor de PME Proveedores no puede re-vender ni re-distribuir los datos</li>
+          <li>Logs de acceso por suscriptor requeridos para auditoría CAPECO</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- A5 -->
+    <div class="del-card gov" id="a5">
+      <div class="del-header">
+        <div class="del-num">A5</div>
+        <div class="del-meta">
+          <div class="del-name">Política y roles RBAC (Role-Based Access Control)</div>
+          <div class="del-desc">Define los 4 roles del sistema y qué puede hacer cada uno. Implementado en la API interna desde el Día 12.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 7–12</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS3</span><span class="role r-pm">PM</span></span>
+            <span class="badge badge-dod">DoD: QA verifica que PME Proveedores NO accede a PII-1 sin A10</span>
+          </div>
+        </div>
+        <div class="del-check">🔑</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Roles y permisos</div>
+        <div class="code-block">Role: admin-mis
+  Acceso: ALL capas (Bronze, Silver, Gold) + PII-0/1/2
+  Personas: equipo técnico MIS
+
+Role: analista-mis
+  Acceso: Silver + Gold. PII-0 y PII-1 con log de acceso
+  Personas: DA, PMs
+
+Role: pme-capeco
+  Acceso: Gold solo. PII-0. Sin PII-1 ni PII-2
+  Personas: suscriptores PME CAPECO
+
+Role: pme-proveedores
+  Acceso: Gold subset aprobado en A4. PII-1 solo si A10 firmado
+  Personas: suscriptores PME Proveedores</div>
+        <div class="spec-label">Implementación técnica (FS3)</div>
+        <ul class="spec-list">
+          <li>JWT tokens con claims de role asignados en el login</li>
+          <li>Middleware en FastAPI/Node que valida role vs campo solicitado</li>
+          <li>Tabla de permisos en base de datos — no hardcodeada en código</li>
+          <li>Audit log: cada acceso a campo PII-1 genera entrada en tabla audit_log</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- A6, A7, A8, A9, A10, A11 condensados -->
+    <div class="del-card gov" id="a6">
+      <div class="del-header">
+        <div class="del-num">A6</div>
+        <div class="del-meta">
+          <div class="del-name">Schema Registry de la capa Gold</div>
+          <div class="del-desc">Registro versionado de cada campo Gold: tipo, descripción, owner, SLA y versión de schema.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 8–12</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span></span>
+            <span class="badge badge-dod">DoD: 100% de campos Gold con owner asignado y tipo validado</span>
+          </div>
+        </div>
+        <div class="del-check">📐</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Formato: JSON Schema o Apache Avro — compatible con Azure Data Lake</li>
+          <li>Cada campo: nombre, tipo, nullable, descripción, owner, SLA_completitud, pii_level, version</li>
+          <li>Versionado semántico: v1.0.0 al inicio, v1.x.0 si CAPECO agrega campos, v2.0.0 si cambia tipos</li>
+          <li>Almacenado en el contenedor Gold como archivo schema.json inmutable por versión</li>
+          <li>Alertas automáticas si schema cambia entre cargas (LineageAgent C4 lo monitorea)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card gov" id="a7">
+      <div class="del-header">
+        <div class="del-num">A7</div>
+        <div class="del-meta">
+          <div class="del-name">Diccionario de datos en lenguaje de negocio</div>
+          <div class="del-desc">Traducción de cada campo técnico a lenguaje entendible por CAPECO, los comerciales de MIS y los suscriptores.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 10–15</span>
+            <span class="badge badge-owner"><span class="role r-da">DA</span></span>
+            <span class="badge badge-dod">DoD: revisado por PM + aprobado por referente CAPECO</span>
+          </div>
+        </div>
+        <div class="del-check">📖</div>
+      </div>
+      <div class="del-body">
+        <div class="code-block">Ejemplo de entrada del diccionario:
+
+Campo técnico: PRECIO_X_M2
+Nombre negocio: "Precio de cierre por m² (soles)"
+Descripción: "Precio real al que se vendió cada unidad dividido entre el
+  área techada. Es el precio de cierre, no el precio de lista."
+Ejemplo: 8417.5 (S/ 8,417.5 por m² en Miraflores Q4 2025)
+Restricción: Ninguna. Campo público PII-0.
+Fuente: Calculado por MIS a partir de PRECIO_SOLES / AREA_X_UNIDAD</div>
+        <ul class="spec-list">
+          <li>Generado con apoyo de Claude API: DA sube el inventario A1 y Claude genera las descripciones en lenguaje de negocio</li>
+          <li>DA revisa y corrige — Claude hace el 80% del trabajo, DA hace el 20% de revisión</li>
+          <li>Publicado en Confluence/Notion accesible para todo el equipo y para CAPECO</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card gov" id="a8">
+      <div class="del-header">
+        <div class="del-num">A8</div>
+        <div class="del-meta">
+          <div class="del-name">SLA de calidad por campo Gold</div>
+          <div class="del-desc">Umbral mínimo aceptable de completitud y regla de validación para cada campo crítico. Si no se cumple, el DataQualityAgent bloquea el paso a Gold.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 10–15</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-da">DA</span></span>
+            <span class="badge badge-dod">DoD: SLAs definidos para todos los campos Core</span>
+          </div>
+        </div>
+        <div class="del-check">📏</div>
+      </div>
+      <div class="del-body">
+        <div class="code-block">SLAs para campos Core (ejemplos):
+
+FASE              → completitud ≥ 99% · valores válidos: lista cerrada
+X / Y             → completitud = 100% · bounding box Lima (-77.2 a -76.7, -12.5 a -11.5)
+NRO_PISOS         → completitud ≥ 99% · rango: 1–60
+PRECIO_X_M2       → completitud ≥ 75% (obras activas) · rango: S/1,000–S/25,000
+AREA_CONSTRUCCION → completitud ≥ 99% · rango: 50–50,000 m²
+BANCO             → completitud = 100% · lista blanca de bancos Perú
+MARCA_PORCELANATO → completitud ≥ 20% con marca real (excluyendo "No tienen")
+MARCA_SANITARIO   → completitud ≥ 14% con marca real (excluyendo "No precisan")</div>
+      </div>
+    </div>
+
+    <div class="del-card gov" id="a9">
+      <div class="del-header">
+        <div class="del-num">A9</div>
+        <div class="del-meta">
+          <div class="del-name">Audit log de acceso a campos PII</div>
+          <div class="del-desc">Sistema de registro de auditoría que captura cada acceso a campos PII-1 y PII-2 con usuario, timestamp, query ejecutada y justificación.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 12–15</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS3</span></span>
+            <span class="badge badge-dod">DoD: QA verifica que acceso a TELEFONO CONSTRUCTOR queda registrado</span>
+          </div>
+        </div>
+        <div class="del-check">🔍</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Tabla <code style="font-family:monospace">audit_log</code>: user_id, role, campo_accedido, pii_level, timestamp, query_hash, ip_address</li>
+          <li>Inmutable: no se puede borrar ni editar — append-only</li>
+          <li>Reporte semanal automático al PM: qué campos PII fueron accedidos y por quién</li>
+          <li>CAPECO puede solicitar auditoría en cualquier momento — este log es la evidencia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card gov" id="a10">
+      <div class="del-header">
+        <div class="del-num">A10</div>
+        <div class="del-meta">
+          <div class="del-name">Sign-off CAPECO · Uso comercial de TELEFONO CONSTRUCTOR</div>
+          <div class="del-desc">Documento legal firmado por CAPECO autorizando a MIS exponer el campo TELEFONO CONSTRUCTOR en PME Proveedores como dato de prospección comercial.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 1 → 15 (iniciado D1)</span>
+            <span class="badge badge-owner"><span class="role r-pm">PM</span> + Legal CAPECO + Legal MIS</span>
+            <span class="badge badge-dod">DoD: documento firmado físico o digital con valor legal</span>
+          </div>
+        </div>
+        <div class="del-check">⚖️</div>
+      </div>
+      <div class="del-body">
+        <div class="callout callout-warn" style="margin:0 0 .75rem">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body"><strong>Este es el único entregable que no depende del equipo técnico.</strong> Depende de los tiempos legales de CAPECO. Se inicia el Día 1. Si no llega antes del Día 15, PME Proveedores sale en la demo sin ese campo — el plan no se paraliza.</div>
+        </div>
+        <ul class="spec-list">
+          <li>Sección 1: descripción del campo y su uso en PME Proveedores</li>
+          <li>Sección 2: restricciones de uso (no re-venta, no exportación masiva, logs de acceso)</li>
+          <li>Sección 3: derechos de CAPECO para auditar el uso en cualquier momento</li>
+          <li>Sección 4: vigencia y condiciones de revocación</li>
+          <li>Firmado por: Representante Legal CAPECO + Gerente General MIS</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card gov" id="a11">
+      <div class="del-header">
+        <div class="del-num">A11</div>
+        <div class="del-meta">
+          <div class="del-name">Linaje de datos automatizado</div>
+          <div class="del-desc">Sistema que permite trazar el origen de cualquier valor Gold hasta su fuente original en el formulario CAPECO de campo.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 15–20</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS2</span> implementa · <span class="role r-de">DE1</span> define reglas</span>
+            <span class="badge badge-dod">DoD: dado un valor en Gold se puede rastrear hasta Bronze en &lt;3 clicks</span>
+          </div>
+        </div>
+        <div class="del-check">🔗</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Ejemplo de consulta: "¿de dónde viene el precio m² de este proyecto?" → Respuesta: "PRECIO_SOLES / AREA_X_UNIDAD, Bronze snapshot Q4-2025, cargado el 2026-04-05"</li>
+          <li>Implementado como parte del LineageAgent C4 — misma base de código</li>
+          <li>Visible en el dashboard admin B9 para CAPECO</li>
+          <li>Responde en lenguaje natural vía PME Copilot (Sprint 3)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECCIÓN B: DATA LAKE -->
+<section class="section lake-bg" id="b1">
+  <div class="sec-header">
+    <div class="sec-tag tag-lake">B · Data Lake · 9 entregables · Días 1–20</div>
+    <h2 class="sec-h2">Arquitectura Azure Data Lake · Bronze / Silver / Gold</h2>
+    <p class="sec-sub">El Data Lake no reemplaza el Azure MySQL de CAPECO — se construye encima. El MySQL sigue siendo la fuente de verdad. El lake agrega capas de calidad, versionado y acceso controlado.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">🏗️</span>
+    <div class="callout-body"><strong>Arquitectura sobre lo que ya existe:</strong> millennialprod.mysql.database.azure.com permanece como fuente primaria. Azure Data Lake Storage Gen2 (ADLS) se provisiona en la misma suscripción Azure de MIS. Los scripts Python actuales (query_pme.py, query_obras.py) seguirán funcionando — solo cambiarán para leer desde la API interna (B7) en lugar de MySQL directo.</div>
+  </div>
+
+  <div class="del-grid">
+
+    <!-- B1 -->
+    <div class="del-card lake" id="b1-card">
+      <div class="del-header">
+        <div class="del-num">B1</div>
+        <div class="del-meta">
+          <div class="del-name">Infraestructura Azure ADLS Gen2</div>
+          <div class="del-desc">Provisionamiento de Azure Data Lake Storage Gen2 con los 3 contenedores, permisos IAM y configuración de retención.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 1–5</span>
+            <span class="badge badge-owner"><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: 3 contenedores creados · DE1 puede leer/escribir · QA verifica permisos</span>
+          </div>
+        </div>
+        <div class="del-check">☁️</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Estructura de contenedores</div>
+        <div class="code-block">Storage Account: pme-datalake-prod
+  Container: bronze/
+    capeco/
+      raw/
+        year=2025/trimestre=Q4/
+          data_capeco_full_Q4_2025.parquet  ← snapshot inmutable
+  Container: silver/
+    capeco/
+      cleaned/
+        year=2025/trimestre=Q4/
+          obras_silver_Q4_2025.parquet
+  Container: gold/
+    pme-capeco/       ← campos para PME CAPECO
+    pme-proveedores/  ← campos autorizados para PME Proveedores
+    schema/
+      schema_v1.0.0.json</div>
+        <div class="spec-label">Configuración requerida</div>
+        <ul class="spec-list">
+          <li>Hierarchical Namespace habilitado (requerido para ADLS Gen2)</li>
+          <li>IAM: rol Storage Blob Data Contributor para la cuenta de servicio de los pipelines</li>
+          <li>Soft delete habilitado: retención mínima 90 días</li>
+          <li>Lifecycle management: Bronze → tier Archive después de 1 año</li>
+          <li>Private endpoint: solo accesible desde la red virtual de MIS — no público</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B2 -->
+    <div class="del-card lake" id="b2">
+      <div class="del-header">
+        <div class="del-num">B2</div>
+        <div class="del-meta">
+          <div class="del-name">Capa Bronze — Snapshot raw de CAPECO</div>
+          <div class="del-desc">Copia exacta e inmutable de data_capeco_full en el Data Lake. Incluye TODOS los campos, incluyendo PII. Primera fuente de verdad del lake.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 5–12</span>
+            <span class="badge badge-owner"><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: QA verifica COUNT(*) Bronze = COUNT(*) MySQL · hash SHA256 generado</span>
+          </div>
+        </div>
+        <div class="del-check">🟤</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Pipeline de ingesta Bronze (Python)</div>
+        <div class="code-block"><span class="cm"># bronze_ingesta.py — ejecutado por DE2</span>
+<span class="ky">import</span> mysql.connector, pandas <span class="ky">as</span> pd
+<span class="ky">from</span> azure.storage.filedatalake <span class="ky">import</span> DataLakeServiceClient
+<span class="ky">import</span> hashlib, json
+<span class="ky">from</span> datetime <span class="ky">import</span> datetime
+
+<span class="cm"># 1. Leer completo desde MySQL</span>
+<span class="fn">query</span> = <span class="st">"SELECT * FROM data_capeco_full WHERE ANIO='2025' AND TRIM='4T'"</span>
+df = pd.read_sql(query, conn)
+
+<span class="cm"># 2. Guardar como Parquet particionado</span>
+path = <span class="st">f"bronze/capeco/raw/year=2025/trimestre=Q4/snapshot.parquet"</span>
+df.to_parquet(path, index=False)
+
+<span class="cm"># 3. Generar hash de integridad</span>
+sha256 = hashlib.sha256(open(path,<span class="st">'rb'</span>).read()).hexdigest()
+manifest = {<span class="st">"rows"</span>: len(df), <span class="st">"sha256"</span>: sha256,
+            <span class="st">"timestamp"</span>: datetime.utcnow().isoformat(),
+            <span class="st">"source"</span>: <span class="st">"millennialprod.mysql.database.azure.com/db_capeco"</span>}
+<span class="cm"># 4. Guardar manifest.json junto al parquet</span></div>
+        <ul class="spec-list">
+          <li>Formato: Apache Parquet (columnar, comprimido, compatible con Azure Synapse y Databricks)</li>
+          <li>Inmutabilidad: política de retención de 7 años, sin permisos de delete en el contenedor Bronze</li>
+          <li>Manifest: archivo JSON con COUNT, SHA256, timestamp y nombre de usuario que ejecutó la ingesta</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B3 -->
+    <div class="del-card lake" id="b3">
+      <div class="del-header">
+        <div class="del-num">B3</div>
+        <div class="del-meta">
+          <div class="del-name">Pipeline Bronze → Silver (limpieza y deduplicación)</div>
+          <div class="del-desc">Proceso automatizado que transforma el Bronze raw en Silver limpio: deduplicación, validación de tipos, enmascaramiento PII, normalización semántica básica.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 10–17</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span></span>
+            <span class="badge badge-dod">DoD: Silver tiene 0 duplicados por COD_PROYECTO+TRIM+ANIO · 0 GPS fuera de Lima</span>
+          </div>
+        </div>
+        <div class="del-check">⚙️</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Transformaciones Bronze → Silver</div>
+        <ul class="spec-list">
+          <li><strong>Deduplicación:</strong> COD_PROYECTO + TRIM + ANIO → mantiene registro más reciente si hay duplicados</li>
+          <li><strong>Validación GPS:</strong> X entre -77.2 y -76.7, Y entre -12.5 y -11.5 (bounding box Lima Metropolitana)</li>
+          <li><strong>Normalización "No precisan":</strong> MARCA_SANITARIO, MARCA_PORCELANATO donde valor = "No precisan" / "No informa" / "No tienen" → NULL estructurado</li>
+          <li><strong>Tipos:</strong> ANIO como integer, TRIM como string ("Q4"), GPS como float64</li>
+          <li><strong>Enmascaramiento PII-2:</strong> TELEFONO PROPIETARIO → hash SHA256 no reversible en Silver</li>
+          <li><strong>Campos con espacios:</strong> renombrados en Silver usando snake_case (NOMBRE DEL PROYECTO → nombre_del_proyecto)</li>
+        </ul>
+        <div class="spec-label">Trigger</div>
+        <ul class="spec-list">
+          <li>Manual en Sprint 1 (ejecución por DE1)</li>
+          <li>Automático desde Sprint 2: Azure Data Factory o Apache Airflow — ejecuta 24h después de cada Bronze nuevo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B4, B5, B6 -->
+    <div class="del-card lake" id="b4">
+      <div class="del-header">
+        <div class="del-num">B4</div>
+        <div class="del-meta">
+          <div class="del-name">Capa Silver validada</div>
+          <div class="del-desc">Datos limpios, tipados, sin duplicados y sin PII-2 expuesta. Validada por DataQualityAgent antes de pasar a Gold.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 12–18</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span> construye · <span class="role r-qa">QA1</span> valida</span>
+            <span class="badge badge-dod">DoD: reporte de calidad DataQualityAgent con 0 errores críticos</span>
+          </div>
+        </div>
+        <div class="del-check">🥈</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>QA valida: COUNT Silver ≤ COUNT Bronze (puede ser menor por dedup, nunca mayor)</li>
+          <li>QA valida: 0 registros con X o Y = NULL en Silver</li>
+          <li>QA valida: TELEFONO PROPIETARIO = NULL o hash en Silver (nunca teléfono en claro)</li>
+          <li>QA valida: ANIO y TRIM tienen tipos correctos (no strings vacíos)</li>
+          <li>Reporte de calidad Silver generado automáticamente por DataQualityAgent (C2)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card lake" id="b5">
+      <div class="del-header">
+        <div class="del-num">B5</div>
+        <div class="del-meta">
+          <div class="del-name">Pipeline Silver → Gold (certificación y métricas)</div>
+          <div class="del-desc">Proceso que genera la capa Gold: calcula métricas certificadas, aplica el schema registry, y separa los datos por producto.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 15–20</span>
+            <span class="badge badge-owner"><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: Gold generado · métricas Gold validan vs valores verificados manualmente</span>
+          </div>
+        </div>
+        <div class="del-check">⚙️</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Métricas calculadas en Gold (no existen en Bronze)</div>
+        <ul class="spec-list">
+          <li><strong>PRECIO_X_M2:</strong> PRECIO_SOLES / AREA_X_UNIDAD (ya existe en MySQL — se recalcula y valida)</li>
+          <li><strong>ABSORCION_PCT:</strong> UNIDADES_A / NRO_UNIDADES × 100 (% unidades ya vendidas)</li>
+          <li><strong>FASE_CODIGO:</strong> codificación numérica de FASE para filtros rápidos</li>
+          <li><strong>DISTRITO_NORM:</strong> distrito normalizado (sin variantes de mayúsculas/minúsculas)</li>
+          <li><strong>GPS_VALID:</strong> flag boolean — coordenadas dentro del bounding box Lima</li>
+        </ul>
+        <div class="spec-label">Separación por producto</div>
+        <ul class="spec-list">
+          <li>gold/pme-capeco/ → todos los campos PII-0 + métricas Gold</li>
+          <li>gold/pme-proveedores/ → subset aprobado en A4 (sin PII-1 hasta A10 firmado)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card lake" id="b6">
+      <div class="del-header">
+        <div class="del-num">B6</div>
+        <div class="del-meta">
+          <div class="del-name">Capa Gold certificada</div>
+          <div class="del-desc">La fuente de verdad para todos los productos PME. Validada por QA, firmada por DE y lista para consumo por la API interna y los agentes.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 17–20</span>
+            <span class="badge badge-owner"><span class="role r-de">DE2</span> · <span class="role r-qa">QA1</span><span class="role r-qa">QA2</span></span>
+            <span class="badge badge-dod">DoD: precio m² Gold de Miraflores = S/8,417 ±5% vs valor verificado de la BD</span>
+          </div>
+        </div>
+        <div class="del-check">🥇</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>163,914 registros históricos 2019–2025 disponibles</li>
+          <li>38,744 registros Q4 2025 como snapshot más reciente</li>
+          <li>Precio m² Lima avg Gold: S/6,174 ±5% (verificado contra BD original)</li>
+          <li>Absorción promedio Lima: 35.6% ±2% (verificado contra cálculo manual DA)</li>
+          <li>Certificado con firma de DE2 en el manifest: "Gold v1.0 — Q4 2025 — LISTO PARA PRODUCCIÓN"</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B7 -->
+    <div class="del-card lake" id="b7">
+      <div class="del-header">
+        <div class="del-num">B7</div>
+        <div class="del-meta">
+          <div class="del-name">API REST interna sobre Gold Layer</div>
+          <div class="del-desc">La API que reemplaza el acceso directo al MySQL de producción. Todos los productos PME y todos los agentes consumen datos a través de esta API — nunca directamente al MySQL.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 5–15</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS1</span><span class="role r-fs">FS2</span></span>
+            <span class="badge badge-dod">DoD: latencia &lt;200ms p95 · 100 users simultáneos sin degradación</span>
+          </div>
+        </div>
+        <div class="del-check">🔌</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Endpoints principales</div>
+        <div class="code-block">GET /api/v1/obras
+  ?distrito=Miraflores&fase=En+construccion&pisos_min=5
+  ?pct_avance_min=50&pct_avance_max=90
+  ?limit=100&offset=0
+  Response: [{nombre_proyecto, fase, pct_avance, gps, pisos, ...}]
+
+GET /api/v1/obras/{cod_proyecto}
+  Response: ficha completa de la obra (campos según role del token)
+
+GET /api/v1/metricas/precio_m2
+  ?distrito=Miraflores&anio=2025&trim=Q4
+  Response: {precio_m2_avg, precio_m2_min, precio_m2_max, n_proyectos}
+
+GET /api/v1/metricas/absorcion
+  ?distrito=Surco&anio=2025
+  Response: {absorcion_pct_avg, n_proyectos}
+
+POST /api/v1/export/excel
+  body: {filtros, campos_solicitados}
+  Response: archivo .xlsx con campos subset aprobado según role</div>
+        <div class="spec-label">Stack técnico</div>
+        <ul class="spec-list">
+          <li>FastAPI (Python) o Express (Node) — a definir por FS1 según preferencia del equipo</li>
+          <li>Cache con Redis: queries frecuentes cacheadas 15 minutos</li>
+          <li>Auth: JWT Bearer tokens con claims de role (del RBAC A5)</li>
+          <li>Rate limiting: 100 req/min por token</li>
+          <li>Documentación automática: Swagger/OpenAPI generado por FastAPI</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B8, B9 -->
+    <div class="del-card lake" id="b8">
+      <div class="del-header">
+        <div class="del-num">B8</div>
+        <div class="del-meta">
+          <div class="del-name">Snapshots trimestrales inmutables con versionado</div>
+          <div class="del-desc">Sistema de versionado que garantiza que siempre se puede reproducir el estado exacto de la BD en cualquier trimestre pasado.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 8–14</span>
+            <span class="badge badge-owner"><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: snapshot Q4-2025 restaurable desde Bronze con hash verificable</span>
+          </div>
+        </div>
+        <div class="del-check">📦</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Nomenclatura: capeco_bronze_YYYY_QN_vX.parquet + capeco_bronze_YYYY_QN_vX_manifest.json</li>
+          <li>Manifest incluye: rows, sha256, timestamp, usuario, versión de schema, versión del pipeline</li>
+          <li>Política: una vez escrito, el archivo Bronze no puede ser modificado ni eliminado (Azure immutable blob policy)</li>
+          <li>Historial disponible: Q1-2019 a Q4-2025 (163,914 registros totales)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card lake" id="b9">
+      <div class="del-header">
+        <div class="del-num">B9</div>
+        <div class="del-meta">
+          <div class="del-name">Dashboard admin de governance</div>
+          <div class="del-desc">Interfaz web visible para el equipo técnico MIS y para CAPECO que muestra el estado de salud del Data Lake en tiempo real.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 10–18</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS3</span></span>
+            <span class="badge badge-dod">DoD: CAPECO puede ver completitud, linaje y SLAs sin necesitar acceso técnico</span>
+          </div>
+        </div>
+        <div class="del-check">📊</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Panel de completitud: % de cada campo Gold vs SLA definido en A8 — semáforo verde/amarillo/rojo</li>
+          <li>Panel de linaje: árbol de transformaciones Bronze→Silver→Gold para cada campo</li>
+          <li>Panel de audit log: últimos accesos a campos PII con usuario y timestamp</li>
+          <li>Panel de agentes: estado de última ejecución de DataQualityAgent, NormalizationAgent, LineageAgent</li>
+          <li>Panel de snapshots: listado de versiones Bronze disponibles con hash y fecha</li>
+          <li>Este dashboard es el que CAPECO verá en vivo durante la demo del Día 60</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECCIÓN C: AGENTES -->
+<section class="section agent-bg" id="c1">
+  <div class="sec-header">
+    <div class="sec-tag tag-agent">C · Agentes · 8 entregables · Días 1–52</div>
+    <h2 class="sec-h2">Arquitectura de agentes sobre el Data Lake</h2>
+    <p class="sec-sub">Los agentes son procesos Python autónomos que leen del Data Lake, ejecutan una lógica específica y escriben resultados estructurados. No son chatbots. Cada uno tiene un único objetivo, inputs definidos, outputs verificables y manejo de errores explícito.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">🏗️</span>
+    <div class="callout-body"><strong>Principio de diseño de los agentes PME:</strong> Cada agente es un proceso Python con 4 secciones fijas: (1) validate_inputs(), (2) execute(), (3) validate_outputs(), (4) log_result(). Si cualquier sección falla, el agente termina con error controlado y genera un log JSON — nunca se propaga silenciosamente un dato incorrecto a la capa Gold.</div>
+  </div>
+
+  <div class="del-grid">
+
+    <!-- C1 -->
+    <div class="del-card agent" id="c1-card">
+      <div class="del-header">
+        <div class="del-num">C1</div>
+        <div class="del-meta">
+          <div class="del-name">Diseño de arquitectura de agentes</div>
+          <div class="del-desc">Documento que define la interface común de todos los agentes, el protocolo de comunicación entre ellos y la arquitectura del orquestador.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 1–5</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-fs">FS1</span></span>
+            <span class="badge badge-dod">DoD: aprobado por todo el equipo técnico antes del Día 5</span>
+          </div>
+        </div>
+        <div class="del-check">📐</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Interface base de todos los agentes (Python)</div>
+        <div class="code-block"><span class="ky">from</span> abc <span class="ky">import</span> ABC, abstractmethod
+<span class="ky">from</span> dataclasses <span class="ky">import</span> dataclass
+<span class="ky">from</span> datetime <span class="ky">import</span> datetime
+<span class="ky">import</span> json, logging
+
+@dataclass
+<span class="ky">class</span> <span class="fn">AgentResult</span>:
+    agent_name: str
+    status: str          <span class="cm"># "success" | "warning" | "error"</span>
+    timestamp: str
+    inputs_hash: str     <span class="cm"># SHA256 de los inputs</span>
+    outputs: dict        <span class="cm"># resultado estructurado</span>
+    errors: list         <span class="cm"># lista de errores encontrados</span>
+    warnings: list       <span class="cm"># lista de advertencias</span>
+    metrics: dict        <span class="cm"># métricas de ejecución</span>
+
+<span class="ky">class</span> <span class="fn">BaseAgent</span>(ABC):
+    <span class="ky">def</span> <span class="fn">run</span>(self) -> AgentResult:
+        <span class="ky">try</span>:
+            self.validate_inputs()    <span class="cm"># Falla rápido si inputs incorrectos</span>
+            result = self.execute()   <span class="cm"># Lógica principal del agente</span>
+            self.validate_outputs(result)  <span class="cm"># Valida que outputs son correctos</span>
+            <span class="ky">return</span> self.log_result(result, <span class="st">"success"</span>)
+        <span class="ky">except</span> Exception <span class="ky">as</span> e:
+            <span class="ky">return</span> self.log_result({}, <span class="st">"error"</span>, error=str(e))
+
+    @abstractmethod
+    <span class="ky">def</span> <span class="fn">validate_inputs</span>(self): ...
+    @abstractmethod
+    <span class="ky">def</span> <span class="fn">execute</span>(self) -> dict: ...
+    @abstractmethod
+    <span class="ky">def</span> <span class="fn">validate_outputs</span>(self, result: dict): ...</div>
+        <div class="spec-label">Principios de diseño</div>
+        <ul class="spec-list">
+          <li>Idempotencia: ejecutar el agente dos veces con los mismos inputs produce el mismo resultado</li>
+          <li>Fail-fast: si validate_inputs() falla, el pipeline no continúa — no se propaga data incorrecta</li>
+          <li>Observabilidad: cada ejecución genera un log JSON con timestamp, inputs_hash, métricas y errores</li>
+          <li>Independencia: cada agente puede ejecutarse solo — sin dependencia en memoria compartida</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C2 -->
+    <div class="del-card agent" id="c2">
+      <div class="del-header">
+        <div class="del-num">C2</div>
+        <div class="del-meta">
+          <div class="del-name">DataQualityAgent v1</div>
+          <div class="del-desc">Agente que valida cada carga Bronze antes de permitir el paso a Silver. Es el guardián de la calidad: si falla, el pipeline se detiene.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 12–18</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: detecta GPS inválidos, precios outlier y duplicados. Genera reporte JSON.</span>
+          </div>
+        </div>
+        <div class="del-check">🔍</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Validaciones implementadas</div>
+        <ul class="spec-list">
+          <li><strong>GPS Lima:</strong> X en [-77.2, -76.7], Y en [-12.5, -11.5] — rechaza registros fuera de Lima</li>
+          <li><strong>Precio m² outlier:</strong> PRECIO_X_M2 fuera de [S/1,000, S/25,000] → warning, no error (pueden ser casos reales)</li>
+          <li><strong>Duplicados:</strong> COD_PROYECTO + TRIM + ANIO duplicados → error crítico, bloquea pipeline</li>
+          <li><strong>Completitud Core:</strong> campos Core bajo SLA definido en A8 → warning si &gt;5% degradación respecto al trimestre anterior</li>
+          <li><strong>Tipos:</strong> ANIO y TRIM tienen formato correcto ('2025', 'Q4') → error si no</li>
+          <li><strong>PII-2 expuesto:</strong> TELEFONO PROPIETARIO en claro en Silver → error crítico</li>
+        </ul>
+        <div class="spec-label">Output del agente (JSON)</div>
+        <div class="code-block">{
+  <span class="st">"agent"</span>: <span class="st">"DataQualityAgent"</span>,
+  <span class="st">"status"</span>: <span class="st">"success"</span> | <span class="st">"warning"</span> | <span class="st">"error"</span>,
+  <span class="st">"timestamp"</span>: <span class="st">"2026-04-05T14:32:00Z"</span>,
+  <span class="st">"snapshot"</span>: <span class="st">"capeco_bronze_2025_Q4_v1"</span>,
+  <span class="st">"metrics"</span>: {
+    <span class="st">"total_rows"</span>: 38744,
+    <span class="st">"duplicados"</span>: 0,
+    <span class="st">"gps_invalidos"</span>: 0,
+    <span class="st">"precio_outliers"</span>: 12,
+    <span class="st">"campos_bajo_sla"</span>: []
+  },
+  <span class="st">"errors"</span>: [],
+  <span class="st">"warnings"</span>: [<span class="st">"12 registros con PRECIO_X_M2 &gt; S/20,000 — revisar"</span>],
+  <span class="st">"pipeline_proceed"</span>: <span class="ky">true</span>
+}</div>
+      </div>
+    </div>
+
+    <!-- C3 -->
+    <div class="del-card agent" id="c3">
+      <div class="del-header">
+        <div class="del-num">C3</div>
+        <div class="del-meta">
+          <div class="del-name">NormalizationAgent v1</div>
+          <div class="del-desc">Estandariza valores semánticamente equivalentes. El problema central: "TREBOL", "Trébol", "trebol s.a.", "TREBOL SA" son la misma marca — el agente lo resuelve.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 14–19</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS1</span></span>
+            <span class="badge badge-dod">DoD: "Trébol" aparece con un solo valor normalizado en Silver. Diccionario actualizable sin código.</span>
+          </div>
+        </div>
+        <div class="del-check">🏷️</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Campos normalizados en v1</div>
+        <ul class="spec-list">
+          <li><strong>MARCA_SANITARIO:</strong> 30+ variantes → 5 marcas reales (Trébol, Vainsa, Klipe, Caribe, Edesa) + NULL para "No precisan"/"No informa"</li>
+          <li><strong>MARCA_PORCELANATO:</strong> variantes → Celima, San Lorenzo, Klipe, Importados + NULL para "No tienen"</li>
+          <li><strong>MARCA_DRYWALL:</strong> variantes → Gyplac, Vocaloid, Knauf + NULL</li>
+          <li><strong>DISTRITO:</strong> "Santiago De Surco", "Stgo. de Surco", "SURCO" → "Santiago de Surco" (forma canónica INEI)</li>
+          <li><strong>NOMBRE DEL CONSTRUCTOR:</strong> "SENDA", "Senda Inmobiliaria", "SENDA SAC" → "Senda Inmobiliaria S.A.C." (solo si A10 firmado)</li>
+        </ul>
+        <div class="spec-label">Diccionario de aliases (actualizable sin código)</div>
+        <div class="code-block"><span class="cm"># aliases.json — mantenido por DA, no requiere developer</span>
+{
+  <span class="st">"MARCA_SANITARIO"</span>: {
+    <span class="st">"canonical"</span>: {
+      <span class="st">"Trébol"</span>: [<span class="st">"TREBOL"</span>, <span class="st">"trebol"</span>, <span class="st">"Trebol S.A."</span>, <span class="st">"TREBOL SA"</span>],
+      <span class="st">"Vainsa"</span>: [<span class="st">"VAINSA"</span>, <span class="st">"vainsa"</span>, <span class="st">"Vainsa Perú"</span>]
+    },
+    <span class="st">"null_values"</span>: [<span class="st">"No precisan"</span>, <span class="st">"No informa"</span>, <span class="st">"Sin marca"</span>, <span class="st">"0"</span>, <span class="st">""</span>]
+  }
+}</div>
+        <ul class="spec-list">
+          <li>Claude API apoya la generación inicial del diccionario: DA sube el top-50 valores frecuentes por campo y Claude sugiere la normalización</li>
+          <li>DA revisa y aprueba — el archivo aliases.json es mantenido por DA sin tocar código</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C4 -->
+    <div class="del-card agent" id="c4">
+      <div class="del-header">
+        <div class="del-num">C4</div>
+        <div class="del-meta">
+          <div class="del-name">LineageAgent v1</div>
+          <div class="del-desc">Registra automáticamente cada transformación Bronze→Silver→Gold con timestamp, versión y diferencias de schema. Responde la pregunta: ¿de dónde viene este dato?</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 15–20</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS2</span></span>
+            <span class="badge badge-dod">DoD: dado el precio m² de Miraflores Gold, se puede trazar hasta Bronze en &lt;3 clicks en B9</span>
+          </div>
+        </div>
+        <div class="del-check">🔗</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Qué registra por cada transformación</div>
+        <div class="code-block">{
+  <span class="st">"lineage_event"</span>: {
+    <span class="st">"event_id"</span>: <span class="st">"evt_20260405_143200"</span>,
+    <span class="st">"timestamp"</span>: <span class="st">"2026-04-05T14:32:00Z"</span>,
+    <span class="st">"from_layer"</span>: <span class="st">"bronze"</span>,
+    <span class="st">"to_layer"</span>: <span class="st">"silver"</span>,
+    <span class="st">"snapshot_in"</span>: <span class="st">"capeco_bronze_2025_Q4_v1"</span>,
+    <span class="st">"snapshot_out"</span>: <span class="st">"capeco_silver_2025_Q4_v1"</span>,
+    <span class="st">"rows_in"</span>: 38744,
+    <span class="st">"rows_out"</span>: 38721,   <span class="cm">← 23 duplicados eliminados</span>
+    <span class="st">"transformations"</span>: [
+      <span class="st">"dedup_by_cod_proyecto_trim_anio"</span>,
+      <span class="st">"gps_validation"</span>,
+      <span class="st">"pii2_masking"</span>,
+      <span class="st">"null_normalization"</span>
+    ],
+    <span class="st">"schema_diff"</span>: [],   <span class="cm">← vacío si no cambió schema</span>
+    <span class="st">"executed_by"</span>: <span class="st">"pipeline_bronze_silver_v1"</span>
+  }
+}</div>
+        <ul class="spec-list">
+          <li>Todos los eventos se escriben en una tabla append-only en Azure SQL o en el contenedor gold/lineage/</li>
+          <li>Visible en el dashboard B9 como árbol de transformaciones</li>
+          <li>Si schema cambia entre trimestres, genera alerta al equipo técnico</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C5 -->
+    <div class="del-card agent" id="c5">
+      <div class="del-header">
+        <div class="del-num">C5</div>
+        <div class="del-meta">
+          <div class="del-name">Orquestador de agentes</div>
+          <div class="del-desc">El pipeline completo que encadena los agentes en el orden correcto. Define las dependencias entre agentes y maneja los errores de cada uno.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 16–20</span>
+            <span class="badge badge-owner"><span class="role r-fs">FS1</span><span class="role r-de">DE1</span></span>
+            <span class="badge badge-dod">DoD: pipeline completo ejecuta de punta a punta en &lt;30 min para 38,744 registros</span>
+          </div>
+        </div>
+        <div class="del-check">🎯</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Pipeline completo de ingesta</div>
+        <div class="code-block"><span class="cm"># Orquestador — ejecución secuencial con fail-fast</span>
+
+PIPELINE: ingesta_trimestral_capeco
+  
+  PASO 1: BronzeIngesta
+    Input:  MySQL db_capeco.data_capeco_full (ANIO, TRIM específico)
+    Output: bronze/capeco/raw/year=YYYY/trimestre=QN/snapshot.parquet
+    Error:  STOP — no continuar si falla la ingesta
+
+  PASO 2: DataQualityAgent
+    Input:  snapshot Bronze recién creado
+    Output: quality_report.json
+    Error:  STOP si status = "error" · CONTINUE si status = "warning"
+
+  PASO 3: BronzeToSilverPipeline
+    Input:  snapshot Bronze + quality_report.json
+    Output: silver/capeco/cleaned/year=YYYY/trimestre=QN/
+    Error:  STOP si pipeline falla
+
+  PASO 4: NormalizationAgent
+    Input:  capa Silver + aliases.json
+    Output: silver normalizado in-place
+    Error:  WARN (no bloquea) — dato sin normalizar pasa como está
+
+  PASO 5: SilverToGoldPipeline
+    Input:  Silver normalizado + schema_registry.json
+    Output: gold/pme-capeco/ + gold/pme-proveedores/
+    Error:  STOP si pipeline falla
+
+  PASO 6: LineageAgent
+    Input:  eventos de cada paso anterior
+    Output: lineage_events escritos en gold/lineage/
+    Error:  WARN — no bloquea (lineage es observabilidad, no crítico)
+
+  PASO 7: Notificación
+    Output: email al equipo con resumen del pipeline</div>
+        <div class="spec-label">Tecnología del orquestador</div>
+        <ul class="spec-list">
+          <li>Sprint 1: script Python simple con llamadas secuenciales — funcional para la demo</li>
+          <li>Sprint 2+: Azure Data Factory o Apache Airflow con DAG para ejecución automática y monitoreo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C6 -->
+    <div class="del-card agent" id="c6">
+      <div class="del-header">
+        <div class="del-num">C6</div>
+        <div class="del-meta">
+          <div class="del-name">Test suite de agentes (Sprint 1)</div>
+          <div class="del-desc">Suite de pruebas unitarias e integración para los 3 agentes del Sprint 1. Cobertura mínima 80% con casos borde específicos del dominio CAPECO.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Días 17–20</span>
+            <span class="badge badge-owner"><span class="role r-qa">QA1</span><span class="role r-qa">QA2</span></span>
+            <span class="badge badge-dod">DoD: pytest pasa al 100% · CI/CD falla si cobertura baja de 80%</span>
+          </div>
+        </div>
+        <div class="del-check">🧪</div>
+      </div>
+      <div class="del-body">
+        <div class="spec-label">Casos de test obligatorios por agente</div>
+        <ul class="spec-list">
+          <li><strong>DataQualityAgent:</strong> GPS en Lima ✓, GPS fuera de Lima ✗, precio outlier → warning, duplicado → error, campo PII-2 en claro → error crítico</li>
+          <li><strong>NormalizationAgent:</strong> "TREBOL" → "Trébol", "No precisan" → NULL, valor no en diccionario → pasa sin cambio, alias.json malformado → error controlado</li>
+          <li><strong>LineageAgent:</strong> evento escrito correctamente, schema diff detectado, fallo de escritura → warning sin bloquear pipeline</li>
+          <li><strong>Orquestador:</strong> fallo en PASO 2 → pipeline se detiene en PASO 3, fallo en PASO 6 → pipeline continúa con warning</li>
+        </ul>
+        <div class="spec-label">Generación de casos con Claude</div>
+        <ul class="spec-list">
+          <li>QA usa Claude para generar el 70% de los test cases a partir de la especificación de cada agente (C1)</li>
+          <li>QA revisa, ajusta y agrega los casos borde específicos del dominio CAPECO que Claude no conoce</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C7, C8 -->
+    <div class="del-card agent" id="c7">
+      <div class="del-header">
+        <div class="del-num">C7</div>
+        <div class="del-meta">
+          <div class="del-name">AlertAgent v1 (Sprint 2 · Días 21–30)</div>
+          <div class="del-desc">Detecta obras nuevas en cada carga trimestral y envía notificaciones por zona y fase configurada por cada suscriptor de PME Proveedores.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Sprint 2 · Días 21–30</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-fs">FS3</span></span>
+            <span class="badge badge-dod">DoD: email de alerta enviado con obras nuevas en zona configurada. QA valida que no hay falsos positivos.</span>
+          </div>
+        </div>
+        <div class="del-check">🔔</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Compara Gold Q_actual vs Gold Q_anterior: proyectos con COD_PROYECTO nuevo = obra nueva</li>
+          <li>Filtra por configuración del suscriptor: distritos de interés + fases de avance de su categoría</li>
+          <li>Email semanal con lista de obras nuevas: nombre, distrito, pisos, fase, contacto (si A10 firmado)</li>
+          <li>Canal alternativo: webhook a CRM del suscriptor (plan PRO y Enterprise)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="del-card agent" id="c8">
+      <div class="del-header">
+        <div class="del-num">C8</div>
+        <div class="del-meta">
+          <div class="del-name">ReportAgent v1 (Sprint 3 · Días 46–52)</div>
+          <div class="del-desc">Genera el reporte trimestral PME en PDF automáticamente desde la capa Gold. El Día 60 CAPECO lo verá generarse en vivo durante la demo.</div>
+          <div class="del-badges">
+            <span class="badge badge-day">Sprint 3 · Días 46–52</span>
+            <span class="badge badge-owner"><span class="role r-de">DE1</span><span class="role r-de">DE2</span></span>
+            <span class="badge badge-dod">DoD: PDF de 10 páginas generado en &lt;60 segundos desde Gold. Datos verificados por DA.</span>
+          </div>
+        </div>
+        <div class="del-check">📄</div>
+      </div>
+      <div class="del-body">
+        <ul class="spec-list">
+          <li>Secciones del PDF: precio m² por distrito top 10, absorción por segmento, stock disponible, obras nuevas vs trimestre anterior, marcas líderes (Gold donde hay datos)</li>
+          <li>Template: Python + WeasyPrint o ReportLab — mismo stack que el Brochure_PME_CAPECO_2026.pdf ya generado</li>
+          <li>Personalizable por suscriptor: distritos de interés filtrados en el reporte</li>
+          <li>Firma digital: "Datos certificados CAPECO × MIS — Q4 2025" en el footer</li>
+          <li>En la demo Día 60: DA ejecuta el agente en vivo, el PDF se genera en pantalla ante CAPECO</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<script>
+const ss = document.querySelectorAll('[id]');
+const as = document.querySelectorAll('.sb-a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      as.forEach(a => a.classList.remove('active'));
+      const t = document.querySelector(`.sb-a[href="#${e.target.id}"]`) ||
+                document.querySelector(`.sb-a[href="#${e.target.id.split('-')[0]}"]`);
+      if(t) t.classList.add('active');
+    }
+  });
+}, {threshold:0.3});
+ss.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

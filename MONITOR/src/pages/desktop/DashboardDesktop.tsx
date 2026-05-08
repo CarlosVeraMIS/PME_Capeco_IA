@@ -4,12 +4,48 @@ import { Badge } from '../../components/Badge'
 import {
   propiedades, tendenciaMercado, preciosPorDistrito,
   estadisticasGlobales, formatSoles, formatM2
-} from '../../data/realData'
+} from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
 import { TrendingUp, Activity, Clock } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { capecoApi } from '../../services/capecoApi'
 
 export function DashboardDesktop() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+  const [projects, setProjects] = useState(propiedades)
+  const [stats, setStats] = useState(estadisticasGlobales)
+  const [districts, setDistricts] = useState(preciosPorDistrito)
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true)
+      try {
+        const [projectsData, metricsData, districtsData] = await Promise.all([
+          capecoApi.fetchProjects(),
+          capecoApi.fetchMetrics(),
+          capecoApi.fetchDistricts()
+        ])
+
+        setProjects(projectsData.slice(0, 100) || propiedades)
+        setStats({
+          precioPromedioM2: metricsData.averagePriceM2 || estadisticasGlobales.precioPromedioM2,
+          totalPropiedades: metricsData.totalProjects || estadisticasGlobales.totalPropiedades,
+          unidadesDisponibles: metricsData.availableUnits || estadisticasGlobales.unidadesDisponibles,
+          volumenTotal: metricsData.totalVolume || estadisticasGlobales.volumenTotal,
+          varMensual: metricsData.monthlyVariation || estadisticasGlobales.varMensual
+        })
+        setDistricts(districtsData.sort((a, b) => b.precioM2 - a.precioM2).slice(0, 10) || preciosPorDistrito)
+      } catch (error) {
+        console.error('Error loading CAPECO data:', error)
+        // Fallback to static data on error
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
 
   return (
     <div className="flex flex-col gap-5 p-6 overflow-y-auto h-full">
@@ -34,10 +70,10 @@ export function DashboardDesktop() {
 
       {/* Stats row */}
       <div className="grid grid-cols-4 gap-4">
-        <StatCard label="Precio/m² Lima" value={formatM2(estadisticasGlobales.precioPromedioM2)} trend={estadisticasGlobales.varMensual} sub="vs mes anterior" accent="cyan" icon={<TrendingUp size={16} />} />
-        <StatCard label="Propiedades activas" value={estadisticasGlobales.totalPropiedades.toLocaleString()} sub="en toda Lima" accent="primary" />
-        <StatCard label="Unidades disponibles" value={estadisticasGlobales.unidadesDisponibles.toLocaleString()} sub="activas en el mercado" accent="green" />
-        <StatCard label="Volumen total" value={estadisticasGlobales.volumenTotal} sub="mes en curso" accent="cyan" />
+        <StatCard label="Precio/m² Lima" value={formatM2(stats.precioPromedioM2)} trend={stats.varMensual} sub="vs mes anterior" accent="cyan" icon={<TrendingUp size={16} />} />
+        <StatCard label="Propiedades activas" value={stats.totalPropiedades.toLocaleString()} sub="en toda Lima" accent="primary" />
+        <StatCard label="Unidades disponibles" value={stats.unidadesDisponibles.toLocaleString()} sub="activas en el mercado" accent="green" />
+        <StatCard label="Volumen total" value={stats.volumenTotal} sub="mes en curso" accent="cyan" />
       </div>
 
       {/* Charts row */}
@@ -50,7 +86,7 @@ export function DashboardDesktop() {
               <p className="text-xs text-[#8c919d]">Últimos 7 meses — Lima Metropolitana</p>
             </div>
             <div className="flex items-center gap-1 text-[#2fe0a2] text-sm font-semibold">
-              <TrendingUp size={14} /> +{estadisticasGlobales.varMensual}%
+              <TrendingUp size={14} /> +{stats.varMensual}%
             </div>
           </div>
           <ResponsiveContainer width="100%" height={180}>
@@ -77,7 +113,7 @@ export function DashboardDesktop() {
         <div className="glass rounded-xl p-5">
           <p className="text-xs font-semibold text-[#26B7FF] uppercase tracking-wider mb-4">Top Distritos</p>
           <div className="flex flex-col gap-2">
-            {preciosPorDistrito.slice(0, 5).map((d, i) => (
+            {districts.slice(0, 5).map((d, i) => (
               <div key={d.distrito} className="flex items-center gap-3">
                 <span className="text-xs font-mono text-[#424751] w-4">{i + 1}</span>
                 <div className="flex-1 min-w-0">
@@ -117,7 +153,7 @@ export function DashboardDesktop() {
             <button onClick={() => navigate('/busqueda')} className="text-xs text-[#a7c8ff]">Ver todas →</button>
           </div>
           <div className="flex flex-col gap-2">
-            {propiedades.slice(0, 4).map(prop => (
+            {(projects && projects.length > 0 ? projects : propiedades).slice(0, 4).map(prop => (
               <div
                 key={prop.id}
                 onClick={() => navigate(`/propiedad/${prop.id}`)}

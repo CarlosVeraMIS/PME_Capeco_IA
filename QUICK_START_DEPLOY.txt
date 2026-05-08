@@ -1,0 +1,58 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CAPECO DATA LAKE — DEPLOYMENT QUICK START
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CÓDIGO LISTO: api_server.py con 9,319 filas
+✅ DATOS LISTOS: gold_data/fact_capeco_certified.parquet (247 KB)
+✅ DOCUMENTOS LISTOS: Ver carpeta con DEPLOYMENT_*.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LO QUE DEBES HACER EN 10 MINUTOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN A — Git Push (más rápido):
+
+  $ cd ~/tu-capeco-repo
+  $ cp /Users/carlosvera/Library/CloudStorage/OneDrive-MSFT/mis/IA/capeco/api_server.py .
+  $ cp -r /Users/carlosvera/Library/CloudStorage/OneDrive-MSFT/mis/IA/capeco/gold_data .
+  $ git add api_server.py gold_data/
+  $ git commit -m "Update: 9,319 rows from Q1 2026"
+  $ git push origin main
+
+  → Azure auto-deploya en 3-5 minutos
+
+OPCIÓN B — Azure Portal:
+
+  1. https://portal.azure.com
+  2. Busca "capeco-app"
+  3. Deployment Center → Redeploy (o upload manual)
+  4. Espera 5 minutos
+
+OPCIÓN C — VS Code:
+
+  1. Instala "Azure App Service"
+  2. Deploy → Espera 5 minutos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  VERIFICA QUE FUNCIONE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ curl https://capeco-app.azurewebsites.net/health
+
+Deberías ver: "rows_available": 9319 ✅
+
+Abre en navegador: https://capeco-app.azurewebsites.net
+Presiona: Ctrl+Shift+Del (limpiar cache) + F5 (recargar)
+
+Deberías ver:
+  • KPI Cards: 9,319 | 39 | 6,549.73 | 116.0%
+  • Gráficos con datos
+  • Tabla con 9,319 filas
+
+═════════════════════════════════════════════════════════════════════
+✅ SI VES ESTO → DEPLOYMENT EXITOSO EN 15 MINUTOS TOTAL
+═════════════════════════════════════════════════════════════════════
+
+Listo para demo del 28 de Mayo.
+
+Para detalles completos: Ver MANUAL_DEPLOYMENT_STEPS.md

@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-05-06T17:52:10.700375",
+  "source": "fact_projects",
+  "layer": "gold",
+  "columns": [
+    "project_id",
+    "title",
+    "distrito_norm",
+    "price_amount",
+    "currency_norm",
+    "price_per_m2",
+    "market_tier",
+    "area_m2",
+    "construction_phase",
+    "absorption_rate_pct",
+    "project_risk_level",
+    "price_index",
+    "latitude",
+    "longitude",
+    "fact_load_timestamp"
+  ],
+  "dtypes": {
+    "project_id": "int64",
+    "title": "object",
+    "distrito_norm": "object",
+    "price_amount": "float64",
+    "currency_norm": "object",
+    "price_per_m2": "float64",
+    "market_tier": "object",
+    "area_m2": "float64",
+    "construction_phase": "object",
+    "absorption_rate_pct": "float64",
+    "project_risk_level": "object",
+    "price_index": "float64",
+    "latitude": "float64",
+    "longitude": "float64",
+    "fact_load_timestamp": "object"
+  },
+  "row_count": 3289,
+  "memory_mb": 1.6927413940429688
+}

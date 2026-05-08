@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-05-06T17:52:10.717421",
+  "source": "dim_market_tier",
+  "layer": "gold",
+  "columns": [
+    "tier_id",
+    "market_tier",
+    "project_count",
+    "avg_price_per_m2",
+    "total_value",
+    "avg_area_m2"
+  ],
+  "dtypes": {
+    "tier_id": "int64",
+    "market_tier": "object",
+    "project_count": "int64",
+    "avg_price_per_m2": "float64",
+    "total_value": "float64",
+    "avg_area_m2": "float64"
+  },
+  "row_count": 4,
+  "memory_mb": 0.0005159378051757812
+}

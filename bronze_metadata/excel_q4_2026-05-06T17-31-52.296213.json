@@ -1,0 +1,15 @@
+{
+  "source": "excel_q4",
+  "file_path": "Material datos/data2025Q4.xlsx",
+  "timestamp": "2026-05-06T17:31:52.296213",
+  "row_count": 0,
+  "column_count": 0,
+  "file_size_bytes": 0,
+  "schema_version": "v1.0",
+  "hash_md5": "",
+  "status": "failed",
+  "errors": [
+    "'int' object has no attribute 'fillna'"
+  ],
+  "warnings": []
+}

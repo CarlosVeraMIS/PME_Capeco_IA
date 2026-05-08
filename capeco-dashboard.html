@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPECO Data Lake API - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--primary);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            font-size: 0.9em;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+        }
+
+        .card-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .card-unit {
+            color: #9ca3af;
+            font-size: 0.9em;
+        }
+
+        .card.success .card-value {
+            color: var(--success);
+        }
+
+        .card.warning .card-value {
+            color: var(--warning);
+        }
+
+        .checklist {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist h2 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: var(--light);
+            transition: background 0.2s;
+        }
+
+        .checklist-item.completed {
+            background: #dcfce7;
+        }
+
+        .checklist-item.pending {
+            background: #fef3c7;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .checklist-item.completed .checkbox {
+            background: var(--success);
+        }
+
+        .checklist-item.pending .checkbox {
+            background: var(--warning);
+        }
+
+        .checklist-text {
+            flex: 1;
+        }
+
+        .checklist-text h4 {
+            font-size: 1em;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .checklist-text p {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        .files-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .files-section h2 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .file-item {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .file-size {
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .file-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .api-endpoints {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .api-endpoints h2 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .endpoint {
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85em;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.75em;
+        }
+
+        .endpoint-path {
+            color: var(--dark);
+        }
+
+        .endpoint-desc {
+            display: block;
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 0.8em;
+            font-family: system-ui;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CAPECO Data Lake API</h1>
+            <p>Arquitectura de tres capas (Bronze, Silver, Gold) con REST API para proyectos inmobiliarios certificados</p>
+            <span class="status-badge status-success">✓ Commit pusheado a GitHub</span>
+            <span class="status-badge status-pending">⏳ Deployment automático en Azure (pending)</span>
+        </div>
+
+        <div class="grid">
+            <div class="card success">
+                <h3>Proyectos Certificados</h3>
+                <div class="card-value">9,319</div>
+                <div class="card-unit">registros en fact_capeco_certified.parquet</div>
+            </div>
+
+            <div class="card success">
+                <h3>API Endpoints</h3>
+                <div class="card-value">5</div>
+                <div class="card-unit">REST endpoints listos para consumo</div>
+            </div>
+
+            <div class="card success">
+                <h3>Archivos de Datos</h3>
+                <div class="card-value">5</div>
+                <div class="card-unit">archivos Parquet en Gold Layer</div>
+            </div>
+
+            <div class="card">
+                <h3>Commit Hash</h3>
+                <div class="card-value" style="font-size: 1.3em; font-family: monospace;">4f1481a</div>
+                <div class="card-unit">Deploy CAPECO Data Lake API</div>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h2>Estado de Implementación</h2>
+
+            <div class="checklist-item completed">
+                <div class="checkbox">✓</div>
+                <div class="checklist-text">
+                    <h4>1. Arquitectura Gold Layer Completada</h4>
+                    <p>Creación de fact_capeco_certified.parquet con 9,319 registros de proyectos certificados</p>
+                </div>
+            </div>
+
+            <div class="checklist-item completed">
+                <div class="checkbox">✓</div>
+                <div class="checklist-text">
+                    <h4>2. REST API Implementada</h4>
+                    <p>api_server.py con 5 endpoints REST + documentación OpenAPI automática</p>
+                </div>
+            </div>
+
+            <div class="checklist-item completed">
+                <div class="checkbox">✓</div>
+                <div class="checklist-text">
+                    <h4>3. Commit Creado Localmente</h4>
+                    <p>Commit 4f1481a con api_server.py y gold_data/ folder (244 archivos changed)</p>
+                </div>
+            </div>
+
+            <div class="checklist-item completed">
+                <div class="checkbox">✓</div>
+                <div class="checklist-text">
+                    <h4>4. Push a GitHub Exitoso</h4>
+                    <p>Commit visible en https://github.com/CarlosVeraMIS/PME_Capeco_IA/commits/main</p>
+                </div>
+            </div>
+
+            <div class="checklist-item pending">
+                <div class="checkbox">⏳</div>
+                <div class="checklist-text">
+                    <h4>5. Webhook de Azure Triggered</h4>
+                    <p>Azure App Service debe detectar el push y disparar el deployment automático</p>
+                </div>
+            </div>
+
+            <div class="checklist-item pending">
+                <div class="checkbox">⏳</div>
+                <div class="checklist-text">
+                    <h4>6. Redeployment Completado</h4>
+                    <p>API debe estar disponible con los 9,319 registros (vs. 3,289 anteriores)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="files-section">
+            <h2>Archivos Entregables</h2>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">api_server.py</div>
+                    <div class="file-size">19,756 bytes • 557 líneas de código</div>
+                </div>
+                <div class="file-stats">
+                    <span>✓ REST API</span>
+                    <span>✓ OpenAPI</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 1em; color: var(--dark); margin-bottom: 10px;">gold_data/ - Carpeta (332 KB total)</h3>
+            </div>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">fact_capeco_certified.parquet</div>
+                    <div class="file-size">247 KB • 9,319 filas</div>
+                </div>
+                <div class="file-stats">
+                    <span>PRIMARY DATA</span>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">dim_distrito.parquet</div>
+                    <div class="file-size">8.8 KB • 20 distritos de Lima</div>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">dim_market_tier.parquet</div>
+                    <div class="file-size">4.7 KB • Segmentación de mercado</div>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">fact_projects.parquet</div>
+                    <div class="file-size">55 KB • Detalles de proyectos</div>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div>
+                    <div class="file-name">metrics_by_distrito.parquet</div>
+                    <div class="file-size">6.5 KB • Agregaciones KPI</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-endpoints">
+            <h2>API Endpoints Disponibles</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Una vez el deployment esté completo, estos endpoints estarán disponibles en https://pme-capeco-api.azurewebsites.net</p>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/health</span>
+                <span class="endpoint-desc">Health check del API</span>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/v1/gold/projects</span>
+                <span class="endpoint-desc">Lista completa de 9,319 proyectos certificados con paginación</span>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/v1/gold/metrics</span>
+                <span class="endpoint-desc">KPIs agregados: total, precio promedio, rentabilidad, crecimiento</span>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/v1/gold/districts</span>
+                <span class="endpoint-desc">Análisis por distrito de Lima (20 distritos)</span>
+            </div>
+
+            <div class="endpoint">
+                <span class="endpoint-method">GET</span>
+                <span class="endpoint-path">/api/v1/gold/market-tiers</span>
+                <span class="endpoint-desc">Segmentación por tier de mercado (Premium, Mid, Standard)</span>
+            </div>
+
+            <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--dark);">Estadísticas de Datos</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">9,319</div>
+                    <div class="stat-label">Proyectos Totales</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Distritos de Lima</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Tiers de Mercado</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">332 KB</div>
+                    <div class="stat-label">Gold Layer Total</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

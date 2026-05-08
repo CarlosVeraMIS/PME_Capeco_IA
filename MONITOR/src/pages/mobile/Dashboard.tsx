@@ -2,11 +2,50 @@ import { Bell, TrendingUp, MapPin, Zap } from 'lucide-react'
 import { AreaChart, Area, XAxis, ResponsiveContainer, Tooltip } from 'recharts'
 import { StatCard } from '../../components/StatCard'
 import { PropCard } from '../../components/PropCard'
-import { propiedades, tendenciaMercado, estadisticasGlobales, formatSoles } from '../../data/realData'
+import { propiedades, tendenciaMercado, estadisticasGlobales, formatSoles, preciosPorDistrito } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { capecoApi } from '../../services/capecoApi'
 
 export function Dashboard() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+  const [projects, setProjects] = useState(propiedades)
+  const [stats, setStats] = useState(estadisticasGlobales)
+  const [topDistrict, setTopDistrict] = useState('Miraflores')
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true)
+      try {
+        const [projectsData, metricsData, districtsData] = await Promise.all([
+          capecoApi.fetchProjects(),
+          capecoApi.fetchMetrics(),
+          capecoApi.fetchDistricts()
+        ])
+
+        setProjects(projectsData.slice(0, 100) || propiedades)
+        setStats({
+          precioPromedioM2: metricsData.averagePriceM2 || estadisticasGlobales.precioPromedioM2,
+          totalPropiedades: metricsData.totalProjects || estadisticasGlobales.totalPropiedades,
+          unidadesDisponibles: metricsData.availableUnits || estadisticasGlobales.unidadesDisponibles,
+          volumenTotal: metricsData.totalVolume || estadisticasGlobales.volumenTotal,
+          varMensual: metricsData.monthlyVariation || estadisticasGlobales.varMensual
+        })
+
+        // Set top district
+        if (districtsData && districtsData.length > 0) {
+          setTopDistrict(districtsData[0].distrito)
+        }
+      } catch (error) {
+        console.error('Error loading CAPECO data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
 
   return (
     <div className="pb-24 min-h-screen bg-[#03132d]">
@@ -31,14 +70,14 @@ export function Dashboard() {
       <div className="px-4 grid grid-cols-2 gap-3 mb-4">
         <StatCard
           label="Precio/m² Lima"
-          value={formatSoles(estadisticasGlobales.precioPromedioM2)}
-          trend={estadisticasGlobales.varMensual}
+          value={formatSoles(stats.precioPromedioM2)}
+          trend={stats.varMensual}
           sub="este mes"
           accent="cyan"
         />
         <StatCard
           label="Propiedades"
-          value={estadisticasGlobales.totalPropiedades.toLocaleString()}
+          value={stats.totalPropiedades.toLocaleString()}
           sub="activas en Lima"
           accent="green"
         />
@@ -79,7 +118,7 @@ export function Dashboard() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-[#2fe0a2]">Distrito más activo</p>
-            <p className="text-sm font-bold text-[#d8e2ff]">{estadisticasGlobales.distritoHot}</p>
+            <p className="text-sm font-bold text-[#d8e2ff]">{topDistrict}</p>
           </div>
           <div className="text-right shrink-0">
             <p className="text-xs text-[#8c919d]">Var. mensual</p>
@@ -95,7 +134,7 @@ export function Dashboard() {
           <button onClick={() => navigate('/busqueda')} className="text-xs text-[#a7c8ff]">Ver todas →</button>
         </div>
         <div className="flex flex-col gap-3">
-          {propiedades.slice(0, 3).map(prop => (
+          {(projects && projects.length > 0 ? projects : propiedades).slice(0, 3).map(prop => (
             <PropCard
               key={prop.id}
               prop={prop}

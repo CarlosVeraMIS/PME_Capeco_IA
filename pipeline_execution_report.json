@@ -1,0 +1,378 @@
+{
+  "pipeline_start": "2026-05-06T17:36:01.107097",
+  "pipeline_end": "2026-05-06T17:36:04.403541",
+  "total_duration_seconds": 3.296444,
+  "stages": {
+    "bronze": {
+      "status": "success",
+      "details": {
+        "csv": {
+          "status": "success",
+          "parquet_path": "bronze_data/csv_nexo__20260506_173601.parquet",
+          "metadata": {
+            "source": "csv_nexo",
+            "file_path": "Material datos/data-proyectos-immobiliarios.csv",
+            "timestamp": "2026-05-06T17:36:01.107444",
+            "row_count": 3289,
+            "column_count": 56,
+            "file_size_bytes": 8292748,
+            "schema_version": "v1.0",
+            "hash_md5": "0809b40836dc9df04eadb9c31a54ac10",
+            "status": "success",
+            "errors": [],
+            "warnings": []
+          }
+        },
+        "excel": {
+          "status": "success",
+          "parquet_path": "",
+          "metadata": {
+            "source": "excel_q4",
+            "file_path": "Material datos/data2025Q4.xlsx",
+            "timestamp": "2026-05-06T17:36:01.241765",
+            "row_count": 4405,
+            "column_count": 20,
+            "file_size_bytes": 630863,
+            "schema_version": "v1.0",
+            "hash_md5": "fb1ab188c934c3f3f8582c6434c282f4",
+            "status": "success",
+            "errors": [
+              "Parquet save failed: (\"Expected bytes, got a 'int' object\", 'Conversion failed for column DIRECCION with type object')"
+            ],
+            "warnings": []
+          }
+        }
+      },
+      "duration_seconds": 0,
+      "timestamp": "2026-05-06T17:36:01.659905",
+      "governance": {
+        "governance": {
+          "csv_nexo": {
+            "timestamp": "2026-05-06T17:36:01.611584",
+            "source": "csv_nexo",
+            "layer": "bronze",
+            "row_count": 3289,
+            "validations": {
+              "contract": {
+                "agent_name": "ContractValidAgent",
+                "timestamp": "2026-05-06T17:36:01.611601",
+                "status": "PASS",
+                "checks_passed": 6,
+                "checks_failed": 0,
+                "details": {}
+              },
+              "schema": {
+                "new_columns": [],
+                "removed_columns": [],
+                "type_changes": {},
+                "status": "OK"
+              },
+              "pii": {
+                "suspicious_columns": [
+                  {
+                    "column": "advertiser_phone",
+                    "reason": "Nombre contiene 'phone'"
+                  }
+                ],
+                "patterns_found": {
+                  "project_uuid": "phone",
+                  "load_id": "phone",
+                  "raw_record_id": "phone",
+                  "run_id": "phone",
+                  "run_date": "phone",
+                  "detalle_actualizado_at": "phone",
+                  "location": "phone",
+                  "scraped_at": "phone",
+                  "created_at": "phone",
+                  "project_unit_uuid": "phone",
+                  "project_uuid-2": "phone",
+                  "load_id-2": "phone",
+                  "raw_record_id-2": "phone",
+                  "payload_jsonb": "phone",
+                  "created_at-2": "phone"
+                },
+                "risk_level": "MEDIUM",
+                "recommendations": [
+                  "Encriptar columnas sensibles en tránsito",
+                  "Aplicar data masking en vistas de usuarios",
+                  "Auditar accesos a estas columnas",
+                  "Documentar clasificación de datos"
+                ]
+              },
+              "audit": {
+                "data_hash": "ea6e5a2075b79d5e3ede9877ffcbbfc51787da9c42723e678cad6b9562e77c34"
+              }
+            }
+          }
+        },
+        "sla": {
+          "stage": "bronze",
+          "duration_seconds": 0.552502,
+          "sla_threshold": 30,
+          "rows_processed": 2160,
+          "throughput_rows_per_sec": 3909.488110450279,
+          "status": "PASS",
+          "timestamp": "2026-05-06T17:36:01.659853"
+        }
+      }
+    },
+    "silver": {
+      "status": "success",
+      "details": {
+        "csv_nexo": "silver_data/silver_csv_nexo__20260506_173152_20260506_173603.parquet"
+      },
+      "duration_seconds": 0,
+      "timestamp": "2026-05-06T17:36:03.833239",
+      "governance": {
+        "governance": {
+          "csv_nexo": {
+            "timestamp": "2026-05-06T17:36:03.780689",
+            "source": "csv_nexo",
+            "layer": "silver",
+            "row_count": 3289,
+            "validations": {
+              "contract": {
+                "agent_name": "ContractValidAgent",
+                "timestamp": "2026-05-06T17:36:03.780705",
+                "status": "PASS",
+                "checks_passed": 7,
+                "checks_failed": 0,
+                "details": {}
+              },
+              "schema": {
+                "new_columns": [],
+                "removed_columns": [],
+                "type_changes": {},
+                "status": "OK"
+              },
+              "pii": {
+                "suspicious_columns": [
+                  {
+                    "column": "advertiser_phone",
+                    "reason": "Nombre contiene 'phone'"
+                  }
+                ],
+                "patterns_found": {
+                  "project_uuid": "phone",
+                  "load_id": "phone",
+                  "raw_record_id": "phone",
+                  "run_id": "phone",
+                  "run_date": "phone",
+                  "detalle_actualizado_at": "phone",
+                  "location": "phone",
+                  "scraped_at": "phone",
+                  "created_at": "phone",
+                  "project_unit_uuid": "phone",
+                  "project_uuid-2": "phone",
+                  "load_id-2": "phone",
+                  "raw_record_id-2": "phone",
+                  "payload_jsonb": "phone",
+                  "created_at-2": "phone",
+                  "silver_ingestion_timestamp": "phone"
+                },
+                "risk_level": "MEDIUM",
+                "recommendations": [
+                  "Encriptar columnas sensibles en tránsito",
+                  "Aplicar data masking en vistas de usuarios",
+                  "Auditar accesos a estas columnas",
+                  "Documentar clasificación de datos"
+                ]
+              },
+              "audit": {
+                "data_hash": "23ac346e67477e3743765a1ad23d921f28af8cbe798b539fc2565c17a979dbf0"
+              }
+            }
+          }
+        },
+        "sla": {
+          "stage": "silver",
+          "duration_seconds": 2.173233,
+          "sla_threshold": 45,
+          "rows_processed": 2160,
+          "throughput_rows_per_sec": 993.9109152124967,
+          "status": "PASS",
+          "timestamp": "2026-05-06T17:36:03.833179"
+        }
+      }
+    },
+    "gold": {
+      "status": "success",
+      "details": {
+        "csv": {
+          "dim_distrito": "gold_data/dim_distrito.parquet",
+          "dim_market_tier": "gold_data/dim_market_tier.parquet",
+          "fact_projects": "gold_data/fact_projects.parquet",
+          "metrics_by_distrito": "gold_data/metrics_by_distrito.parquet"
+        }
+      },
+      "duration_seconds": 0,
+      "timestamp": "2026-05-06T17:36:04.402956",
+      "governance": {
+        "governance": {
+          "fact_projects": {
+            "timestamp": "2026-05-06T17:36:04.385049",
+            "source": "fact_projects",
+            "layer": "gold",
+            "row_count": 3289,
+            "validations": {
+              "contract": {
+                "agent_name": "ContractValidAgent",
+                "timestamp": "2026-05-06T17:36:04.385064",
+                "status": "FAIL",
+                "checks_passed": 6,
+                "checks_failed": 1,
+                "details": {
+                  "missing_columns": [
+                    "titulo"
+                  ]
+                }
+              },
+              "schema": {
+                "new_columns": [],
+                "removed_columns": [],
+                "type_changes": {},
+                "status": "OK"
+              },
+              "pii": {
+                "suspicious_columns": [],
+                "patterns_found": {
+                  "fact_load_timestamp": "phone"
+                },
+                "risk_level": "MEDIUM",
+                "recommendations": [
+                  "Encriptar columnas sensibles en tránsito",
+                  "Aplicar data masking en vistas de usuarios",
+                  "Auditar accesos a estas columnas",
+                  "Documentar clasificación de datos"
+                ]
+              },
+              "audit": {
+                "data_hash": "155227bc784a1d3b798344fe085c8f1894e55dc1115c04e926f901c4e7f63eeb"
+              }
+            }
+          },
+          "dim_distrito": {
+            "timestamp": "2026-05-06T17:36:04.395147",
+            "source": "dim_distrito",
+            "layer": "gold",
+            "row_count": 16,
+            "validations": {
+              "contract": {
+                "agent_name": "ContractValidAgent",
+                "timestamp": "2026-05-06T17:36:04.395161",
+                "status": "FAIL",
+                "checks_passed": 1,
+                "checks_failed": 1,
+                "details": {
+                  "missing_columns": [
+                    "project_id",
+                    "titulo",
+                    "price_per_m2",
+                    "market_tier",
+                    "absorption_rate_pct",
+                    "project_risk_level"
+                  ]
+                }
+              },
+              "schema": {
+                "new_columns": [],
+                "removed_columns": [],
+                "type_changes": {},
+                "status": "OK"
+              },
+              "pii": {
+                "suspicious_columns": [],
+                "patterns_found": {
+                  "last_update": "phone"
+                },
+                "risk_level": "MEDIUM",
+                "recommendations": [
+                  "Encriptar columnas sensibles en tránsito",
+                  "Aplicar data masking en vistas de usuarios",
+                  "Auditar accesos a estas columnas",
+                  "Documentar clasificación de datos"
+                ]
+              },
+              "audit": {
+                "data_hash": "465b5b0484a522dffa5a6e59fe04ca2423f04c2d0dbef4b162e2de3f92fae371"
+              }
+            }
+          },
+          "dim_market_tier": {
+            "timestamp": "2026-05-06T17:36:04.400147",
+            "source": "dim_market_tier",
+            "layer": "gold",
+            "row_count": 4,
+            "validations": {
+              "contract": {
+                "agent_name": "ContractValidAgent",
+                "timestamp": "2026-05-06T17:36:04.400159",
+                "status": "FAIL",
+                "checks_passed": 2,
+                "checks_failed": 1,
+                "details": {
+                  "missing_columns": [
+                    "project_id",
+                    "titulo",
+                    "price_per_m2",
+                    "absorption_rate_pct",
+                    "project_risk_level"
+                  ]
+                }
+              },
+              "schema": {
+                "new_columns": [],
+                "removed_columns": [],
+                "type_changes": {},
+                "status": "OK"
+              },
+              "pii": {
+                "suspicious_columns": [],
+                "patterns_found": {},
+                "risk_level": "LOW",
+                "recommendations": []
+              },
+              "audit": {
+                "data_hash": "92672d59c66da21fddc5cc62fdbe3852db290a5605d71a0e3155aa55d4926c8f"
+              }
+            }
+          }
+        },
+        "sla": {
+          "stage": "gold",
+          "duration_seconds": 0.569617,
+          "sla_threshold": 60,
+          "rows_processed": 2160,
+          "throughput_rows_per_sec": 3792.0216566570166,
+          "status": "PASS",
+          "timestamp": "2026-05-06T17:36:04.402893"
+        }
+      }
+    },
+    "qa": {
+      "status": "success",
+      "details": {
+        "checks": {
+          "schema_validation": "PASS",
+          "completeness": "95%",
+          "uniqueness": "PASS",
+          "referential_integrity": "PASS"
+        }
+      },
+      "duration_seconds": 0,
+      "timestamp": "2026-05-06T17:36:04.403006"
+    },
+    "publish": {
+      "status": "success",
+      "details": {
+        "endpoints": {
+          "fact_projects_api": "/api/v1/gold/projects",
+          "metrics_api": "/api/v1/gold/metrics",
+          "dashboard_feed": "/dashboard/data-lake-status"
+        }
+      },
+      "duration_seconds": 0,
+      "timestamp": "2026-05-06T17:36:04.403051"
+    }
+  }
+}

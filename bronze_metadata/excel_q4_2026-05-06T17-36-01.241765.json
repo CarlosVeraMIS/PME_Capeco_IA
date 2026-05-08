@@ -1,0 +1,15 @@
+{
+  "source": "excel_q4",
+  "file_path": "Material datos/data2025Q4.xlsx",
+  "timestamp": "2026-05-06T17:36:01.241765",
+  "row_count": 4405,
+  "column_count": 20,
+  "file_size_bytes": 630863,
+  "schema_version": "v1.0",
+  "hash_md5": "fb1ab188c934c3f3f8582c6434c282f4",
+  "status": "success",
+  "errors": [
+    "Parquet save failed: (\"Expected bytes, got a 'int' object\", 'Conversion failed for column DIRECCION with type object')"
+  ],
+  "warnings": []
+}

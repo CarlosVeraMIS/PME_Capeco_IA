@@ -1,0 +1,185 @@
+
+<style>
+:root { --gap: 10px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+.board { padding: 1rem 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+.topbar h1 { font-size: 17px; font-weight: 500; color: var(--color-text-primary); }
+.topbar p { font-size: 12px; color: var(--color-text-secondary); }
+.stats { display: flex; gap: 8px; flex-wrap: wrap; }
+.stat { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 6px 14px; text-align: center; }
+.stat .n { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.stat .l { font-size: 11px; color: var(--color-text-secondary); }
+
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.chip { border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 4px 12px; font-size: 12px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.15s; }
+.chip.active { background: var(--color-background-info); border-color: var(--color-border-info); color: var(--color-text-info); font-weight: 500; }
+
+.section { margin-bottom: 1.5rem; }
+.section-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.section-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.section-count { font-size: 11px; color: var(--color-text-secondary); margin-left: auto; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--gap); }
+
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; cursor: pointer; transition: border-color 0.15s; }
+.card:hover { border-color: var(--color-border-secondary); }
+.card.hidden { display: none; }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-bottom: 8px; }
+.card-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; }
+.prio { font-size: 10px; border-radius: 4px; padding: 2px 7px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+.prio-1 { background: #FCEBEB; color: #A32D2D; }
+.prio-2 { background: #FAEEDA; color: #854F0B; }
+.prio-3 { background: #EAF3DE; color: #3B6D11; }
+
+.card-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.tag { font-size: 10px; border: 0.5px solid var(--color-border-tertiary); border-radius: 4px; padding: 2px 6px; color: var(--color-text-secondary); }
+.day-badge { font-size: 10px; color: var(--color-text-tertiary); margin-left: auto; }
+
+.card-desc { font-size: 11px; color: var(--color-text-secondary); margin: 6px 0 0; line-height: 1.5; display: none; }
+.card.expanded .card-desc { display: block; }
+.card.expanded { border-color: var(--color-border-primary); }
+
+.progress-bar { height: 3px; background: var(--color-border-tertiary); border-radius: 2px; margin-top: 10px; }
+.progress-fill { height: 3px; border-radius: 2px; transition: width 0.3s; }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 1rem; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+
+<div class="board">
+  <div class="topbar">
+    <div>
+      <h1>PME CAPECO — Plan de materiales comerciales semana 2</h1>
+      <p>31 piezas · 5 categorías · 4 semanas de producción</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">31</div><div class="l">materiales</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">prioridad 1</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">semanas</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#A32D2D"></div>Prioridad 1 — arrancar ya</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>Prioridad 2 — semana 2–3</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>Prioridad 3 — mes 2</div>
+  </div>
+
+  <div class="filters">
+    <button class="chip active" onclick="filter('all')">Todo (31)</button>
+    <button class="chip" onclick="filter('ventas')">Ventas (8)</button>
+    <button class="chip" onclick="filter('deck')">Presentaciones (5)</button>
+    <button class="chip" onclick="filter('digital')">LinkedIn & Redes (7)</button>
+    <button class="chip" onclick="filter('email')">Email (6)</button>
+    <button class="chip" onclick="filter('av')">Audiovisual (5)</button>
+  </div>
+
+  <div id="sections-container"></div>
+</div>
+
+<script>
+const data = [
+  {
+    cat: 'ventas', catLabel: 'Material de ventas impreso/PDF', color: '#185FA5',
+    items: [
+      { name: 'One-pager General PME', prio: 1, tags: ['PDF', '1 pág', 'A4'], day: 'Día 6–8', desc: 'Resumen de PME para el sector constructor. Propuesta de valor, paquetes ORO/PLATA/BRONCE, datos del mercado y CTA. Diseño con identidad CAPECO.' },
+      { name: 'One-pager PME Finance', prio: 1, tags: ['PDF', '1 pág', 'Banca'], day: 'Día 6–8', desc: 'Versión para bancos y fintechs. Énfasis en LTV, aprobación hipotecaria, SBS compliance y ROI de integración API.' },
+      { name: 'One-pager PME Académico', prio: 1, tags: ['PDF', '1 pág', 'Uni'], day: 'Día 7–9', desc: 'Para decanos y directores de carrera. Modelos RED CAMPUS, FACULTAD e INVESTIGACIÓN con tabla de precios y beneficios.' },
+      { name: 'One-pager Tasamelo', prio: 1, tags: ['PDF', '1 pág', 'App'], day: 'Día 8–10', desc: 'Explica el producto Tasamelo: qué es, cómo funciona, planes FREE/BÁSICO/PRO/ENTERPRISE y CTA a lista de espera beta.' },
+      { name: 'Brochure/Dossier PME (4 páginas)', prio: 2, tags: ['PDF', 'Imprimible', '4 pág'], day: 'Día 10–14', desc: 'Pieza completa para entregar en eventos CAPECO y reuniones ejecutivas. Portada, ecosistema PME, segmentos, precios y casos de uso.' },
+      { name: 'Kit Auspiciadores 2026', prio: 1, tags: ['PDF', 'Kit', 'Comercial'], day: 'Día 7–10', desc: 'Carpeta digital: carta propuesta + tabla de beneficios ORO/PLATA/BRONCE + métricas de audiencia PME + formulario de confirmación.' },
+      { name: 'Kit Convenio Académico', prio: 2, tags: ['PDF', 'Kit', 'Uni'], day: 'Día 10–12', desc: 'Carta de presentación CAPECO + propuesta de convenio + modelo de acuerdo marco + guía de onboarding para docentes.' },
+      { name: 'Propuesta ROI para Banca', prio: 1, tags: ['PDF', '3 pág', 'ENTERPRISE'], day: 'Día 8–11', desc: 'Documento con cálculo de ROI: horas ahorradas en tasación × costo por hora, reducción de desacuerdos SBS, velocidad de aprobación.' },
+    ]
+  },
+  {
+    cat: 'deck', catLabel: 'Presentaciones ejecutivas (PPTX)', color: '#0F6E56',
+    items: [
+      { name: 'Deck General PME — Auspiciadores', prio: 1, tags: ['PPTX', '15 slides'], day: 'Día 7–11', desc: '15 slides: Intro CAPECO, qué es PME, audiencia, paquetes ORO/PLATA/BRONCE, métricas de impacto, casos de uso y CTA.' },
+      { name: 'Deck PME Finance — Banca', prio: 1, tags: ['PPTX', '12 slides'], day: 'Día 8–12', desc: '12 slides: Dolor del banco, cómo PME resuelve LTV y tasación, API integration, ROI calculado, planes corporativos y próximos pasos.' },
+      { name: 'Deck PME Académico', prio: 2, tags: ['PPTX', '10 slides'], day: 'Día 10–14', desc: '10 slides: Brecha data real vs academia, qué ofrece PME, casos de tesis, modelos de convenio, demo de dashboard y firma de convenio.' },
+      { name: 'Deck Tasamelo Demo', prio: 2, tags: ['PPTX', '8 slides', 'Demo'], day: 'Día 12–16', desc: '8 slides: Problema (tasaciones lentas), solución Tasamelo, flujo de uso, planes, integración API y beta access CTA.' },
+      { name: 'Deck API PME — Técnico', prio: 3, tags: ['PPTX', '10 slides', 'Tech'], day: 'Día 14–18', desc: '10 slides para developers / tech leads: arquitectura de la API, endpoints disponibles, planes de acceso, sandbox demo y onboarding.' },
+    ]
+  },
+  {
+    cat: 'digital', catLabel: 'LinkedIn & redes sociales', color: '#993C1D',
+    items: [
+      { name: 'LinkedIn Company Page PME', prio: 1, tags: ['LinkedIn', 'Setup'], day: 'Día 6–7', desc: 'Configuración completa: descripción institucional, URL personalizada, sector, tamaño, servicios. Tagline: "La inteligencia que mueve el sector inmobiliario del Perú."' },
+      { name: 'Banner LinkedIn PME (1584×396)', prio: 1, tags: ['Imagen', 'PNG'], day: 'Día 6–8', desc: 'Diseño: fondo azul CAPECO, texto "Dato censal. Decisiones reales." con logo CAPECO + PME. Versiones para PME y para MIS.' },
+      { name: '5 plantillas posts LinkedIn — dato semanal', prio: 1, tags: ['Template', 'Canva'], day: 'Día 8–12', desc: 'Serie "El dato de la semana": precio m² promedio, absorción, top distritos. Formato 1080×1080. Fondo azul CAPECO + cifra grande + fuente PME.' },
+      { name: '3 carruseles LinkedIn — casos de uso', prio: 2, tags: ['Carrusel', '5–8 slides'], day: 'Día 10–14', desc: 'Carrusel 1: Banco aprueba hipoteca con PME. Carrusel 2: Promotora decide terreno. Carrusel 3: Tesista valida viabilidad.' },
+      { name: '4 plantillas Stories/Instagram', prio: 3, tags: ['Stories', '1080×1920'], day: 'Día 14–18', desc: 'Versión vertical de los posts de dato semanal. Formato Stories con CTA a pme.pe y animación de cifra.' },
+      { name: 'Perfil personal LinkedIn — vocero MIS', prio: 2, tags: ['LinkedIn', 'Perfil'], day: 'Día 8–10', desc: 'Actualización de headline, about y featured del perfil del vocero principal de MIS: posicionar como "Inteligencia de mercado inmobiliario + IA aplicada a real estate."' },
+      { name: '30-day LinkedIn content calendar', prio: 2, tags: ['Calendario', 'Copy'], day: 'Día 10–14', desc: '30 posts pre-redactados: mix de dato de mercado (3/semana), case study (1/semana), producto (1/semana) y engagement (1/semana).' },
+    ]
+  },
+  {
+    cat: 'email', catLabel: 'Email marketing y outreach', color: '#533AB7',
+    items: [
+      { name: 'Email de relanzamiento — base CAPECO', prio: 1, tags: ['HTML', 'Masivo', '45k'], day: 'Día 6–8', desc: 'Email anunciando el nuevo www.pme.pe. Subject: "PME CAPECO se reinventa — accede al dato que mueve el sector." CTA segmentado por tipo de empresa.' },
+      { name: 'Secuencia outreach General (3 emails)', prio: 1, tags: ['Outreach', 'x3'], day: 'Día 7–10', desc: 'Email 1: Presentación + dato de impacto. Email 2: Caso de uso específico del prospecto. Email 3: CTA a demo + urgencia (cupos limitados).' },
+      { name: 'Secuencia outreach Banca (3 emails)', prio: 1, tags: ['Outreach', 'Banca', 'x3'], day: 'Día 7–10', desc: 'Email 1: "Cómo reduce su riesgo hipotecario con dato censal." Email 2: ROI cuantificado. Email 3: Invitación a PoC gratuito 30 días.' },
+      { name: 'Secuencia outreach Universidades (3 emails)', prio: 2, tags: ['Outreach', 'Uni', 'x3'], day: 'Día 10–13', desc: 'Email 1: Carta a decano/director + caso tesis. Email 2: Charla demo gratuita. Email 3: Propuesta convenio + acceso semestral gratis.' },
+      { name: 'Newsletter trimestral PME — template', prio: 2, tags: ['HTML', 'Template'], day: 'Día 12–16', desc: 'Template HTML para el informe trimestral PME: secciones precio m², absorción, top distritos, análisis, publicidad de auspiciadores y CTA.' },
+      { name: 'Firma de email ejecutivos MIS', prio: 2, tags: ['HTML', 'Firma'], day: 'Día 8–10', desc: 'Firma HTML con logo PME + CAPECO, nombre, cargo, teléfono, links a pme.pe y redes. Versión para equipo comercial MIS.' },
+    ]
+  },
+  {
+    cat: 'av', catLabel: 'Audiovisual y multimedia', color: '#63891A',
+    items: [
+      { name: 'Script video demo PME (3 min)', prio: 1, tags: ['Script', 'Video', '3 min'], day: 'Día 8–12', desc: 'Guión narrado para video de demostración del dashboard PME: flujo desde login → distrito → análisis → exportación. Para landing y outreach.' },
+      { name: 'Script video Tasamelo explainer (90 seg)', prio: 2, tags: ['Script', 'Video', '90 seg'], day: 'Día 10–14', desc: 'Explainer animado: problema (tasación lenta), solución (Tasamelo geo + CAPECO), flujo de uso y CTA a beta. Estilo motion graphics.' },
+      { name: 'Script video institucional CAPECO × MIS', prio: 3, tags: ['Script', 'Video', '2 min'], day: 'Día 14–20', desc: 'Video de credibilidad: 63 años CAPECO + MIS como partner tecnológico. Para auspiciadores y clientes ENTERPRISE.' },
+      { name: 'Plantilla GIF dato semanal', prio: 2, tags: ['GIF', 'Animado', 'RRSS'], day: 'Día 10–14', desc: 'Template Canva/After Effects animado para publicar el precio m² de la semana. Formato 1080×1080 con contador animado.' },
+      { name: 'Screencasts dashboard (3 escenas)', prio: 2, tags: ['Screencast', 'GIF/MP4'], day: 'Día 10–14', desc: 'Escena 1: Filtro por distrito. Escena 2: Comparativa de precio. Escena 3: Exportación de reporte. Para emails y landing pages.' },
+    ]
+  }
+];
+
+function filter(cat) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) card.classList.remove('hidden');
+    else card.classList.add('hidden');
+  });
+  document.querySelectorAll('.section').forEach(sec => {
+    const visible = sec.querySelectorAll('.card:not(.hidden)').length;
+    sec.style.display = visible === 0 ? 'none' : '';
+  });
+}
+
+function toggleCard(card) {
+  card.classList.toggle('expanded');
+}
+
+const container = document.getElementById('sections-container');
+data.forEach(section => {
+  const sec = document.createElement('div');
+  sec.className = 'section';
+  const p1 = section.items.filter(i => i.prio === 1).length;
+  sec.innerHTML = `<div class="section-head"><div class="section-dot" style="background:${section.color}"></div><span class="section-title">${section.catLabel}</span><span class="section-count">${section.items.length} piezas · ${p1} urgentes</span></div><div class="grid" id="grid-${section.cat}"></div>`;
+  container.appendChild(sec);
+  const grid = sec.querySelector('.grid');
+  section.items.forEach(item => {
+    const prioLabel = item.prio === 1 ? 'Urgente' : item.prio === 2 ? 'Semana 2–3' : 'Mes 2';
+    const prioClass = `prio-${item.prio}`;
+    const progW = item.prio === 1 ? 0 : item.prio === 2 ? 0 : 0;
+    const progColor = item.prio === 1 ? '#185FA5' : item.prio === 2 ? '#854F0B' : '#3B6D11';
+    const tags = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.cat = section.cat;
+    card.innerHTML = `<div class="card-top"><span class="card-name">${item.name}</span><span class="prio ${prioClass}">${prioLabel}</span></div><div class="card-meta">${tags}<span class="day-badge">${item.day}</span></div><p class="card-desc">${item.desc}</p><div class="progress-bar"><div class="progress-fill" style="width:0%;background:${progColor}"></div></div>`;
+    card.onclick = () => toggleCard(card);
+    grid.appendChild(card);
+  });
+});
+</script>

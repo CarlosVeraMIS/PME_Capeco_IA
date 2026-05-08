@@ -1,0 +1,13 @@
+{
+  "source": "csv_nexo",
+  "file_path": "Material datos/data-proyectos-immobiliarios.csv",
+  "timestamp": "2026-05-06T17:32:14.483571",
+  "row_count": 3289,
+  "column_count": 56,
+  "file_size_bytes": 8292748,
+  "schema_version": "v1.0",
+  "hash_md5": "0809b40836dc9df04eadb9c31a54ac10",
+  "status": "success",
+  "errors": [],
+  "warnings": []
+}

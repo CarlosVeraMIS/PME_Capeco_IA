@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-05-06T17:36:04.400147",
+  "source": "dim_market_tier",
+  "layer": "gold",
+  "row_count": 4,
+  "validations": {
+    "contract": {
+      "agent_name": "ContractValidAgent",
+      "timestamp": "2026-05-06T17:36:04.400159",
+      "status": "FAIL",
+      "checks_passed": 2,
+      "checks_failed": 1,
+      "details": {
+        "missing_columns": [
+          "project_id",
+          "titulo",
+          "price_per_m2",
+          "absorption_rate_pct",
+          "project_risk_level"
+        ]
+      }
+    },
+    "schema": {
+      "new_columns": [],
+      "removed_columns": [],
+      "type_changes": {},
+      "status": "OK"
+    },
+    "pii": {
+      "suspicious_columns": [],
+      "patterns_found": {},
+      "risk_level": "LOW",
+      "recommendations": []
+    },
+    "audit": {
+      "data_hash": "92672d59c66da21fddc5cc62fdbe3852db290a5605d71a0e3155aa55d4926c8f"
+    }
+  }
+}

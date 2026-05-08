@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1430,3 +1431,1447 @@
     </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PME Dashboard - Global de Scraping</title>
+    <!-- CSS Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- JS Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Marker Cluster -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.95);
+            --chat-bg: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            --card-hover: rgba(56, 189, 248, 0.1);
+        }
+
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --panel-bg: #ffffff;
+            --chat-bg: #f8fafc;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-color: #0284c7;
+            --accent-glow: rgba(2, 132, 199, 0.2);
+            --card-hover: rgba(2, 132, 199, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); display: flex; height: 100vh; overflow: hidden; }
+
+        /* LEFT SIDEBAR (Projects) */
+        #sidebar {
+            width: 420px; height: 100vh; background: var(--panel-bg);
+            border-right: 1px solid var(--border-color); display: flex; flex-direction: column;
+            z-index: 1000; box-shadow: 4px 0 25px rgba(0,0,0,0.5); font-size: 0.9rem;
+        }
+
+        .header { padding: 18px 24px; border-bottom: 1px solid var(--border-color); position: relative; }
+        .header-actions { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; align-items: center; }
+        .action-btn { background: rgba(0,0,0,0.1); border: 1px solid var(--border-color); color: var(--text-primary); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
+        body.light-mode .action-btn { background: #f1f5f9; }
+        .action-btn:hover { border-color: var(--accent-color); color: var(--accent-color); transform: translateY(-1px); }
+        .notification-badge { position: absolute; top: -3px; right: -3px; width: 10px; height: 10px; background: var(--danger-color); border: 2px solid var(--panel-bg); border-radius: 50%; display: none; }
+        .has-alerts .notification-badge { display: block; }
+        
+        .header h1 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; color: var(--text-primary); }
+        .header p { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.3; }
+
+        .stats-container { display: flex; gap: 8px; margin-top: 15px; }
+        .stat-box { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; flex: 1; text-align: center; }
+        .stat-val { font-size: 1.1rem; font-weight: 700; }
+        .stat-val.total { color: var(--text-primary); }
+        .stat-val.found { color: var(--accent-color); }
+        .stat-val.missing { color: var(--danger-color); }
+        .stat-label { font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 2px;}
+
+        /* Smart Search Area */
+        .filters { padding: 15px 24px; border-bottom: 1px solid var(--border-color); background: rgba(15,23,42,0.3); }
+        .filter-group { margin-bottom: 12px; }
+        .filter-group label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; text-transform: uppercase;}
+        
+        .search-input, .select-input { width: 100%; padding: 8px 12px; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 0.85rem; outline: none; transition: 0.2s;}
+        .search-input:focus, .select-input:focus { border-color: var(--accent-color); }
+        
+        .price-range { display: flex; gap: 10px; align-items: center; }
+        .price-range input { flex: 1; }
+        .price-range span { color: var(--text-secondary); font-size: 0.8rem; }
+
+        .btn-group { display: flex; gap: 5px; }
+        .btn-filter { flex: 1; padding: 6px 0; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary); cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
+        .btn-filter.active { background: rgba(56, 189, 248, 0.15); color: var(--accent-color); border-color: var(--accent-color); }
+
+        #project-list { flex: 1; overflow-y: auto; padding: 12px; }
+        #project-list::-webkit-scrollbar { width: 6px; }
+        #project-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+        .project-card { background: rgba(255,255,255,0.03); border: 1px solid transparent; border-radius: 8px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent;}
+        .project-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.1); }
+        .project-card.active { background: rgba(255,255,255,0.06); border-color: var(--border-color); }
+        
+        /* Card side marks based on missing status */
+        .card-missing { border-left-color: var(--danger-color); }
+        .card-found { border-left-color: var(--accent-color); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .card-title { font-weight: 600; font-size: 0.95rem; color: var(--text-primary); }
+        
+        .status-badge { font-size: 0.6rem; padding: 3px 6px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+        .status-pre { background: rgba(16, 185, 129, 0.2); color: var(--success-color); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .card-meta { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .card-price { font-weight: 700; color: #fff; font-size: 0.9rem; margin-top: 4px;}
+
+        /* CENTER MAP */
+        #map-container { flex: 1; position: relative; background: #000;}
+        #map { width: 100%; height: 100%; }
+
+        .leaflet-popup-content-wrapper { background: rgba(15, 23, 42, 0.95); color: #fff; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .leaflet-popup-tip { background: rgba(15, 23, 42, 0.95); }
+        .popup-content h3 { font-size: 0.95rem; color: #fff; margin-bottom: 5px;}
+        .popup-content p { font-size: 0.8rem; color: #94a3b8; margin: 2px 0;}
+        .popup-tag { display: inline-block; padding: 2px 6px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-top: 6px;}
+        .popup-tag.found { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+
+        .custom-marker { width: 14px; height: 14px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 8px rgba(0,0,0,0.8); cursor: pointer; transition: 0.2s;}
+        .custom-marker:hover { transform: scale(1.5); z-index: 1000 !important; }
+        .marker-missing { background-color: var(--danger-color); box-shadow: 0 0 10px var(--danger-color);}
+        .marker-found { background-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color);}
+        .marker-atypical { background-color: #facc15; box-shadow: 0 0 15px #facc15; animation: pulse 1s infinite alternate;}
+        .marker-active { background-color: #facc15 !important; border-color: #fff !important; width: 20px !important; height: 20px !important; box-shadow: 0 0 25px #facc15, 0 0 10px #fff !important; z-index: 2000 !important; transform: scale(1.4); }
+        @keyframes pulse { from { box-shadow: 0 0 5px #facc15; } to { box-shadow: 0 0 25px #facc15, 0 0 8px #fff; } }
+
+        /* RIGHT SIDEBAR (AI Chat) */
+        #chat-sidebar {
+            width: 400px; height: 100vh; background: var(--chat-bg);
+            border-left: 1px solid var(--border-color); display: flex; flex-direction: column;
+            z-index: 1000; box-shadow: -4px 0 25px rgba(0,0,0,0.5);
+        }
+        .chat-header { padding: 20px; border-bottom: 1px solid var(--border-color); text-align: center; background: rgba(30, 41, 59, 1); }
+        .chat-header h2 { font-size: 1.05rem; color: var(--accent-color); }
+        .chat-header p { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+        #chat-messages { flex: 1; overflow-y: auto; padding: 20px; font-size: 0.85rem;}
+        #chat-messages::-webkit-scrollbar { width: 6px; }
+        #chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+        .message { margin-bottom: 16px; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); line-height: 1.5; }
+        .msg-user { background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.3); align-self: flex-end; margin-left: auto; width: 85%; }
+        .msg-ai { background: rgba(255, 255, 255, 0.05); align-self: flex-start; margin-right: auto; width: 95%; }
+        .msg-meta { font-size: 0.6rem; color: var(--text-secondary); margin-bottom: 4px; font-weight: 600; text-transform: uppercase;}
+        
+        .msg-ai table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .msg-ai th, .msg-ai td { padding: 6px; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
+        .msg-ai th { background: rgba(0,0,0,0.3); color: var(--accent-color); }
+
+        #chat-input-area { padding: 15px; background: rgba(30, 41, 59, 1); border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
+        #query-input { flex: 1; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: white; outline: none; transition: 0.2s;}
+        #query-input:focus { border-color: var(--accent-color); }
+        #send-btn { background: var(--accent-color); color: #000; border: none; border-radius: 20px; padding: 0 16px; font-weight: 700; cursor: pointer; transition: 0.2s;}
+        #send-btn:hover { filter: brightness(1.2); }
+        
+        .loader { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--accent-color); animation: spin 1s infinite linear; display: inline-block; vertical-align: middle; margin-right: 6px;}
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #btn-marquee {
+            position: absolute; top: 15px; left: 60px; z-index: 1000;
+            background: rgba(0,0,0,0.7); border: 1px solid var(--border-color); color: var(--text-secondary);
+            padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        #btn-marquee:hover { background: rgba(0,0,0,0.9); color: #fff; border-color: var(--accent-color); }
+        
+        #btn-locate {
+            position: absolute; bottom: 30px; left: 15px; z-index: 1000;
+            background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981;
+            padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(5px); transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        #btn-locate:hover { background: rgba(16, 185, 129, 0.4); color: #fff; }
+        /* Download CSV Button */
+        .btn-download-csv {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-download-csv:hover {
+            background: var(--success-color);
+            color: #000;
+        }
+
+        /* Marker Cluster Custom Style */
+        .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+            background-color: rgba(56, 189, 248, 0.2) !important;
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--accent-color);
+        }
+        .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+            background-color: rgba(56, 189, 248, 0.4) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        /* Analysis Layers UI */
+        .analysis-layers {
+            padding: 15px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(56, 189, 248, 0.05);
+        }
+        .layer-toggle-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .layer-toggle:hover { border-color: var(--accent-color); }
+        .layer-toggle.active { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-color); }
+        .layer-label { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
+        .layer-status { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+        .layer-toggle.active .layer-status { color: var(--accent-color); }
+
+        .poi-icon { font-size: 1.2rem; text-align: center; line-height: 1.2; }
+        #sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Ajustes de Modo Claro para Cards */
+        body.light-mode .project-card { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        body.light-mode .project-card:hover { background: var(--card-hover); }
+        body.light-mode .stat-box { background: #fff; }
+        body.light-mode #chat-messages { background: #f8fafc; }
+        body.light-mode #chat-input-area { background: #fff; }
+        body.light-mode #query-input { background: #fff; color: #000; }
+        
+        /* Ajustes Leaflet para modo claro */
+        body.light-mode .leaflet-popup-content-wrapper { background: #fff; color: #2d3748; }
+        body.light-mode .leaflet-popup-tip { background: #fff; }
+        body.light-mode .popup-content h3 { color: #1a202c; }
+        body.light-mode .popup-content p { color: #4a5568; }
+
+        /* Responsive Dashboard */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            #sidebar, #chat-sidebar { width: 100%; height: auto; border: none; box-shadow: none; }
+            #sidebar { border-bottom: 1px solid var(--border-color); }
+            #map-container { min-height: 50vh; width: 100%; }
+            #chat-sidebar { border-top: 1px solid var(--border-color); }
+            #project-list { max-height: 400px; }
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- LEFT SIDEBAR -->
+    <aside id="sidebar">
+        <div class="header">
+            <div class="header-actions">
+                <button class="action-btn" id="theme-btn" onclick="toggleTheme()" title="Cambiar Tema">
+                    <i data-lucide="moon" id="theme-icon" style="width:16px; height:16px;"></i>
+                </button>
+                <button class="action-btn" id="alert-btn" onclick="openProfileModal(); setTimeout(()=>document.getElementById('alerts-container').scrollIntoView(), 100);" title="Alertas de Mercado">
+                    <i data-lucide="bell" style="width:16px; height:16px;"></i>
+                    <div class="notification-badge"></div>
+                </button>
+                <button class="action-btn" onclick="openProfileModal()" title="Mi Perfil PME">
+                    <i data-lucide="user" style="width:16px; height:16px;"></i>
+                </button>
+            </div>
+            <h1>PME Dashboard</h1>
+            <p>Análisis Real Estate & Scraping</p>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-val total" id="stat-total">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val found" id="stat-found">0</div>
+                    <div class="stat-label">Distritos</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val missing" id="stat-missing">0</div>
+                    <div class="stat-label">Unidades</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SMART SEARCH FILTERS -->
+        <div class="filters">
+            <div class="filter-group">
+                <label>Búsqueda Texto</label>
+                <input type="text" id="filterText" class="search-input" placeholder="Nombre o palabra clave..." onkeyup="applyFilters()">
+            </div>
+            <div class="filter-group">
+                <label>Distrito</label>
+                <select id="filterDistrito" class="select-input" onchange="applyFilters()">
+                    <option value="ALL">Todos los distritos</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Rango de Precio (S/)</label>
+                <div class="price-range">
+                    <input type="number" id="filterPriceMin" class="search-input" placeholder="Mínimo" onchange="applyFilters()" onkeyup="applyFilters()">
+                    <span>-</span>
+                    <input type="number" id="filterPriceMax" class="search-input" placeholder="Máximo" onchange="applyFilters()" onkeyup="applyFilters()">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label>Habitaciones (Min)</label>
+                <div class="btn-group" id="filterRoomsGroup">
+                    <button class="btn-filter active" data-rooms="0" onclick="setRoomFilter(this, 0)">Cualquiera</button>
+                    <button class="btn-filter" data-rooms="1" onclick="setRoomFilter(this, 1)">1+</button>
+                    <button class="btn-filter" data-rooms="2" onclick="setRoomFilter(this, 2)">2+</button>
+                    <button class="btn-filter" data-rooms="3" onclick="setRoomFilter(this, 3)">3+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYSIS LAYERS -->
+        <div class="analysis-layers">
+            <div class="filter-group">
+                <label>Capas de Análisis</label>
+                <div class="layer-toggle-group">
+                    <div class="layer-toggle" id="toggle-heat" onclick="togglePriceHeatmap()">
+                        <span class="layer-label">🔥 Mapa Calor (Precio)</span>
+                        <span class="layer-status">Off</span>
+                    </div>
+                    <div class="layer-toggle" id="toggle-apprec" onclick="toggleAppreciationLayer()">
+                        <span class="layer-label">💎 Potencial Plusvalía</span>
+                        <span class="layer-status">Off</span>
+                    </div>
+                    <div class="layer-toggle" id="toggle-poi" onclick="togglePOILayer()">
+                        <span class="layer-label">⛲ Servicios (POI)</span>
+                        <span class="layer-status">Off</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="project-list">
+            <div style="padding: 20px; text-align: center; color: var(--text-secondary);">Cargando data global...</div>
+        </div>
+    </aside>
+
+    <!-- CENTER MAP -->
+    <main id="map-container">
+        <button id="btn-marquee" onclick="enableMarqueeSelection()">🔲 Seleccionar Zona</button>
+        <button id="btn-locate" onclick="locateUser()">🧭 Cerca de Mí</button>
+        <div id="map"></div>
+    </main>
+
+    <!-- RIGHT SIDEBAR (CHAT) -->
+    <aside id="chat-sidebar">
+        <div class="chat-header">
+            <h2>🧠 Motor Interactivo IA</h2>
+            <p>Agente Pandas sobre CSV & Excel</p>
+        </div>
+        <div id="chat-messages">
+            <div class="message msg-ai">
+                <div class="msg-meta">PME IA</div>
+                ¡Hola! Tengo cargados los 312 proyectos cruzados. Pídeme resúmenes estadísticos o filtros que no estén en tu Dashboard.
+            </div>
+        </div>
+        <div id="chat-input-area">
+            <input type="text" id="query-input" placeholder="Ej. Cuál es el distrito más caro?" autocomplete="off">
+            <button id="send-btn" onclick="sendQuery()">Enviar</button>
+        </div>
+    </aside>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet Heat (Using Unpkg for better reliability) -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    
+    <script>
+        // ==========================================
+        // SMART SEARCH & MAP LOGIC
+        // ==========================================
+        // Temas y Configuración de Mapa
+        let currentTheme = localStorage.getItem('pme_theme') || 'dark';
+        if (currentTheme === 'light') document.body.classList.add('light-mode');
+
+        const map = L.map('map', { zoomControl: false }).setView([-12.046374, -77.042793], 12);
+        
+        let darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+        let lightLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+        
+        if (currentTheme === 'light') lightLayer.addTo(map);
+        else darkLayer.addTo(map);
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-mode');
+            const theme = isLight ? 'light' : 'dark';
+            localStorage.setItem('pme_theme', theme);
+            
+            // Cambiar capa del mapa
+            if (isLight) {
+                map.removeLayer(darkLayer);
+                lightLayer.addTo(map);
+            } else {
+                map.removeLayer(lightLayer);
+                darkLayer.addTo(map);
+            }
+            
+            // Actualizar icono
+            const icon = document.getElementById('theme-icon');
+            icon.setAttribute('data-lucide', isLight ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Marker Cluster Group
+        const markerCluster = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            maxClusterRadius: 50
+        });
+        map.addLayer(markerCluster);
+
+        let masterData = [];
+        let markers = {};
+        let currentRoomFilter = 0;
+        let selectedProjectsForAI = new Set();
+        let userLocation = null;
+        let userMarker = null;
+
+        let districtAverages = {};
+        
+        // Layers
+        let heatLayer = null;
+        let appreciationLayer = null;
+        let poiLayer = L.layerGroup();
+        map.addLayer(poiLayer);
+
+        function calculateDistrictAverages(data) {
+            const distMap = {};
+            data.forEach(p => {
+                if(p.distrito && p.avg_price_m2 > 0) {
+                    if(!distMap[p.distrito]) distMap[p.distrito] = { sum: 0, count: 0, projects: 0 };
+                    distMap[p.distrito].sum += p.avg_price_m2;
+                    distMap[p.distrito].count++;
+                    distMap[p.distrito].projects++;
+                }
+            });
+            for(let d in distMap) {
+                districtAverages[d] = {
+                    avgM2: distMap[d].sum / distMap[d].count,
+                    totalComp: distMap[d].projects
+                };
+            }
+        }
+
+        fetch('./all_projects.json')
+            .then(res => res.json())
+            .then(data => {
+                // Filter out any occurrences of banned districts: Arequipa, Cayma, Cerro Colorado, Jose Luis Bustamante y Rivero
+                const banned = ['arequipa', 'cayma', 'cerro colorado', 'jose luis bustamante y rivero', 'josé luis bustamante'];
+                const filteredData = data.filter(d => {
+                    if (!d.distrito) return true; 
+                    const distName = d.distrito.toLowerCase();
+                    return !banned.some(b => distName.includes(b));
+                }).map(p => {
+                    // Asegurar que lat/lon/precios sean Números
+                    p.latitude = parseFloat(p.latitude);
+                    p.longitude = parseFloat(p.longitude);
+                    p.price_value = parseFloat(p.price_value) || 0;
+                    p.area_m2 = parseFloat(p.area_m2) || 0;
+
+                    // Enriquecimiento de datos: Calcular avg_price_m2 si no existe
+                    if (!p.avg_price_m2 && p.price_value > 0 && p.area_m2 > 0) {
+                        p.avg_price_m2 = p.price_value / p.area_m2;
+                    } else {
+                        p.avg_price_m2 = parseFloat(p.avg_price_m2) || 0;
+                    }
+                    return p;
+                });
+                
+                masterData = filteredData;
+                console.log("PME Data Loaded:", masterData.length, "projects");
+                calculateDistrictAverages(filteredData);
+                populateDistricts(filteredData);
+                applyFilters(); 
+            });
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+        }
+
+        function locateUser() {
+            if ("geolocation" in navigator) {
+                const btn = document.getElementById('btn-locate');
+                btn.innerText = "Buscando...";
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    userLocation = { lat, lon };
+                    
+                    if(userMarker) map.removeLayer(userMarker);
+                    const icon = L.divIcon({ className: 'custom-icon', html: `<div style="width:20px;height:20px;border:3px solid #fff;border-radius:50%;background:#10b981;box-shadow:0 0 15px #10b981;"></div>`, iconSize: [20,20] });
+                    userMarker = L.marker([lat, lon], {icon: icon, zIndexOffset: 1000}).addTo(map).bindPopup("<b style='color:#000'>Tu Ubicación</b>").openPopup();
+                    
+                    map.flyTo([lat, lon], 14);
+                    btn.innerText = "🧭 Cerca de Mí (Activo)";
+                    
+                    applyFilters(); // Re-sorts using distance
+                }, (err) => {
+                    btn.innerText = "Ubicación Fallida";
+                    alert("No se pudo obtener la ubicación. Comprueba los permisos de tu navegador.");
+                });
+            } else {
+                alert("Geolocalización no soportada por el navegador.");
+            }
+        }
+
+        function toggleProjectSelection(encodedTitle) {
+            const title = decodeURIComponent(encodedTitle);
+            if (selectedProjectsForAI.has(title)) {
+                selectedProjectsForAI.delete(title);
+            } else {
+                selectedProjectsForAI.add(title);
+            }
+            updateSelectionBar();
+            
+            const btn = document.getElementById('btn-sel-' + encodedTitle);
+            if (btn) {
+                btn.innerText = selectedProjectsForAI.has(title) ? '❌ Quitar de Selección' : '➕ Añadir para IA';
+                btn.style.background = selectedProjectsForAI.has(title) ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.2)';
+                btn.style.color = selectedProjectsForAI.has(title) ? '#ef4444' : '#38bdf8';
+            }
+        }
+
+        function updateSelectionBar() {
+            let bar = document.getElementById('selection-bar');
+            if (!bar) {
+                bar = document.createElement('div');
+                bar.id = 'selection-bar';
+                bar.style.position = 'absolute';
+                bar.style.bottom = '30px';
+                bar.style.left = '50%';
+                bar.style.transform = 'translateX(-50%)';
+                bar.style.background = 'rgba(15, 23, 42, 0.95)';
+                bar.style.border = '1px solid var(--accent-color)';
+                bar.style.padding = '10px 20px';
+                bar.style.borderRadius = '30px';
+                bar.style.zIndex = '2000';
+                bar.style.display = 'flex';
+                bar.style.gap = '10px';
+                bar.style.alignItems = 'center';
+                bar.style.boxShadow = '0 10px 25px rgba(0,0,0,0.8)';
+                bar.innerHTML = `
+                    <span id="sel-count-text" style="font-weight:600; font-size:0.85rem; color:#fff; margin-right:5px;"></span>
+                    <button onclick="showStatsModal()" style="background:var(--success-color); color:#fff; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:600; font-size:0.75rem;">📊 Estadísticas Rápidas</button>
+                    <button onclick="analyzeSelected(false)" style="background:var(--accent-color); color:#000; border:none; padding:6px 14px; border-radius:15px; cursor:pointer; font-weight:700; font-size:0.75rem;">☁️ Analizar Nube</button>
+                    <button onclick="analyzeSelected(true)" style="display:none;">⚡ Analizar Local</button>
+                    <button onclick="clearSelection()" style="background:transparent; color:var(--text-secondary); border:1px solid var(--text-secondary); padding:6px 14px; border-radius:15px; cursor:pointer; font-size:0.75rem; margin-left:5px;">Limpiar</button>
+                `;
+                document.getElementById('map-container').appendChild(bar);
+            }
+            
+            if (selectedProjectsForAI.size > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('sel-count-text').innerText = `${selectedProjectsForAI.size} seleccionados:`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function showStatsModal() {
+            if(selectedProjectsForAI.size === 0) return;
+            
+            let html = '<div style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--panel-bg); padding:25px; border:1px solid var(--accent-color); border-radius:12px; z-index:3000; box-shadow:0 0 30px rgba(0,0,0,0.8); width: 450px; color:#fff;" id="stats-modal">';
+            html += '<h2 style="font-size:1.2rem; margin-bottom:15px; color:var(--accent-color);">📊 Estadísticas de tu Selección</h2>';
+            
+            let arr = masterData.filter(d => selectedProjectsForAI.has(d.title));
+            let totalStock = arr.reduce((acc, p) => acc + (p.total_units || 0), 0);
+            
+            let validPrices = arr.filter(p => p.avg_price_m2 > 0);
+            let avgM2 = validPrices.reduce((acc, p) => acc + p.avg_price_m2, 0) / (validPrices.length || 1);
+            let sortedByPrice = [...validPrices].sort((a,b) => a.avg_price_m2 - b.avg_price_m2);
+            
+            html += `<div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                        <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; flex:1; margin-right:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Promedio m²</div>
+                            <div style="font-size:1.1rem; font-weight:700;">S/ ${Math.round(avgM2).toLocaleString('en-US')}</div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; flex:1; border:1px solid var(--border-color);">
+                            <div style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Stock Total</div>
+                            <div style="font-size:1.1rem; font-weight:700;">${totalStock} unds.</div>
+                        </div>
+                     </div>`;
+                     
+            if(sortedByPrice.length > 0) {
+                html += '<div style="font-size:0.8rem; margin-bottom:5px; color:var(--text-secondary);">Más accesible:</div>';
+                html += `<div style="font-size:0.9rem; font-weight:600; color:var(--success-color); margin-bottom:10px;">📉 ${sortedByPrice[0].title} (S/ ${Math.round(sortedByPrice[0].avg_price_m2).toLocaleString('en-US')}/m²)</div>`;
+                
+                html += '<div style="font-size:0.8rem; margin-bottom:5px; color:var(--text-secondary);">Más exclusivo:</div>';
+                html += `<div style="font-size:0.9rem; font-weight:600; color:var(--danger-color); margin-bottom:15px;">📈 ${sortedByPrice[sortedByPrice.length-1].title} (S/ ${Math.round(sortedByPrice[sortedByPrice.length-1].avg_price_m2).toLocaleString('en-US')}/m²)</div>`;
+            }
+
+            html += `<button onclick="document.getElementById('stats-modal').remove()" style="width:100%; padding:8px; background:transparent; color:#fff; border:1px solid var(--border-color); border-radius:6px; cursor:pointer;">Cerrar Panel</button>`;
+            html += '</div>';
+            
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+
+        function clearSelection() {
+            selectedProjectsForAI.clear();
+            updateSelectionBar();
+            map.closePopup(); // Refresh buttons if they reopen
+            renderMap(masterData, true); // True to skip fitbounds jump
+        }
+
+        function analyzeSelected(use_local) {
+            if(selectedProjectsForAI.size === 0) return;
+            const list = Array.from(selectedProjectsForAI).join(', ');
+            const qInput = document.getElementById('query-input');
+            const localIndicator = use_local ? '[LOCAL IA] ' : '';
+            qInput.value = `${localIndicator}Compara de forma ejecutiva estos proyectos: ${list}. Analiza m2, precios y dime cuál es el más destacado.`;
+            
+            window.lastUseLocalFlag = use_local;
+            document.getElementById('send-btn').click();
+            
+            clearSelection();
+        }
+
+        // ==========================================
+        // MARQUEE ZONE SELECTION
+        // ==========================================
+        let selectionBox = null;
+        let startPoint = null;
+
+        function enableMarqueeSelection() {
+            const mapContainer = document.getElementById('map');
+            if (mapContainer.classList.contains('marquee-mode')) {
+                disableMarqueeSelection();
+                return;
+            }
+            
+            mapContainer.classList.add('marquee-mode');
+            map.dragging.disable();
+            document.getElementById('btn-marquee').style.background = 'var(--accent-color)';
+            document.getElementById('btn-marquee').style.color = '#000';
+            document.getElementById('btn-marquee').innerText = '❌ Cancelar Selección';
+            mapContainer.style.cursor = 'crosshair';
+
+            mapContainer.addEventListener('mousedown', onMarqueeDown);
+        }
+
+        function disableMarqueeSelection() {
+            const mapContainer = document.getElementById('map');
+            mapContainer.classList.remove('marquee-mode');
+            map.dragging.enable();
+            document.getElementById('btn-marquee').style.background = 'rgba(0,0,0,0.7)';
+            document.getElementById('btn-marquee').style.color = 'var(--text-secondary)';
+            document.getElementById('btn-marquee').innerText = '🔲 Seleccionar Zona';
+            mapContainer.style.cursor = '';
+
+            mapContainer.removeEventListener('mousedown', onMarqueeDown);
+        }
+
+        function onMarqueeDown(e) {
+            if (e.button !== 0) return; 
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            
+            selectionBox = document.createElement('div');
+            selectionBox.style.position = 'absolute';
+            selectionBox.style.border = '2px dashed #38bdf8';
+            selectionBox.style.background = 'rgba(56, 189, 248, 0.2)';
+            selectionBox.style.zIndex = '9999';
+            selectionBox.style.pointerEvents = 'none';
+            mapContainer.appendChild(selectionBox);
+
+            document.addEventListener('mousemove', onMarqueeMove);
+            document.addEventListener('mouseup', onMarqueeUp);
+            e.preventDefault();
+        }
+
+        function onMarqueeMove(e) {
+            if (!selectionBox) return;
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            const currX = e.clientX - rect.left;
+            const currY = e.clientY - rect.top;
+
+            const left = Math.min(startPoint.x, currX);
+            const top = Math.min(startPoint.y, currY);
+            const width = Math.abs(currX - startPoint.x);
+            const height = Math.abs(currY - startPoint.y);
+
+            selectionBox.style.left = left + 'px';
+            selectionBox.style.top = top + 'px';
+            selectionBox.style.width = width + 'px';
+            selectionBox.style.height = height + 'px';
+        }
+
+        function onMarqueeUp(e) {
+            if (!selectionBox) return;
+            document.removeEventListener('mousemove', onMarqueeMove);
+            document.removeEventListener('mouseup', onMarqueeUp);
+
+            const mapContainer = document.getElementById('map');
+            const rect = mapContainer.getBoundingClientRect();
+            const endX = e.clientX - rect.left;
+            const endY = e.clientY - rect.top;
+
+            const latlng1 = map.containerPointToLatLng(L.point(startPoint.x, startPoint.y));
+            const latlng2 = map.containerPointToLatLng(L.point(endX, endY));
+            const bounds = L.latLngBounds(latlng1, latlng2);
+
+            selectionBox.remove();
+            selectionBox = null;
+            
+            masterData.forEach(p => {
+                if (!p.latitude || !p.longitude) return;
+                if (markers[p.title]) { // Solo interactúa con los que están renderizados/filtrados
+                    if (bounds.contains([p.latitude, p.longitude])) {
+                        selectedProjectsForAI.add(p.title);
+                    }
+                }
+            });
+
+            updateSelectionBar();
+            disableMarqueeSelection();
+            
+            // Re-render map to update the popup buttons if any are open (pass true to skip zoom jump)
+            renderMap(masterData.filter(d => !!markers[d.title]), true);
+        }
+
+        function populateDistricts(data) {
+            const select = document.getElementById('filterDistrito');
+            const dists = [...new Set(data.map(d => d.distrito))].filter(Boolean).sort();
+            dists.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d; opt.innerText = d;
+                select.appendChild(opt);
+            });
+            
+            // Perfil PME: Cargar distrito favorito
+            const fav = localStorage.getItem('pme_fav_district');
+            if (fav && dists.includes(fav)) {
+                select.value = fav;
+            }
+        }
+
+        function setRoomFilter(btn, rooms) {
+            document.querySelectorAll('#filterRoomsGroup .btn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentRoomFilter = rooms;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const text = document.getElementById('filterText').value.toLowerCase();
+            const dist = document.getElementById('filterDistrito').value;
+            const pMin = parseFloat(document.getElementById('filterPriceMin').value) || 0;
+            const pMax = parseFloat(document.getElementById('filterPriceMax').value) || 999999999;
+            
+            let filtered = masterData.filter(p => {
+                if (text && !p.title.toLowerCase().includes(text) && !(p.description || '').toLowerCase().includes(text)) return false;
+                if (dist !== 'ALL' && p.distrito !== dist) return false;
+                if (p.price_value > 0 && (p.price_value < pMin || p.price_value > pMax)) return false;
+                if (p.rooms < currentRoomFilter) return false;
+                return true;
+            });
+
+            if (userLocation) {
+                filtered.forEach(p => {
+                    p.distanceToUser = calculateDistance(userLocation.lat, userLocation.lon, p.latitude, p.longitude);
+                });
+                filtered.sort((a,b) => a.distanceToUser - b.distanceToUser);
+            }
+
+            updateStats(filtered);
+            renderList(filtered);
+            renderMap(filtered);
+        }
+
+        function updateStats(data) {
+            const total = data.length;
+            const distritos = new Set(data.map(d => d.distrito).filter(Boolean)).size;
+            const unidades  = data.reduce((sum, d) => sum + (d.total_units || 0), 0);
+            
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-found').innerText = distritos;
+            document.getElementById('stat-missing').innerText = unidades.toLocaleString('en-US');
+        }
+
+        let lastHighlightedMarker = null;
+        function flyToProject(lat, lon, title) {
+            map.flyTo([lat, lon], 17, { duration: 1 });
+            
+            // Si el marcador está en un cluster, hay que expandirlo
+            setTimeout(() => {
+                if(markers[title]) {
+                    const marker = markers[title];
+                    
+                    // Quitar resalte previo
+                    if(lastHighlightedMarker && lastHighlightedMarker._icon) {
+                        const innerCircle = lastHighlightedMarker._icon.querySelector('.custom-marker');
+                        if(innerCircle) innerCircle.classList.remove('marker-active');
+                    }
+                    
+                    // Aplicar nuevo resalte
+                    if(marker._icon) {
+                        const innerCircle = marker._icon.querySelector('.custom-marker');
+                        if(innerCircle) innerCircle.classList.add('marker-active');
+                        lastHighlightedMarker = marker;
+                    }
+                    
+                    if (markerCluster.hasLayer(marker)) {
+                        const parent = markerCluster.getVisibleParent(marker);
+                        if (parent && parent.spiderfy) {
+                            // No es necesario spiderfy si ya es visible
+                            // Pero expande el grupo si el zoom no es máximo
+                        }
+                    }
+                    marker.openPopup();
+                }
+            }, 1100);
+            
+            document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
+            const card = document.getElementById(`card-${title.replace(/[^a-zA-Z0-9]/g, '')}`);
+            if(card) { card.classList.add('active'); card.scrollIntoView({ behavior: 'smooth', block: 'center' });}
+        }
+
+        function renderList(data) {
+            const container = document.getElementById('project-list');
+            container.innerHTML = '';
+            
+            if(data.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding: 20px; color:#94a3b8">No se encontraron proyectos bajo estos filtros.</div>';
+                return;
+            }
+
+            data.forEach(p => {
+                const safeId = p.title.replace(/[^a-zA-Z0-9]/g, '');
+                const card = document.createElement('div');
+                const isOutofStock = (p.total_units === 0);
+                card.className = `project-card ${isOutofStock ? 'card-missing' : 'card-found'}`;
+                card.id = `card-${safeId}`;
+                card.onclick = () => flyToProject(p.latitude, p.longitude, p.title);
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">${p.title}</div>
+                    </div>
+                    <div class="card-meta">
+                        <span>📍 ${p.distrito} ${p.distanceToUser !== undefined ? '(' + p.distanceToUser.toFixed(1) + 'km)' : ''}</span>
+                        <span>🛏️ ${p.rooms || '-'} dor</span>
+                        <span>📐 ${p.area_m2 ? p.area_m2+' m²' : '-'}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                        <div class="card-price">${p.price_string}</div>
+                        <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.75rem; font-weight: 600;" onclick="event.stopPropagation()">Ver Proyecto ↗</a>
+                    </div>
+                    <div style="font-size: 0.65rem; color: var(--text-secondary); margin-top: 6px;">
+                        Fuente: Nexo Inmobiliario
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderMap(data, skipFitBounds=false) {
+            markerCluster.clearLayers();
+            markers = {};
+            const bounds = [];
+            
+            data.forEach(p => {
+                if(!p.latitude || !p.longitude) return;
+                
+                const isOutofStock = (p.total_units === 0);
+                let mClass = isOutofStock ? 'marker-missing' : 'marker-found';
+                let isAtypical = false;
+                
+                // Métrica 3: Alerta de Precio Atípico (20% por debajo del distrito)
+                if (p.avg_price_m2 > 0 && districtAverages[p.distrito]) {
+                    if (p.avg_price_m2 < (districtAverages[p.distrito].avgM2 * 0.8)) {
+                        mClass = 'marker-atypical';
+                        isAtypical = true;
+                    }
+                }
+                
+                const customIcon = L.divIcon({ className: 'custom-icon', html: `<div class="custom-marker ${mClass}"></div>`, iconSize: [14,14], iconAnchor: [7,7] });
+                
+                const marker = L.marker([p.latitude, p.longitude], {icon: customIcon});
+                markerCluster.addLayer(marker);
+                bounds.push([p.latitude, p.longitude]);
+                //...
+                const tagText = isOutofStock ? 'Sin Stock (Agotado)' : '🔥 Con Unidades Libres';
+
+                let modelsHtml = '';
+                if(p.models && p.models.length > 0) {
+                    modelsHtml += '<div style="margin-top:8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px;">';
+                    modelsHtml += '<strong style="font-size:0.75rem; color:var(--text-secondary);">Tipos de Departamento:</strong>';
+                    modelsHtml += '<div style="max-height: 90px; overflow-y: auto; margin-top: 4px; margin-bottom: 5px; padding-right: 4px;">';
+                    p.models.forEach(m => {
+                        modelsHtml += `<div style="font-size: 0.7rem; color:#cbd5e1; margin-bottom:3px; display: flex; justify-content: space-between; border-bottom: 1px dotted rgba(255,255,255,0.1); padding-bottom: 2px;">
+                            <span>${m.modelo} (${m.area_m2}m²)</span>
+                            <span>${m.precio_string} | ${m.unidades_disponibles} unds.</span>
+                        </div>`;
+                    });
+                    modelsHtml += '</div>';
+                    modelsHtml += `<div style="margin-top:4px; font-size: 0.75rem; color: var(--accent-color); font-weight: 600;">
+                        Stock total: ${p.total_units} unidades disponibles
+                    </div>`;
+                    modelsHtml += '</div>';
+                }
+
+                let avg_string = '';
+                if(p.avg_price_m2 && p.avg_price_m2 > 0) {
+                    let moneda = p.project_currency || (p.price_string ? p.price_string.split(' ')[0] : 'S/');
+                    if (moneda !== '$' && moneda !== 'S/') moneda = 'S/';
+                    avg_string = ` | ${moneda} ${Math.round(p.avg_price_m2).toLocaleString('en-US')} Promedio (precio m2)`;
+                }
+
+                const encodedTitle = encodeURIComponent(p.title);
+                const isSel = typeof selectedProjectsForAI !== 'undefined' && selectedProjectsForAI.has(p.title);
+                const btnText = isSel ? '❌ Quitar de Selección' : '➕ Añadir para IA';
+                const btnBg = isSel ? 'rgba(239, 68, 68, 0.2)' : 'rgba(56, 189, 248, 0.2)';
+                const btnCol = isSel ? '#ef4444' : '#38bdf8';
+                
+                let compWidgetHtml = '';
+                if(districtAverages[p.distrito]) {
+                    compWidgetHtml = `<div style="font-size:0.65rem; color:#facc15; margin-bottom:5px; padding:3px; background:rgba(250,204,21,0.1); border-radius:4px; border:1px solid rgba(250,204,21,0.3);">📊 Compite contra ${districtAverages[p.distrito].totalComp} proyectos en ${p.distrito}</div>`;
+                }
+                
+                let atypicalBadge = isAtypical ? `<div style="font-size:0.7rem; font-weight:700; color:#000; background:#facc15; padding:3px 8px; border-radius:15px; display:inline-block; margin-bottom:6px; box-shadow:0 0 10px #facc15;">🔥 OPORTUNIDAD: +20% barato vs ${p.distrito}</div>` : '';
+
+                const popContent = `
+                    <div class="popup-content" style="min-width: 250px;">
+                        ${atypicalBadge}
+                        <h3>${p.title}</h3>
+                        <p style="margin-bottom: 6px;">📍 ${p.distrito}${avg_string}</p>
+                        ${compWidgetHtml}
+                        ${modelsHtml}
+                        <div style="margin-top: 10px; padding-top: 8px;">
+                            <button id="btn-sel-${encodedTitle}" onclick="toggleProjectSelection('${encodedTitle}')" style="width:100%; border:none; background:${btnBg}; color:${btnCol}; padding:6px; border-radius:6px; cursor:pointer; font-weight:600; font-size:0.75rem; transition:0.2s; margin-bottom:8px;">${btnText}</button>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
+                                <a href="${p.url}" target="_blank" style="color: var(--accent-color); text-decoration: none; font-size: 0.8rem; font-weight: 600;">Ver Proyecto ↗</a>
+                                <span style="font-size: 0.65rem; color: #94a3b8;">Nexo Inmobiliario</span>
+                            </div>
+                        </div>
+                    </div>`;
+                marker.bindPopup(popContent);
+                markers[p.title] = marker;
+            });
+
+            if(bounds.length > 0 && !skipFitBounds) map.fitBounds(bounds, { padding: [50, 50] });
+        }
+
+        // ==========================================
+        // CHAT LOGIC (AI)
+        // ==========================================
+        const queryInput = document.getElementById("query-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        queryInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendQuery(); });
+
+        async function sendQuery() {
+            const query = queryInput.value.trim();
+            if(!query) return;
+
+            const useLocal = !!window.lastUseLocalFlag;
+            window.lastUseLocalFlag = false;
+
+            // Perfil PME: Guardar historial
+            let hist = JSON.parse(localStorage.getItem('pme_history') || '[]');
+            if(!hist.includes(query)) {
+                hist.unshift(query);
+                if(hist.length > 5) hist = hist.slice(0,5);
+                localStorage.setItem('pme_history', JSON.stringify(hist));
+            }
+
+            addChatMessage(query, 'user');
+            queryInput.value = '';
+            
+            sendBtn.disabled = true;
+            const loadingText = useLocal ? '⚡ Lanzando Ollama Local...' : '🧠 Consultando a OpenAI...';
+            const loadingId = addChatMessage(`<div class="loader"></div> ${loadingText}`, 'ai');
+
+            try {
+                const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                    ? 'http://127.0.0.1:5000/query'
+                    : '/api/query';
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query, use_local: useLocal })
+                });
+                const data = await res.json();
+                document.getElementById(loadingId).remove();
+
+                if (res.ok && data.answer) addChatMessage(marked.parse(data.answer), 'ai', true);
+                else addChatMessage(`❌ **Error:**\n\n${data.error}`, 'ai', true);
+            } catch(e) {
+                document.getElementById(loadingId).remove();
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const errMsg = isLocal
+                    ? `⚠️ **Sin conexión:** Asegúrate de que app_ia.py esté corriendo en el puerto 5000.`
+                    : `⚠️ **Error de API:** La función serverless no respondió. Revisa los logs en Vercel.`;
+                addChatMessage(errMsg, 'ai', true);
+            }
+            sendBtn.disabled = false;
+        }
+
+        function addChatMessage(text, role, isHTML=false) {
+            const id = 'msg-' + Date.now();
+            const div = document.createElement("div");
+            div.className = `message msg-${role}`;
+            div.id = id;
+            let content = `<div class="msg-meta">${role === 'user' ? 'TÚ' : 'PME IA'}</div>`;
+            content += `<div>${text}</div>`;
+            div.innerHTML = content;
+            
+            // Si es AI y tiene tablas, añadir botón de descarga
+            if (role === 'ai' && isHTML) {
+                setTimeout(() => {
+                    const tables = div.querySelectorAll('table');
+                    tables.forEach((table, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'btn-download-csv';
+                        btn.innerHTML = '📊 Descargar Tabla (CSV)';
+                        btn.onclick = () => downloadChatTable(table);
+                        table.parentNode.insertBefore(btn, table.nextSibling);
+                    });
+                }, 0);
+            }
+
+            document.getElementById("chat-messages").appendChild(div);
+            document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
+            return id;
+        }
+
+        function downloadChatTable(table) {
+            let csv = [];
+            const rows = table.querySelectorAll("tr");
+            
+            for (let i = 0; i < rows.length; i++) {
+                let row = [], cols = rows[i].querySelectorAll("td, th");
+                for (let j = 0; j < cols.length; j++) {
+                    let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").replace(/(\s\s+)/gm, ' ');
+                    data = data.replace(/"/g, '""');
+                    row.push('"' + data + '"');
+                }
+                csv.push(row.join(","));
+            }
+
+            const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csv.join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `pme_analisis_${new Date().getTime()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ==========================================
+        // ANALYSIS LAYERS LOGIC
+        // ==========================================
+        
+        function togglePriceHeatmap() {
+            const btn = document.getElementById('toggle-heat');
+            if (heatLayer) {
+                map.removeLayer(heatLayer);
+                heatLayer = null;
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                if (typeof L.heatLayer !== 'function') {
+                    alert("Error: La librería de mapa de calor no ha cargado correctamente. Por favor, refresca la página (F5).");
+                    return;
+                }
+                
+                if (!masterData || masterData.length === 0) {
+                    alert("Aún no se han cargado los datos globales. Si estás viendo el archivo localmente, necesitas abrirlo con un servidor (Live Server) debido a CORS.");
+                    return;
+                }
+                
+                // Preparar datos con pesos normalizados (0 a 1 aprox)
+                const heatData = masterData
+                    .filter(p => !isNaN(p.latitude) && !isNaN(p.longitude) && p.avg_price_m2 > 0)
+                    .map(p => [p.latitude, p.longitude, p.avg_price_m2 / 15000]); // Peso relativo (15k m2 = 1.0)
+                
+                console.log("Heatmap data points:", heatData.length);
+                if (heatData.length === 0) {
+                    alert("No hay suficientes datos de precio/m2 para generar el mapa de calor.");
+                    return;
+                }
+
+                heatLayer = L.heatLayer(heatData, {
+                    radius: 30,
+                    blur: 20,
+                    maxZoom: 16,
+                    max: 1.0,
+                    gradient: {0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1.0: 'red'}
+                }).addTo(map);
+                
+                btn.classList.add('active');
+                btn.querySelector('.layer-status').innerText = 'On';
+            }
+        }
+
+        function toggleAppreciationLayer() {
+            const btn = document.getElementById('toggle-apprec');
+            if (appreciationLayer) {
+                map.removeLayer(appreciationLayer);
+                appreciationLayer = null;
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                appreciationLayer = L.layerGroup();
+                masterData.forEach(p => {
+                    if (p.latitude && p.longitude && p.avg_price_m2 > 0 && districtAverages[p.distrito]) {
+                        const distAvg = districtAverages[p.distrito].avgM2;
+                        if (p.avg_price_m2 < distAvg * 0.85) {
+                            const size = 15 + ((distAvg - p.avg_price_m2) / distAvg * 30);
+                            const circle = L.circleMarker([p.latitude, p.longitude], {
+                                radius: size,
+                                fillColor: '#facc15',
+                                color: '#fff',
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity: 0.4
+                            }).bindTooltip(`💎 Potencial Alto: ${Math.round((1 - p.avg_price_m2/distAvg)*100)}% bajo promedio`, {permanent: false});
+                            appreciationLayer.addLayer(circle);
+                        }
+                    }
+                });
+                appreciationLayer.addTo(map);
+                btn.classList.add('active');
+                btn.querySelector('.layer-status').innerText = 'On';
+            }
+        }
+
+        async function togglePOILayer() {
+            const btn = document.getElementById('toggle-poi');
+            if (poiLayer.getLayers().length > 0) {
+                poiLayer.clearLayers();
+                btn.classList.remove('active');
+                btn.querySelector('.layer-status').innerText = 'Off';
+            } else {
+                btn.querySelector('.layer-status').innerText = 'Loading...';
+                try {
+                    const bounds = map.getBounds();
+                    const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`;
+                    
+                    // Solo consultamos si el zoom es suficiente para evitar saturar Overpass
+                    if(map.getZoom() < 13) {
+                        alert("Acércate más al mapa para cargar servicios (POI).");
+                        btn.querySelector('.layer-status').innerText = 'Off';
+                        return;
+                    }
+
+                    const query = `
+                        [out:json][timeout:20];
+                        (
+                          node["amenity"~"school|university|hospital"](${bbox});
+                          node["shop"~"mall|supermarket"](${bbox});
+                          node["railway"="station"](${bbox});
+                          node["amenity"="bus_station"](${bbox});
+                          node["amenity"="police"](${bbox});
+                          node["amenity"="cafe"](${bbox});
+                          node["leisure"="park"](${bbox});
+                        );
+                        out body;
+                    `;
+                    // Usamos el mirror lz4 que es más estable
+                    const url = `https://lz4.overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
+                    
+                    const res = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if (!res.ok) {
+                        throw new Error(`API de Overpass fuera de servicio (Status: ${res.status}). Intenta de nuevo en unos momentos.`);
+                    }
+                    const data = await res.json();
+                    
+                    if (!data || !data.elements) {
+                        throw new Error("No se encontraron servicios en esta zona.");
+                    }
+                    
+                    data.elements.forEach(el => {
+                        let iconName = 'map-pin';
+                        let color = 'white';
+                        
+                        if(el.tags.amenity === 'school' || el.tags.amenity === 'university') {
+                            iconName = 'graduation-cap';
+                            color = '#38bdf8';
+                        } else if(el.tags.shop === 'mall' || el.tags.shop === 'supermarket') {
+                            iconName = 'shopping-bag';
+                            color = '#f87171';
+                        } else if(el.tags.railway === 'station' || el.tags.amenity === 'bus_station') {
+                            iconName = 'train-front';
+                            color = '#facc15';
+                        } else if(el.tags.amenity === 'hospital' || el.tags.amenity === 'clinic') {
+                            iconName = 'hospital';
+                            color = '#ef4444';
+                        } else if(el.tags.amenity === 'police') {
+                            iconName = 'shield';
+                            color = '#1d4ed8'; 
+                        } else if(el.tags.amenity === 'cafe') {
+                            iconName = 'coffee';
+                            color = '#b45309'; 
+                        } else if(el.tags.leisure === 'park') {
+                            iconName = 'tree-pine';
+                            color = '#10b981'; 
+                        }
+
+                        const poiMarker = L.marker([el.lat, el.lon], {
+                            icon: L.divIcon({
+                                className: 'poi-icon',
+                                html: `<div style="color:${color}; display:flex; justify-content:center; align-items:center;" title="${el.tags.name || 'Servicio'}">
+                                            <i data-lucide="${iconName}" style="width:16px; height:16px; stroke-width:2px;"></i>
+                                       </div>`,
+                                iconSize: [20, 20]
+                            })
+                        }).bindPopup(`<b>${el.tags.name || 'Servicio'}</b><br>${el.tags.amenity || el.tags.shop || el.tags.leisure || 'Punto de Interés'}`);
+                        poiLayer.addLayer(poiMarker);
+                    });
+                    
+                    // Inicializar los iconos de Lucide cargados dinámicamente
+                    if (window.lucide) {
+                        lucide.createIcons();
+                    }
+                    
+                    btn.classList.add('active');
+                    btn.querySelector('.layer-status').innerText = 'On';
+                } catch(e) {
+                    console.error("Error POI:", e);
+                    alert(e.message || "Error cargando servicios de OpenStreetMap.");
+                    btn.querySelector('.layer-status').innerText = 'Error';
+                }
+            }
+        }
+
+        // ==========================================
+        // PERFIL PME ENTERPRISE
+        // ==========================================
+        function openProfileModal() {
+            let hist = JSON.parse(localStorage.getItem('pme_history') || '[]');
+            let fav = localStorage.getItem('pme_fav_district') || 'ALL';
+            
+            let histHtml = hist.length === 0 ? '<p style="color:var(--text-secondary); font-size:0.8rem;">No hay consultas recientes.</p>' : '';
+            hist.forEach(h => {
+                histHtml += `<div style="padding:6px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:4px; margin-bottom:5px; font-size:0.75rem; color:#cbd5e1; cursor:pointer;" onclick="document.getElementById('query-input').value='${h.replace(/'/g,"\\")}'; document.getElementById('profile-modal').remove();">🔍 ${h}</div>`;
+            });
+            
+            const dists = [...new Set(masterData.map(d => d.distrito))].filter(Boolean).sort();
+            let opts = '<option value="ALL">Ninguno (Ver todos)</option>';
+            dists.forEach(d => { opts += `<option value="${d}" ${fav===d?'selected':''}>${d}</option>`; });
+
+            let html = `
+            <div id="profile-modal" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--panel-bg); padding:25px; border:1px solid var(--accent-color); border-radius:12px; z-index:3000; box-shadow:0 0 40px rgba(0,0,0,0.9); width: 450px; color:#fff; max-height: 90vh; overflow-y:auto;">
+                <h2 style="font-size:1.3rem; margin-bottom:5px; color:var(--accent-color);">👤 Perfil Empresarial PME</h2>
+                <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:20px;">Configuración guardada en esta estación.</p>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">⭐ Tu Distrito Base de Operaciones</label>
+                <select id="pme-fav-select" style="width:100%; padding:8px; background:rgba(0,0,0,0.3); border:1px solid var(--border-color); color:#fff; border-radius:6px; margin-bottom:20px;">
+                    ${opts}
+                </select>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">🕒 Consultas Recientes al Motor IA</label>
+                <div style="margin-bottom:20px;">${histHtml}</div>
+                
+                <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin-bottom:5px;">🔔 Tus Alertas Comerciales</label>
+                <div id="alerts-container" style="padding:10px; border:1px solid rgba(255,255,255,0.1); border-radius:6px; background:rgba(0,0,0,0.3); margin-bottom:10px;">
+                    <!-- Alerts will be rendered here -->
+                </div>
+                
+                <!-- NEW ALERT FORM -->
+                <div style="padding:10px; border:1px dashed var(--accent-color); border-radius:6px; background:rgba(56, 189, 248, 0.05); margin-bottom:20px;">
+                    <div style="font-size:0.75rem; font-weight:600; margin-bottom:8px; color:var(--text-primary);">Añadir Nueva Alerta</div>
+                    <div style="display:flex; gap:8px; margin-bottom:8px;">
+                        <select id="alert-distrito" style="flex:1; padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;">
+                            ${opts}
+                        </select>
+                        <select id="alert-condition" style="padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;">
+                            <option value="<">Precio m² menor a:</option>
+                            <option value=">">Precio m² mayor a:</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <span style="font-size:0.75rem;">S/</span>
+                        <input type="number" id="alert-value" style="flex:1; padding:6px; font-size:0.7rem; border-radius:4px; background:rgba(0,0,0,0.5); border:1px solid var(--border-color); color:#fff;" placeholder="Ej. 6500">
+                        <button onclick="addCustomAlert()" style="padding:6px 10px; font-size:0.7rem; font-weight:600; background:var(--accent-color); color:#000; border:none; border-radius:4px; cursor:pointer;">+ Añadir</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button onclick="document.getElementById('profile-modal').remove()" style="flex:1; padding:10px; background:transparent; color:#fff; border:1px solid var(--border-color); border-radius:6px; cursor:pointer;">Cancelar</button>
+                    <button onclick="saveProfile()" style="flex:1; padding:10px; background:var(--accent-color); color:#000; font-weight:700; border:none; border-radius:6px; cursor:pointer;">Guardar Perfil</button>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', html);
+            renderAlertsList();
+        }
+
+        function renderAlertsList() {
+            const container = document.getElementById('alerts-container');
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            
+            if(alerts.length === 0) {
+                container.innerHTML = '<span style="font-size:0.75rem; color:var(--text-secondary);">No tienes alertas configuradas.</span>';
+                return;
+            }
+            
+            let html = '';
+            alerts.forEach((aln, idx) => {
+                const distText = aln.distrito === 'ALL' ? 'Todos los distritos' : aln.distrito;
+                const condText = aln.condition === '<' ? 'menor a' : 'mayor a';
+                html += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#cbd5e1; margin-bottom:6px; border-bottom:1px dotted rgba(255,255,255,0.1); padding-bottom:4px;">
+                    <span>📍 ${distText} | m² ${condText} <b>S/ ${aln.value}</b></span>
+                    <button onclick="deleteCustomAlert(${idx})" style="background:transparent; border:none; color:var(--danger-color); cursor:pointer; font-size:0.8rem;">❌</button>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function addCustomAlert() {
+            const dist = document.getElementById('alert-distrito').value;
+            const cond = document.getElementById('alert-condition').value;
+            const val = parseFloat(document.getElementById('alert-value').value);
+            
+            if(!val) return alert('Ingresa un precio límite válido.');
+            
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            alerts.push({ distrito: dist, condition: cond, value: val });
+            localStorage.setItem('pme_custom_alerts', JSON.stringify(alerts));
+            
+            document.getElementById('alert-value').value = '';
+            renderAlertsList();
+            checkAlertsMatch(); // Check immediately
+        }
+
+        function deleteCustomAlert(idx) {
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            alerts.splice(idx, 1);
+            localStorage.setItem('pme_custom_alerts', JSON.stringify(alerts));
+            renderAlertsList();
+        }
+
+        function saveProfile() {
+            const val = document.getElementById('pme-fav-select').value;
+            localStorage.setItem('pme_fav_district', val);
+            document.getElementById('filterDistrito').value = val;
+            applyFilters();
+            document.getElementById('profile-modal').remove();
+        }
+
+        function checkAlertsMatch() {
+            const alerts = JSON.parse(localStorage.getItem('pme_custom_alerts') || '[]');
+            if(alerts.length === 0 || !masterData || masterData.length === 0) return;
+            
+            let matches = [];
+            masterData.forEach(p => {
+                if(!p.avg_price_m2) return;
+                alerts.forEach(a => {
+                    if(a.distrito !== 'ALL' && a.distrito !== p.distrito) return;
+                    if(a.condition === '<' && p.avg_price_m2 < a.value) matches.push(p);
+                    if(a.condition === '>' && p.avg_price_m2 > a.value) matches.push(p);
+                });
+            });
+            
+            matches = [...new Set(matches)]; // Unique
+            if(matches.length > 0) {
+                window.alertMatches = matches;
+                
+                // Activar badge en el botón del header
+                document.getElementById('alert-btn').classList.add('has-alerts');
+
+                // Mostrar notificación toast
+                const existing = document.getElementById('pme-alert-toast');
+                if(existing) existing.remove();
+                
+                const toast = document.createElement('div');
+                toast.id = 'pme-alert-toast';
+                toast.style.cssText = 'position:absolute; top:20px; right:420px; z-index:2000; background:rgba(250,204,21,0.9); color:#000; font-weight:700; font-size:0.8rem; padding:10px 15px; border-radius:6px; box-shadow:0 5px 15px rgba(0,0,0,0.5); cursor:pointer;';
+                toast.innerHTML = `🔔 Tienes ${matches.length} oportunidades filtradas según tus Alertas`;
+                toast.onclick = () => { showOpportunityMatches(); toast.remove(); };
+                document.getElementById('map-container').appendChild(toast);
+            }
+        }
+
+        function showOpportunityMatches() {
+            if(!window.alertMatches || window.alertMatches.length === 0) return;
+            
+            updateStats(window.alertMatches);
+            renderList(window.alertMatches);
+            renderMap(window.alertMatches);
+            
+            // Auto select them
+            selectedProjectsForAI.clear();
+            window.alertMatches.forEach(p => selectedProjectsForAI.add(p.title));
+            updateSelectionBar();
+            
+            document.getElementById('filterText').value = '';
+            document.getElementById('filterDistrito').value = 'ALL';
+            
+            alert('¡Mostrando oportunidades de alertas en el Dashboard!\\nSe han filtrado en el radar y han sido pre-seleccionadas automáticamente para un rápido "Analizar Nube".');
+        }
+
+        // Hook up checkAlertsMatch after data is loaded around line 258.
+        setTimeout(checkAlertsMatch, 2000);
+    </script>
+</body>
+</html>
+>>>>>>> Stashed changes
