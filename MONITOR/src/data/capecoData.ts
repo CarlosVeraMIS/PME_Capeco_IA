@@ -4,11 +4,13 @@
 import { capecoApi } from '../services/capecoApi'
 
 // Formatting utilities
-export const formatSoles = (valor: number): string => {
+export const formatSoles = (valor: any): string => {
+  if (typeof valor !== 'number' || isNaN(valor)) return 'S/. 0'
   return `S/.${valor.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 }
 
-export const formatM2 = (valor: number): string => {
+export const formatM2 = (valor: any): string => {
+  if (typeof valor !== 'number' || isNaN(valor)) return 'S/. 0'
   return `S/.${valor.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 }
 
@@ -26,11 +28,8 @@ export const getEstadisticasGlobales = async () => {
 
 // Market trend data (simulated from historical + current data)
 export const getTendenciaMercado = async () => {
-  const projects = await capecoApi.fetchProjects()
-
   // Generate 7-month trend from current data (simplified simulation)
   const basePrice = 8500
-  const monthlyVariation = 3.2
 
   return [
     { mes: 'Nov', precio: basePrice * 0.85, unidades: 1200 },
@@ -54,7 +53,7 @@ export const getPreciosPorDistrito = async () => {
     .map(d => ({
       distrito: d.distrito,
       precioM2: d.precioM2,
-      proyectos: d.proyectos,
+      propiedades: d.propiedades,
       variacion: d.variacion
     }))
 }
@@ -90,16 +89,16 @@ export const tendenciaMercado = [
 ]
 
 export const preciosPorDistrito = [
-  { distrito: 'San Isidro', precioM2: 15000, proyectos: 45, variacion: 2.1 },
-  { distrito: 'Miraflores', precioM2: 13500, proyectos: 68, variacion: 1.8 },
-  { distrito: 'San Borja', precioM2: 12000, proyectos: 52, variacion: 2.3 },
-  { distrito: 'La Molina', precioM2: 10500, proyectos: 61, variacion: 2.5 },
-  { distrito: 'Santiago de Surco', precioM2: 9800, proyectos: 74, variacion: 3.1 },
-  { distrito: 'Lince', precioM2: 9200, proyectos: 43, variacion: 2.8 },
-  { distrito: 'Magdalena del Mar', precioM2: 8900, proyectos: 28, variacion: 2.4 },
-  { distrito: 'Pueblo Libre', precioM2: 8500, proyectos: 56, variacion: 3.2 },
-  { distrito: 'San Miguel', precioM2: 8200, proyectos: 39, variacion: 2.9 },
-  { distrito: 'Los Olivos', precioM2: 7500, proyectos: 67, variacion: 3.5 }
+  { distrito: 'San Isidro', precioM2: 15000, propiedades: 45, variacion: 2.1 },
+  { distrito: 'Miraflores', precioM2: 13500, propiedades: 68, variacion: 1.8 },
+  { distrito: 'San Borja', precioM2: 12000, propiedades: 52, variacion: 2.3 },
+  { distrito: 'La Molina', precioM2: 10500, propiedades: 61, variacion: 2.5 },
+  { distrito: 'Santiago de Surco', precioM2: 9800, propiedades: 74, variacion: 3.1 },
+  { distrito: 'Lince', precioM2: 9200, propiedades: 43, variacion: 2.8 },
+  { distrito: 'Magdalena del Mar', precioM2: 8900, propiedades: 28, variacion: 2.4 },
+  { distrito: 'Pueblo Libre', precioM2: 8500, propiedades: 56, variacion: 3.2 },
+  { distrito: 'San Miguel', precioM2: 8200, propiedades: 39, variacion: 2.9 },
+  { distrito: 'Los Olivos', precioM2: 7500, propiedades: 67, variacion: 3.5 }
 ]
 
 export const propiedades = [
@@ -131,4 +130,50 @@ export const distritos = [
   'Lince', 'Los Olivos', 'Magdalena Del Mar', 'Miraflores',
   'Pueblo Libre', 'Rimac', 'San Bartolo', 'San Borja',
   'San Isidro', 'San Luis', 'San Miguel', 'Santiago De Surco', 'Surquillo'
+]
+
+// Distribution by property type (from CAPECO data)
+export const distribucionTipos = [
+  { tipo: 'Apartamento', cantidad: 6200, porcentaje: 66.5 },
+  { tipo: 'Casa', cantidad: 1800, porcentaje: 19.3 },
+  { tipo: 'Penthouse', cantidad: 520, porcentaje: 5.6 },
+  { tipo: 'Loft', cantidad: 400, porcentaje: 4.3 },
+  { tipo: 'Departamento', cantidad: 400, porcentaje: 4.3 }
+]
+
+// Alerts system
+export const alertas = [
+  {
+    id: '1',
+    tipo: 'Nueva propiedad',
+    titulo: 'Nuevo proyecto en Miraflores',
+    mensaje: 'Se registró un nuevo proyecto con 68 unidades disponibles',
+    fecha: new Date(Date.now() - 3600000),
+    leida: false,
+    icono: '🏠',
+    prioridad: 'alta',
+    tiempo: 'Hace 1 hora'
+  },
+  {
+    id: '2',
+    tipo: 'Cambio de precio',
+    titulo: 'Variación en San Isidro',
+    mensaje: 'El precio promedio en San Isidro subió 2.1% este mes',
+    fecha: new Date(Date.now() - 7200000),
+    leida: true,
+    icono: '📈',
+    prioridad: 'media',
+    tiempo: 'Hace 2 horas'
+  },
+  {
+    id: '3',
+    tipo: 'Análisis',
+    titulo: 'Reporte de mercado disponible',
+    mensaje: 'Tu reporte semanal de inteligencia de mercado está listo para descargar',
+    fecha: new Date(Date.now() - 86400000),
+    leida: true,
+    icono: '📊',
+    prioridad: 'baja',
+    tiempo: 'Hace 1 día'
+  }
 ]

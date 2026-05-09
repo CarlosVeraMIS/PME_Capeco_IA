@@ -2,21 +2,19 @@ import { Bell, TrendingUp, MapPin, Zap } from 'lucide-react'
 import { AreaChart, Area, XAxis, ResponsiveContainer, Tooltip } from 'recharts'
 import { StatCard } from '../../components/StatCard'
 import { PropCard } from '../../components/PropCard'
-import { propiedades, tendenciaMercado, estadisticasGlobales, formatSoles, preciosPorDistrito } from '../../data/capecoData'
+import { propiedades, tendenciaMercado, estadisticasGlobales, formatSoles } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { capecoApi } from '../../services/capecoApi'
 
 export function Dashboard() {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(true)
   const [projects, setProjects] = useState(propiedades)
   const [stats, setStats] = useState(estadisticasGlobales)
   const [topDistrict, setTopDistrict] = useState('Miraflores')
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
       try {
         const [projectsData, metricsData, districtsData] = await Promise.all([
           capecoApi.fetchProjects(),
@@ -24,7 +22,7 @@ export function Dashboard() {
           capecoApi.fetchDistricts()
         ])
 
-        setProjects(projectsData.slice(0, 100) || propiedades)
+        setProjects(projectsData || propiedades)
         setStats({
           precioPromedioM2: metricsData.averagePriceM2 || estadisticasGlobales.precioPromedioM2,
           totalPropiedades: metricsData.totalProjects || estadisticasGlobales.totalPropiedades,
@@ -39,8 +37,6 @@ export function Dashboard() {
         }
       } catch (error) {
         console.error('Error loading CAPECO data:', error)
-      } finally {
-        setLoading(false)
       }
     }
 

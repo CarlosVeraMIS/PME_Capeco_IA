@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Calculator, TrendingUp, DollarSign } from 'lucide-react'
-import { formatSoles } from '../../data/realData'
+import { formatSoles } from '../../data/capecoData'
 
 export function Calculadora() {
   const [precioPropiedad, setPrecioPropiedad] = useState(500000)

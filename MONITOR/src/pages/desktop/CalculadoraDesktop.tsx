@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Calculator, TrendingUp } from 'lucide-react'
-import { formatSoles } from '../../data/realData'
+import { formatSoles } from '../../data/capecoData'
 
 function Slider({ label, value, min, max, step, format, onChange }: {
   label: string; value: number; min: number; max: number; step: number

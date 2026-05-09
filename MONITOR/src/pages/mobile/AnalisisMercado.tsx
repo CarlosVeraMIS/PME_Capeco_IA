@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from 'recharts'
 import { TrendingUp, TrendingDown } from 'lucide-react'
-import { preciosPorDistrito, tendenciaMercado, distribucionTipos, formatM2 } from '../../data/realData'
+import { preciosPorDistrito, tendenciaMercado, distribucionTipos, formatM2 } from '../../data/capecoData'
 
 const periodos = ['1M', '3M', '6M', '1A']
 

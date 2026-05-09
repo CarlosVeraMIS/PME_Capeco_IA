@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Heart, Share2, Bed, Bath, Maximize2, TrendingUp, MapPin, Star } from 'lucide-react'
-import { propiedades, formatSoles } from '../../data/realData'
+import { propiedades, formatSoles } from '../../data/capecoData'
 import { Badge } from '../../components/Badge'
 import { useState } from 'react'
 

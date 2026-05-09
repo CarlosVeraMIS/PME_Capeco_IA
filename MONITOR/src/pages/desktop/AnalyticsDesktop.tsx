@@ -2,7 +2,7 @@ import {
   ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
   CartesianGrid, ScatterChart, Scatter, ZAxis, PieChart, Pie, Cell
 } from 'recharts'
-import { preciosPorDistrito, tendenciaMercado, distribucionTipos } from '../../data/realData'
+import { preciosPorDistrito, tendenciaMercado, distribucionTipos } from '../../data/capecoData'
 import { StatCard } from '../../components/StatCard'
 import { BarChart3, PieChart as PieIcon, TrendingUp } from 'lucide-react'
 

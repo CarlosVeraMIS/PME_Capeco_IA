@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Download, Bot, User, Filter, Share2, Compass } from 'lucide-react'
-import { propiedades, formatSoles } from '../../data/realData'
+import { propiedades, formatSoles } from '../../data/capecoData'
 
 type Mensaje = {
   id: string

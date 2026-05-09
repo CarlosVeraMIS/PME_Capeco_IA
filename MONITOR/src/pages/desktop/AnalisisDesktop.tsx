@@ -4,7 +4,7 @@ import {
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from 'recharts'
 import { TrendingUp, TrendingDown } from 'lucide-react'
-import { preciosPorDistrito, tendenciaMercado, distribucionTipos, formatM2, formatSoles } from '../../data/realData'
+import { preciosPorDistrito, tendenciaMercado, distribucionTipos, formatM2, formatSoles } from '../../data/capecoData'
 
 const periodos = ['1M', '3M', '6M', '1A', '2A']
 

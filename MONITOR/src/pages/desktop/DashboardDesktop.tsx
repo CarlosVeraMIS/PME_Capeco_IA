@@ -12,14 +12,12 @@ import { capecoApi } from '../../services/capecoApi'
 
 export function DashboardDesktop() {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(true)
   const [projects, setProjects] = useState(propiedades)
   const [stats, setStats] = useState(estadisticasGlobales)
   const [districts, setDistricts] = useState(preciosPorDistrito)
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
       try {
         const [projectsData, metricsData, districtsData] = await Promise.all([
           capecoApi.fetchProjects(),
@@ -27,7 +25,7 @@ export function DashboardDesktop() {
           capecoApi.fetchDistricts()
         ])
 
-        setProjects(projectsData.slice(0, 100) || propiedades)
+        setProjects(projectsData || propiedades)
         setStats({
           precioPromedioM2: metricsData.averagePriceM2 || estadisticasGlobales.precioPromedioM2,
           totalPropiedades: metricsData.totalProjects || estadisticasGlobales.totalPropiedades,
@@ -39,8 +37,6 @@ export function DashboardDesktop() {
       } catch (error) {
         console.error('Error loading CAPECO data:', error)
         // Fallback to static data on error
-      } finally {
-        setLoading(false)
       }
     }
 

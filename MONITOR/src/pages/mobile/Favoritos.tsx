@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Heart, Trash2 } from 'lucide-react'
 import { PropCard } from '../../components/PropCard'
-import { propiedades } from '../../data/realData'
+import { propiedades } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
 
 export function Favoritos() {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Bell, TrendingUp, Home, Heart, X } from 'lucide-react'
-import { alertas } from '../../data/realData'
+import { alertas } from '../../data/capecoData'
 
 const iconoPorTipo: Record<string, React.ElementType> = {
   precio: TrendingUp,

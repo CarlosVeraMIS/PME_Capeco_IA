@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Bell, TrendingUp, MapPin, Tag, X, CheckCheck } from 'lucide-react'
-import { alertas as initialAlertas } from '../../data/realData'
+import { alertas as initialAlertas } from '../../data/capecoData'
 
 const iconMap = { precio: TrendingUp, zona: MapPin, oferta: Tag, mercado: Bell }
 const borderMap = { alta: 'border-[#ffb4ab]', media: 'border-[#26B7FF]', baja: 'border-[rgba(255,255,255,0.1)]' }

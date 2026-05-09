@@ -37,7 +37,7 @@ export interface ApiMetrics {
 export interface DistrictMetrics {
   distrito: string
   precioM2: number
-  proyectos: number
+  propiedades: number
   variacion: number
 }
 

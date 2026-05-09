@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Search, SlidersHorizontal, X } from 'lucide-react'
 import { PropCard } from '../../components/PropCard'
-import { propiedades, distritos } from '../../data/realData'
+import { propiedades, distritos } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
 
 const tipos = ['Todos', 'Apartamento', 'Casa', 'Penthouse', 'Loft']

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, SlidersHorizontal } from 'lucide-react'
 import { PropCard } from '../../components/PropCard'
-import { propiedades, distritos, formatSoles } from '../../data/realData'
+import { propiedades, distritos, formatSoles } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
+import { capecoApi } from '../../services/capecoApi'
 
 const tipos = ['Todos', 'Apartamento', 'Casa', 'Penthouse', 'Loft']
 const ordenOpciones = ['Precio ↑', 'Precio ↓', 'Área ↑', 'ROI ↓', 'Recientes']
@@ -14,8 +15,21 @@ export function BusquedaDesktop() {
   const [distrito, setDistrito] = useState('')
   const [precioMax, setPrecioMax] = useState(2000000)
   const [orden, setOrden] = useState('Recientes')
+  const [allProperties, setAllProperties] = useState(propiedades)
 
-  const filtered = propiedades
+  useEffect(() => {
+    const loadProperties = async () => {
+      try {
+        const data = await capecoApi.fetchProjects()
+        setAllProperties(data || propiedades)
+      } catch (error) {
+        console.error('Error loading properties:', error)
+      }
+    }
+    loadProperties()
+  }, [])
+
+  const filtered = allProperties
     .filter(p => {
       const mQ = p.titulo.toLowerCase().includes(query.toLowerCase()) || p.distrito.toLowerCase().includes(query.toLowerCase())
       const mT = tipo === 'Todos' || p.tipo === tipo

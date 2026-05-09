@@ -1,7 +1,7 @@
 import { Bed, Bath, Maximize2, TrendingUp } from 'lucide-react'
 import { Badge } from './Badge'
-import { formatSoles } from '../data/realData'
-import type { propiedades } from '../data/realData'
+import { formatSoles } from '../data/capecoData'
+import type { propiedades } from '../data/capecoData'
 
 type Propiedad = (typeof propiedades)[number]
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Plus, X, Check } from 'lucide-react'
-import { propiedades, formatSoles } from '../../data/realData'
+import { propiedades, formatSoles } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
 
 const campos = [
