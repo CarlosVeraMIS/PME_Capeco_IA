@@ -31,17 +31,19 @@ export function BusquedaDesktop() {
 
   const filtered = allProperties
     .filter(p => {
-      const mQ = p.titulo.toLowerCase().includes(query.toLowerCase()) || p.distrito.toLowerCase().includes(query.toLowerCase())
+      const titulo = p.titulo?.toLowerCase() ?? ''
+      const dist = p.distrito?.toLowerCase() ?? ''
+      const mQ = titulo.includes(query.toLowerCase()) || dist.includes(query.toLowerCase())
       const mT = tipo === 'Todos' || p.tipo === tipo
       const mD = !distrito || p.distrito === distrito
-      const mP = p.precio <= precioMax
+      const mP = (p.precio ?? 0) <= precioMax
       return mQ && mT && mD && mP
     })
     .sort((a, b) => {
-      if (orden === 'Precio ↑') return a.precio - b.precio
-      if (orden === 'Precio ↓') return b.precio - a.precio
-      if (orden === 'Área ↑') return b.area - a.area
-      if (orden === 'ROI ↓') return b.roi - a.roi
+      if (orden === 'Precio ↑') return (a.precio ?? 0) - (b.precio ?? 0)
+      if (orden === 'Precio ↓') return (b.precio ?? 0) - (a.precio ?? 0)
+      if (orden === 'Área ↑') return (b.area ?? 0) - (a.area ?? 0)
+      if (orden === 'ROI ↓') return (b.roi ?? 0) - (a.roi ?? 0)
       return 0
     })
 
