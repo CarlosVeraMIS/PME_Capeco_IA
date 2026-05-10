@@ -2,11 +2,13 @@ import { Bed, Bath, Maximize2, TrendingUp } from 'lucide-react'
 import { Badge } from './Badge'
 import { formatSoles } from '../data/capecoData'
 import type { propiedades } from '../data/capecoData'
+import type { CapecoProject } from '../services/capecoApi'
 
 type Propiedad = (typeof propiedades)[number]
+type Propiedad_Union = Propiedad | CapecoProject
 
 interface PropCardProps {
-  prop: Propiedad
+  prop: Propiedad_Union
   onClick?: () => void
   compact?: boolean
 }

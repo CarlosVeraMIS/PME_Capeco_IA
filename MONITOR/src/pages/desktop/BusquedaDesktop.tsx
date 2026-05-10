@@ -3,7 +3,7 @@ import { Search, SlidersHorizontal } from 'lucide-react'
 import { PropCard } from '../../components/PropCard'
 import { propiedades, distritos, formatSoles } from '../../data/capecoData'
 import { useNavigate } from 'react-router-dom'
-import { capecoApi } from '../../services/capecoApi'
+import { capecoApi, type CapecoProject } from '../../services/capecoApi'
 
 const tipos = ['Todos', 'Apartamento', 'Casa', 'Penthouse', 'Loft']
 const ordenOpciones = ['Precio ↑', 'Precio ↓', 'Área ↑', 'ROI ↓', 'Recientes']
@@ -15,15 +15,21 @@ export function BusquedaDesktop() {
   const [distrito, setDistrito] = useState('')
   const [precioMax, setPrecioMax] = useState(2000000)
   const [orden, setOrden] = useState('Recientes')
-  const [allProperties, setAllProperties] = useState(propiedades)
+  const [allProperties, setAllProperties] = useState<CapecoProject[]>(propiedades as CapecoProject[])
 
   useEffect(() => {
     const loadProperties = async () => {
       try {
         const data = await capecoApi.fetchProjects()
-        setAllProperties(data || propiedades)
+        if (data && Array.isArray(data) && data.length > 0) {
+          setAllProperties(data)
+        } else {
+          console.warn('No data from API, using fallback properties')
+          setAllProperties(propiedades as CapecoProject[])
+        }
       } catch (error) {
         console.error('Error loading properties:', error)
+        setAllProperties(propiedades as CapecoProject[])
       }
     }
     loadProperties()

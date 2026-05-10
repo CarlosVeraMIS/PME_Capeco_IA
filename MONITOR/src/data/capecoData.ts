@@ -5,8 +5,19 @@ import { capecoApi } from '../services/capecoApi'
 
 // Formatting utilities
 export const formatSoles = (valor: any): string => {
-  if (typeof valor !== 'number' || isNaN(valor)) return 'S/. 0'
-  return `S/.${valor.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
+  let numValue = valor
+
+  if (typeof valor === 'string') {
+    numValue = parseFloat(valor)
+  } else if (typeof valor !== 'number') {
+    return 'S/. 0'
+  }
+
+  if (isNaN(numValue) || numValue === 0) {
+    return 'S/. 0'
+  }
+
+  return `S/. ${numValue.toLocaleString('es-PE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`
 }
 
 export const formatM2 = (valor: any): string => {
