@@ -240,18 +240,34 @@ async def get_projects(
 
         # Mapear columnas del nuevo dataset al formato esperado
         df = df.copy()
-        df['price_per_m2'] = df['PRECIO_X_M2']
-        df['absorption_rate_pct'] = df['PCT_AVANCE']
+
+        # Mapear todas las columnas necesarias
+        df['price_per_m2'] = df['PRECIO_X_M2'].fillna(0)
+        df['price_amount'] = df['PRECIO_SOLES'].fillna(0)  # NUEVO: Mapear PRECIO_SOLES
+        df['absorption_rate_pct'] = df['PCT_AVANCE'].fillna(0)
         df['title'] = df['NOMBRE DEL PROYECTO']
         df['project_id'] = df['COD_PROYECTO']
         df['district'] = df['DISTRITO']
         df['market_tier'] = 'Standard'
-        df['area_m2'] = df['AREA_CONSTRUCCION']
+        df['area_m2'] = df['AREA_CONSTRUCCION'].fillna(0)
+        df['currency'] = 'PEN'
+        df['construction_phase'] = df['ETAPA_DE_PROYECTO']
+
+        # Seleccionar solo las columnas necesarias para el frontend
+        output_columns = [
+            'project_id', 'title', 'district', 'price_amount', 'price_per_m2',
+            'area_m2', 'absorption_rate_pct', 'market_tier', 'currency',
+            'construction_phase', 'NRO_UNIDADES', 'NRO_DORMITORIOS',
+            'NOMBRE DEL CONSTRUCTOR', 'TIPO_DE_OBRA'
+        ]
+
+        # Filtrar solo columnas que existen
+        output_columns = [c for c in output_columns if c in df.columns]
+        df = df[output_columns]
 
         # Ordenar - usar columna mapeada
-        sort_col = 'price_per_m2' if sort_by == 'price_per_m2' else 'absorption_rate_pct' if sort_by == 'absorption_rate_pct' else 'PRECIO_X_M2'
-        if sort_col in df.columns:
-            df = df.sort_values(by=sort_col, ascending=(order == "asc"))
+        sort_col = 'price_per_m2' if sort_by == 'price_per_m2' else 'absorption_rate_pct' if sort_by == 'absorption_rate_pct' else 'price_per_m2'
+        df = df.sort_values(by=sort_col, ascending=(order == "asc"))
 
         # Paginar
         total = len(df)
@@ -260,11 +276,14 @@ async def get_projects(
         # Convertir a diccionario
         records = df_paginated.to_dict(orient='records')
 
-        # Reemplazar NaN con None
+        # Reemplazar NaN con None y asegurar tipos de datos
         for record in records:
             for key, value in record.items():
                 if pd.isna(value):
                     record[key] = None
+                # Asegurar que los precios sean números válidos
+                elif key in ['price_amount', 'price_per_m2']:
+                    record[key] = float(value) if value else 0.0
 
         result = {
             "status": "success",
@@ -315,14 +334,23 @@ async def get_metrics():
         projects_df = data['projects']
 
         # Calcular métricas
+        total_value = float(projects_df['PRECIO_SOLES'].sum()) if 'PRECIO_SOLES' in projects_df.columns else 0
+        avg_price_m2 = float(projects_df['PRECIO_X_M2'].mean()) if 'PRECIO_X_M2' in projects_df.columns else 0
+        avg_absorption = float(projects_df['PCT_AVANCE'].mean()) if 'PCT_AVANCE' in projects_df.columns else 0
+
+        # Calcular min/max excluyendo ceros
+        prices_nonzero = projects_df[projects_df['PRECIO_X_M2'] > 0]['PRECIO_X_M2']
+        min_price = float(prices_nonzero.min()) if len(prices_nonzero) > 0 else 0
+        max_price = float(projects_df['PRECIO_X_M2'].max()) if len(projects_df) > 0 else 0
+
         metrics = {
             "total_projects": int(len(projects_df)),
-            "total_value": float(projects_df['price_amount'].sum()) if 'price_amount' in projects_df.columns else 0,
-            "avg_price_per_m2": float(projects_df['PRECIO_X_M2'].mean()) if 'PRECIO_X_M2' in projects_df.columns else 0,
-            "avg_absorption_rate": float(projects_df['PCT_AVANCE'].mean()) if 'PCT_AVANCE' in projects_df.columns else 0,
+            "total_value": total_value,
+            "avg_price_per_m2": avg_price_m2,
+            "avg_absorption_rate": avg_absorption,
             "price_range": {
-                "min": float(projects_df['price_per_m2'].min()) if 'price_per_m2' in projects_df.columns else 0,
-                "max": float(projects_df['price_per_m2'].max()) if 'price_per_m2' in projects_df.columns else 0
+                "min": min_price,
+                "max": max_price
             }
         }
 
