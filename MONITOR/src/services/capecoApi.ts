@@ -1,5 +1,8 @@
 // CAPECO Data Lake API Service
-// Integrates with: https://capeco-app.azurewebsites.net
+// Note: Currently serving realData.ts (nexoinmobiliario.pe scrape)
+// Future: Will integrate with actual API endpoint
+
+import { propiedades as realDataProjects, distritos as realDataDistritos } from '../data/realData'
 
 const API_BASE_URL = 'https://capeco-app.azurewebsites.net/api/v1/gold'
 
@@ -91,17 +94,15 @@ function toNumber(value: any): number {
 // Fetch all projects from CAPECO
 async function fetchProjects(): Promise<CapecoProject[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/projects`)
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
-    }
-    const data = await response.json()
-    const projects = data.data || data.projects || data || []
+    // Using real data from nexoinmobiliario.pe scrape (realData.ts)
+    // Each project already has the correct format
+    const projects = realDataProjects || []
+    console.log(`Loaded ${projects.length} projects from realData`)
 
-    // Normalize API response to match CapecoProject interface
+    // Ensure all projects are normalized to CapecoProject interface
     return Array.isArray(projects) ? projects.map(normalizeProject) : []
   } catch (error) {
-    console.error('Error fetching CAPECO projects:', error)
+    console.error('Error loading CAPECO projects:', error)
     return []
   }
 }
@@ -109,22 +110,43 @@ async function fetchProjects(): Promise<CapecoProject[]> {
 // Fetch metrics from CAPECO
 async function fetchMetrics(): Promise<ApiMetrics> {
   try {
-    const response = await fetch(`${API_BASE_URL}/metrics`)
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
+    // Calculate metrics from real data
+    const projects = realDataProjects || []
+
+    if (projects.length === 0) {
+      return {
+        totalProjects: 0,
+        averagePriceM2: 0,
+        monthlyVariation: 0,
+        availableUnits: 0,
+        totalVolume: '0'
+      }
     }
-    const data = await response.json()
-    const metrics = data.data || data.metrics || data || {}
+
+    // Calculate average price per m²
+    const totalPriceM2 = projects.reduce((sum, p) => sum + (p.precioM2 || 0), 0)
+    const avgPriceM2 = Math.round(totalPriceM2 / projects.length)
+
+    // Calculate average monthly variation
+    const totalVariation = projects.reduce((sum, p) => sum + (p.variacion || 0), 0)
+    const avgVariation = Math.round((totalVariation / projects.length) * 10) / 10
+
+    // Calculate total volume (sum of all prices)
+    const totalVolume = projects.reduce((sum, p) => sum + (p.precio || 0), 0)
+    const totalVolumeStr = `S/. ${(totalVolume / 1000000).toFixed(1)}B`
+
+    // Count available units
+    const availableUnits = projects.filter(p => p.estado === 'Disponible').length
 
     return {
-      totalProjects: toNumber(metrics.totalProjects || metrics.total_projects || metrics.project_count || 0),
-      averagePriceM2: toNumber(metrics.averagePriceM2 || metrics.average_price_m2 || metrics.avg_price_per_m2 || 0),
-      monthlyVariation: toNumber(metrics.monthlyVariation || metrics.monthly_variation || metrics.variation || 0),
-      availableUnits: toNumber(metrics.availableUnits || metrics.available_units || metrics.unit_count || 0),
-      totalVolume: String(metrics.totalVolume || metrics.total_volume || metrics.volume || '0')
+      totalProjects: projects.length,
+      averagePriceM2: avgPriceM2,
+      monthlyVariation: avgVariation,
+      availableUnits: availableUnits,
+      totalVolume: totalVolumeStr
     }
   } catch (error) {
-    console.error('Error fetching CAPECO metrics:', error)
+    console.error('Error calculating CAPECO metrics:', error)
     return {
       totalProjects: 0,
       averagePriceM2: 0,
@@ -138,17 +160,43 @@ async function fetchMetrics(): Promise<ApiMetrics> {
 // Fetch district metrics from CAPECO
 async function fetchDistricts(): Promise<DistrictMetrics[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/districts`)
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
-    }
-    const data = await response.json()
-    const districts = data.data || data.districts || data || []
+    // Calculate district metrics from real data
+    const projects = realDataProjects || []
 
-    // Normalize API response to match DistrictMetrics interface
-    return Array.isArray(districts) ? districts.map(normalizeDistrict) : []
+    if (projects.length === 0) {
+      return []
+    }
+
+    // Group projects by district
+    const districtMap = new Map<string, CapecoProject[]>()
+    projects.forEach(project => {
+      const district = project.distrito || 'Unknown'
+      if (!districtMap.has(district)) {
+        districtMap.set(district, [])
+      }
+      districtMap.get(district)!.push(project)
+    })
+
+    // Calculate metrics for each district
+    const districtMetrics: DistrictMetrics[] = Array.from(districtMap.entries()).map(([distrito, districtProjects]) => {
+      const avgPriceM2 = Math.round(
+        districtProjects.reduce((sum, p) => sum + (p.precioM2 || 0), 0) / districtProjects.length
+      )
+      const avgVariation = Math.round(
+        (districtProjects.reduce((sum, p) => sum + (p.variacion || 0), 0) / districtProjects.length) * 10
+      ) / 10
+
+      return {
+        distrito,
+        precioM2: avgPriceM2,
+        propiedades: districtProjects.length,
+        variacion: avgVariation
+      }
+    })
+
+    return districtMetrics
   } catch (error) {
-    console.error('Error fetching CAPECO districts:', error)
+    console.error('Error calculating CAPECO district metrics:', error)
     return []
   }
 }
