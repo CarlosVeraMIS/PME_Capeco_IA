@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PME CAPECO — Arquitectura Data Lake + Agentes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg:     #080E1A;
+  --bg2:    #0D1628;
+  --bg3:    #111E33;
+  --border: rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.12);
+
+  --src:   #94A3B8;
+  --gov:   #3B82F6;  --govD: #1D4ED8; --govBg: rgba(59,130,246,.08);
+  --bro:   #F59E0B;  --broBg: rgba(245,158,11,.08);
+  --sil:   #06B6D4;  --silBg: rgba(6,182,212,.08);
+  --gol:   #F97316;  --golBg: rgba(249,115,22,.1);
+  --ag:    #A78BFA;  --agBg:  rgba(167,139,250,.08);
+  --api:   #FB7185;  --apiBg: rgba(251,113,133,.08);
+  --prod:  #34D399;  --prodBg:rgba(52,211,153,.08);
+  --cl:    #FCD34D;  --clBg:  rgba(252,211,77,.08);
+  --or:    #E8500D;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: #E2E8F0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle grid background */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 60px);
+  pointer-events: none; z-index: 0;
+}
+
+.wrap { position: relative; z-index: 1; padding: 2rem 2.5rem 3rem; max-width: 1500px; margin: 0 auto; }
+
+/* ── HEADER ── */
+.hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2rem; padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border2);
+}
+.hdr-left { display: flex; align-items: center; gap: 1rem; }
+.hdr-badge {
+  background: var(--or); color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem; font-weight: 600; letter-spacing: .1em;
+  padding: .2rem .6rem; border-radius: .25rem;
+}
+.hdr-title { font-size: 1.3rem; font-weight: 700; letter-spacing: -.01em; }
+.hdr-title span { color: var(--or); }
+.hdr-sub { font-size: .75rem; color: #64748B; margin-top: .1rem; }
+
+.hdr-stats { display: flex; gap: 1.5rem; }
+.stat-n { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 600; }
+.stat-l { font-size: .68rem; color: #64748B; margin-top: .05rem; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+.lg {
+  display: flex; align-items: center; gap: .35rem;
+  font-size: .68rem; font-weight: 600; color: #94A3B8;
+  padding: .2rem .55rem; border-radius: .3rem;
+  border: 1px solid var(--border);
+}
+.lg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── DIAGRAM CONTAINER ── */
+.diagram { display: flex; flex-direction: column; gap: 0; }
+
+/* ── LAYER ROW ── */
+.layer {
+  display: flex; align-items: stretch;
+  gap: 0; position: relative;
+}
+
+/* Layer label column */
+.layer-id {
+  width: 44px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: #475569;
+  border-right: 1px solid var(--border);
+  padding: .5rem 0;
+}
+
+/* Layer content */
+.layer-body {
+  flex: 1;
+  padding: .75rem 1rem;
+  display: flex; flex-direction: column; gap: .5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Layer header */
+.layer-hd {
+  display: flex; align-items: center; gap: .6rem;
+  margin-bottom: .25rem;
+}
+.layer-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem; font-weight: 600;
+  color: #475569; flex-shrink: 0;
+}
+.layer-name {
+  font-size: .8rem; font-weight: 700;
+}
+.layer-desc {
+  font-size: .7rem; color: #64748B; margin-left: auto;
+}
+
+/* Node grid */
+.nodes { display: flex; gap: .6rem; flex-wrap: nowrap; }
+.nodes-wrap { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* ── NODE ── */
+.node {
+  border: 1px solid;
+  border-radius: .55rem;
+  padding: .7rem .85rem;
+  flex: 1; min-width: 0;
+  position: relative;
+  transition: transform .15s, box-shadow .15s;
+  cursor: default;
+}
+.node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  z-index: 10;
+}
+
+.node-top { display: flex; align-items: flex-start; gap: .5rem; margin-bottom: .4rem; }
+.node-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: .05rem; }
+.node-name { font-size: .78rem; font-weight: 700; line-height: 1.2; }
+.node-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem; color: #64748B;
+  margin-top: .08rem;
+}
+.node-desc { font-size: .68rem; line-height: 1.5; color: #94A3B8; margin-bottom: .4rem; }
+
+.node-badges { display: flex; gap: .3rem; flex-wrap: wrap; }
+.nb {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 600;
+  padding: .08rem .35rem; border-radius: .2rem;
+}
+.nb-auto { background: rgba(52,211,153,.12); color: #34D399; }
+.nb-semi { background: rgba(251,191,36,.12); color: #FBBF24; }
+.nb-crit { background: rgba(248,113,113,.12); color: #F87171; }
+.nb-day  { background: rgba(148,163,184,.08); color: #94A3B8; }
+
+/* Source nodes */
+.n-src { background: rgba(15,22,36,.8); border-color: rgba(148,163,184,.2); }
+.n-src .node-name { color: #CBD5E1; }
+
+/* Governance */
+.n-gov { background: var(--govBg); border-color: rgba(59,130,246,.3); }
+.n-gov .node-name { color: #93C5FD; }
+
+/* Bronze */
+.n-bro { background: var(--broBg); border-color: rgba(245,158,11,.3); }
+.n-bro .node-name { color: #FCD34D; }
+
+/* Silver */
+.n-sil { background: var(--silBg); border-color: rgba(6,182,212,.3); }
+.n-sil .node-name { color: #67E8F9; }
+
+/* Gold */
+.n-gol { background: var(--golBg); border-color: rgba(249,115,22,.4); }
+.n-gol .node-name { color: #FB923C; }
+
+/* Agent */
+.n-ag { background: var(--agBg); border-color: rgba(167,139,250,.3); }
+.n-ag .node-name { color: #C4B5FD; }
+
+/* Orchestrator */
+.n-orch {
+  background: linear-gradient(135deg, rgba(29,78,216,.15), rgba(124,58,237,.15));
+  border-color: rgba(167,139,250,.4);
+  border-width: 2px;
+}
+.n-orch .node-name { color: #fff; }
+
+/* API */
+.n-api { background: var(--apiBg); border-color: rgba(251,113,133,.3); }
+.n-api .node-name { color: #FDA4AF; }
+
+/* Product */
+.n-prod { background: var(--prodBg); border-color: rgba(52,211,153,.3); }
+.n-prod .node-name { color: #6EE7B7; }
+
+/* Claude */
+.n-cl { background: var(--clBg); border-color: rgba(252,211,77,.3); }
+.n-cl .node-name { color: #FDE68A; }
+
+/* ── CONNECTOR ── */
+.connector {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .4rem 1rem .4rem 3.5rem;
+  margin: 0;
+}
+.conn-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); }
+.conn-label {
+  display: flex; align-items: center; gap: .5rem;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 2rem;
+  padding: .3rem .9rem;
+  font-size: .7rem; font-weight: 600;
+  color: #94A3B8;
+  white-space: nowrap;
+}
+.conn-label .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;} 50%{opacity:.3;}
+}
+
+/* ── PIPELINE FLOW ── */
+.pipeline {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: .6rem;
+  padding: 1rem 1.25rem;
+  margin-top: .75rem;
+}
+.pipeline-title {
+  font-size: .7rem; font-weight: 700; color: #64748B;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: .65rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pipeline-steps {
+  display: flex; align-items: center; gap: .3rem; flex-wrap: wrap;
+}
+.ps {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .63rem; font-weight: 600;
+  padding: .22rem .55rem; border-radius: .3rem;
+  border: 1px solid;
+  cursor: default;
+  transition: all .15s;
+}
+.ps:hover { filter: brightness(1.15); }
+.ps-gov { background: var(--govBg); border-color: rgba(59,130,246,.4); color: #93C5FD; }
+.ps-bro { background: var(--broBg); border-color: rgba(245,158,11,.4); color: #FCD34D; }
+.ps-sil { background: var(--silBg); border-color: rgba(6,182,212,.4); color: #67E8F9; }
+.ps-gol { background: var(--golBg); border-color: rgba(249,115,22,.4); color: #FB923C; }
+.ps-ag  { background: var(--agBg);  border-color: rgba(167,139,250,.4); color: #C4B5FD; }
+.ps-prod{ background: var(--prodBg);border-color: rgba(52,211,153,.4);  color: #6EE7B7; }
+.ps-arr { color: #334155; font-size: .9rem; }
+
+/* ── KPI ROW ── */
+.kpis {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: .75rem; margin-top: 1.25rem;
+}
+.kpi {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: .55rem; padding: .9rem 1rem;
+  text-align: center;
+}
+.kpi-n { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 600; margin-bottom: .15rem; }
+.kpi-l { font-size: .7rem; color: #64748B; }
+
+/* ── TOOLTIP ── */
+.node[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%);
+  background: #1E293B; color: #E2E8F0;
+  border: 1px solid var(--border2);
+  border-radius: .4rem; padding: .5rem .75rem;
+  font-size: .68rem; line-height: 1.55;
+  white-space: nowrap; z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  pointer-events: none;
+  max-width: 280px;
+  white-space: normal;
+  text-align: left;
+}
+
+/* Span helpers */
+.span2 { flex: 2; }
+.span3 { flex: 3; }
+.span4 { flex: 4; }
+.flex1 { flex: 1; }
+
+/* Annotations */
+.ann {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; color: #334155;
+  padding: .1rem .35rem; border-radius: .2rem;
+  border: 1px solid #1E293B;
+  white-space: nowrap;
+}
+.ann-warn { color: #FBBF24; border-color: rgba(251,191,36,.2); background: rgba(251,191,36,.05); }
+.ann-ok   { color: #34D399; border-color: rgba(52,211,153,.2); background: rgba(52,211,153,.05); }
+
+/* Separator line */
+.sep {
+  height: 1px;
+  background: linear-gradient(90deg,transparent,var(--border),transparent);
+  margin: .25rem 0;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div>
+      <div class="hdr-badge">ARQUITECTURA</div>
+      <div class="hdr-title">PME CAPECO <span>×</span> MIS — Data Lake + Agentes</div>
+      <div class="hdr-sub">Bronze → Silver → Gold · 34 agentes · Governance integrado · Plan 60 días</div>
+    </div>
+  </div>
+  <div class="hdr-stats">
+    <div style="text-align:right"><div class="stat-n" style="color:var(--gov)">34</div><div class="stat-l">Agentes totales</div></div>
+    <div style="text-align:right"><div class="stat-n" style="color:var(--prod)">28</div><div class="stat-l">100% automáticos</div></div>
+    <div style="text-align:right"><div class="stat-n" style="color:var(--gol)">163k</div><div class="stat-l">Registros CAPECO</div></div>
+    <div style="text-align:right"><div class="stat-n" style="color:var(--or)">D60</div><div class="stat-l">Demo CAPECO</div></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="lg"><div class="lg-dot" style="background:#3B82F6"></div>Governance</div>
+  <div class="lg"><div class="lg-dot" style="background:#F59E0B"></div>Bronze (raw)</div>
+  <div class="lg"><div class="lg-dot" style="background:#06B6D4"></div>Silver (limpio)</div>
+  <div class="lg"><div class="lg-dot" style="background:#F97316"></div>Gold (certificado)</div>
+  <div class="lg"><div class="lg-dot" style="background:#A78BFA"></div>Agentes IA</div>
+  <div class="lg"><div class="lg-dot" style="background:#34D399"></div>Productos PME</div>
+  <div class="lg"><div class="lg-dot" style="background:#FCD34D"></div>Claude API</div>
+  <div class="lg"><div class="lg-dot" style="background:#FB7185"></div>API interna</div>
+  <div class="lg"><div class="lg-dot" style="background:rgba(255,255,255,.3)"></div>Hover para detalle</div>
+</div>
+
+<div class="diagram">
+
+<!-- ════════════════════════════════
+     CAPA 0 — FUENTES DE DATOS
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:#475569">Fuentes</div>
+  <div class="layer-body">
+    <div class="layer-hd">
+      <div class="layer-num">①</div>
+      <div class="layer-name" style="color:#64748B">Fuentes de datos</div>
+      <div class="layer-desc">Solo lectura — ningún producto ni agente escribe en las fuentes</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-src span2"
+           data-tip="Fuente primaria. Azure MySQL · millennialprod.mysql.database.azure.com · db_capeco · data_capeco_full. 163,914 registros 2019-2025. 49 distritos Lima + Callao. Acceso solo via IngestAgent (read-only).">
+        <div class="node-top">
+          <div class="node-icon">🗄️</div>
+          <div>
+            <div class="node-name">Azure MySQL · CAPECO</div>
+            <div class="node-code">db_capeco · data_capeco_full</div>
+          </div>
+        </div>
+        <div class="node-desc">163,914 reg · 2019–2025 · 49 distritos · 150 columnas</div>
+        <div class="node-badges">
+          <span class="nb nb-crit">Fuente primaria</span>
+          <span class="nb nb-day">Read-only</span>
+        </div>
+      </div>
+      <div class="node n-src"
+           data-tip="datosabiertos.gob.pe — Licencias de edificación de municipalidades de Lima. Permite detectar obras en etapa temprana antes del censo CAPECO. Actualización mensual. Integración Sprint 2.">
+        <div class="node-top"><div class="node-icon">🏛️</div><div><div class="node-name">Open Data Lima</div><div class="node-code">Licencias edificación</div></div></div>
+        <div class="node-desc">Municipalidades · mensual · obras tempranas</div>
+        <div class="node-badges"><span class="nb nb-day">Sprint 2</span></div>
+      </div>
+      <div class="node n-src"
+           data-tip="Portal ASEI/CODIP. Precio de LISTA (no de cierre). Útil para calcular spread lista vs cierre. Integración via scraping o acuerdo de datos. Actualización semanal. Requiere acuerdo legal.">
+        <div class="node-top"><div class="node-icon">🌐</div><div><div class="node-name">Nexo Inmobiliario</div><div class="node-code">Precio LISTA · ASEI</div></div></div>
+        <div class="node-desc">Precio oferta · spread análisis · semanal</div>
+        <div class="node-badges"><span class="nb nb-semi">Q3 2026</span></div>
+      </div>
+      <div class="node n-src"
+           data-tip="API pública del Banco Central de Reserva del Perú. Series de tipo de cambio USD/PEN e indicadores macro. Normalización de precios históricos en moneda constante.">
+        <div class="node-top"><div class="node-icon">📊</div><div><div class="node-name">BCRP · API</div><div class="node-code">Tipo de cambio USD/PEN</div></div></div>
+        <div class="node-desc">Macro · normalización precios · diario</div>
+        <div class="node-badges"><span class="nb nb-semi">Q3 2026</span></div>
+      </div>
+      <div class="node n-src"
+           data-tip="SUNARP — Precios de transferencia escriturados. El dato más cercano al precio real de cierre. Alta latencia (2-3 meses). Requiere acuerdo institucional. Integración Q4 2026.">
+        <div class="node-top"><div class="node-icon">⚖️</div><div><div class="node-name">SUNARP</div><div class="node-code">Transferencias escrituradas</div></div></div>
+        <div class="node-desc">Precio cierre real · latencia 2-3 meses</div>
+        <div class="node-badges"><span class="nb nb-semi">Q4 2026</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 0→1 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--gov)"></div>
+    ContractValidAgent + SchemaWatchAgent · Pre-ingesta · STOP si schema no coincide
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 1 — GOVERNANCE TRANSVERSAL
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--gov)">Governance</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(59,130,246,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">②</div>
+      <div class="layer-name" style="color:var(--gov)">Governance — transversal · activo en todos los pasos del pipeline</div>
+      <div class="layer-desc">10 agentes · todos los puntos de gobierno automatizados</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-gov"
+           data-tip="G5 · Pre-ingesta. Valida que la entrega de CAPECO cumple el Data Contract A3. Verifica schema comprometido, tipos, SLA de entrega 15 días. STOP si hay discrepancia. Output: contract_validation.json con PASS/FAIL por cláusula.">
+        <div class="node-top"><div class="node-icon">📄</div><div><div class="node-name">ContractValid Agent</div><div class="node-code">G5 · Pre-ingesta</div></div></div>
+        <div class="node-desc">Valida Data Contract A3 antes de cada ingesta. STOP si schema no coincide.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto</span><span class="nb nb-day">D1</span></div>
+      </div>
+      <div class="node n-gov"
+           data-tip="G1+G7. Compara schema actual vs anterior campo a campo. Detecta: campo nuevo, eliminado, cambio de tipo. Genera inventario completo de 150 campos (entregable A1). Alerta si CAPECO cambia schema sin notificar.">
+        <div class="node-top"><div class="node-icon">🔭</div><div><div class="node-name">SchemaWatch Agent</div><div class="node-code">G1+G7 · Inventario</div></div></div>
+        <div class="node-desc">Detecta cambios schema. Genera inventario 150 campos. Alerta si CAPECO cambia sin aviso.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto</span><span class="nb nb-day">D1–5</span></div>
+      </div>
+      <div class="node n-gov"
+           data-tip="G2. Escanea patrones PII en cada campo: teléfonos +51XXXXXXXXX, RUC 11 dígitos, nombres propios, emails. Sugiere nivel PII-0/1/2 automáticamente. DA revisa y aprueba. Verifica PII-2 nunca expuesto en Silver.">
+        <div class="node-top"><div class="node-icon">🔐</div><div><div class="node-name">PIIScan Agent</div><div class="node-code">G2 · Clasificación</div></div></div>
+        <div class="node-desc">Detecta campos PII. Sugiere nivel 0/1/2. Verifica enmascaramiento en Silver.</div>
+        <div class="node-badges"><span class="nb nb-semi">Semi · DA aprueba</span><span class="nb nb-day">D3–7</span></div>
+      </div>
+      <div class="node n-gov"
+           data-tip="G3+G9. Calcula % completitud real de cada campo Gold vs SLA definido en A8. Compara con trimestre anterior — alerta si degradación >5%. Genera semáforo verde/amarillo/rojo visible en Dashboard Admin B9. Bloquea publicación Gold si campo Core bajo SLA crítico.">
+        <div class="node-top"><div class="node-icon">📏</div><div><div class="node-name">SLAMonitor Agent</div><div class="node-code">G3+G9 · Umbrales</div></div></div>
+        <div class="node-desc">Completitud vs A8. Degradación >5% → alerta. Bloquea Gold si campo Core bajo umbral.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto</span><span class="nb nb-day">D15</span></div>
+      </div>
+      <div class="node n-gov"
+           data-tip="G4. Append-only log de cada acceso a campos PII-1 y PII-2. Registra: user_id, role, campo_accedido, pii_level, timestamp, query_hash, ip_address, producto. Reporte semanal al PM. CAPECO puede auditar en cualquier momento.">
+        <div class="node-top"><div class="node-icon">📝</div><div><div class="node-name">Audit Agent</div><div class="node-code">G4 · Append-only</div></div></div>
+        <div class="node-desc">Log inmutable de acceso a PII. User + timestamp + query hash. Reporte semanal.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · Continuo</span><span class="nb nb-day">D7</span></div>
+      </div>
+      <div class="node n-gov"
+           data-tip="G8. Cada lunes 08:00 Lima genera reporte de governance: estado SLAs, resumen audit log, campos bajo umbral, semáforo general. Envía por email a PM + representante CAPECO. Output: HTML + PDF.">
+        <div class="node-top"><div class="node-icon">📊</div><div><div class="node-name">GovReport Agent</div><div class="node-code">G8 · Lun 08:00</div></div></div>
+        <div class="node-desc">Reporte semanal governance: SLAs + audit + semáforo. Email auto a CAPECO.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · Lunes</span><span class="nb nb-day">D12</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 1→2 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--bro)"></div>
+    IngestAgent · MySQL → Parquet · SHA256 + manifest.json · Bronze inmutable
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 2 — BRONZE
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--bro)">Bronze</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(245,158,11,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">③</div>
+      <div class="layer-name" style="color:var(--bro)">Bronze Layer — Raw inmutable</div>
+      <div class="layer-desc">Azure ADLS Gen2 · Parquet · 7 años retención · Solo acceso admin-mis · Todo el PII aquí</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-ag span2"
+           data-tip="L1+L9. Conecta al MySQL CAPECO read-only. Ejecuta ContractValidAgent primero. Descarga data_capeco_full para el trimestre. Guarda como Parquet particionado ANIO+TRIM+DISTRITO. Genera SHA256 + manifest.json. Registra en LineageAgent. Sprint 1: manual DE2 · Sprint 2+: Azure Data Factory programado.">
+        <div class="node-top"><div class="node-icon">📥</div><div><div class="node-name">IngestAgent</div><div class="node-code">L1+L9 · MySQL→Bronze</div></div></div>
+        <div class="node-desc">Lee MySQL read-only. Guarda Parquet + SHA256 + manifest. Registra en Lineage. Sprint 1 manual → Sprint 2 Azure Data Factory.</div>
+        <div class="node-badges"><span class="nb nb-semi">Semi→Auto</span><span class="nb nb-day">D5</span></div>
+      </div>
+      <div class="node n-bro span3"
+           data-tip="Contenido: bronze/capeco/raw/year=YYYY/trimestre=QN/snapshot.parquet. Incluye TODOS los 150 campos incluyendo PII-1 y PII-2. Inmutable — política Azure de retención 7 años sin delete. SHA256 verificable. Solo acceso role admin-mis.">
+        <div class="node-top"><div class="node-icon">📦</div><div><div class="node-name">Bronze Snapshot · Raw completo con PII</div><div class="node-code">bronze/capeco/raw/year=YYYY/trimestre=QN/snapshot.parquet</div></div></div>
+        <div class="node-desc">TODOS los campos incluyendo TELEFONO CONSTRUCTOR y datos personales. Inmutable. SHA256. Manifest JSON. 7 años retención.</div>
+        <div class="node-badges">
+          <span class="nb nb-crit">PII-0+1+2</span>
+          <span class="nb nb-auto">Inmutable</span>
+          <span class="nb nb-day">ADLS Gen2</span>
+        </div>
+      </div>
+      <div class="node n-ag"
+           data-tip="G10+L10. Registra cada transformación: from_layer, to_layer, timestamp, rows_in, rows_out, transformations[], schema_diff. Append-only. Visible en Dashboard Admin B9. Permite trazar cualquier valor Gold hasta su origen en Bronze.">
+        <div class="node-top"><div class="node-icon">🔗</div><div><div class="node-name">LineageAgent</div><div class="node-code">G10 · Trazabilidad</div></div></div>
+        <div class="node-desc">Registra cada transformación con rows, hash, schema diff. Traza cualquier valor hasta Bronze.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · Evento</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 2→3 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--ag)"></div>
+    DataQualityAgent valida · NormalizationAgent limpia → Silver Layer
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 3 — AGENTES CALIDAD + SILVER
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--sil)">Silver</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(6,182,212,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">④</div>
+      <div class="layer-name" style="color:var(--sil)">Agentes de calidad + Silver Layer — Datos limpios y tipados</div>
+      <div class="layer-desc">Sin duplicados · GPS válido · PII-2 hasheada · Normalizado · QA1 valida</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-ag span2"
+           data-tip="L2+L3+L4. Validaciones: GPS Lima (X[-77.2,-76.7], Y[-12.5,-11.5]) · Duplicados COD+TRIM+ANIO → STOP · Precio outlier ±3σ → WARNING · PII-2 en claro → STOP · SLA check vs A8 · Schema match. Genera quality_report.json. Actualiza semáforo SLAMonitorAgent.">
+        <div class="node-top"><div class="node-icon">🔍</div><div><div class="node-name">DataQuality Agent v2</div><div class="node-code">L2+L3+L4 · D12–18</div></div></div>
+        <div class="node-desc">GPS Lima · Dedup COD+TRIM+ANIO · Precio ±3σ · PII-2 check · SLA · Schema match. STOP si error crítico.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto</span><span class="nb nb-crit">STOP si crítico</span></div>
+      </div>
+      <div class="node n-ag span2"
+           data-tip="L5+L6. Estandariza: TREBOL/trebol s.a.→Trébol via aliases.json (editable por DA sin código). 'No precisan'/'No informa'→NULL estructurado. Distritos→forma canónica INEI. PII-2 → SHA256 irreversible en Silver. Columnas con espacios→snake_case. Claude API sugiere nuevos aliases.">
+        <div class="node-top"><div class="node-icon">🏷️</div><div><div class="node-name">Normalization Agent v2</div><div class="node-code">L5+L6 · D14–19</div></div></div>
+        <div class="node-desc">Marcas→canónico · NULL semántico · PII-2 hash · snake_case · Distritos INEI. aliases.json editable por DA.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto</span><span class="nb nb-semi">WARN alias nuevo</span></div>
+      </div>
+      <div class="node n-cl"
+           data-tip="P7. Toma el inventario de SchemaWatchAgent (150 campos + valores frecuentes). Claude API genera: descripción de negocio, ejemplo real, restricción PII. DA revisa y aprueba. Actualiza aliases.json con sugerencias de normalización. 80% automático, 20% revisión humana.">
+        <div class="node-top"><div class="node-icon">🤖</div><div><div class="node-name">DictGen Agent</div><div class="node-code">P7 · Claude API</div></div></div>
+        <div class="node-desc">Genera diccionario negocio + aliases.json. Claude API hace 80%, DA revisa 20%.</div>
+        <div class="node-badges"><span class="nb nb-semi">Semi · DA aprueba</span></div>
+      </div>
+    </div>
+    <div class="nodes" style="margin-top:.5rem">
+      <div class="node n-sil span6"
+           data-tip="Ubicación: silver/capeco/cleaned/year=YYYY/trimestre=QN/. Garantías: 0 duplicados por COD+TRIM+ANIO · 0 GPS fuera de Lima · PII-2 siempre hasheada · Tipos correctos (ANIO int, TRIM string, GPS float64) · 'No precisan'→NULL · columnas en snake_case. QA1 valida COUNT Silver ≤ COUNT Bronze.">
+        <div class="node-top"><div class="node-icon">🥈</div><div><div class="node-name">Silver Layer — Limpio, tipado, sin PII-2, normalizado</div><div class="node-code">silver/capeco/cleaned/year=YYYY/trimestre=QN/obras_silver.parquet</div></div></div>
+        <div class="node-desc">0 duplicados · GPS válido · PII-2 hasheada · "No precisan"→NULL · snake_case · QA1 valida COUNT Bronze ≥ COUNT Silver</div>
+        <div class="node-badges">
+          <span class="nb nb-auto">Sin PII-2</span>
+          <span class="nb nb-auto">Tipado</span>
+          <span class="nb nb-auto">Normalizado</span>
+          <span class="nb nb-day">ADLS Gen2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 3→4 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--gol)"></div>
+    GoldCertAgent · Calcula métricas · Certifica · Particiona por producto según Governance
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 4 — GOLD
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--gol)">Gold</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(249,115,22,.4);">
+    <div class="layer-hd">
+      <div class="layer-num">⑤</div>
+      <div class="layer-name" style="color:var(--gol)">Gold Layer — Certificado · Particionado por producto · Única fuente para productos</div>
+      <div class="layer-desc">GoldCertAgent · Schema firmado v1.0 · Métricas calculadas · RBAC A5 aplicado</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-ag span2"
+           data-tip="L7+L8+L12. Calcula: PRECIO_X_M2=PRECIO_SOLES/AREA_X_UNIDAD · ABSORCION_PCT=UNIDADES_A/NRO_UNIDADES×100 · FASE_CODIGO (numérico) · TIENE_MARCA_REAL (flag) · DISTRITO_NORM. Verifica métricas vs valores conocidos. Particiona: gold/pme-capeco/ y gold/pme-proveedores/. Firma: 'Gold v1.0.Q4.2025 — CERTIFICADO'.">
+        <div class="node-top"><div class="node-icon">🥇</div><div><div class="node-name">GoldCert Agent</div><div class="node-code">L7+L8+L12 · D17–20</div></div></div>
+        <div class="node-desc">Calcula PRECIO_X_M2 · ABSORCION_PCT · FASE_CODIGO · TIENE_MARCA_REAL. Certifica y particiona por producto.</div>
+        <div class="node-badges"><span class="nb nb-semi">Semi · DE firma</span><span class="nb nb-day">D20</span></div>
+      </div>
+      <div class="node n-gol span2"
+           data-tip="Campos PII-0 + métricas Gold. Sin teléfonos ni datos personales identificables. 163,914 registros históricos 2019-2025. 11,305 registros Q4-2025. Schema v1.0 firmado. Disponible para PME CAPECO, Tasamelo, API pública, PME Académico, ReportAgent.">
+        <div class="node-top"><div class="node-icon">📊</div><div><div class="node-name">Gold / PME CAPECO</div><div class="node-code">gold/pme-capeco/ · PII-0</div></div></div>
+        <div class="node-desc">Todos los campos PII-0 + métricas. Sin datos personales. 163,914 reg. históricos.</div>
+        <div class="node-badges">
+          <span class="nb nb-auto">PII-0 only</span>
+          <span class="nb nb-day">163,914 reg.</span>
+        </div>
+      </div>
+      <div class="node n-gol span2" style="border-color:rgba(249,115,22,.6);border-width:2px"
+           data-tip="Subset aprobado en Data Contract A4. TELEFONO CONSTRUCTOR (PII-1) incluido SOLO si sign-off A10 firmado — flag dinámico verificado en runtime por BrokerAgent. 22,596 obras activas Q4-2025 (en construcción + preventa). Pisos, área, fase, banco, marcas, GPS.">
+        <div class="node-top"><div class="node-icon">🏗️</div><div><div class="node-name">Gold / PME Proveedores</div><div class="node-code">gold/pme-proveedores/ · Subset A4</div></div></div>
+        <div class="node-desc">Subset A4. PII-1 (TELEFONO) solo si A10 firmado. 22,596 obras activas. Flag runtime.</div>
+        <div class="node-badges">
+          <span class="nb nb-crit">A10 requerido para PII-1</span>
+          <span class="nb nb-day">22,596 obras</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 4→5 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--api)"></div>
+    API REST interna (B7) · JWT Bearer + RBAC A5 · &lt;200ms p95 · Redis cache · Nunca MySQL directo
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 5 — API + ORQUESTADOR
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--api)">API+Orch</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(251,113,133,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">⑥</div>
+      <div class="layer-name" style="color:var(--api)">API interna + OrchestratorAgent — cerebro del pipeline</div>
+      <div class="layer-desc">El único punto de acceso a Gold · 13 pasos gobernados · Fail-fast</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-api span2"
+           data-tip="FastAPI/Node. Endpoints: GET /obras?distrito=Miraflores&fase=En+construccion · GET /obras/{cod} · GET /metricas/precio_m2 · GET /metricas/absorcion · POST /export/excel. JWT Bearer + RBAC A5. Rate limit 100 req/min. Cache Redis 15min. Swagger auto. Nunca toca MySQL directo.">
+        <div class="node-top"><div class="node-icon">🔌</div><div><div class="node-name">API REST Interna (B7)</div><div class="node-code">FastAPI · JWT · RBAC · Redis</div></div></div>
+        <div class="node-desc">/obras /metricas /export · JWT+RBAC · &lt;200ms p95 · Redis cache · Rate limit 100 req/min</div>
+        <div class="node-badges"><span class="nb nb-auto">Solo Gold</span><span class="nb nb-day">D5–D15</span></div>
+      </div>
+      <div class="node n-orch span2"
+           data-tip="Dirige 13 pasos con fail-fast gobernado: ContractValid→SchemaWatch→Ingest→DataQuality→PIIScan→Normalize→SLAMonitor→GoldCert→LineageLog→AuditLog→CacheInvalidate→AlertAgent→GovReport. STOP en errores críticos. WARN sin bloquear. Sprint 1: script Python · Sprint 2+: Azure Data Factory DAG.">
+        <div class="node-top"><div class="node-icon">🎯</div><div><div class="node-name">Orchestrator Agent</div><div class="node-code">L11 · 13 pasos · Fail-fast</div></div></div>
+        <div class="node-desc">13 pasos gobernados. STOP errores críticos. Sprint 1: script Python · Sprint 2+: Azure Data Factory DAG.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto end-to-end</span><span class="nb nb-day">D16–20</span></div>
+      </div>
+      <div class="node n-cl span2"
+           data-tip="Claude Code + MCP MySQL instalado en Mac del equipo. Permite ejecutar queries directamente sobre db_capeco desde la terminal. Usos: inventario A1 completo, análisis de completitud A8, detección PII A2, deduplicación, análisis ad-hoc. Sin pegar outputs. Instalar Día 1.">
+        <div class="node-top"><div class="node-icon">🤖</div><div><div class="node-name">Claude Code + MCP MySQL</div><div class="node-code">Terminal Mac · db_capeco directo</div></div></div>
+        <div class="node-desc">Queries directos sobre db_capeco. Governance A1–A11 desde terminal. Inventario 150 campos en &lt;5min el Día 1.</div>
+        <div class="node-badges"><span class="nb nb-auto">On-demand</span><span class="nb nb-crit">Instalar Día 1</span></div>
+      </div>
+    </div>
+
+    <!-- Pipeline steps -->
+    <div class="pipeline">
+      <div class="pipeline-title">// pipeline: governance_pipeline · 13 pasos · OrchestratorAgent · Fail-fast</div>
+      <div class="pipeline-steps">
+        <div class="ps ps-gov" title="Valida Data Contract A3 antes de ingestar">1 ContractValid</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Detecta cambios de schema">2 SchemaWatch</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-bro" title="MySQL→Bronze+SHA256">3 IngestAgent</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-ag" title="GPS+Dedup+Outlier+PII2">4 DataQuality</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Escanea campos PII">5 PIIScan</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-sil" title="Marcas+NULL+hash+snake_case">6 Normalize</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Completitud vs SLA A8">7 SLAMonitor</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gol" title="Métricas+Certifica+Particiona">8 GoldCert</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Trazabilidad Bronze→Gold">9 LineageLog</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Log acceso PII append-only">10 AuditLog</div>
+        <div class="ps-arr">→</div>
+        <div class="ps" style="background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.3);color:#94A3B8" title="Invalida Redis cache">11 Cache Flush</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-prod" title="Obras nuevas+precios+paralizadas">12 AlertAgent</div>
+        <div class="ps-arr">→</div>
+        <div class="ps ps-gov" title="Email semanal a CAPECO">13 GovReport</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 5→6 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--ag)"></div>
+    Agentes de producto · Consumen Gold exclusivamente via API interna · RBAC aplicado por role
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 6 — AGENTES PRODUCTO
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--ag)">Agentes</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(167,139,250,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">⑦</div>
+      <div class="layer-name" style="color:var(--ag)">Agentes de producto · Todos leen Gold via API · Nunca directamente</div>
+      <div class="layer-desc">12 agentes · AlertAgent · ReportAgent · CopilotAgent · SpreadAgent · TasamAgent · BrokerAgent</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-ag"
+           data-tip="P1+P10+P11. Post Gold nuevo: compara COD_PROYECTO vs Gold anterior → obras nuevas. Compara PRECIO_X_M2 entre trimestres → alerta si >5% cambio. Detecta FASE=Paralizada. Canal: email + webhook CRM + WhatsApp API (PRO+). Solo accede a campos Gold/pme-proveedores autorizados.">
+        <div class="node-top"><div class="node-icon">🔔</div><div><div class="node-name">AlertAgent v2</div><div class="node-code">P1+P10+P11</div></div></div>
+        <div class="node-desc">Obras nuevas · precio >5% · paralizadas. Email+webhook+WhatsApp.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · Trimestral</span></div>
+      </div>
+      <div class="node n-ag"
+           data-tip="P2. Lee métricas Gold certificadas. Genera PDF 10 páginas: precio m² top 10 distritos, absorción, stock, obras nuevas, marcas. Footer: 'Datos certificados CAPECO×MIS — Q4 2025'. Personalizable por suscriptor. <60 segundos. Demo Día 60: genera en vivo ante CAPECO.">
+        <div class="node-top"><div class="node-icon">📄</div><div><div class="node-name">ReportAgent v2</div><div class="node-code">P2 · Sprint 3</div></div></div>
+        <div class="node-desc">PDF trimestral desde Gold. Firma CAPECO×MIS. &lt;60seg. Demo Día 60 en vivo.</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · Trimestral</span></div>
+      </div>
+      <div class="node n-cl"
+           data-tip="P3. Input en lenguaje natural → SQL → Gold via API → prosa. Ejemplo: '¿precio m² promedio Surco 2D Q4 2025?' → SQL ejecutado → S/6,657/m² con 145 proyectos. RBAC: solo campos del role del usuario. Audit: cada query natural registrado con SQL generado. Interno MIS primero, luego suscriptores.">
+        <div class="node-top"><div class="node-icon">💬</div><div><div class="node-name">CopilotAgent</div><div class="node-code">P3 · Claude API</div></div></div>
+        <div class="node-desc">Lenguaje natural→SQL→Gold→prosa. RBAC respetado. Audit log.</div>
+        <div class="node-badges"><span class="nb nb-auto">On-demand</span><span class="nb nb-day">Sprint 3</span></div>
+      </div>
+      <div class="node n-ag"
+           data-tip="P4. Compara PRECIO_X_M2 Gold CAPECO (cierre real) vs precio Nexo scrapeado (lista). Calcula spread % por distrito y segmento. Detecta proyectos con spread >20% (atípico). Alimenta la visualización 'precio que el comprador PAGÓ vs el vendedor PIDE'. Depende de integración Nexo (Q3).">
+        <div class="node-top"><div class="node-icon">📊</div><div><div class="node-name">SpreadAgent</div><div class="node-code">P4 · Q3 2026</div></div></div>
+        <div class="node-desc">PME vs Nexo lista/cierre spread %. Outlier >20%. Alimenta PME CAPECO.</div>
+        <div class="node-badges"><span class="nb nb-semi">Semanal</span><span class="nb nb-day">Q3</span></div>
+      </div>
+      <div class="node n-ag"
+           data-tip="P5. Input: coordenadas GPS de un inmueble. Busca 20 proyectos más cercanos en Gold con características similares (pisos, tipología, zona). Aplica modelo hedónico ponderado por distancia. Output: precio estimado S/X,XXX/m² ± IC con 5 comparables. <30 segundos. Sprint 3: solo prototipo demostrable.">
+        <div class="node-top"><div class="node-icon">🏠</div><div><div class="node-name">TasamAgent</div><div class="node-code">P5 · Tasamelo proto</div></div></div>
+        <div class="node-desc">GPS→comparables Gold→hedónico→precio ±IC. &lt;30seg. Proto Sprint 3.</div>
+        <div class="node-badges"><span class="nb nb-auto">API call</span><span class="nb nb-day">D48</span></div>
+      </div>
+      <div class="node n-ag"
+           data-tip="P6. Lee perfil suscriptor PME Proveedores (categoría, zonas, fases). Filtra Gold/pme-proveedores con obras en ventana de avance correcta (0-15%=materiales, 16-50%=instalaciones, 51-90%=acabados). Prioriza por tamaño. Genera Top 20 con contacto si A10 firmado. Exporta Excel o webhook CRM.">
+        <div class="node-top"><div class="node-icon">🤝</div><div><div class="node-name">BrokerAgent</div><div class="node-code">P6 · Sprint 3</div></div></div>
+        <div class="node-desc">Matching proveedor↔obra. Top 20 + contacto si A10. Webhook CRM.</div>
+        <div class="node-badges"><span class="nb nb-auto">Semanal</span><span class="nb nb-day">D52</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 6→7 -->
+<div class="connector">
+  <div class="conn-line"></div>
+  <div class="conn-label">
+    <div class="dot" style="background:var(--prod)"></div>
+    Productos PME — todos sobre el mismo Gold certificado · Governance garantizado
+  </div>
+  <div class="conn-line"></div>
+</div>
+
+<!-- ════════════════════════════════
+     CAPA 7 — PRODUCTOS
+════════════════════════════════ -->
+<div class="layer">
+  <div class="layer-id" style="color:var(--prod)">Productos</div>
+  <div class="layer-body" style="border-left: 2px solid rgba(52,211,153,.3);">
+    <div class="layer-hd">
+      <div class="layer-num">⑧</div>
+      <div class="layer-name" style="color:var(--prod)">Productos PME — Gold como única fuente de verdad</div>
+      <div class="layer-desc">Todos certificados · Todos trazables · Todos gobernados por CAPECO×MIS</div>
+    </div>
+    <div class="nodes">
+      <div class="node n-prod"
+           data-tip="Dashboard principal. Precio de cierre real por distrito y trimestre. Absorción. Stock disponible. Histórico 2019-2025. Triangulación CAPECO+Nexo para spread lista/cierre. Actualización trimestral desde Gold/pme-capeco.">
+        <div class="node-top"><div class="node-icon">📊</div><div><div class="node-name">PME CAPECO</div><div class="node-code">gold/pme-capeco</div></div></div>
+        <div class="node-desc">Precio cierre real · Absorción · Stock · 2019–2025</div>
+        <div class="node-badges"><span class="nb nb-auto">Trimestral</span></div>
+      </div>
+      <div class="node n-prod" style="border-color:rgba(249,115,22,.5);border-width:2px"
+           data-tip="Radar de obras activas con GPS. 22,596 obras (construcción+preventa). Filtros: distrito, fase, pisos, % avance. Ficha constructor con contacto (si A10). Export Excel. AlertAgent integrado. El producto que genera caja en los 60 días.">
+        <div class="node-top"><div class="node-icon">🏗️</div><div><div class="node-name">PME Proveedores</div><div class="node-code">gold/pme-proveedores</div></div></div>
+        <div class="node-desc">22,596 obras activas · Mapa · Filtros · Ficha · Excel · AlertAgent</div>
+        <div class="node-badges"><span class="nb nb-crit">MVP Día 45</span><span class="nb nb-day">Sprint 2</span></div>
+      </div>
+      <div class="node n-prod"
+           data-tip="Valuación en 30 segundos vía geolocalización. GPS → 20 comparables Gold → modelo hedónico → precio ±IC. Beta Sprint 3. Firma CAPECO para validez ante bancos. Futura integración SUNARP para precio de transferencia real.">
+        <div class="node-top"><div class="node-icon">🎯</div><div><div class="node-name">Tasamelo</div><div class="node-code">gold/pme-capeco</div></div></div>
+        <div class="node-desc">GPS→precio 30seg. Modelo hedónico. Beta Sprint 3.</div>
+        <div class="node-badges"><span class="nb nb-semi">Proto D48</span></div>
+      </div>
+      <div class="node n-prod"
+           data-tip="Endpoints REST públicos para Proptechs, Fintechs y Bancos. JWT por suscriptor. Rate limiting. Sandbox gratuito. STARTER USD 290/mes · GROWTH USD 690/mes · SCALE USD 1,490/mes. Documentación Swagger auto.">
+        <div class="node-top"><div class="node-icon">🔌</div><div><div class="node-name">API PME Pública</div><div class="node-code">gold/pme-capeco</div></div></div>
+        <div class="node-desc">REST · JWT · Sandbox · Proptechs · Fintechs · Bancos</div>
+        <div class="node-badges"><span class="nb nb-day">Q3 2026</span></div>
+      </div>
+      <div class="node n-prod"
+           data-tip="Acceso histórico 2019-2025 para tesis e investigación universitaria. Correo .edu.pe requerido. Convenio CAPECO. Desde USD 80/mes. Universidades activas: UPC, PUCP, ULima, UNMSM. Casos de uso: tesis, papers, observatorios de mercado.">
+        <div class="node-top"><div class="node-icon">🎓</div><div><div class="node-name">PME Académico</div><div class="node-code">gold/pme-capeco</div></div></div>
+        <div class="node-desc">Histórico 2019–2025 · .edu.pe · Convenio CAPECO · Tesis</div>
+        <div class="node-badges"><span class="nb nb-day">Q3 2026</span></div>
+      </div>
+      <div class="node n-prod"
+           data-tip="ReportAgent genera automáticamente el PDF trimestral desde Gold. Precio m² top 10 distritos, absorción, stock, obras nuevas, marcas. Firma CAPECO×MIS. Personalizable por suscriptor. Demo Día 60: generado en vivo ante CAPECO en <60 segundos.">
+        <div class="node-top"><div class="node-icon">📋</div><div><div class="node-name">Reporte Trimestral</div><div class="node-code">ReportAgent · Gold</div></div></div>
+        <div class="node-desc">PDF auto · Firma CAPECO×MIS · &lt;60seg · Demo Día 60</div>
+        <div class="node-badges"><span class="nb nb-auto">Auto · D46</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpis">
+  <div class="kpi">
+    <div class="kpi-n" style="color:var(--gov)">34</div>
+    <div class="kpi-l">Agentes totales · 10 Gov + 12 Lake + 12 Producto</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n" style="color:var(--prod)">28</div>
+    <div class="kpi-l">Procesos 100% automáticos sin intervención humana</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n" style="color:var(--gol)">D20</div>
+    <div class="kpi-l">Pipeline Bronze→Silver→Gold operativo en Sprint 1</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n" style="color:var(--or)">D60</div>
+    <div class="kpi-l">Demo funcional ante CAPECO · Governance + Lake + MVP</div>
+  </div>
+</div>
+
+</div><!-- /diagram -->
+</div><!-- /wrap -->
+</body>
+</html>

@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PME CAPECO — Kit LinkedIn & Redes Sociales 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0F2340; --navy-m:#1B3A5C; --navy-s:#243F63;
+  --orange:#E8500D; --orange-w:#F97316; --orange-p:#FEF3EC;
+  --blue:#1D6FE8; --blue-l:#3B82F6; --blue-p:#EBF3FE;
+  --teal:#0D9488; --teal-p:#E6F7F5; --teal-d:#065F59;
+  --gold:#C9A227; --gold-p:#FBF5E7;
+  --s1:#F1F5F9; --s2:#E2E8F0; --s4:#94A3B8; --s6:#475569; --s8:#1E293B;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#E8EDF3;color:var(--s8)}
+
+/* ── APP SHELL ── */
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--navy);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.sb-top{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{display:flex;align-items:center;gap:8px;margin-bottom:.5rem}
+.sb-icon{width:30px;height:30px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+.sb-brand{font-size:13px;font-weight:700;color:#fff}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.04em}
+.sb-kit-label{font-size:9px;font-weight:700;background:rgba(232,80,13,.2);color:#FCA57D;border-radius:4px;padding:3px 7px;display:inline-block;margin-top:.4rem;text-transform:uppercase;letter-spacing:.06em}
+.sb-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.25);padding:.875rem 1.25rem .3rem}
+.sb-link{display:flex;align-items:center;gap:8px;padding:.45rem 1.25rem;font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+.sb-link.active{color:#fff;border-left-color:var(--orange);background:rgba(232,80,13,.08);font-weight:600}
+.sb-link .ico{font-size:13px;width:18px;text-align:center;flex-shrink:0}
+.sb-count{margin-left:auto;background:rgba(255,255,255,.08);border-radius:999px;font-size:9px;font-weight:700;padding:1px 7px;color:rgba(255,255,255,.4)}
+
+/* ── MAIN ── */
+.main{overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{background:var(--navy);padding:2.5rem 3rem 2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.01) 0,rgba(255,255,255,.01) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(0,rgba(255,255,255,.01) 0,rgba(255,255,255,.01) 1px,transparent 1px,transparent 60px)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(232,80,13,.15);border:1px solid rgba(232,80,13,.3);border-radius:999px;padding:4px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#FCA57D;margin-bottom:1rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:2.25rem;font-weight:400;color:#fff;line-height:1.15;margin-bottom:.625rem}
+.hero h1 em{color:var(--orange-w);font-style:italic}
+.hero-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;max-width:520px;margin-bottom:1.5rem}
+.hero-pills{display:flex;gap:.5rem;flex-wrap:wrap}
+.hero-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:600;color:rgba(255,255,255,.6)}
+
+/* ── SECTIONS ── */
+.section{padding:2.5rem 3rem;border-bottom:1px solid var(--s2)}
+.section-head{margin-bottom:2rem}
+.sec-num{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--orange);margin-bottom:.3rem}
+.sec-title{font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--navy);font-weight:400;line-height:1.2}
+.sec-desc{font-size:13.5px;color:var(--s6);margin-top:.4rem;line-height:1.65;max-width:600px}
+.sub-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--s4);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--s2);margin-top:2rem}
+
+/* ── BANNER LINKEDIN ── */
+.banner-wrap{border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.2);position:relative;margin-bottom:.75rem}
+.banner-li{width:100%;height:0;padding-bottom:25%;background:linear-gradient(135deg,#060F1E 0%,#0F2340 50%,#1B3A5C 100%);position:relative;overflow:hidden}
+.banner-li::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(0,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 60px)}
+.banner-content{position:absolute;inset:0;display:flex;align-items:center;padding:0 4%}
+.banner-left{flex:1}
+.banner-eyebrow{font-size:clamp(.45rem,.8vw,.7rem);font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.35);margin-bottom:.4em}
+.banner-title{font-family:'DM Serif Display',serif;font-size:clamp(.9rem,2vw,1.75rem);color:#fff;font-weight:400;line-height:1.1;margin-bottom:.3em}
+.banner-title em{color:var(--orange-w);font-style:italic}
+.banner-sub{font-size:clamp(.45rem,.8vw,.7rem);color:rgba(255,255,255,.45);line-height:1.5}
+.banner-stats{display:flex;gap:clamp(.75rem,2vw,2rem);margin-left:auto;padding-left:2%}
+.banner-stat{text-align:center}
+.banner-stat .bn{font-family:'DM Serif Display',serif;font-size:clamp(.9rem,2.5vw,2rem);color:#fff;line-height:1}
+.banner-stat .bn sup{font-family:'DM Sans',sans-serif;font-size:clamp(.5rem,1vw,.85rem);font-weight:700;color:var(--orange-w);vertical-align:super}
+.banner-stat .bl{font-size:clamp(.35rem,.65vw,.55rem);color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.05em;margin-top:.2em}
+.banner-divider{width:1px;background:rgba(255,255,255,.08);align-self:stretch;margin:5% 0}
+.banner-logo-area{padding-left:clamp(.75rem,2vw,2rem);display:flex;flex-direction:column;align-items:center;gap:.4em}
+.banner-logo-sq{width:clamp(20px,3vw,36px);height:clamp(20px,3vw,36px);background:var(--orange);border-radius:clamp(3px,0.5vw,6px);display:flex;align-items:center;justify-content:center}
+.banner-logo-sq span{font-size:clamp(6px,1vw,11px);font-weight:800;color:#fff}
+.banner-logo-text{font-size:clamp(.45rem,.75vw,.65rem);font-weight:700;color:rgba(255,255,255,.7);text-align:center}
+.banner-logo-mis{font-size:clamp(.35rem,.55vw,.5rem);color:rgba(255,255,255,.25);text-align:center}
+.banner-accent-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange) 0%,var(--orange-w) 40%,transparent 80%)}
+
+/* ── PROFILE MOCK ── */
+.li-profile-mock{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);max-width:680px}
+.profile-banner-mini{height:100px;background:linear-gradient(135deg,#060F1E,#1B3A5C);position:relative;overflow:hidden}
+.profile-banner-mini::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 48px)}
+.profile-avatar-row{padding:0 1.5rem;position:relative;margin-bottom:.5rem}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--navy-m);border:3px solid #fff;position:absolute;top:-36px;left:1.5rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:#fff}
+.profile-actions{display:flex;gap:.5rem;justify-content:flex-end;padding:.75rem 0 0}
+.profile-connect-btn{background:var(--navy);color:#fff;border:none;border-radius:999px;padding:.4rem 1rem;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer}
+.profile-msg-btn{background:transparent;color:var(--navy);border:1.5px solid var(--navy);border-radius:999px;padding:.4rem 1rem;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer}
+.profile-body{padding:2.5rem 1.5rem 1.5rem}
+.profile-name{font-size:18px;font-weight:700;color:var(--s8)}
+.profile-headline{font-size:13.5px;color:var(--s6);line-height:1.5;margin:.3rem 0 .5rem;max-width:500px}
+.profile-location{font-size:12px;color:var(--s4);margin-bottom:.75rem}
+.profile-about-label{font-size:13px;font-weight:700;color:var(--s8);margin-bottom:.4rem;margin-top:1rem}
+.profile-about{font-size:12.5px;color:var(--s6);line-height:1.7}
+.profile-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.profile-tag{font-size:11px;background:var(--blue-p);color:var(--blue);border-radius:4px;padding:3px 9px;font-weight:500}
+
+/* ── POST CARDS ── */
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
+
+.post-phone{width:320px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);margin:0 auto}
+.post-phone-header{display:flex;align-items:center;gap:.625rem;padding:.875rem .875rem .5rem}
+.post-avatar-sm{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+.post-author-name{font-size:12.5px;font-weight:700;color:var(--s8)}
+.post-author-role{font-size:11px;color:var(--s4)}
+.post-time{font-size:10px;color:var(--s4);margin-left:auto}
+.post-body-text{padding:.25rem .875rem .5rem;font-size:12.5px;color:var(--s6);line-height:1.65}
+.post-body-text strong{color:var(--s8)}
+.post-image{width:100%;aspect-ratio:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.post-reactions{display:flex;align-items:center;gap:.5rem;padding:.5rem .875rem;border-top:1px solid var(--s1)}
+.post-react-icon{font-size:14px}
+.post-react-count{font-size:11px;color:var(--s4)}
+.post-react-sep{width:1px;height:14px;background:var(--s2);margin:0 .25rem}
+.post-comment-count{font-size:11px;color:var(--s4);margin-left:auto}
+
+/* ── POST IMAGE DESIGNS ── */
+.pimg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+
+/* Type 1 — Dato semana */
+.pimg-dato{background:var(--navy);padding:1.5rem}
+.pimg-dato::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 48px),repeating-linear-gradient(0,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 48px)}
+.pimg-dato .pd-tag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);background:rgba(232,80,13,.15);border:1px solid rgba(232,80,13,.25);border-radius:999px;padding:3px 10px;margin-bottom:.625rem;position:relative}
+.pimg-dato .pd-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;position:relative}
+.pimg-dato .pd-number{font-family:'DM Serif Display',serif;font-size:3.5rem;color:#fff;line-height:1;position:relative;margin-bottom:.25rem}
+.pimg-dato .pd-number sup{font-family:'DM Sans',sans-serif;font-size:1.5rem;font-weight:700;color:var(--orange-w);vertical-align:super}
+.pimg-dato .pd-unit{font-size:12px;color:rgba(255,255,255,.4);position:relative;margin-bottom:.75rem}
+.pimg-dato .pd-context{font-size:10.5px;color:rgba(255,255,255,.5);line-height:1.5;text-align:center;max-width:220px;position:relative}
+.pimg-dato .pd-source{position:absolute;bottom:10px;right:10px;font-size:8.5px;color:rgba(255,255,255,.25);font-style:italic}
+.pimg-dato .pd-accent{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange-w),transparent)}
+.pimg-dato .pd-logo{position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:5px}
+.pimg-dato .pd-logo-sq{width:20px;height:20px;background:var(--orange);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:800;color:#fff}
+.pimg-dato .pd-logo-txt{font-size:9px;font-weight:700;color:rgba(255,255,255,.5)}
+
+/* Type 2 — Absorción */
+.pimg-abs{background:linear-gradient(135deg,#060F1E,#0F2340);padding:1.5rem;align-items:flex-start}
+.pimg-abs .pa-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;position:relative}
+.pimg-abs .pa-bars{display:flex;flex-direction:column;gap:.5rem;width:100%;position:relative}
+.pa-bar-row{display:flex;align-items:center;gap:.5rem}
+.pa-bar-label{font-size:9.5px;color:rgba(255,255,255,.45);width:75px;flex-shrink:0;text-align:right}
+.pa-bar-track{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden}
+.pa-bar-fill{height:100%;border-radius:5px}
+.pa-bar-val{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.7);width:45px;flex-shrink:0}
+
+/* Type 3 — Comparativa distritos */
+.pimg-dist{background:var(--navy-m);padding:1.25rem;align-items:flex-start}
+.pimg-dist .pdd-title{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.875rem;position:relative}
+.pdd-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem;position:relative}
+.pdd-rank{font-size:9px;color:rgba(255,255,255,.3);width:14px;flex-shrink:0;text-align:right}
+.pdd-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);flex:1}
+.pdd-bar-wrap{width:90px;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.pdd-bar{height:100%;border-radius:4px}
+.pdd-val{font-size:10px;font-weight:700;color:rgba(255,255,255,.8);width:60px;text-align:right}
+
+/* Type 4 — Institucional / Credibilidad */
+.pimg-inst{background:linear-gradient(160deg,#0F2340 0%,#1B3A5C 60%,#243F63 100%);padding:1.5rem;text-align:center}
+.pimg-inst .pi-number{font-family:'DM Serif Display',serif;font-size:4.5rem;color:#fff;line-height:1;position:relative}
+.pimg-inst .pi-number sup{font-family:'DM Sans',sans-serif;font-size:1.5rem;font-weight:700;color:var(--orange-w);vertical-align:super}
+.pimg-inst .pi-word{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.25rem;position:relative}
+.pimg-inst .pi-sub{font-family:'DM Serif Display',serif;font-size:1.2rem;color:rgba(255,255,255,.7);font-style:italic;position:relative;margin-bottom:1rem}
+
+/* Type 5 — Caso de uso */
+.pimg-caso{background:var(--s8);padding:1.25rem}
+.pimg-caso .pc-scenario{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:.5rem;position:relative}
+.pimg-caso .pc-text{font-family:'DM Serif Display',serif;font-size:1.2rem;color:#fff;line-height:1.35;margin-bottom:.875rem;position:relative}
+.pimg-caso .pc-text em{color:var(--orange-w);font-style:italic}
+.pimg-caso .pc-result{background:rgba(255,255,255,.06);border-left:2px solid var(--teal);border-radius:0 6px 6px 0;padding:.5rem .75rem;position:relative}
+.pimg-caso .pc-result-label{font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:.2rem}
+.pimg-caso .pc-result-text{font-size:11.5px;font-weight:600;color:#fff}
+
+/* ── CAROUSEL ── */
+.carousel-section{margin-top:2rem}
+.carousel-device{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 32px rgba(0,0,0,.12);max-width:640px;margin:0 auto}
+.carousel-header{padding:.875rem 1rem .5rem;display:flex;align-items:center;gap:.625rem;border-bottom:1px solid var(--s1)}
+.carousel-avatar{width:38px;height:38px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.carousel-author{font-size:12.5px;font-weight:700;color:var(--s8)}
+.carousel-role{font-size:10.5px;color:var(--s4)}
+.carousel-follow{margin-left:auto;font-size:12px;font-weight:700;color:var(--blue);cursor:pointer}
+.carousel-intro{padding:.625rem 1rem .5rem;font-size:12.5px;color:var(--s6);line-height:1.6}
+.carousel-slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:0}
+.carousel-slides::-webkit-scrollbar{display:none}
+.c-slide{min-width:100%;scroll-snap-align:start;flex-shrink:0}
+.c-slide-img{width:100%;aspect-ratio:1;position:relative;overflow:hidden}
+.c-slide-caption{padding:.5rem 1rem .625rem;font-size:11.5px;color:var(--s6);line-height:1.6}
+.carousel-nav{display:flex;align-items:center;justify-content:center;gap:.375rem;padding:.5rem 1rem .875rem}
+.c-dot{width:6px;height:6px;border-radius:50%;background:var(--s2);cursor:pointer;transition:all .2s}
+.c-dot.active{background:var(--orange);width:18px;border-radius:3px}
+.carousel-reactions{display:flex;align-items:center;gap:.5rem;padding:.4rem 1rem .875rem;border-top:1px solid var(--s1)}
+
+/* Carousel slide designs */
+.cs-cover{background:var(--navy);padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;overflow:hidden}
+.cs-cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 32px)}
+.cs-slide-num{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3)}
+.cs-eyebrow{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.5rem}
+.cs-title{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;line-height:1.2;margin-bottom:.5rem}
+.cs-title em{color:var(--orange-w);font-style:italic}
+.cs-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;max-width:320px}
+.cs-progress{display:flex;gap:3px;margin-top:1rem}
+.cs-progress-dot{height:3px;border-radius:2px;background:rgba(255,255,255,.2);flex:1}
+.cs-progress-dot.done{background:var(--orange)}
+.cs-progress-dot.active{background:#fff}
+
+.cs-data{background:#fff;padding:1.5rem;display:flex;flex-direction:column;justify-content:center;height:100%}
+.cs-data .csd-label{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--s4);margin-bottom:.875rem}
+.cs-data .csd-metric{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--navy);line-height:1;margin-bottom:.25rem}
+.cs-data .csd-metric sup{font-family:'DM Sans',sans-serif;font-size:1.4rem;font-weight:700;color:var(--orange);vertical-align:super}
+.cs-data .csd-context{font-size:12px;color:var(--s6);line-height:1.65;margin-bottom:.875rem}
+.cs-data .csd-insight{background:var(--blue-p);border-left:2.5px solid var(--blue);border-radius:0 6px 6px 0;padding:.5rem .75rem}
+.cs-data .csd-insight p{font-size:11.5px;color:var(--navy);line-height:1.55;font-weight:500}
+
+.cs-comparison{background:var(--s1);padding:1.25rem;height:100%}
+.cs-comparison .csc-title{font-size:11px;font-weight:700;color:var(--navy);margin-bottom:.875rem;text-transform:uppercase;letter-spacing:.05em}
+.csc-row{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem}
+.csc-label{font-size:11px;font-weight:600;color:var(--s8);width:90px;flex-shrink:0}
+.csc-track{flex:1;height:12px;background:var(--s2);border-radius:6px;overflow:hidden}
+.csc-fill{height:100%;border-radius:6px}
+.csc-val{font-size:10.5px;font-weight:700;width:55px;text-align:right}
+.csc-badge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;border-radius:4px;padding:3px 8px;margin-top:.75rem}
+
+.cs-solution{background:var(--navy);padding:1.5rem;display:flex;flex-direction:column;justify-content:center;height:100%}
+.cs-solution .css-step{display:flex;gap:.75rem;margin-bottom:.875rem;align-items:flex-start}
+.cs-solution .css-num{width:26px;height:26px;border-radius:50%;background:var(--orange);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.cs-solution .css-text .css-title{font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.2rem}
+.cs-solution .css-text .css-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+
+.cs-cta{background:linear-gradient(135deg,var(--orange) 0%,#C94410 100%);padding:1.5rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;height:100%}
+.cs-cta .ctc-icon{font-size:2.5rem;margin-bottom:.75rem}
+.cs-cta .ctc-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:.5rem;font-weight:400;line-height:1.2}
+.cs-cta .ctc-sub{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:1.25rem;line-height:1.6}
+.cs-cta .ctc-url{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:7px;padding:.5rem 1.25rem;font-size:13px;font-weight:700;color:#fff}
+
+/* ── STORIES ── */
+.stories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.story-phone{border-radius:24px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.18);aspect-ratio:9/16;position:relative;max-width:200px;margin:0 auto}
+.story-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:18px;background:#000;border-radius:0 0 12px 12px;z-index:10}
+.story-bars{position:absolute;top:22px;left:10px;right:10px;display:flex;gap:3px;z-index:9}
+.story-bar{flex:1;height:2px;border-radius:1px;background:rgba(255,255,255,.35)}
+.story-bar.done{background:rgba(255,255,255,.8)}
+.story-avatar-row{position:absolute;top:30px;left:10px;display:flex;align-items:center;gap:6px;z-index:9}
+.story-avatar-sm{width:24px;height:24px;border-radius:50%;background:var(--orange);border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff}
+.story-name{font-size:9px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.story-time{font-size:8px;color:rgba(255,255,255,.6)}
+.story-body{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 .875rem 1.25rem}
+
+/* Story 1 — Dato ciudad */
+.s1-bg{background:linear-gradient(180deg,#060F1E 0%,#0F2340 50%,#1B3A5C 100%)}
+.s1-dato{text-align:center;margin-bottom:.875rem}
+.s1-dato .s1-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.25rem}
+.s1-dato .s1-num{font-family:'DM Serif Display',serif;font-size:3rem;color:#fff;line-height:1;margin-bottom:.1rem}
+.s1-dato .s1-num sup{font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:700;color:var(--orange-w)}
+.s1-dato .s1-unit{font-size:10px;color:rgba(255,255,255,.45)}
+.s1-cta{background:var(--orange);border-radius:8px;padding:.4rem;text-align:center;font-size:9.5px;font-weight:800;color:#fff;letter-spacing:.03em}
+
+/* Story 2 — Absorción */
+.s2-bg{background:linear-gradient(180deg,#033A37 0%,var(--teal-d) 60%,var(--teal) 100%)}
+.s2-metric{text-align:center;margin-bottom:.75rem}
+.s2-metric .sm-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:.5rem}
+.s2-metric .sm-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:#fff;line-height:1;margin-bottom:.15rem}
+.s2-metric .sm-unit{font-size:10.5px;color:rgba(255,255,255,.55)}
+.s2-bars{margin-bottom:.75rem}
+.s2-bar-row{display:flex;align-items:center;gap:.35rem;margin-bottom:.3rem}
+.s2-bar-row .s2-bl{font-size:8.5px;color:rgba(255,255,255,.5);width:55px;flex-shrink:0;text-align:right}
+.s2-bar-row .s2-bt{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.s2-bar-row .s2-bf{height:100%;border-radius:3px;background:rgba(255,255,255,.5)}
+.s2-bar-row .s2-bv{font-size:8.5px;color:rgba(255,255,255,.7);font-weight:700;width:30px}
+.s2-swipe{text-align:center;font-size:9px;color:rgba(255,255,255,.4);margin-top:.25rem}
+
+/* Story 3 — Tasamelo */
+.s3-bg{background:linear-gradient(180deg,#033A37 0%,#0D9488 100%)}
+.s3-logo{text-align:center;margin-bottom:.625rem}
+.s3-logo .s3-wm{font-size:1.75rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.s3-logo .s3-wm span{color:rgba(255,255,255,.35);font-weight:300}
+.s3-logo .s3-by{font-size:8px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em}
+.s3-pitch{text-align:center;margin-bottom:.75rem}
+.s3-pitch .sp-text{font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;line-height:1.3;font-style:italic}
+.s3-steps{background:rgba(255,255,255,.06);border-radius:8px;padding:.5rem .625rem;margin-bottom:.625rem}
+.s3-step-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.s3-step-row:last-child{margin-bottom:0}
+.s3-step-num{width:16px;height:16px;background:var(--orange);border-radius:50%;font-size:8px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s3-step-text{font-size:9px;color:rgba(255,255,255,.65)}
+.s3-cta{background:#fff;border-radius:8px;padding:.4rem;text-align:center;font-size:9.5px;font-weight:800;color:var(--teal-d)}
+
+/* Story 4 — Credibilidad */
+.s4-bg{background:linear-gradient(180deg,#060F1E 0%,#0F2340 100%)}
+.s4-content{text-align:center}
+.s4-years{font-family:'DM Serif Display',serif;font-size:4rem;color:#fff;line-height:1;margin-bottom:.1rem}
+.s4-years-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-bottom:.875rem}
+.s4-quote{background:rgba(255,255,255,.05);border-radius:8px;padding:.5rem .625rem;margin-bottom:.5rem}
+.s4-quote-text{font-size:9.5px;color:rgba(255,255,255,.6);font-style:italic;line-height:1.5}
+.s4-quote-author{font-size:8.5px;color:rgba(255,255,255,.35);margin-top:.25rem}
+.s4-pills{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center;margin-bottom:.5rem}
+.s4-pill{font-size:8px;background:rgba(255,255,255,.08);border-radius:999px;padding:2px 8px;color:rgba(255,255,255,.5)}
+.s4-cta{background:var(--orange);border-radius:8px;padding:.4rem;text-align:center;font-size:9.5px;font-weight:800;color:#fff}
+
+/* ── COPY BLOCKS ── */
+.copy-block{background:#fff;border-radius:10px;border:1px solid var(--s2);overflow:hidden;margin-bottom:1rem}
+.copy-header{background:var(--navy);padding:.625rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.copy-header-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5)}
+.copy-type-badge{font-size:9px;font-weight:700;background:rgba(255,255,255,.1);border-radius:4px;padding:2px 8px;color:rgba(255,255,255,.6)}
+.copy-body{padding:1rem}
+.copy-subject{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.copy-text{font-size:13.5px;color:var(--s6);line-height:1.75;white-space:pre-line}
+.copy-text strong{color:var(--s8)}
+.copy-metrics{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--s1)}
+.copy-metric{font-size:10px;background:var(--s1);border-radius:4px;padding:3px 8px;color:var(--s6)}
+.copy-metric strong{color:var(--navy)}
+
+/* ── CALENDAR ── */
+.cal-grid{display:grid;gap:1px;background:var(--s2);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.cal-header-row{display:grid;grid-template-columns:100px repeat(4,1fr);background:var(--navy)}
+.cal-header-cell{padding:.625rem .75rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.6);text-align:center}
+.cal-header-cell:first-child{text-align:left}
+.cal-row{display:grid;grid-template-columns:100px repeat(4,1fr);background:#fff}
+.cal-row:nth-child(even) .cal-cell{background:var(--s1)}
+.cal-week{padding:.625rem .875rem;background:var(--navy-m);font-size:10.5px;font-weight:700;color:rgba(255,255,255,.7);display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1)}
+.cal-week .wk-num{font-size:9px;color:rgba(255,255,255,.35);margin-bottom:1px}
+.cal-cell{padding:.625rem .75rem;font-size:11px;color:var(--s6);line-height:1.5;border-right:1px solid var(--s2)}
+.cal-cell:last-child{border-right:none}
+.cal-post-type{display:inline-block;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border-radius:3px;padding:1px 6px;margin-bottom:.3rem}
+.pt-dato{background:rgba(15,35,64,.08);color:var(--navy)}
+.pt-caso{background:rgba(29,111,232,.1);color:var(--blue)}
+.pt-producto{background:rgba(232,80,13,.1);color:var(--orange)}
+.pt-carrusel{background:rgba(13,148,136,.1);color:var(--teal)}
+.pt-personal{background:rgba(201,162,39,.1);color:var(--gold)}
+
+/* ── LI PAGE SETUP ── */
+.li-page-mock{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);max-width:680px}
+.li-page-cover{height:120px;background:linear-gradient(135deg,#060F1E,#1B3A5C);position:relative;overflow:hidden}
+.li-page-cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 48px)}
+.li-page-info{padding:0 1.5rem;position:relative;padding-bottom:1rem}
+.li-page-logo{width:64px;height:64px;border-radius:8px;background:var(--navy);border:3px solid #fff;position:absolute;top:-32px;left:1.5rem;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+.li-page-actions{display:flex;gap:.5rem;justify-content:flex-end;padding:.75rem 0 0}
+.li-page-follow{background:var(--navy);color:#fff;border:none;border-radius:999px;padding:.4rem 1rem;font-size:12px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer}
+.li-page-more{background:transparent;color:var(--navy);border:1.5px solid var(--navy);border-radius:999px;padding:.4rem 1rem;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer}
+.li-page-body{padding:2.75rem 1.5rem 1.5rem}
+.li-page-name{font-size:18px;font-weight:700;color:var(--s8)}
+.li-page-tagline{font-size:13px;color:var(--s6);margin:.3rem 0 .5rem;line-height:1.5}
+.li-page-meta{font-size:12px;color:var(--s4);display:flex;flex-wrap:wrap;gap:.75rem}
+.li-page-meta a{color:var(--blue);text-decoration:none}
+.li-page-about{margin-top:1rem}
+.li-page-about-title{font-size:14px;font-weight:700;color:var(--s8);margin-bottom:.5rem}
+.li-page-about-text{font-size:12.5px;color:var(--s6);line-height:1.7}
+.li-page-services{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:1rem}
+.li-service-pill{font-size:11px;background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-weight:500}
+.li-page-posts-preview{border-top:1px solid var(--s2);margin-top:1.25rem;padding-top:1rem}
+.li-page-posts-title{font-size:13px;font-weight:700;color:var(--s8);margin-bottom:.875rem}
+.li-posts-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.li-post-mini{aspect-ratio:1;border-radius:6px;overflow:hidden}
+
+/* ── COPY TOAST ── */
+.copied-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;font-size:12px;font-weight:600;padding:.625rem 1.25rem;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s;z-index:999}
+.copied-toast.show{opacity:1}
+
+/* ── COPY BTN ── */
+.copy-btn{background:var(--navy);color:#fff;border:none;border-radius:6px;padding:.35rem .875rem;font-size:11px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.copy-btn:hover{background:var(--navy-m)}
+
+@media print{.sidebar,.hero-desc,.copied-toast{display:none}.app{grid-template-columns:1fr}.section{padding:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <div class="sb-icon">PME</div>
+      <div><div class="sb-brand">PME CAPECO</div><div class="sb-sub">Kit Social Media</div></div>
+    </div>
+    <div class="sb-kit-label">LinkedIn & RRSS 2026</div>
+  </div>
+  <div class="sb-section">LinkedIn</div>
+  <div class="sb-link active" onclick="goto('page-li')"><span class="ico">🏢</span>Company Page<span class="sb-count">Setup</span></div>
+  <div class="sb-link" onclick="goto('banner')"><span class="ico">🖼️</span>Banner 1584×396<span class="sb-count">2</span></div>
+  <div class="sb-link" onclick="goto('perfil')"><span class="ico">👤</span>Perfil vocero<span class="sb-count">Copy</span></div>
+  <div class="sb-section">Posts & Formatos</div>
+  <div class="sb-link" onclick="goto('posts')"><span class="ico">📊</span>5 Posts dato semanal<span class="sb-count">5</span></div>
+  <div class="sb-link" onclick="goto('carruseles')"><span class="ico">📑</span>3 Carruseles casos<span class="sb-count">3</span></div>
+  <div class="sb-section">Instagram</div>
+  <div class="sb-link" onclick="goto('stories')"><span class="ico">📱</span>4 Stories templates<span class="sb-count">4</span></div>
+  <div class="sb-section">Copy & Calendario</div>
+  <div class="sb-link" onclick="goto('copies')"><span class="ico">✍️</span>Copies 30 posts<span class="sb-count">30</span></div>
+  <div class="sb-link" onclick="goto('calendario')"><span class="ico">📅</span>Calendario 30 días</div>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Kit completo · 7 entregas</div>
+  <h1>PME CAPECO<br><em>LinkedIn & Redes</em> 2026</h1>
+  <p class="hero-desc">Company page, banner, perfil del vocero, 5 posts de dato semanal, 3 carruseles de casos de uso, 4 stories para Instagram, los 30 copies del calendario y el plan editorial del mes.</p>
+  <div class="hero-pills">
+    <div class="hero-pill">🏢 LinkedIn Company Page</div>
+    <div class="hero-pill">🖼️ Banner 1584×396</div>
+    <div class="hero-pill">📊 5 post templates</div>
+    <div class="hero-pill">📑 3 carruseles</div>
+    <div class="hero-pill">📱 4 stories</div>
+    <div class="hero-pill">✍️ 30 copies</div>
+    <div class="hero-pill">📅 Calendario</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     1. COMPANY PAGE
+════════════════════════════════════ -->
+<section class="section" id="page-li">
+  <div class="section-head">
+    <div class="sec-num">01 — LinkedIn</div>
+    <h2 class="sec-title">Company Page — Setup completo</h2>
+    <p class="sec-desc">Todos los campos necesarios para configurar la página oficial de PME CAPECO en LinkedIn. Copiar campo por campo.</p>
+  </div>
+
+  <!-- Mock LinkedIn page -->
+  <div class="li-page-mock" style="margin-bottom:2rem">
+    <div class="li-page-cover">
+      <!-- mini banner preview -->
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#060F1E,#1B3A5C);display:flex;align-items:center;padding:0 1.5rem">
+        <div style="flex:1">
+          <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;font-weight:400">La inteligencia que <em style="color:#F97316">mueve</em> el sector</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:.25rem">Dato censal · ~50 empresas · 49 distritos · CAPECO desde 1961</div>
+        </div>
+        <div style="display:flex;gap:1rem;text-align:center">
+          <div><div style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:#fff">~50</div><div style="font-size:8px;color:rgba(255,255,255,.3);text-transform:uppercase">Empresas</div></div>
+          <div><div style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:#fff">49</div><div style="font-size:8px;color:rgba(255,255,255,.3);text-transform:uppercase">Distritos</div></div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#E8500D,#F97316,transparent)"></div>
+    </div>
+    <div class="li-page-info">
+      <div class="li-page-logo">PME</div>
+      <div class="li-page-actions">
+        <button class="li-page-follow">+ Seguir</button>
+        <button class="li-page-more">Más •••</button>
+      </div>
+    </div>
+    <div class="li-page-body">
+      <div class="li-page-name">PME CAPECO — Inteligencia de Mercado Inmobiliario</div>
+      <div class="li-page-tagline">La plataforma oficial de inteligencia del mercado de edificaciones del Perú · Datos censales desde 1961</div>
+      <div class="li-page-meta">
+        <span>📊 Servicios de información</span>
+        <span>📍 Lima, Perú</span>
+        <a href="#">www.pme.pe</a>
+        <span>👥 2–10 empleados</span>
+        <span>🔗 1,240 seguidores</span>
+      </div>
+      <div class="li-page-services">
+        <div class="li-service-pill">Inteligencia de mercado</div>
+        <div class="li-service-pill">Datos inmobiliarios</div>
+        <div class="li-service-pill">API de datos</div>
+        <div class="li-service-pill">Tasamelo</div>
+        <div class="li-service-pill">Suscripciones corporativas</div>
+        <div class="li-service-pill">Análisis de riesgo hipotecario</div>
+      </div>
+      <div class="li-page-about">
+        <div class="li-page-about-title">Acerca de</div>
+        <div class="li-page-about-text">PME CAPECO es la plataforma oficial de inteligencia del mercado de edificaciones del Perú, operada por Millennial Information Systems (MIS) en alianza con CAPECO (Cámara Peruana de la Construcción). Proveemos el único dato censal — no muestral — del mercado inmobiliario de Lima, actualizado trimestralmente, con cobertura en 49 distritos. Más de 50+ empresas del sector confían en PME para tomar decisiones de inversión, valuación y riesgo crediticio.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Setup fields -->
+  <div class="sub-label">Campos de configuración — copiar tal cual</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:780px">
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">Nombre de la página</span><button class="copy-btn" onclick="copyText('PME CAPECO — Inteligencia de Mercado Inmobiliario',this)">Copiar</button></div>
+      <div class="copy-body"><div class="copy-text" style="font-size:14px;font-weight:600;color:var(--navy)">PME CAPECO — Inteligencia de Mercado Inmobiliario</div></div>
+    </div>
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">URL personalizada</span><button class="copy-btn" onclick="copyText('linkedin.com/company/pme-capeco',this)">Copiar</button></div>
+      <div class="copy-body"><div class="copy-text" style="font-size:14px;font-weight:600;color:var(--blue)">linkedin.com/company/pme-capeco</div></div>
+    </div>
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">Tagline (300 caracteres)</span><button class="copy-btn" onclick="copyText('La plataforma oficial de inteligencia del mercado de edificaciones del Perú · Datos censales desde 1961 · ~50 empresas suscriptoras · Operada por Millennial Information Systems',this)">Copiar</button></div>
+      <div class="copy-body"><div class="copy-text">La plataforma oficial de inteligencia del mercado de edificaciones del Perú · Datos censales desde 1961 · ~50 empresas suscriptoras · Operada por Millennial Information Systems</div></div>
+    </div>
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">Sector · Sitio web · Tamaño</span></div>
+      <div class="copy-body" style="display:flex;flex-direction:column;gap:.35rem">
+        <div style="font-size:12.5px;color:var(--s6)"><strong style="color:var(--navy)">Sector:</strong> Servicios de información / Real Estate Technology</div>
+        <div style="font-size:12.5px;color:var(--s6)"><strong style="color:var(--navy)">Web:</strong> www.pme.pe</div>
+        <div style="font-size:12.5px;color:var(--s6)"><strong style="color:var(--navy)">Tamaño:</strong> 2–10 empleados</div>
+        <div style="font-size:12.5px;color:var(--s6)"><strong style="color:var(--navy)">Sede:</strong> Lima, Perú</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-label">Descripción larga (About) — lista para pegar</div>
+  <div class="copy-block" style="max-width:780px">
+    <div class="copy-header"><span class="copy-header-label">About · Descripción de la empresa</span><button class="copy-btn" onclick="copyText(document.getElementById('about-text').innerText,this)">Copiar todo</button></div>
+    <div class="copy-body">
+      <div class="copy-text" id="about-text">PME CAPECO es la plataforma oficial de inteligencia del mercado de edificaciones del Perú, operada por Millennial Information Systems (MIS) en alianza con CAPECO — Cámara Peruana de la Construcción.
+
+Proveemos el único dato censal — no muestral — del mercado inmobiliario de Lima Metropolitana: precio m² real de cierre, velocidad de absorción, stock disponible y tendencia histórica en 49 distritos. Actualización trimestral. Metodología auditada.
+
+Más de 50+ empresas del sector confían en PME para decisiones de inversión, valuación y análisis de riesgo hipotecario: constructoras, bancos, fondos de inversión, aseguradoras, consultoras y universidades.
+
+🏗️ Para el sector constructor: análisis de mercado en minutos, no semanas.
+🏦 Para banca y seguros: calibración de LTV y aprobación hipotecaria con dato censal.
+🎓 Para universidades: data censal para tesis, investigación y formación profesional.
+📡 Para fintechs: APIs de datos para integración en sistemas de scoring y underwriting.
+
+CAPECO · 63 años de trayectoria institucional · Lima, Perú</div>
+    </div>
+  </div>
+
+  <div class="sub-label">Hashtags de la página</div>
+  <div style="display:flex;flex-wrap:wrap;gap:.4rem;max-width:780px">
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#MercadoInmobiliario</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#CAPECO</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#RealEstatePeru</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#DatoCensal</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#Construccion</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#PME</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#InteligenicaInmobiliaria</span>
+    <span style="background:var(--blue-p);color:var(--blue);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600">#Lima</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     2. BANNER
+════════════════════════════════════ -->
+<section class="section" id="banner">
+  <div class="section-head">
+    <div class="sec-num">02 — LinkedIn</div>
+    <h2 class="sec-title">Banner oficial 1584 × 396 px</h2>
+    <p class="sec-desc">Dos versiones: PME CAPECO principal y PME × MIS para el perfil corporativo de Millennial. Diseño navy con grid sutil y acento naranja.</p>
+  </div>
+
+  <div class="sub-label">Versión 1 — PME CAPECO (para la Company Page)</div>
+  <div class="banner-wrap">
+    <div class="banner-li">
+      <div class="banner-content">
+        <div class="banner-left">
+          <div class="banner-eyebrow">PME CAPECO · Plataforma oficial CAPECO · Lima, Perú</div>
+          <div class="banner-title">La inteligencia que <em>mueve</em><br>el sector inmobiliario del Perú</div>
+          <div class="banner-sub">Dato censal — no muestral · Actualización trimestral · Desde 1961</div>
+        </div>
+        <div class="banner-stats">
+          <div class="banner-stat"><div class="bn">50<</div><div class="bl">Empresas<br>suscriptoras</div></div>
+          <div class="banner-divider"></div>
+          <div class="banner-stat"><div class="bn">49</div><div class="bl">Distritos<br>Lima</div></div>
+          <div class="banner-divider"></div>
+          <div class="banner-stat"><div class="bn">63</div><div class="bl">Años<br>CAPECO</div></div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;margin:8% 0 8% 1.5%"></div>
+        <div class="banner-logo-area">
+          <div class="banner-logo-sq"><span>PME</span></div>
+          <div class="banner-logo-text">PME CAPECO</div>
+          <div class="banner-logo-mis">by Millennial · MIS</div>
+        </div>
+      </div>
+      <div class="banner-accent-line"></div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--s4);margin-top:.5rem">Dimensiones finales para exportar: 1584 × 396 px · Exportar en PNG a 2x para pantallas retina</p>
+
+  <div class="sub-label" style="margin-top:2rem">Versión 2 — PME FINANCE (para perfil banca)</div>
+  <div class="banner-wrap">
+    <div class="banner-li" style="background:linear-gradient(135deg,#030B18 0%,#0B1F38 50%,#1D3D6F 100%)">
+      <div class="banner-content">
+        <div class="banner-left">
+          <div class="banner-eyebrow" style="color:rgba(255,255,255,.3)">PME FINANCE · Banca · Seguros · Fintechs</div>
+          <div class="banner-title">Inteligencia que <em style="color:#93C5FD">mitiga el riesgo</em><br>y acelera el crédito</div>
+          <div class="banner-sub">Auditable SBS · Dato censal CAPECO · API + Power BI Embedded</div>
+        </div>
+        <div class="banner-stats">
+          <div class="banner-stat"><div class="bn" style="color:#93C5FD">100<sup style="color:#3B82F6">%</sup></div><div class="bl">Sensibilidad<br>al cierre</div></div>
+          <div class="banner-divider"></div>
+          <div class="banner-stat"><div class="bn" style="color:#93C5FD">40<sup style="color:#3B82F6">%</sup></div><div class="bl">Reducción<br>desacuerdos</div></div>
+          <div class="banner-divider"></div>
+          <div class="banner-stat"><div class="bn">SBS</div><div class="bl">Compliance<br>auditado</div></div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;margin:8% 0 8% 1.5%"></div>
+        <div class="banner-logo-area">
+          <div class="banner-logo-sq" style="background:#1D6FE8"><span>PME</span></div>
+          <div class="banner-logo-text">PME FINANCE</div>
+          <div class="banner-logo-mis">CAPECO · MIS</div>
+        </div>
+      </div>
+      <div class="banner-accent-line" style="background:linear-gradient(90deg,#1D6FE8,#3B82F6,transparent)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     3. PERFIL VOCERO
+════════════════════════════════════ -->
+<section class="section" id="perfil">
+  <div class="section-head">
+    <div class="sec-num">03 — LinkedIn</div>
+    <h2 class="sec-title">Perfil personal del vocero MIS</h2>
+    <p class="sec-desc">Actualización del headline, about y featured del perfil principal de MIS. Posicionamiento como experto en inteligencia de mercado inmobiliario + IA aplicada a real estate.</p>
+  </div>
+
+  <div class="li-profile-mock" style="margin-bottom:2rem">
+    <div class="profile-banner-mini"></div>
+    <div class="profile-avatar-row">
+      <div class="profile-avatar">CR</div>
+      <div class="profile-actions">
+        <button class="profile-connect-btn">Conectar</button>
+        <button class="profile-msg-btn">Mensaje</button>
+      </div>
+    </div>
+    <div class="profile-body">
+      <div class="profile-name">[Nombre del Vocero] — Director / Gerente MIS</div>
+      <div class="profile-headline">Inteligencia de mercado inmobiliario con IA · CEO Millennial Information Systems · Operador oficial PME CAPECO · Lima, Perú</div>
+      <div class="profile-location">📍 Lima, Perú · 500+ conexiones · Contacto</div>
+      <div class="profile-about-label">Acerca de</div>
+      <div class="profile-about">Dirijo Millennial Information Systems (MIS), la empresa tecnológica que opera PME CAPECO — la única plataforma de inteligencia de mercado inmobiliario con dato censal en el Perú, en alianza con CAPECO desde hace más de una década...</div>
+      <div class="profile-tags">
+        <div class="profile-tag">Inteligencia inmobiliaria</div>
+        <div class="profile-tag">Business Intelligence</div>
+        <div class="profile-tag">Real Estate Data</div>
+        <div class="profile-tag">API Development</div>
+        <div class="profile-tag">CAPECO</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:780px">
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">Headline (220 car.)</span><button class="copy-btn" onclick="copyText('Inteligencia de mercado inmobiliario con IA · CEO Millennial Information Systems · Operador oficial PME CAPECO · Lima, Perú',this)">Copiar</button></div>
+      <div class="copy-body"><div class="copy-text">Inteligencia de mercado inmobiliario con IA · CEO Millennial Information Systems · Operador oficial PME CAPECO · Lima, Perú</div></div>
+    </div>
+    <div class="copy-block" style="margin-bottom:0">
+      <div class="copy-header"><span class="copy-header-label">Featured — Artículo fijado</span></div>
+      <div class="copy-body"><div class="copy-text">Fijar como artículo destacado: el post de lanzamiento de PME 2026 o el video demo del dashboard. Esto aparece en la parte superior del perfil.</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block" style="max-width:780px;margin-top:1rem">
+    <div class="copy-header"><span class="copy-header-label">About / Acerca de (2,600 car.)</span><button class="copy-btn" onclick="copyText(document.getElementById('about-vocero').innerText,this)">Copiar todo</button></div>
+    <div class="copy-body">
+      <div class="copy-text" id="about-vocero">Dirijo Millennial Information Systems (MIS), la empresa tecnológica que opera PME CAPECO — la única plataforma de inteligencia de mercado inmobiliario con dato censal en el Perú, en alianza con CAPECO (63 años de trayectoria institucional).
+
+Mi trabajo es convertir el dato más confiable del mercado de edificaciones en herramientas accionables para bancos, promotoras, fondos, tasadores y universidades.
+
+Lo que hacemos en MIS:
+→ PME CAPECO: plataforma de inteligencia inmobiliaria (~50 empresas suscriptoras)
+→ Tasamelo: valoración de inmuebles en 30 segundos con IA + dato censal CAPECO
+→ APIs de datos: integración del precio m² en sistemas de scoring bancario
+→ Power BI Embedded: dashboards interactivos para toma de decisiones
+
+Si diriges un banco y necesitas calibrar el LTV de hipotecas con el precio real del mercado — no el precio de lista — podemos ayudarte.
+
+Si eres promotora y quieres saber si el terreno que estás evaluando tiene demanda real antes de comprarlo — tenemos el dato.
+
+Si tu universidad quiere que sus alumnos de arquitectura e ingeniería trabajen con data real del mercado en su tesis — tenemos el programa académico.
+
+Escribeme a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6e180b001a0f1d2e03071d401e0b">[email&#160;protected]</a> o conecta aquí en LinkedIn.
+
+PME CAPECO · www.pme.pe · Lima, Perú</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     4. POSTS DATO SEMANAL
+════════════════════════════════════ -->
+<section class="section" id="posts">
+  <div class="section-head">
+    <div class="sec-num">04 — LinkedIn / Instagram Feed</div>
+    <h2 class="sec-title">5 plantillas de posts — Dato semanal</h2>
+    <p class="sec-desc">Formato 1080×1080px. Publicar 3 veces por semana. Cada template con diseño visual listo + copy completo para pegar en LinkedIn.</p>
+  </div>
+
+  <div class="posts-grid">
+
+    <!-- POST 1 — Precio m² Lima -->
+    <div>
+      <div class="sub-label" style="margin-top:0">Post 1 · Precio m² Lima</div>
+      <div class="post-phone">
+        <div class="post-phone-header">
+          <div class="post-avatar-sm">PME</div>
+          <div><div class="post-author-name">PME CAPECO</div><div class="post-author-role">Inteligencia de mercado · Lima</div></div>
+          <div class="post-time">Hoy</div>
+        </div>
+        <div class="post-body-text">El precio m² promedio de Lima cerró Q4 2025 en <strong>S/ 6,174</strong>. Aquí el mapa completo:</div>
+        <div class="post-image">
+          <div class="pimg pimg-dato" style="width:100%;height:100%;flex-direction:column">
+            <div class="pd-logo"><div class="pd-logo-sq">PME</div><span class="pd-logo-txt">CAPECO</span></div>
+            <div class="pd-tag">El dato de la semana</div>
+            <div class="pd-label">Precio promedio m² · Lima</div>
+            <div class="pd-number">S/ 6,174</div>
+            <div class="pd-unit">por metro cuadrado · Q4 2025</div>
+            <div class="pd-context">↑ +9.3% vs Q3 2025 · Lima Metropolitana</div>
+            <div class="pd-source">Fuente: CAPECO PME · Dato censal</div>
+            <div class="pd-accent"></div>
+          </div>
+        </div>
+        <div class="post-reactions">
+          <span class="post-react-icon">👍</span><span class="post-react-icon">🏗️</span><span class="post-react-icon">🔥</span>
+          <span class="post-react-count">248</span>
+          <div class="post-react-sep"></div>
+          <span class="post-comment-count">34 comentarios · 12 reposts</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 2 — Absorción por corredor -->
+    <div>
+      <div class="sub-label" style="margin-top:0">Post 2 · Absorción por corredor</div>
+      <div class="post-phone">
+        <div class="post-phone-header">
+          <div class="post-avatar-sm">PME</div>
+          <div><div class="post-author-name">PME CAPECO</div><div class="post-author-role">Inteligencia de mercado · Lima</div></div>
+          <div class="post-time">Mar</div>
+        </div>
+        <div class="post-body-text">¿Cuánto tarda en venderse un depa en Lima según la zona? El dato censal CAPECO lo mide:</div>
+        <div class="post-image">
+          <div class="pimg pimg-abs" style="width:100%;height:100%">
+            <div class="pd-logo" style="position:absolute;top:10px;right:10px"><div class="pd-logo-sq">PME</div><span class="pd-logo-txt" style="color:rgba(255,255,255,.4)">CAPECO</span></div>
+            <div class="pa-title">Velocidad de absorción · Q4 2025</div>
+            <div class="pa-bars" style="width:100%">
+              <div class="pa-bar-row"><div class="pa-bar-label">Lima Top</div><div class="pa-bar-track"><div class="pa-bar-fill" style="width:40%;background:#E8500D"></div></div><div class="pa-bar-val" style="color:#E8500D">3.2 m</div></div>
+              <div class="pa-bar-row"><div class="pa-bar-label">Lima Moderna</div><div class="pa-bar-track"><div class="pa-bar-fill" style="width:52%;background:#F97316"></div></div><div class="pa-bar-val" style="color:#F97316">4.2 m</div></div>
+              <div class="pa-bar-row"><div class="pa-bar-label">Lima Centro</div><div class="pa-bar-track"><div class="pa-bar-fill" style="width:60%;background:rgba(255,255,255,.4)"></div></div><div class="pa-bar-val" style="color:rgba(255,255,255,.5)">4.2 m</div></div>
+              <div class="pa-bar-row"><div class="pa-bar-label">Lima Norte</div><div class="pa-bar-track"><div class="pa-bar-fill" style="width:72%;background:rgba(255,255,255,.3)"></div></div><div class="pa-bar-val" style="color:rgba(255,255,255,.4)">5.8 m</div></div>
+              <div class="pa-bar-row"><div class="pa-bar-label">Lima Sur</div><div class="pa-bar-track"><div class="pa-bar-fill" style="width:80%;background:rgba(255,255,255,.2)"></div></div><div class="pa-bar-val" style="color:rgba(255,255,255,.35)">6.4 m</div></div>
+            </div>
+            <div style="position:absolute;bottom:8px;left:12px;font-size:8px;color:rgba(255,255,255,.2);font-style:italic">Fuente: CAPECO PME · Dato censal Q4 2025</div>
+          </div>
+        </div>
+        <div class="post-reactions">
+          <span class="post-react-icon">👍</span><span class="post-react-icon">💡</span>
+          <span class="post-react-count">189</span>
+          <div class="post-react-sep"></div>
+          <span class="post-comment-count">28 comentarios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 3 — Precio por distrito -->
+    <div>
+      <div class="sub-label" style="margin-top:0">Post 3 · Top distritos precio m²</div>
+      <div class="post-phone">
+        <div class="post-phone-header">
+          <div class="post-avatar-sm">PME</div>
+          <div><div class="post-author-name">PME CAPECO</div><div class="post-author-role">Inteligencia de mercado · Lima</div></div>
+          <div class="post-time">Jue</div>
+        </div>
+        <div class="post-body-text">Los 5 distritos con mayor precio m² en Lima según el dato censal CAPECO Q4 2025:</div>
+        <div class="post-image">
+          <div class="pimg pimg-dist" style="width:100%;height:100%">
+            <div class="pd-logo" style="position:absolute;top:10px;right:10px"><div class="pd-logo-sq">PME</div><span class="pd-logo-txt" style="color:rgba(255,255,255,.4)">CAPECO</span></div>
+            <div class="pimg-dist" style="background:transparent;padding:0;width:100%;height:100%;align-items:flex-start;justify-content:center">
+              <div class="pdd-title" style="margin-bottom:1rem">Top distritos · Precio m² · Q4 2025</div>
+              <div class="pdd-row"><div class="pdd-rank">1</div><div class="pdd-name">Miraflores</div><div class="pdd-bar-wrap"><div class="pdd-bar" style="width:100%;background:#E8500D"></div></div><div class="pdd-val">S/8,417</div></div>
+              <div class="pdd-row"><div class="pdd-rank">2</div><div class="pdd-name">San Isidro</div><div class="pdd-bar-wrap"><div class="pdd-bar" style="width:96%;background:#F97316"></div></div><div class="pdd-val">S/8,467</div></div>
+              <div class="pdd-row"><div class="pdd-rank">3</div><div class="pdd-name">Barranco</div><div class="pdd-bar-wrap"><div class="pdd-bar" style="width:77%;background:rgba(255,255,255,.4)"></div></div><div class="pdd-val">S/7,887</div></div>
+              <div class="pdd-row"><div class="pdd-rank">4</div><div class="pdd-name">Surquillo</div><div class="pdd-bar-wrap"><div class="pdd-bar" style="width:70%;background:rgba(255,255,255,.3)"></div></div><div class="pdd-val">S/6,557</div></div>
+              <div class="pdd-row"><div class="pdd-rank">5</div><div class="pdd-name">San Miguel</div><div class="pdd-bar-wrap"><div class="pdd-bar" style="width:53%;background:rgba(255,255,255,.2)"></div></div><div class="pdd-val">S/5,947</div></div>
+            </div>
+            <div style="position:absolute;bottom:8px;left:12px;font-size:8px;color:rgba(255,255,255,.2);font-style:italic">Fuente: CAPECO PME · Dato censal Q4 2025</div>
+          </div>
+        </div>
+        <div class="post-reactions">
+          <span class="post-react-icon">👍</span><span class="post-react-icon">🏠</span><span class="post-react-icon">📊</span>
+          <span class="post-react-count">312</span>
+          <div class="post-react-sep"></div>
+          <span class="post-comment-count">47 comentarios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 4 — Credibilidad / Institucional -->
+    <div>
+      <div class="sub-label" style="margin-top:0">Post 4 · Credibilidad institucional</div>
+      <div class="post-phone">
+        <div class="post-phone-header">
+          <div class="post-avatar-sm">PME</div>
+          <div><div class="post-author-name">PME CAPECO</div><div class="post-author-role">Inteligencia de mercado · Lima</div></div>
+          <div class="post-time">Vie</div>
+        </div>
+        <div class="post-body-text">63 años recopilando el dato del mercado inmobiliario peruano. Sin interrupciones. Sin estimaciones.</div>
+        <div class="post-image">
+          <div class="pimg pimg-inst" style="width:100%;height:100%">
+            <div class="pd-logo" style="position:absolute;top:10px;right:10px"><div class="pd-logo-sq">PME</div><span class="pd-logo-txt" style="color:rgba(255,255,255,.5)">CAPECO</span></div>
+            <div class="pi-word">Años de trayectoria</div>
+            <div class="pi-number">63</div>
+            <div style="height:2px;width:60px;background:var(--orange);margin:.75rem auto"></div>
+            <div class="pi-sub">Censo · No muestra</div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;position:relative">
+              <span style="font-size:9px;background:rgba(255,255,255,.06);border-radius:4px;padding:2px 7px;color:rgba(255,255,255,.4)">49 distritos Lima</span>
+              <span style="font-size:9px;background:rgba(255,255,255,.06);border-radius:4px;padding:2px 7px;color:rgba(255,255,255,.4)">~50 empresas</span>
+              <span style="font-size:9px;background:rgba(255,255,255,.06);border-radius:4px;padding:2px 7px;color:rgba(255,255,255,.4)">Actualiz. trimestral</span>
+            </div>
+            <div style="position:absolute;bottom:8px;left:12px;font-size:8px;color:rgba(255,255,255,.2);font-style:italic">www.pme.pe</div>
+          </div>
+        </div>
+        <div class="post-reactions">
+          <span class="post-react-icon">👍</span><span class="post-react-icon">🏆</span>
+          <span class="post-react-count">201</span>
+          <div class="post-react-sep"></div>
+          <span class="post-comment-count">19 comentarios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 5 — Caso de uso -->
+    <div>
+      <div class="sub-label" style="margin-top:0">Post 5 · Caso de uso narrativo</div>
+      <div class="post-phone">
+        <div class="post-phone-header">
+          <div class="post-avatar-sm">PME</div>
+          <div><div class="post-author-name">PME CAPECO</div><div class="post-author-role">Inteligencia de mercado · Lima</div></div>
+          <div class="post-time">Lun</div>
+        </div>
+        <div class="post-body-text">Una promotora estaba a punto de sobrevaluar un terreno en Surquillo. El dato censal lo impidió:</div>
+        <div class="post-image">
+          <div class="pimg pimg-caso" style="width:100%;height:100%">
+            <div class="pd-logo" style="position:absolute;top:10px;right:10px"><div class="pd-logo-sq">PME</div><span class="pd-logo-txt" style="color:rgba(255,255,255,.4)">CAPECO</span></div>
+            <div class="pc-scenario">Caso real · Promotora · Lima</div>
+            <div class="pc-text">Precio de lista en Surquillo: <em>S/ 6,557/m²</em>. Precio censal PME CAPECO: S/ 6,557/m²</div>
+            <div class="pc-result">
+              <div class="pc-result-label">Impacto</div>
+              <div class="pc-result-text">USD 15,000 de error evitado en un terreno de 500 m²</div>
+            </div>
+            <div style="margin-top:.75rem;font-size:10.5px;color:rgba(255,255,255,.35);font-style:italic;position:relative">Eso es lo que hace un dato censal — no muestral.</div>
+            <div style="position:absolute;bottom:8px;left:12px;font-size:8px;color:rgba(255,255,255,.2);font-style:italic">Fuente: CAPECO PME · pme.pe</div>
+          </div>
+        </div>
+        <div class="post-reactions">
+          <span class="post-react-icon">👍</span><span class="post-react-icon">💡</span><span class="post-react-icon">🔥</span>
+          <span class="post-react-count">427</span>
+          <div class="post-react-sep"></div>
+          <span class="post-comment-count">62 comentarios · 28 reposts</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     5. CARRUSELES
+════════════════════════════════════ -->
+<section class="section" id="carruseles">
+  <div class="section-head">
+    <div class="sec-num">05 — LinkedIn Carrusel</div>
+    <h2 class="sec-title">3 carruseles de casos de uso</h2>
+    <p class="sec-desc">Formato PDF carousel LinkedIn (ratio 1:1). Cada uno con 6 slides: portada, problema, dato, solución, resultado y CTA. Navega con las flechas.</p>
+  </div>
+
+  <!-- CAROUSEL 1 -->
+  <div class="sub-label">Carrusel 1 · Banco aprueba hipoteca con PME</div>
+  <div class="carousel-device" style="margin-bottom:2rem">
+    <div class="carousel-header">
+      <div class="carousel-avatar">PME</div>
+      <div><div class="carousel-author">PME CAPECO</div><div class="carousel-role">Inteligencia de mercado inmobiliario</div></div>
+      <div class="carousel-follow">+ Seguir</div>
+    </div>
+    <div class="carousel-intro">¿Cómo reduce un banco su riesgo hipotecario con el dato censal CAPECO? Un caso real en 6 slides →</div>
+    <div class="carousel-slides" id="car1">
+      <!-- Slide 1 -->
+      <div class="c-slide">
+        <div class="c-slide-img"><div class="cs-cover" style="height:100%"><div class="cs-slide-num">1/6</div><div class="cs-eyebrow">Caso de uso · Banca hipotecaria</div><div class="cs-title">Banco aprueba hipoteca con <em>dato censal</em> y reduce riesgo en 40%</div><div class="cs-desc">Cómo integrar PME CAPECO al proceso de valuación y scoring hipotecario.</div><div class="cs-progress"><div class="cs-progress-dot done"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div></div></div></div>
+        <div class="c-slide-caption">Desliza para ver el caso completo →</div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="c-slide">
+        <div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">2/6</div><div class="csd-label">El problema</div><div class="csd-metric">4–7 <sup>días</sup></div><div class="csd-context">Es el tiempo promedio que tarda una tasación hipotecaria tradicional en Lima. Durante ese tiempo, el analista está bloqueado y el cliente puede irse.</div><div class="csd-insight"><p>Además, los precios de portales (precios de lista) sobrevaloran el colateral hasta un 15% frente al precio de cierre real.</p></div></div></div>
+        <div class="c-slide-caption"><strong>El costo invisible:</strong> analista bloqueado + cliente en riesgo + posible sobrevaluación del crédito.</div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="c-slide">
+        <div class="c-slide-img">
+          <div class="cs-comparison" style="height:100%;display:flex;flex-direction:column;justify-content:center">
+            <div style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">3/6</div>
+            <div class="csc-title">Precio de lista vs precio censal PME</div>
+            <div class="csc-row"><div class="csc-label">Miraflores</div><div class="csc-track"><div class="csc-fill" style="width:100%;background:var(--orange)"></div></div><div class="csc-val" style="color:var(--orange)">S/8,417</div></div>
+            <div class="csc-row"><div class="csc-label">Portal online</div><div class="csc-track"><div class="csc-fill" style="width:115%;background:var(--s2)"></div></div><div class="csc-val" style="color:var(--s4)">S/11,200</div></div>
+            <div style="height:1px;background:var(--s2);margin:.75rem 0"></div>
+            <div class="csc-row"><div class="csc-label">Surquillo</div><div class="csc-track"><div class="csc-fill" style="width:70%;background:var(--orange)"></div></div><div class="csc-val" style="color:var(--orange)">S/6,557</div></div>
+            <div class="csc-row"><div class="csc-label">Portal online</div><div class="csc-track"><div class="csc-fill" style="width:80%;background:var(--s2)"></div></div><div class="csc-val" style="color:var(--s4)">S/7,200</div></div>
+            <div class="csc-badge" style="background:var(--orange-p);color:var(--orange)">↑ Hasta 15% de diferencia en el colateral</div>
+          </div>
+        </div>
+        <div class="c-slide-caption">El dato censal CAPECO registra transacciones reales — no precios de anuncio.</div>
+      </div>
+      <!-- Slide 4 -->
+      <div class="c-slide">
+        <div class="c-slide-img"><div class="cs-solution" style="height:100%;display:flex;flex-direction:column;justify-content:center"><div style="position:absolute;top:12px;right:12px;font-size:10px;color:rgba(255,255,255,.3)">4/6</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:1rem">La solución PME FINANCE</div><div class="css-step"><div class="css-num">1</div><div class="css-text"><div class="css-title">Integra el precio m² PME a tu scoring</div><div class="css-desc">API REST con precio de cierre real por distrito y tipología. Se conecta a tu sistema de valuación en minutos.</div></div></div><div class="css-step"><div class="css-num">2</div><div class="css-text"><div class="css-title">Aprobación automática de garantías</div><div class="css-desc">Para hipotecas recurrentes en el mismo distrito, el sistema aprueba el colateral sin tasación externa.</div></div></div><div class="css-step"><div class="css-num">3</div><div class="css-text"><div class="css-title">Sustento ante auditoría SBS</div><div class="css-desc">CAPECO como fuente institucional. Trazabilidad metodológica completa en cada dato.</div></div></div></div></div>
+        <div class="c-slide-caption">De 4–7 días de tasación a horas con integración PME + API.</div>
+      </div>
+      <!-- Slide 5 -->
+      <div class="c-slide">
+        <div class="c-slide-img"><div class="cs-data" style="height:100%"><div style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">5/6</div><div class="csd-label">Resultado en entidad financiera suscriptora</div><div class="csd-metric">40 <sup>%</sup></div><div class="csd-context">Reducción en desacuerdos de tasación entre el banco y el tasador externo, en los 6 meses posteriores a integrar PME al proceso.</div><div class="csd-insight"><p>"Incorporamos PME al proceso de evaluación de riesgo hipotecario. Bajamos los desacuerdos de tasación en un 40%." — Analista de Riesgo · Entidad financiera suscriptora</p></div></div></div>
+        <div class="c-slide-caption">Fuente: testimonio de cliente activo PME CAPECO.</div>
+      </div>
+      <!-- Slide 6 -->
+      <div class="c-slide">
+        <div class="c-slide-img"><div class="cs-cta"><div class="ctc-icon">🏦</div><div class="ctc-title">¿Tu banco evalúa integrar PME?</div><div class="ctc-sub">Ofrecemos un PoC gratuito de 30 días para tu área de Riesgo Hipotecario — sin compromisos.</div><div class="ctc-url">pme.pe/bancos</div></div></div>
+        <div class="c-slide-caption">Escríbenos a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6b1d0e051f0a182b060218451b0e">[email&#160;protected]</a> o visita pme.pe/bancos para coordinar el PoC.</div>
+      </div>
+    </div>
+    <div class="carousel-nav" id="nav1">
+      <div class="c-dot active" onclick="scrollSlide('car1',0,'nav1')"></div>
+      <div class="c-dot" onclick="scrollSlide('car1',1,'nav1')"></div>
+      <div class="c-dot" onclick="scrollSlide('car1',2,'nav1')"></div>
+      <div class="c-dot" onclick="scrollSlide('car1',3,'nav1')"></div>
+      <div class="c-dot" onclick="scrollSlide('car1',4,'nav1')"></div>
+      <div class="c-dot" onclick="scrollSlide('car1',5,'nav1')"></div>
+    </div>
+    <div class="carousel-reactions">
+      <span style="font-size:14px">👍</span><span style="font-size:14px">💡</span><span style="font-size:14px">🏆</span>
+      <span style="font-size:11px;color:var(--s4);margin-left:4px">534 · 87 comentarios · 45 reposts</span>
+    </div>
+  </div>
+
+  <!-- CAROUSEL 2 -->
+  <div class="sub-label">Carrusel 2 · Promotora decide terreno con PME</div>
+  <div class="carousel-device" style="margin-bottom:2rem">
+    <div class="carousel-header">
+      <div class="carousel-avatar">PME</div>
+      <div><div class="carousel-author">PME CAPECO</div><div class="carousel-role">Inteligencia de mercado inmobiliario</div></div>
+      <div class="carousel-follow">+ Seguir</div>
+    </div>
+    <div class="carousel-intro">Antes de comprar un terreno, ¿sabes si hay demanda real en esa zona? Cómo lo resuelve PME en 6 slides →</div>
+    <div class="carousel-slides" id="car2">
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-cover" style="height:100%;background:linear-gradient(160deg,#1E293B,#0F2340)"><div class="cs-slide-num">1/6</div><div class="cs-eyebrow">Caso de uso · Promotora inmobiliaria</div><div class="cs-title">Promotora reduce riesgo de inversión con <em>dato real</em> de absorción</div><div class="cs-desc">Cómo validar la demanda antes de comprar un terreno con PME CAPECO.</div><div class="cs-progress"><div class="cs-progress-dot done"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div></div></div></div><div class="c-slide-caption">6 slides · La decisión de inversión que PME cambió</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">2/6</div><div class="csd-label">El riesgo del sector</div><div class="csd-metric">35 <sup>%</sup></div><div class="csd-context">De los proyectos inmobiliarios en Lima que entraron en crisis de ventas en los últimos 3 años tuvieron como factor común: una subestimación de la absorción real del corredor.</div><div class="csd-insight"><p>Comprar un terreno sin validar la absorción del corredor es el error más caro del sector.</p></div></div></div><div class="c-slide-caption">Fuente: análisis PME CAPECO sobre base censal 2022–2025.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">3/6</div><div class="csd-label">Dato PME · Surquillo Q4 2025</div><div class="csd-metric">4.2 <sup>meses</sup></div><div class="csd-context">Velocidad de absorción promedio en Surquillo para proyectos de 2D y 3D. La misma zona tenía 6.8 meses en 2023 — una mejora del 38%.</div><div class="csd-insight"><p>Sin PME, el modelo financiero de la promotora habría usado el dato de 2023 — subestimando la demanda actual en más de 60%.</p></div></div></div><div class="c-slide-caption">El dato actualizado trimestralmente cambia el modelo financiero completo.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-solution" style="height:100%;display:flex;flex-direction:column;justify-content:center"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:1rem">3 preguntas que PME responde antes de comprar</div><div class="css-step"><div class="css-num">1</div><div class="css-text"><div class="css-title">¿Qué se vende en esa zona?</div><div class="css-desc">Tipología con mayor absorción: 1D, 2D o 3D+. Precio m² de cierre real por rango de metraje.</div></div></div><div class="css-step"><div class="css-num">2</div><div class="css-text"><div class="css-title">¿Cuánta competencia hay?</div><div class="css-desc">Stock activo de proyectos en el corredor. Saturación por tipología y segmento socioeconómico.</div></div></div><div class="css-step"><div class="css-num">3</div><div class="css-text"><div class="css-title">¿Qué tendencia sigue el precio?</div><div class="css-desc">Serie histórica desde 2017. ¿El corredor está subiendo, estable o cayendo?</div></div></div></div></div><div class="c-slide-caption">Estas 3 preguntas, con dato censal, definen si el terreno tiene sentido.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">5/6</div><div class="csd-label">El caso real</div><div class="csd-metric">USD 15k <sup>ahorrados</sup></div><div class="csd-context">Una promotora consultó PME antes de comprar en Surquillo. El precio censal difirió 4.5% del precio de lista del terreno. En 500 m², eso es USD 15,000 de sobrevaluación evitada.</div><div class="csd-insight"><p>"Antes hacíamos estudios ad-hoc que costaban meses. Con PME armamos nuestro análisis en media mañana." — Director de Proyectos · Grupo promotor Miraflores</p></div></div></div><div class="c-slide-caption">El ROI de la suscripción PME se paga en el primer proyecto.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-cta"><div class="ctc-icon">🏗️</div><div class="ctc-title">Analiza tu próxima zona en PME</div><div class="ctc-sub">Suscripción desde USD 490/mes. Demo gratuita de 30 minutos con datos de tu zona objetivo.</div><div class="ctc-url">pme.pe</div></div></div><div class="c-slide-caption">Agenda tu demo: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dea8bbb0aabfad9eb3b7adf0aebb">[email&#160;protected]</a> · +51 965 113 510</div></div>
+    </div>
+    <div class="carousel-nav" id="nav2">
+      <div class="c-dot active" onclick="scrollSlide('car2',0,'nav2')"></div>
+      <div class="c-dot" onclick="scrollSlide('car2',1,'nav2')"></div>
+      <div class="c-dot" onclick="scrollSlide('car2',2,'nav2')"></div>
+      <div class="c-dot" onclick="scrollSlide('car2',3,'nav2')"></div>
+      <div class="c-dot" onclick="scrollSlide('car2',4,'nav2')"></div>
+      <div class="c-dot" onclick="scrollSlide('car2',5,'nav2')"></div>
+    </div>
+    <div class="carousel-reactions"><span style="font-size:14px">👍</span><span style="font-size:14px">🏗️</span><span style="font-size:14px">💡</span><span style="font-size:11px;color:var(--s4);margin-left:4px">289 · 41 comentarios · 22 reposts</span></div>
+  </div>
+
+  <!-- CAROUSEL 3 -->
+  <div class="sub-label">Carrusel 3 · Tesista valida viabilidad con PME Académico</div>
+  <div class="carousel-device">
+    <div class="carousel-header">
+      <div class="carousel-avatar" style="background:linear-gradient(135deg,#064E3B,var(--teal))">PME</div>
+      <div><div class="carousel-author">PME CAPECO Académico</div><div class="carousel-role">Programa universitario · Lima</div></div>
+      <div class="carousel-follow">+ Seguir</div>
+    </div>
+    <div class="carousel-intro">¿Estás haciendo tu tesis de arquitectura o ingeniería? Así es como PME resuelve el problema del "dato confiable" en 6 slides →</div>
+    <div class="carousel-slides" id="car3">
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-cover" style="height:100%;background:linear-gradient(160deg,#064E3B,var(--teal-d))"><div class="cs-slide-num">1/6</div><div class="cs-eyebrow">PME Académico · Tesis con dato real</div><div class="cs-title">Cómo validar la viabilidad inmobiliaria de tu tesis con <em>dato censal</em></div><div class="cs-desc">Para estudiantes de Arquitectura, Ingeniería Civil y Gestión Inmobiliaria.</div><div class="cs-progress"><div class="cs-progress-dot done"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div><div class="cs-progress-dot"></div></div></div></div><div class="c-slide-caption">Un recurso que tu asesor de tesis va a agradecer.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">2/6</div><div class="csd-label">El problema frecuente en tesis</div><div class="csd-metric" style="font-size:2.5rem">Sin dato<sup style="font-size:1.1rem;color:var(--orange)"> ≠</sup></div><div class="csd-context">La mayoría de tesis sobre proyectos inmobiliarios usan datos de portales de avisos o estudios antiguos. El jurado siempre lo cuestiona: "¿De dónde viene este número?"</div><div class="csd-insight"><p>Con PME CAPECO tienes la fuente que el sector y las entidades públicas aceptan sin cuestionamientos. Metodología censal auditada.</p></div></div></div><div class="c-slide-caption">La pregunta que te ahorra el PME CAPECO: "¿Cuál es tu fuente?"</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-solution" style="height:100%;background:linear-gradient(180deg,#064E3B,var(--teal-d));display:flex;flex-direction:column;justify-content:center"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#86EFAC;margin-bottom:1rem">Qué puedes analizar con PME</div><div class="css-step"><div class="css-num" style="background:#0D9488">1</div><div class="css-text"><div class="css-title">Análisis de viabilidad de tu proyecto</div><div class="css-desc">Precio m² real, absorción y competencia en la zona. Dashboard exportable a PDF para tu informe.</div></div></div><div class="css-step"><div class="css-num" style="background:#0D9488">2</div><div class="css-text"><div class="css-title">Mapas de calor por distrito</div><div class="css-desc">Visualiza el desarrollo urbano, densidad y tendencias por zona de Lima Metropolitana.</div></div></div><div class="css-step"><div class="css-num" style="background:#0D9488">3</div><div class="css-text"><div class="css-title">Serie histórica 2017–2025</div><div class="css-desc">Evolución de precios, absorción y stock. Base para análisis de tendencias y proyecciones.</div></div></div></div></div><div class="c-slide-caption">Acceso a datos que antes solo tenían las inmobiliarias más grandes del Perú.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data" style="height:100%;background:#E6F7F5"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">4/6</div><div class="csd-label" style="color:var(--teal)">Ejemplo real · Lima Moderna Q4 2025</div><div class="csd-metric" style="color:var(--teal-d)">S/ 6,557 <sup style="color:var(--teal)">/m²</sup></div><div class="csd-context" style="color:#0A5C53">Precio promedio en Lima Moderna para proyectos de 2D. Absorción de 37% Q3 2025. Datos disponibles para todos los distritos con desagregación por tipología y rango socioeconómico.</div><div class="csd-insight" style="background:var(--teal-p);border-left-color:var(--teal)"><p style="color:var(--teal-d)">Este nivel de detalle — antes — requería contratar un estudio de mercado que costaba USD 3,000 y tardaba 2 meses.</p></div></div></div><div class="c-slide-caption">Con el convenio académico, accedes a este dato desde tu correo .edu.pe.</div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-data"><div class="cs-slide-num" style="position:absolute;top:12px;right:12px;font-size:10px;color:var(--s4)">5/6</div><div class="csd-label">Cómo acceder</div><div class="csd-metric" style="font-size:2.5rem">3 pasos <sup style="font-size:1.1rem">→</sup></div><div class="csd-context">1) Solicita a tu facultad el convenio PME Académico. 2) Si tu universidad ya tiene convenio, ingresa con tu correo .edu.pe. 3) Si no tiene, primer semestre de acceso gratuito mientras se formaliza.</div><div class="csd-insight"><p>Universidades con convenio activo: ULIMA, y en proceso: PUCP, UPC, USMP, UPN, UDEP.</p></div></div></div><div class="c-slide-caption">¿Tu universidad no tiene convenio aún? Pídele a tu decano que escriba a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a4c5c7c5c0c1c9cdc5e4c9cdd78ad4c1">[email&#160;protected]</a></div></div>
+      <div class="c-slide"><div class="c-slide-img"><div class="cs-cta" style="background:linear-gradient(135deg,#033A37,var(--teal))"><div class="ctc-icon">🎓</div><div class="ctc-title">Eleva tu tesis con dato CAPECO</div><div class="ctc-sub">PME Académico · Primer semestre de acceso gratuito mientras tu facultad formaliza el convenio.</div><div class="ctc-url">pme.pe/academico</div></div></div><div class="c-slide-caption"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2041434144454d4941604d49530e5045">[email&#160;protected]</a> · +51 965 113 510</div></div>
+    </div>
+    <div class="carousel-nav" id="nav3">
+      <div class="c-dot active" onclick="scrollSlide('car3',0,'nav3')"></div>
+      <div class="c-dot" onclick="scrollSlide('car3',1,'nav3')"></div>
+      <div class="c-dot" onclick="scrollSlide('car3',2,'nav3')"></div>
+      <div class="c-dot" onclick="scrollSlide('car3',3,'nav3')"></div>
+      <div class="c-dot" onclick="scrollSlide('car3',4,'nav3')"></div>
+      <div class="c-dot" onclick="scrollSlide('car3',5,'nav3')"></div>
+    </div>
+    <div class="carousel-reactions"><span style="font-size:14px">👍</span><span style="font-size:14px">🎓</span><span style="font-size:14px">📚</span><span style="font-size:11px;color:var(--s4);margin-left:4px">198 · 33 comentarios · 18 reposts</span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     6. STORIES
+════════════════════════════════════ -->
+<section class="section" id="stories">
+  <div class="section-head">
+    <div class="sec-num">06 — Instagram / LinkedIn Stories</div>
+    <h2 class="sec-title">4 plantillas de Stories</h2>
+    <p class="sec-desc">Formato 1080×1920px (9:16). Publicar en Instagram Stories y LinkedIn Stories. Cada template con datos actualizables trimestralmente.</p>
+  </div>
+
+  <div class="stories-grid">
+
+    <!-- Story 1 -->
+    <div>
+      <div class="sub-label" style="margin-top:0;font-size:9px">Story 1 · Precio m²</div>
+      <div class="story-phone">
+        <div class="s1-bg" style="position:absolute;inset:0"></div>
+        <div class="story-notch"></div>
+        <div class="story-bars"><div class="story-bar done"></div><div class="story-bar"></div><div class="story-bar"></div><div class="story-bar"></div></div>
+        <div class="story-avatar-row"><div class="story-avatar-sm">PME</div><div><div class="story-name">PME CAPECO</div><div class="story-time">Hoy · 14:32</div></div></div>
+        <div class="story-body">
+          <div class="s1-dato">
+            <div class="s1-label">Precio promedio m² · Lima</div>
+            <div class="s1-num">S/ 6,174</div>
+            <div class="s1-unit">Q4 2025 · ↑ +9.3%</div>
+          </div>
+          <div style="font-size:9px;color:rgba(255,255,255,.35);text-align:center;margin-bottom:.5rem">Fuente: CAPECO PME · Dato censal</div>
+          <div class="s1-cta">Ver el dato completo → pme.pe</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 2 -->
+    <div>
+      <div class="sub-label" style="margin-top:0;font-size:9px">Story 2 · Absorción</div>
+      <div class="story-phone">
+        <div class="s2-bg" style="position:absolute;inset:0"></div>
+        <div class="story-notch"></div>
+        <div class="story-bars"><div class="story-bar done"></div><div class="story-bar done"></div><div class="story-bar"></div><div class="story-bar"></div></div>
+        <div class="story-avatar-row"><div class="story-avatar-sm" style="background:var(--teal)">PME</div><div><div class="story-name">PME CAPECO</div><div class="story-time">Hoy · 15:10</div></div></div>
+        <div class="story-body">
+          <div class="s2-metric">
+            <div class="sm-title">Absorción promedio Lima</div>
+            <div class="sm-num">4.2</div>
+            <div class="sm-unit">meses · Q4 2025</div>
+          </div>
+          <div class="s2-bars">
+            <div class="s2-bar-row"><div class="s2-bl">Lima Top</div><div class="s2-bt"><div class="s2-bf" style="width:40%"></div></div><div class="s2-bv">3.2 m</div></div>
+            <div class="s2-bar-row"><div class="s2-bl">Lima Moderna</div><div class="s2-bt"><div class="s2-bf" style="width:52%"></div></div><div class="s2-bv">4.2 m</div></div>
+            <div class="s2-bar-row"><div class="s2-bl">Lima Norte</div><div class="s2-bt"><div class="s2-bf" style="width:72%"></div></div><div class="s2-bv">5.8 m</div></div>
+          </div>
+          <div class="s2-swipe">Fuente: CAPECO PME · Dato censal</div>
+          <div class="s1-cta" style="background:rgba(255,255,255,.15);margin-top:.4rem">Swipe up · pme.pe</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 3 -->
+    <div>
+      <div class="sub-label" style="margin-top:0;font-size:9px">Story 3 · Tasamelo beta</div>
+      <div class="story-phone">
+        <div class="s3-bg" style="position:absolute;inset:0"></div>
+        <div class="story-notch"></div>
+        <div class="story-bars"><div class="story-bar done"></div><div class="story-bar done"></div><div class="story-bar done"></div><div class="story-bar"></div></div>
+        <div class="story-avatar-row"><div class="story-avatar-sm" style="background:var(--teal-d)">PME</div><div><div class="story-name">PME CAPECO</div><div class="story-time">Hoy · 16:00</div></div></div>
+        <div class="story-body">
+          <div class="s3-logo">
+            <div class="s3-wm">TASA<span>MELO</span></div>
+            <div class="s3-by">by PME CAPECO · Beta en 90 días</div>
+          </div>
+          <div class="s3-pitch"><div class="sp-text">"El precio real de cualquier inmueble en Lima — en 30 segundos"</div></div>
+          <div class="s3-steps">
+            <div class="s3-step-row"><div class="s3-step-num">1</div><div class="s3-step-text">Ubica el inmueble en el mapa</div></div>
+            <div class="s3-step-row"><div class="s3-step-num">2</div><div class="s3-step-text">Ingresa tipología y m²</div></div>
+            <div class="s3-step-row"><div class="s3-step-num">3</div><div class="s3-step-text">Precio estimado + tendencia</div></div>
+          </div>
+          <div class="s3-cta">Unirme a la lista beta →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story 4 -->
+    <div>
+      <div class="sub-label" style="margin-top:0;font-size:9px">Story 4 · Credibilidad</div>
+      <div class="story-phone">
+        <div class="s4-bg" style="position:absolute;inset:0"></div>
+        <div class="story-notch"></div>
+        <div class="story-bars"><div class="story-bar done"></div><div class="story-bar done"></div><div class="story-bar done"></div><div class="story-bar done"></div></div>
+        <div class="story-avatar-row"><div class="story-avatar-sm">PME</div><div><div class="story-name">PME CAPECO</div><div class="story-time">Hoy · 17:30</div></div></div>
+        <div class="story-body">
+          <div class="s4-content">
+            <div class="s4-years">63</div>
+            <div class="s4-years-label">Años de trayectoria · CAPECO</div>
+            <div class="s4-quote"><div class="s4-quote-text">"Cuando la cifra viene de CAPECO, el debate termina antes de empezar."</div><div class="s4-quote-author">— Gerente de Finanzas · Inmobiliaria Lima Norte</div></div>
+            <div class="s4-pills"><span class="s4-pill">Dato censal</span><span class="s4-pill">~50 empresas</span><span class="s4-pill">49 distritos</span></div>
+          </div>
+          <div class="s4-cta">Ver planes → pme.pe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     7. COPIES 30 DÍAS
+════════════════════════════════════ -->
+<section class="section" id="copies">
+  <div class="section-head">
+    <div class="sec-num">07 — Copy banco</div>
+    <h2 class="sec-title">30 copies listos para publicar</h2>
+    <p class="sec-desc">Un mes de contenido pre-redactado. Tres tipos: dato de mercado (lunes/miércoles), caso de uso (martes) y producto/CTA (viernes). Personalizar [DATO] antes de publicar.</p>
+  </div>
+
+  <!-- Semana 1 -->
+  <div class="sub-label">Semana 1</div>
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Lunes S1 · Dato de lanzamiento</span><span class="copy-type-badge">Dato mercado</span></div>
+    <div class="copy-body">
+      <div class="copy-subject">Copy listo para LinkedIn:</div>
+      <div class="copy-text">PME CAPECO se reinventa.
+
+Nuevo portal. Data censal actualizada. Tres experiencias diferenciadas: para el sector constructor, para banca y seguros, y para universidades.
+
+El dato censal de CAPECO sigue siendo el mismo que el sector ha aceptado sin cuestionamientos durante 63 años.
+
+Lo que cambia:
+
+→ Ahora está en un portal diseñado para tu perfil específico
+→ Con Tasamelo, el precio de cualquier inmueble en 30 segundos
+→ Con APIs para integrar el dato directamente en tus sistemas
+
+~50 empresas ya lo usan. El sector inmobiliario de Lima toma decisiones con este dato cada trimestre.
+
+¿Tu empresa también debería?
+
+👉 www.pme.pe</div>
+      <div class="copy-metrics">
+        <div class="copy-metric"><strong>Tipo:</strong> Lanzamiento</div>
+        <div class="copy-metric"><strong>Objetivo:</strong> Awareness + tráfico</div>
+        <div class="copy-metric"><strong>Imagen:</strong> Banner PME</div>
+        <div class="copy-metric"><strong>Hora ideal:</strong> 8:00–9:00 AM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Miércoles S1 · Dato precio m²</span><span class="copy-type-badge">Dato mercado</span></div>
+    <div class="copy-body">
+      <div class="copy-text">El precio promedio del metro cuadrado en Lima cerró el Q4 2025 en S/ 6,174.
+
+Esto es lo que eso significa para el mercado:
+
+→ Los proyectos de 2D siguen siendo el segmento con mayor absorción en Lima Moderna.
+→ Miraflores (S/ 8,417) y San Isidro (S/ 8,467) mantienen la brecha con el resto de Lima Top.
+→ La velocidad de absorción promedio es 37% promedio — estable frente al trimestre anterior.
+
+Un dato: la diferencia entre el precio censal PME y el precio de lista en portales puede llegar al 15% en ciertos distritos.
+
+¿Tu modelo financiero usa el precio real o el precio de anuncio?
+
+Fuente: CAPECO PME · Dato censal Q4 2025
+
+👉 pme.pe para acceder al dato completo</div>
+      <div class="copy-metrics">
+        <div class="copy-metric"><strong>Imagen:</strong> Post tipo 1 (precio m²)</div>
+        <div class="copy-metric"><strong>Actualizar:</strong> [DATO] cada trimestre</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Viernes S1 · Para Auspiciadores</span><span class="copy-type-badge">Producto/CTA</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Si tu empresa vende productos o servicios al sector inmobiliario en Lima, hay una audiencia que necesitas.
+
+PME CAPECO tiene más de 50+ empresas suscriptoras activas: constructoras, bancos, fondos, inmobiliarias, consultoras. Todas consultando el dato del mercado cada semana.
+
+Los paquetes de auspicio 2026 incluyen:
+
+→ Presencia en los dashboards que esta audiencia consulta a diario
+→ Logo en el informe trimestral PME de mayor distribución del sector
+→ Activaciones en el Congreso Construye Perú 2026
+→ Mención en el mailing CAPECO a 45,000+ contactos
+
+Planes desde USD 2,400/año. Cupos limitados por rubro.
+
+¿Te interesa? Escríbenos: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3a5b6bda7b2a093bebaa0fda3b6">[email&#160;protected]</a>
+
+👉 pme.pe — Quiero ser auspiciador</div>
+      <div class="copy-metrics">
+        <div class="copy-metric"><strong>Tipo:</strong> Lead gen auspiciadores</div>
+        <div class="copy-metric"><strong>Imagen:</strong> One-pager visual o banner</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semana 2 -->
+  <div class="sub-label">Semana 2</div>
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Lunes S2 · Absorción por corredor</span><span class="copy-type-badge">Dato mercado</span></div>
+    <div class="copy-body">
+      <div class="copy-text">¿Cuánto tarda en venderse un departamento en Lima según la zona?
+
+Los datos del Q4 2025 según el censo CAPECO:
+
+Lima Top (Miraflores, San Isidro): 40% Lima Top
+Lima Moderna (Surquillo, Barranco, San Miguel): 37% Q3 2025
+Lima Centro: 37% promedio
+Lima Norte (Los Olivos, SMP): 35% Lima Norte
+Lima Sur (Chorrillos, VES): 30% Lima Sur
+
+Lo que esto significa:
+
+→ Un proyecto en Lima Top se vende 2x más rápido que uno en Lima Sur.
+→ La absorción es el dato que define si el modelo financiero de un proyecto es viable.
+→ Sin dato censal, este análisis toma semanas de investigación manual.
+
+Con PME, está en el dashboard. En 5 minutos.
+
+Fuente: CAPECO PME · Dato censal Q4 2025
+
+👉 Solicita acceso: pme.pe</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Imagen:</strong> Post tipo 2 (absorción)</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Miércoles S2 · Caso uso banca</span><span class="copy-type-badge">Caso de uso</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Una hipoteca bloqueada en validación de tasación durante 4 días tiene un costo invisible.
+
+El analista de riesgo está bloqueado.
+La operación está en espera.
+El cliente empieza a mirar otras entidades.
+
+¿Y si el precio del colateral viniera del único dato censal del mercado — no del portal de avisos?
+
+Un banco que integró PME CAPECO a su proceso de scoring hipotecario reportó:
+→ Reducción del 40% en desacuerdos de tasación
+→ Tiempo de aprobación reducido de días a horas
+→ Sustento institucional CAPECO ante auditorías SBS
+
+El dato que usa para aprobar una hipoteca debería ser el mismo que el sector acepta sin cuestionamientos.
+
+¿Lo es hoy?
+
+📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1066757e647163507d79633e6075">[email&#160;protected]</a> — PoC gratuito de 30 días para tu área de Riesgo
+
+👉 pme.pe/bancos</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Tipo:</strong> Outreach banca</div><div class="copy-metric"><strong>Audiencia:</strong> Gerentes de riesgo</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Viernes S2 · Tasamelo preview</span><span class="copy-type-badge">Producto</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Estamos construyendo algo que el sector pedía hace tiempo.
+
+Tasamelo: el precio estimado de cualquier inmueble en Lima — en 30 segundos.
+
+¿Cómo funciona?
+1. Ubicas el inmueble en el mapa (GPS o dirección)
+2. Ingresas la tipología y los m²
+3. El motor cruza tu búsqueda con el dato censal CAPECO del corredor
+
+Resultado: precio estimado + rango de confianza + tendencia histórica desde 2017.
+
+Para tasadores, promotoras, bancos, fintechs e inversionistas que necesitan una referencia de precio en el momento, no en una semana.
+
+Beta disponible en 90 días.
+
+Los primeros 50 usuarios beta reciben 3 meses del plan PRO gratis.
+
+¿Te anoto?
+
+Comenta "beta" o escríbeme directamente.
+
+👉 pme.pe/tasamelo</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Tipo:</strong> Waitlist Tasamelo</div><div class="copy-metric"><strong>Imagen:</strong> Story 3 adaptada a feed</div></div>
+    </div>
+  </div>
+
+  <!-- Semana 3 -->
+  <div class="sub-label">Semana 3</div>
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Lunes S3 · Top distritos en alza</span><span class="copy-type-badge">Dato mercado</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Los 3 distritos con mayor alza de precio m² en Lima en el último año según el dato censal CAPECO:
+
+1. Miraflores: +11.2% interanual → S/ 8,417/m²
+2. San Miguel: +14.2% interanual → S/ 5,947/m²
+3. Barranco: +8.3% interanual → S/ 7,887/m²
+
+San Miguel es el dato más interesante. Está subiendo al doble de velocidad que Miraflores. ¿Por qué?
+
+→ Mayor disponibilidad de terrenos para desarrollo nuevo
+→ Demanda de compradores del segmento medio-alto que se desplaza desde Lima Moderna
+→ Absorción de 4.1 meses — mejor que el promedio de Lima
+
+Este tipo de insight está en PME — no en un portal de avisos.
+
+Fuente: CAPECO PME · Dato censal Q4 2025 vs Q4 2024
+
+👉 pme.pe — Accede al análisis completo</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Imagen:</strong> Post tipo 3 (distritos)</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Miércoles S3 · Para universidades</span><span class="copy-type-badge">Caso de uso</span></div>
+    <div class="copy-body">
+      <div class="copy-text">¿Estás haciendo tu tesis de arquitectura, ingeniería o gestión inmobiliaria?
+
+El problema de siempre: "¿De dónde saco el dato de mercado?"
+
+Opciones habituales:
+❌ Portal de avisos (precio de lista, no de cierre)
+❌ Estudio del 2021 que encontraste en Google
+❌ Datos del INEI que no tienen el nivel de detalle que necesitas
+
+La opción que los líderes del sector usan:
+✅ PME CAPECO — Dato censal de Lima Metropolitana, actualizado al Q4 2025
+
+Con PME puedes incluir en tu tesis:
+→ Precio m² real por distrito y tipología (1D, 2D, 3D+)
+→ Velocidad de absorción y stock disponible
+→ Tendencia histórica de precios desde 2017
+→ Mapa de calor de desarrollo urbano por zona
+
+El jurado ya no puede cuestionar la fuente. CAPECO lleva 63 años auditando este dato.
+
+¿Tu universidad tiene convenio PME Académico?
+
+Escríbenos a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0160626065646c6860416c68722f7164">[email&#160;protected]</a> y activamos acceso en 48 horas.
+
+👉 pme.pe/academico</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Audiencia:</strong> Estudiantes + docentes</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Viernes S3 · API PME</span><span class="copy-type-badge">Producto</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Si desarrollas plataformas para el sector inmobiliario o financiero en Perú, esto te interesa.
+
+La API PME CAPECO entrega:
+
+GET /precio-m2/{distrito} → Precio promedio m² actualizado
+GET /absorcion/{distrito} → Velocidad de venta en meses
+GET /stock/{distrito} → Unidades disponibles por segmento
+POST /valoracion → Estimación de precio por coordenadas + tipología (Tasamelo engine)
+
+100% dato censal CAPECO. No estimaciones. No web scraping.
+
+Casos de uso:
+→ Scoring hipotecario automatizado en banca digital
+→ Underwriting de seguros por zona
+→ Valuación instantánea en proptechs
+→ Análisis de portafolio para fondos inmobiliarios
+
+Planes desde USD 290/mes. Sandbox disponible sin compromiso.
+
+¿Construyes algo sobre real estate en Perú? Hablemos.
+
+📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="77011219031604371a1e04590712">[email&#160;protected]</a>
+
+👉 pme.pe/api — Documentación técnica</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Audiencia:</strong> Tech leads, fintechs</div></div>
+    </div>
+  </div>
+
+  <!-- Semana 4 -->
+  <div class="sub-label">Semana 4</div>
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Lunes S4 · Stock disponible Lima</span><span class="copy-type-badge">Dato mercado</span></div>
+    <div class="copy-body">
+      <div class="copy-text">El stock de viviendas en oferta activa en Lima cerró Q4 2025 con 26,000+ unidades proyectadas para el año.
+
+Desagregado por segmento:
+
+→ Lima Moderna: 8,200 unidades activas · absorción saludable
+→ Lima Top: 3,100 unidades · absorción agresiva (40% Lima Top)
+→ Lima Norte y Sur: 14,700 unidades · absorción más lenta
+
+Lo relevante:
+
+El segmento de 1D (un dormitorio) está siendo el driver de absorción en Lima Moderna. La demanda de inversionistas y jóvenes profesionales mantiene el ritmo de ventas.
+
+El segmento de 3D+ en Lima Norte tiene el stock más alto con la absorción más lenta — señal de sobreoferta potencial.
+
+¿Tu empresa está tomando decisiones con datos como estos?
+
+Fuente: CAPECO PME · Proyección Q4 2025
+
+👉 pme.pe — Accede al dato completo</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Imagen:</strong> Post tipo 2 o creativo de stock</div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Miércoles S4 · Testimonio cliente</span><span class="copy-type-badge">Prueba social</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Hay un momento en una reunión de directorio en el que alguien pregunta: "¿De dónde viene este número?"
+
+Los suscriptores de PME CAPECO nunca tienen que responder esa pregunta dos veces.
+
+"PME es la única fuente que nuestro directorio acepta sin pedir más sustento. Cuando la cifra viene de CAPECO, el debate termina antes de empezar."
+— Gerente de Finanzas · Inmobiliaria líder Lima Norte
+
+"Antes hacíamos estudios ad-hoc que costaban meses. Con PME armamos nuestro análisis de competencia en media mañana."
+— Director de Proyectos · Grupo promotor Miraflores
+
+"Incorporamos PME al proceso de evaluación de riesgo hipotecario. Bajamos los desacuerdos de tasación en un 40%."
+— Analista de Riesgo · Entidad financiera suscriptora
+
+~50 empresas del sector confían en este dato cada trimestre.
+
+¿La tuya debería ser la siguiente?
+
+👉 pme.pe — Solicitar demo</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Tipo:</strong> Social proof</div><div class="copy-metric"><strong>Alto engagement esperado</strong></div></div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-header"><span class="copy-header-label">Viernes S4 · Cierre de cupos auspiciadores</span><span class="copy-type-badge">Urgencia CTA</span></div>
+    <div class="copy-body">
+      <div class="copy-text">Los cupos de auspicio PME CAPECO 2026 se están llenando.
+
+Quedan disponibles:
+✅ 2 cupos PLATA (USD 3,600/año)
+✅ 4 cupos BRONCE (USD 2,400/año)
+❌ ORO: completo
+
+Si tu empresa vende al sector inmobiliario en Lima — constructoras, bancos, materiales, tecnología, seguros — este es el momento de asegurar tu presencia frente a los 50+ suscriptores activos de PME durante todo el año.
+
+Lo que incluye el paquete PLATA:
+→ Logo en dashboards de Lima (consultados diariamente)
+→ Mención en informe trimestral CAPECO (3 meses)
+→ Presencia en mailing a 45,000+ contactos (3 meses)
+→ 1 suscripción PME incluida
+
+El cierre de cupos es el 15 de abril.
+
+Escríbenos esta semana: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="84f2e1eaf0e5f7c4e9edf7aaf4e1">[email&#160;protected]</a>
+
+👉 pme.pe — Kit de auspicio</div>
+      <div class="copy-metrics"><div class="copy-metric"><strong>Tipo:</strong> Urgencia + cierre</div><div class="copy-metric"><strong>Personalizar:</strong> Cupos reales disponibles</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     8. CALENDARIO
+════════════════════════════════════ -->
+<section class="section" id="calendario">
+  <div class="section-head">
+    <div class="sec-num">08 — Plan editorial</div>
+    <h2 class="sec-title">Calendario 30 días</h2>
+    <p class="sec-desc">Plan de publicación para abril 2026. Columnas: Lunes (dato), Martes (caso/producto), Miércoles (dato), Viernes (CTA) y Domingo (perfil personal vocero).</p>
+  </div>
+
+  <div class="cal-grid">
+    <div class="cal-header-row">
+      <div class="cal-header-cell">Semana</div>
+      <div class="cal-header-cell">Lunes</div>
+      <div class="cal-header-cell">Martes</div>
+      <div class="cal-header-cell">Miércoles</div>
+      <div class="cal-header-cell">Viernes / Dom</div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-week"><div class="wk-num">Sem 1</div>Lanzamiento</div>
+      <div class="cal-cell"><span class="cal-post-type pt-producto">Producto</span><br>Anuncio relanzamiento PME + link pme.pe</div>
+      <div class="cal-cell"><span class="cal-post-type pt-caso">Caso</span><br>Promotora + terreno Surquillo — dato censal vs lista</div>
+      <div class="cal-cell"><span class="cal-post-type pt-dato">Dato</span><br>Precio m² Lima Q4 2025: S/ 6,174. Imagen post tipo 1</div>
+      <div class="cal-cell"><span class="cal-post-type pt-producto">CTA</span><br>Para auspiciadores: cupos 2026 abiertos. Kit adjunto</div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-week"><div class="wk-num">Sem 2</div>Banca & Fintechs</div>
+      <div class="cal-cell"><span class="cal-post-type pt-dato">Dato</span><br>Absorción por corredor. Imagen post tipo 2 con barras</div>
+      <div class="cal-cell"><span class="cal-post-type pt-carrusel">Carrusel</span><br>Carrusel 1: Banco aprueba hipoteca con PME (6 slides)</div>
+      <div class="cal-cell"><span class="cal-post-type pt-caso">Caso</span><br>Banco reduce desacuerdos de tasación 40% con PME</div>
+      <div class="cal-cell"><span class="cal-post-type pt-producto">Producto</span><br>Tasamelo preview + lista de espera beta</div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-week"><div class="wk-num">Sem 3</div>Promotoras & Sector</div>
+      <div class="cal-cell"><span class="cal-post-type pt-dato">Dato</span><br>Top 5 distritos precio m². Imagen post tipo 3</div>
+      <div class="cal-cell"><span class="cal-post-type pt-carrusel">Carrusel</span><br>Carrusel 2: Promotora decide terreno con PME (6 slides)</div>
+      <div class="cal-cell"><span class="cal-post-type pt-caso">Caso</span><br>Universidades + PME Académico. Reto de la tesis</div>
+      <div class="cal-cell"><span class="cal-post-type pt-producto">API</span><br>API PME para fintechs y proptechs. Endpoints + precio</div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-week"><div class="wk-num">Sem 4</div>Cierre de mes</div>
+      <div class="cal-cell"><span class="cal-post-type pt-dato">Dato</span><br>Stock activo Lima: 26,000+ unidades. Análisis por segmento</div>
+      <div class="cal-cell"><span class="cal-post-type pt-carrusel">Carrusel</span><br>Carrusel 3: Tesista valida viabilidad con PME Académico</div>
+      <div class="cal-cell"><span class="cal-post-type pt-caso">Social proof</span><br>3 testimonios reales de suscriptores. Post tipo narrativo</div>
+      <div class="cal-cell"><span class="cal-post-type pt-producto">Urgencia</span><br>Cierre de cupos auspiciadores. 2 PLATA + 4 BRONCE disponibles</div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-week"><div class="wk-num">Extra</div>Perfil vocero</div>
+      <div class="cal-cell" style="grid-column:span 4"><span class="cal-post-type pt-personal">Personal — Domingos (perfil del vocero)</span><br>Sem 1: "Por qué MIS eligió operar con CAPECO" · Sem 2: Reflexión sobre dato censal vs estimación · Sem 3: Análisis de mercado personal + dato de la semana · Sem 4: Hito de la semana (primer banco/universidad/convenio firmado)</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;background:#fff;border-radius:10px;border:1px solid var(--s2);padding:1.25rem;max-width:780px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:.875rem">Guía rápida de publicación</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;font-size:12.5px;color:var(--s6)">
+      <div><strong style="color:var(--navy)">Horario ideal:</strong> Lunes/Miércoles 8–9 AM · Viernes 12–1 PM</div>
+      <div><strong style="color:var(--navy)">Desde qué perfil:</strong> Company Page PME (posts de datos) + perfil personal (reflexiones)</div>
+      <div><strong style="color:var(--navy)">Formato imagen:</strong> 1080×1080 px para feed · 1080×1920 para stories</div>
+      <div><strong style="color:var(--navy)">Hashtags fijos:</strong> #CAPECO #MercadoInmobiliario #RealEstatePeru #PME</div>
+      <div><strong style="color:var(--navy)">Herramienta de calendarización:</strong> Buffer o LinkedIn native scheduler</div>
+      <div><strong style="color:var(--navy)">KPI semanal:</strong> Impresiones + clics a pme.pe + leads del formulario</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.main -->
+</div><!-- /.app -->
+
+<div class="copied-toast" id="toast">Copiado al portapapeles</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Nav active ──
+function goto(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+ 
