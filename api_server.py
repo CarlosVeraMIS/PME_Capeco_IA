@@ -137,43 +137,72 @@ cache = CacheManager(ttl_seconds=3600)  # 1 hora
 
 # ── Data Loading Functions ───────────────────────────────────────────────
 class DataLoader:
-    """Cargador de datos desde Parquet"""
-
+    def __init__(self):
+        self.cache = {}
+        self.cache_ttl = 3600  # 1 hora
+        self.use_azure = bool(os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
+        
+        if self.use_azure:
+            try:
+                from azure.storage.blob import BlobServiceClient
+                conn_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+                self.blob_service_client = BlobServiceClient.from_connection_string(conn_str)
+                self.container_client = self.blob_service_client.get_container_client("golddata")
+                print("✅ DataLoader: Conectado a Azure Blob Storage")
+            except Exception as e:
+                print(f"⚠️  Azure init error: {e}")
+                self.use_azure = False
+    
     @staticmethod
-    def load_latest_parquet(directory: str, pattern: str) -> Optional[pd.DataFrame]:
-        """Carga el archivo Parquet más reciente"""
+    def load_latest_parquet(directory: str, filename_pattern: str) -> pd.DataFrame:
+        """Carga desde Azure Storage o fallback a filesystem local"""
+        cache_key = f"{directory}:{filename_pattern}"
+        
+        # Verificar cache
+        if cache_key in DataLoader.__dict__.get('_cache', {}):
+            cached_data, timestamp = DataLoader.__dict__['_cache'][cache_key]
+            if time.time() - timestamp < 3600:
+                return cached_data
+        
         try:
-            data_dir = Path(directory)
-            if not data_dir.exists():
-                return None
-
-            files = sorted(
-                data_dir.glob(f"{pattern}*.parquet"),
-                key=lambda x: x.stat().st_mtime,
-                reverse=True
-            )
-
-            if not files:
-                return None
-
-            logger.info(f"Cargando: {files[0].name}")
-            return pq.read_table(str(files[0])).to_pandas()
-
+            # Intentar Azure primero
+            if hasattr(DataLoader, '_instance') and DataLoader._instance.use_azure:
+                return DataLoader._load_from_azure(filename_pattern)
         except Exception as e:
-            logger.error(f"Error cargando Parquet de {directory}: {e}")
-            return None
-
+            print(f"⚠️  Azure read error: {e}")
+        
+        # Fallback a filesystem local
+        return DataLoader._load_from_local(directory, filename_pattern)
+    
     @staticmethod
-    def load_gold_data() -> Dict[str, pd.DataFrame]:
-        """Carga todos los datos del Gold Layer"""
-        data = {}
+    def _load_from_azure(filename: str) -> pd.DataFrame:
+        """Lee archivo Parquet de Azure Blob Storage"""
+        try:
+            if not hasattr(DataLoader, '_instance'):
+                return pd.DataFrame()
+            
+            blob_client = DataLoader._instance.container_client.get_blob_client(filename)
+            data = blob_client.download_blob().readall()
+            return pd.read_parquet(io.BytesIO(data))
+        except Exception as e:
+            print(f"Error reading from Azure: {e}")
+            raise
+    
+    @staticmethod
+    def _load_from_local(directory: str, filename_pattern: str) -> pd.DataFrame:
+        """Lee archivo Parquet del filesystem local (fallback)"""
+        try:
+            path = Path(directory)
+            files = sorted(path.glob(filename_pattern), reverse=True)
+            if files:
+                return pd.read_parquet(files[0])
+        except Exception as e:
+            print(f"Error reading from local: {e}")
+        return pd.DataFrame()
 
-        data['projects'] = DataLoader.load_latest_parquet('gold_data', 'fact_capeco_certified')
-        data['districts'] = DataLoader.load_latest_parquet('gold_data', 'dim_distrito')
-        data['market_tiers'] = DataLoader.load_latest_parquet('gold_data', 'dim_market_tier')
-
-        return data
-
+# Instancia global
+_data_loader = DataLoader()
+DataLoader._instance = _data_loader
 
 # ── Health Check Endpoint ────────────────────────────────────────────────
 @app.get("/health", tags=["Health"])

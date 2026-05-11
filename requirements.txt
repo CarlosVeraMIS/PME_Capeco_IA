@@ -8,3 +8,5 @@ langchain-openai==0.3.35
 langchain-experimental==0.3.4
 langchain-community==0.3.31
 tabulate
+azure-storage-blob>=12.19.0
+azure-identity>=1.14.0
