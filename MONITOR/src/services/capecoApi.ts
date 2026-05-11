@@ -44,13 +44,13 @@ export interface DistrictMetrics {
 // Data transformation function to map API response fields to CapecoProject format
 function normalizeProject(rawData: any): CapecoProject {
   return {
-    id: rawData.id || rawData.projectId || '',
+    id: rawData.id || rawData.projectId || rawData.project_id || '',
     titulo: rawData.titulo || rawData.title || rawData.name || '',
-    distrito: rawData.distrito || rawData.district || rawData.location || '',
-    precio: toNumber(rawData.precio || rawData.price || rawData.total_price || 0),
+    distrito: rawData.distrito || rawData.district || rawData.distrito_norm || rawData.location || '',
+    precio: toNumber(rawData.precio || rawData.price || rawData.price_amount || rawData.total_price || 0),
     precioM2: toNumber(rawData.precioM2 || rawData.price_m2 || rawData.pricePerM2 || rawData.price_per_m2 || 0),
     area: toNumber(rawData.area || rawData.square_meters || rawData.area_m2 || 0),
-    dormitorios: toNumber(rawData.dormitorios || rawData.bedrooms || rawData.bed_rooms || rawData.num_bedrooms || 0),
+    dormitorios: toNumber(rawData.dormitorios || rawData.bedrooms || rawData.bed_rooms || rawData.num_bedrooms || rawData.NRO_DORMITORIOS || 0),
     banos: toNumber(rawData.banos || rawData.bathrooms || rawData.bath_rooms || rawData.num_bathrooms || 0),
     tipo: rawData.tipo || rawData.type || rawData.property_type || '',
     estado: rawData.estado || rawData.status || rawData.state || 'Disponible',
