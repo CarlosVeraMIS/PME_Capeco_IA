@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPECO Data Lake — Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .status {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .status-badge.offline {
+            background: #ef4444;
+        }
+
+        .status-text {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .last-update {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #667eea;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .metric-unit {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .metric-change {
+            font-size: 0.85em;
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .chart-container h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        .chart-error {
+            color: #ef4444;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+        }
+
+        thead {
+            background: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .metric-value {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 CAPECO Data Lake Dashboard</h1>
+            <p class="subtitle">Monitor de proyectos y métricas del Gold Layer</p>
+            <div class="status">
+                <div class="status-item">
+                    <div class="status-badge" id="api-status"></div>
+                    <span class="status-text">API: <strong id="api-status-text">Verificando...</strong></span>
+                </div>
+                <div class="status-item">
+                    <div class="status-badge" id="cache-status"></div>
+                    <span class="status-text">Caché: <strong id="cache-status-text">Verificando...</strong></span>
+                </div>
+            </div>
+            <div class="last-update" id="last-update">Última actualización: —</div>
+        </header>
+
+        <div class="controls">
+            <button onclick="loadAllData()">🔄 Actualizar</button>
+            <button onclick="clearCache()">🗑️ Limpiar Caché</button>
+            <button onclick="downloadReport()">📥 Descargar Reporte</button>
+        </div>
+
+        <div id="error-container"></div>
+
+        <!-- KPI Cards -->
+        <div class="grid">
+            <div class="card">
+                <h3>📍 Total de Proyectos</h3>
+                <div class="metric-value" id="total-projects">—</div>
+                <div class="metric-unit">proyectos en el sistema</div>
+            </div>
+
+            <div class="card">
+                <h3>💰 Valor Total</h3>
+                <div class="metric-value" id="total-value">—</div>
+                <div class="metric-unit">unidades monetarias</div>
+            </div>
+
+            <div class="card">
+                <h3>📈 Precio Promedio/m²</h3>
+                <div class="metric-value" id="avg-price">—</div>
+                <div class="metric-unit">por metro cuadrado</div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Absorción Promedio</h3>
+                <div class="metric-value" id="avg-absorption">—</div>
+                <div class="metric-unit">porcentaje</div>
+            </div>
+        </div>
+
+        <!-- Price Range -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h3>💵 Rango de Precios</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">Mínimo</div>
+                    <div class="metric-value" style="color: #ef4444;" id="price-min">—</div>
+                </div>
+                <div>
+                    <div style="color: #999; font-size: 0.9em; margin-bottom: 5px;">Máximo</div>
+                    <div class="metric-value" style="color: #10b981;" id="price-max">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-container">
+            <h2>📊 Distribución por Precio/m²</h2>
+            <div class="chart-wrapper">
+                <canvas id="priceDistributionChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>🏘️ Top Distritos</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Distrito</th>
+                            <th>Proyectos</th>
+                            <th>Precio Promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="districts-table">
+                        <tr><td colspan="3" class="loading"><div class="spinner"></div>Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>🎭 Análisis por Tier de Mercado</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Cantidad</th>
+                            <th>Porcentaje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="market-tiers-table">
+                        <tr><td colspan="3" class="loading"><div class="spinner"></div>Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>📋 Últimos Proyectos</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Proyecto</th>
+                            <th>Distrito</th>
+                            <th>Precio/m²</th>
+                            <th>Absorción %</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projects-table">
+                        <tr><td colspan="4" class="loading"><div class="spinner"></div>Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>CAPECO Data Lake Dashboard • v1.0.0 • Datos Gold Layer Certificados</p>
+            <p id="footer-info" style="margin-top: 10px; color: #ccc;">—</p>
+        </footer>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = localStorage.getItem('apiUrl') || window.location.origin;
+        let metricsData = {};
+        let projectsData = [];
+        let priceDistributionChart = null;
+
+        // API Helper
+        async function fetchAPI(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                showError(`Error fetching ${endpoint}: ${error.message}`);
+                throw error;
+            }
+        }
+
+        // Status Display
+        async function checkAPIStatus() {
+            try {
+                const data = await fetchAPI('/health');
+                updateStatusBadge('api-status', true);
+                document.getElementById('api-status-text').textContent = 'En línea';
+                updateStatusBadge('cache-status', data.cache_enabled);
+                document.getElementById('cache-status-text').textContent =
+                    data.cache_enabled ? 'Redis' : 'Memoria';
+                return true;
+            } catch (error) {
+                updateStatusBadge('api-status', false);
+                document.getElementById('api-status-text').textContent = 'Desconectada';
+                return false;
+            }
+        }
+
+        function updateStatusBadge(elementId, isOnline) {
+            const badge = document.getElementById(elementId);
+            badge.classList.toggle('offline', !isOnline);
+        }
+
+        // Load Data Functions
+        async function loadMetrics() {
+            try {
+                const data = await fetchAPI('/api/v1/gold/metrics');
+                metricsData = data.metrics;
+
+                document.getElementById('total-projects').textContent =
+                    formatNumber(data.metrics.total_projects);
+                document.getElementById('total-value').textContent =
+                    formatCurrency(data.metrics.total_value);
+                document.getElementById('avg-price').textContent =
+                    formatCurrency(data.metrics.avg_price_per_m2);
+                document.getElementById('avg-absorption').textContent =
+                    (data.metrics.avg_absorption_rate || 0).toFixed(2) + '%';
+                document.getElementById('price-min').textContent =
+                    formatCurrency(data.metrics.price_range.min);
+                document.getElementById('price-max').textContent =
+                    formatCurrency(data.metrics.price_range.max);
+
+                updateFooter(`Métricas actualizadas`);
+            } catch (error) {
+                console.error('Error loading metrics:', error);
+            }
+        }
+
+        async function loadProjects() {
+            try {
+                const data = await fetchAPI('/api/v1/gold/projects?limit=100');
+                projectsData = data.data;
+
+                // Load projects table (showing last 10)
+                const tbody = document.getElementById('projects-table');
+                const rows = projectsData.slice(0, 10).map(p => `
+                    <tr>
+                        <td>${escapeHtml(p.titulo || 'N/A')}</td>
+                        <td>${escapeHtml(p.distrito_norm || 'N/A')}</td>
+                        <td>${formatCurrency(p.price_per_m2 || 0)}</td>
+                        <td>${(p.absorption_rate_pct || 0).toFixed(2)}%</td>
+                    </tr>
+                `);
+                tbody.innerHTML = rows.length > 0 ? rows.join('') :
+                    '<tr><td colspan="4" style="text-align: center; color: #999;">No hay datos</td></tr>';
+
+                updateFooter(`${data.pagination.total} proyectos cargados`);
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
+        }
+
+        async function loadDistricts() {
+            try {
+                const data = await fetchAPI('/api/v1/gold/districts?limit=10');
+                const tbody = document.getElementById('districts-table');
+
+                if (data.data && data.data.length > 0) {
+                    const rows = data.data.map(d => `
+                        <tr>
+                            <td>${escapeHtml(d.titulo || d.distrito || 'N/A')}</td>
+                            <td>${d.count || 0}</td>
+                            <td>${formatCurrency(d.avg_price || 0)}</td>
+                        </tr>
+                    `);
+                    tbody.innerHTML = rows.join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">No hay datos</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading districts:', error);
+            }
+        }
+
+        async function loadMarketTiers() {
+            try {
+                const data = await fetchAPI('/api/v1/gold/market-tiers');
+                const tbody = document.getElementById('market-tiers-table');
+
+                if (data.data && data.data.length > 0) {
+                    const total = data.data.reduce((sum, t) => sum + (t.count || 0), 0);
+                    const rows = data.data.map(t => `
+                        <tr>
+                            <td>${escapeHtml(t.market_tier || 'N/A')}</td>
+                            <td>${t.count || 0}</td>
+                            <td>${total > 0 ? ((t.count / total * 100).toFixed(1)) : 0}%</td>
+                        </tr>
+                    `);
+                    tbody.innerHTML = rows.join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">No hay datos</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading market tiers:', error);
+            }
+        }
+
+        function updatePriceDistributionChart() {
+            if (!projectsData || projectsData.length === 0) return;
+
+            const prices = projectsData
+                .filter(p => p.price_per_m2)
+                .map(p => p.price_per_m2)
+                .sort((a, b) => a - b);
+
+            const ctx = document.getElementById('priceDistributionChart').getContext('2d');
+
+            if (priceDistributionChart) {
+                priceDistributionChart.destroy();
+            }
+
+            priceDistributionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({ length: 10 }, (_, i) =>
+                        `${(i * 10).toFixed(0)}-${((i + 1) * 10).toFixed(0)}`
+                    ),
+                    datasets: [{
+                        label: 'Proyectos por Rango de Precio',
+                        data: createHistogram(prices, 10),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createHistogram(data, bins) {
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const binSize = (max - min) / bins;
+            const histogram = Array(bins).fill(0);
+
+            data.forEach(value => {
+                const binIndex = Math.min(
+                    Math.floor((value - min) / binSize),
+                    bins - 1
+                );
+                histogram[binIndex]++;
+            });
+
+            return histogram;
+        }
+
+        // Utility Functions
+        function formatNumber(num) {
+            return new Intl.NumberFormat('es-ES').format(num || 0);
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(num || 0);
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function updateFooter(message) {
+            document.getElementById('footer-info').textContent =
+                `${message} • ${new Date().toLocaleString('es-ES')}`;
+            document.getElementById('last-update').textContent =
+                `Última actualización: ${new Date().toLocaleTimeString('es-ES')}`;
+        }
+
+        function showError(message) {
+            const container = document.getElementById('error-container');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            container.appendChild(errorDiv);
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        async function clearCache() {
+            try {
+                await fetchAPI('/admin/cache/clear');
+                showError('✓ Caché limpiado. Recargando datos...');
+                setTimeout(loadAllData, 1500);
+            } catch (error) {
+                showError(`Error limpiando caché: ${error.message}`);
+            }
+        }
+
+        function downloadReport() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                metrics: metricsData,
+                projects_count: projectsData.length
+            };
+
+            const blob = new Blob([JSON.stringify(report, null, 2)],
+                { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `capeco-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function loadAllData() {
+            await checkAPIStatus();
+            await loadMetrics();
+            await loadProjects();
+            await loadDistricts();
+            await loadMarketTiers();
+            updatePriceDistributionChart();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+            // Refresh every 5 minutes
+            setInterval(loadAllData, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>

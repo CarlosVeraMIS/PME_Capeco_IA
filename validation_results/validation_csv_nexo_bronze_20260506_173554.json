@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-05-06T17:35:54.421436",
+  "source": "csv_nexo",
+  "layer": "bronze",
+  "row_count": 3289,
+  "validations": {
+    "contract": {
+      "agent_name": "ContractValidAgent",
+      "timestamp": "2026-05-06T17:35:54.421451",
+      "status": "PASS",
+      "checks_passed": 6,
+      "checks_failed": 0,
+      "details": {}
+    },
+    "schema": {
+      "new_columns": [],
+      "removed_columns": [],
+      "type_changes": {},
+      "status": "OK"
+    },
+    "pii": {
+      "suspicious_columns": [
+        {
+          "column": "advertiser_phone",
+          "reason": "Nombre contiene 'phone'"
+        }
+      ],
+      "patterns_found": {
+        "project_uuid": "phone",
+        "load_id": "phone",
+        "raw_record_id": "phone",
+        "run_id": "phone",
+        "run_date": "phone",
+        "detalle_actualizado_at": "phone",
+        "location": "phone",
+        "scraped_at": "phone",
+        "created_at": "phone",
+        "project_unit_uuid": "phone",
+        "project_uuid-2": "phone",
+        "load_id-2": "phone",
+        "raw_record_id-2": "phone",
+        "payload_jsonb": "phone",
+        "created_at-2": "phone"
+      },
+      "risk_level": "MEDIUM",
+      "recommendations": [
+        "Encriptar columnas sensibles en tr\u00e1nsito",
+        "Aplicar data masking en vistas de usuarios",
+        "Auditar accesos a estas columnas",
+        "Documentar clasificaci\u00f3n de datos"
+      ]
+    },
+    "audit": {
+      "data_hash": "ea6e5a2075b79d5e3ede9877ffcbbfc51787da9c42723e678cad6b9562e77c34"
+    }
+  }
+}

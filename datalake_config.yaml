@@ -1,0 +1,261 @@
+# Data Lake CAPECO — Configuración Centralizada
+# =============================================
+# Gestiona rutas, conexiones y parámetros de todo el pipeline
+
+pipeline:
+  name: "CAPECO Data Lake"
+  version: "1.0.0"
+  owner: "Carlos Vera"
+  environment: "production"
+  orchestrator: "data_lake_orchestrator.py"
+
+# ─ Fuentes de Datos ─────────────────────────────────────────────────────
+sources:
+  csv:
+    path: "Material datos/data-proyectos-inmobiliarios.csv"
+    type: "CSV"
+    encoding: "utf-8"
+    description: "Datos scrapeados de Nexo Inmobiliario"
+    status: "active"
+
+  excel:
+    path: "Material datos/data2025Q4.xlsx"
+    sheet: "data2025Q4"
+    type: "XLSX"
+    description: "Datos Q4 2025 oficiales"
+    status: "active"
+
+  mysql:
+    host: "millennialprod.mysql.database.azure.com"
+    port: 3306
+    user: "azuremillennial"
+    database: "db_capeco"
+    ssl: true
+    type: "AZURE_MYSQL"
+    description: "Base de datos oficial CAPECO"
+    status: "active"
+
+# ─ Capas del Data Lake ──────────────────────────────────────────────────
+layers:
+  bronze:
+    description: "Ingesta cruda, sin transformación"
+    directory: "bronze_data"
+    metadata_dir: "bronze_metadata"
+    format: "parquet"
+    partitioning: "none"
+    retention_days: 90
+    agents:
+      - IngestAgent
+
+  silver:
+    description: "Datos limpios, normalizados, deduplicados"
+    directory: "silver_data"
+    metadata_dir: "silver_metadata"
+    format: "parquet"
+    partitioning: "by_source"
+    retention_days: 180
+    agents:
+      - CleansingAgent
+      - NormalizationAgent
+      - EnrichmentAgent
+
+  gold:
+    description: "Datos certificados, agregados, listos para BI"
+    directory: "gold_data"
+    metadata_dir: "gold_metadata"
+    format: "parquet"
+    partitioning: "by_table"
+    retention_days: 365
+    agents:
+      - BusinessAggregations
+      - DimensionGenerator
+      - FactGenerator
+
+# ─ Configuración Azure ──────────────────────────────────────────────────
+azure:
+  storage_account: "capecoDatalake"
+  adls_container: "capeco-lake"
+  resource_group: "capeco-rg"
+  key_vault: "capeco-keyvault"
+
+  tiers:
+    bronze:
+      path: "/bronze/"
+      sas_expiry_hours: 168
+    silver:
+      path: "/silver/"
+      sas_expiry_hours: 168
+    gold:
+      path: "/gold/"
+      sas_expiry_hours: 24
+
+# ─ Validación de Calidad ────────────────────────────────────────────────
+quality_checks:
+  bronze:
+    - name: "Schema Validation"
+      enabled: true
+      severity: "ERROR"
+    - name: "Null Check"
+      enabled: true
+      severity: "WARNING"
+      threshold_pct: 5
+
+  silver:
+    - name: "Duplicate Check"
+      enabled: true
+      severity: "ERROR"
+    - name: "Data Type Validation"
+      enabled: true
+      severity: "ERROR"
+    - name: "Normalization Audit"
+      enabled: true
+      severity: "WARNING"
+
+  gold:
+    - name: "Fact Integrity"
+      enabled: true
+      severity: "ERROR"
+    - name: "Dimension Completeness"
+      enabled: true
+      severity: "ERROR"
+    - name: "KPI Calculations"
+      enabled: true
+      severity: "WARNING"
+
+# ─ Cronograma de Ejecución ──────────────────────────────────────────────
+schedule:
+  bronze:
+    frequency: "daily"
+    time: "02:00"  # UTC
+    timeout_minutes: 30
+
+  silver:
+    frequency: "daily"
+    time: "03:00"  # UTC
+    timeout_minutes: 45
+
+  gold:
+    frequency: "daily"
+    time: "04:00"  # UTC
+    timeout_minutes: 60
+
+# ─ Notificaciones ────────────────────────────────────────────────────────
+notifications:
+  enabled: true
+  slack:
+    webhook: "${SLACK_WEBHOOK_URL}"
+    channels:
+      - "#data-lake-alerts"
+  email:
+    recipients:
+      - "carlos.j.vera.d@gmail.com"
+    on_failure: true
+    on_completion: true
+
+# ─ Monitoreo ─────────────────────────────────────────────────────────────
+monitoring:
+  enabled: true
+  metrics:
+    - "pipeline_duration_seconds"
+    - "rows_ingested"
+    - "rows_processed"
+    - "quality_score"
+    - "data_freshness_hours"
+
+  alerting:
+    pipeline_duration_threshold_minutes: 120
+    quality_score_threshold: 95
+    freshness_threshold_hours: 25
+
+# ─ Agentes IA ────────────────────────────────────────────────────────────
+agents:
+  llm:
+    provider: "azure_openai"  # azure_openai | openai | ollama
+    model: "gpt-4o-mini"
+    temperature: 0
+    max_tokens: 4000
+
+  llm_fallback:
+    provider: "ollama"
+    model: "llama3"
+    temperature: 0
+
+  capabilities:
+    - name: "IngestAgent"
+      module: "bronze_layer.IngestAgent"
+      description: "Coordina ingesta de múltiples fuentes"
+
+    - name: "CleansingAgent"
+      module: "silver_layer.CleansingAgent"
+      description: "Limpia datos: tipado, nulos, duplicados"
+
+    - name: "NormalizationAgent"
+      module: "silver_layer.NormalizationAgent"
+      description: "Normaliza texto, categorías, estándares"
+
+    - name: "EnrichmentAgent"
+      module: "silver_layer.EnrichmentAgent"
+      description: "Enriquece con cálculos y derivadas"
+
+    - name: "BusinessAggregations"
+      module: "gold_layer.BusinessAggregations"
+      description: "Calcula KPIs y métricas de negocio"
+
+# ─ APIs Publicadas ──────────────────────────────────────────────────────
+apis:
+  base_url: "https://capeco-datalake.azure-api.net"
+  version: "v1"
+
+  endpoints:
+    - path: "/gold/projects"
+      method: "GET"
+      table: "fact_projects"
+      cache_ttl_minutes: 60
+
+    - path: "/gold/metrics"
+      method: "GET"
+      table: "metrics_by_distrito"
+      cache_ttl_minutes: 120
+
+    - path: "/gold/districts"
+      method: "GET"
+      table: "dim_distrito"
+      cache_ttl_minutes: 240
+
+    - path: "/gold/market-tiers"
+      method: "GET"
+      table: "dim_market_tier"
+      cache_ttl_minutes: 240
+
+# ─ Logging ───────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"
+  format: "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+  output:
+    console: true
+    file: "logs/datalake.log"
+    cloudwatch: true
+
+# ─ Políticas de Retención ────────────────────────────────────────────────
+retention:
+  bronze:
+    days: 90
+    archive: false
+
+  silver:
+    days: 180
+    archive: false
+
+  gold:
+    days: 365
+    archive: true
+    archive_location: "capeco-archive"
+
+# ─ Auditoría y Cumplimiento ─────────────────────────────────────────────
+compliance:
+  gdpr_compliant: true
+  pii_scanning: true
+  data_classification: "INTERNAL"
+  audit_logging: true
+  encryption_at_rest: true
+  encryption_in_transit: true

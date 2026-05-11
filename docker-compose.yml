@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  capeco-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - STORAGE_MODE=local
+      - LOG_LEVEL=info
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./bronze_layer_data:/app/bronze_layer_data
+      - ./silver_layer_data:/app/silver_layer_data
+      - ./gold_layer_data:/app/gold_layer_data
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - capeco-network
+
+  capeco-dashboard:
+    image: nginx:alpine
+    ports:
+      - "9000:80"
+    volumes:
+      - ./dashboard.html:/usr/share/nginx/html/dashboard.html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - capeco-api
+    networks:
+      - capeco-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - capeco-network
+
+networks:
+  capeco-network:
+    driver: bridge

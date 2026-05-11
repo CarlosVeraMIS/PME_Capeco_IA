@@ -1,0 +1,56 @@
+{
+  "source": "tb_capeco_2026Q1_06052026.csv",
+  "rows": 9319,
+  "columns": 148,
+  "data_type": "REAL - Encuestas Inmobiliarias Q1 2026",
+  "timestamp": "2026-05-07T18:20:34.752224",
+  "layers": {
+    "bronze": {
+      "file": "bronze_data/tb_capeco_raw.parquet",
+      "rows": 9319,
+      "status": "RAW DATA"
+    },
+    "silver": {
+      "file": "silver_data/tb_capeco_normalized.parquet",
+      "rows": 9319,
+      "status": "NORMALIZED"
+    },
+    "gold": {
+      "file": "gold_data/fact_capeco_certified.parquet",
+      "rows": 9319,
+      "columns": [
+        "NRO ENCUESTA",
+        "COD_PROYECTO",
+        "NOMBRE DEL PROYECTO",
+        "ETAPA_DE_PROYECTO",
+        "TIPO_DE_OBRA",
+        "DISTRITO",
+        "URBANIZACION",
+        "SECTOR_URBANO",
+        "TIPO CONSTRUCTOR",
+        "NOMBRE DEL CONSTRUCTOR",
+        "AREA_CONSTRUCCION",
+        "AREA_TERRENO",
+        "NRO_PISOS",
+        "PRECIO_SOLES",
+        "PRECIO_X_M2",
+        "NRO_UNIDADES",
+        "NRO_DORMITORIOS",
+        "PCT_AVANCE",
+        "FASE",
+        "ANIO",
+        "TRIM",
+        "X",
+        "Y",
+        "FECHA_ENCUESTA"
+      ],
+      "status": "CERTIFIED"
+    }
+  },
+  "key_metrics": {
+    "total_projects": 1216,
+    "districts": 39,
+    "avg_price": 6549.730538083486,
+    "total_area": 76907258.0
+  }
+}

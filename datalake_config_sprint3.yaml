@@ -1,0 +1,196 @@
+# CAPECO DATA LAKE CONFIGURATION — SPRINT 3
+# ============================================
+# Configuración unificada para Bronze-Silver-Gold con soporte para Azure
+
+# ── Storage Backend Selection ────────────────────────────────────────────
+storage:
+  # Mode: "local" (desarrollo/testing) o "azure" (producción)
+  mode: "local"
+
+  # Configuración para modo local
+  local:
+    base_path: "."
+    bronze_directory: "bronze_data"
+    silver_directory: "silver_data"
+    gold_directory: "gold_data"
+
+  # Configuración para modo Azure ADLS Gen2 (descomenta para usar)
+  # azure:
+  #   storage_account_name: "capecovalencia"
+  #   storage_account_url: "https://capecovalencia.dfs.core.windows.net"
+  #   resource_group: "capeco-prod"
+  #   region: "eastus"
+  #
+  #   # Container Mappings
+  #   containers:
+  #     bronze: "bronze-layer"
+  #     silver: "silver-layer"
+  #     gold: "gold-layer"
+  #     governance: "audit-governance"
+  #
+  #   # Authentication method: "managed_identity" | "connection_string" | "service_principal"
+  #   authentication:
+  #     method: "managed_identity"
+  #     # Para connection_string (desarrollo local):
+  #     # connection_string: ${AZURE_STORAGE_CONNECTION_STRING}
+  #     # Para service_principal (CI/CD):
+  #     # tenant_id: ${AZURE_TENANT_ID}
+  #     # client_id: ${AZURE_CLIENT_ID}
+  #     # client_secret: ${AZURE_CLIENT_SECRET}
+
+# ── Data Sources ─────────────────────────────────────────────────────────
+data_sources:
+  csv_nexo:
+    type: "csv"
+    path: "data_sources/NEXO_2024_Proyectos_ALQUILER.csv"
+    encoding: "utf-8"
+    delimiter: ","
+
+  excel_q4:
+    type: "excel"
+    path: "data_sources/Q4_2024_Proyectos.xlsx"
+    sheet_name: "Proyectos"
+
+  # MySQL source (opcional para futuro)
+  # mysql_capeco:
+  #   type: "mysql"
+  #   host: ${MYSQL_HOST}
+  #   port: 3306
+  #   database: "capeco_prod"
+  #   user: ${MYSQL_USER}
+  #   password: ${MYSQL_PASSWORD}
+  #   query: "SELECT * FROM proyectos WHERE estado = 'activo'"
+
+# ── Bronze Layer (Ingesta Cruda) ─────────────────────────────────────────
+bronze:
+  # Configuración de ingesta
+  ingestion:
+    validate_on_load: true
+    handle_missing_columns: "warn"
+    encoding_detection: true
+
+  # Conversión de tipos
+  type_inference: true
+  nullable_columns:
+    - "descripcion"
+    - "notas"
+
+# ── Silver Layer (Limpieza y Normalización) ───────────────────────────────
+silver:
+  # Deduplicación
+  deduplication:
+    enabled: true
+    subset: ["titulo", "distrito", "precio"]
+    keep: "first"
+
+  # Normalización de columnas
+  normalization:
+    uppercase_fields: ["proyecto"]
+    trim_whitespace: true
+    remove_special_chars: false
+
+  # Validación de datos
+  validation:
+    null_threshold: 0.05  # Alerta si > 5% nulos en columna crítica
+    critical_columns:
+      - "titulo"
+      - "distrito"
+      - "precio_amount"
+
+# ── Gold Layer (Agregaciones y Certificación) ────────────────────────────
+gold:
+  # Fact Tables
+  fact_tables:
+    fact_projects:
+      grain: "project"
+      metrics:
+        - "price_per_m2"
+        - "absorption_rate_pct"
+        - "days_on_market"
+
+  # Dimension Tables
+  dimensions:
+    dim_distrito:
+      source_column: "distrito"
+      include_metrics: ["avg_price", "count"]
+
+    dim_market_tier:
+      source_column: "market_tier"
+      include_metrics: ["distribution_pct"]
+
+# ── Governance & Compliance ──────────────────────────────────────────────
+governance:
+  # Validación de contratos
+  contract_validation:
+    enabled: true
+    strict_mode: false  # warn vs fail
+
+  # Monitoreo de schema
+  schema_monitoring:
+    enabled: true
+    track_history: true
+    history_path: "schema_history"
+
+  # Detección de PII
+  pii_scan:
+    enabled: true
+    sensitive_patterns:
+      - "email"
+      - "phone"
+      - "ssn"
+      - "credit_card"
+      - "passport"
+
+  # Auditoría
+  audit:
+    enabled: true
+    log_directory: "audit_logs"
+    log_format: "jsonl"
+    retention_days: 2555  # 7 años para compliance
+
+  # SLA Monitoring
+  sla:
+    enabled: true
+    thresholds:
+      bronze_seconds: 30
+      silver_seconds: 45
+      gold_seconds: 60
+    alert_on_violation: true
+
+# ── Performance & Optimization ────────────────────────────────────────────
+performance:
+  # Concurrencia
+  max_concurrent_operations: 4
+
+  # Timeouts
+  operation_timeout_seconds: 300
+
+  # Caching (para APIs en Sprint 3)
+  cache:
+    enabled: false
+    backend: "redis"  # redis, memory, disk
+    ttl_seconds: 3600
+
+  # Parquet optimization
+  parquet:
+    compression: "snappy"
+    row_group_size: 128000
+
+# ── Monitoring & Logging ──────────────────────────────────────────────────
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "json"  # json o text
+  destinations:
+    - "console"
+    - "file:logs/pipeline.log"
+
+monitoring:
+  enable_metrics: true
+  metrics_interval_seconds: 60
+  export_format: "prometheus"
+
+# ── Deployment Environment ───────────────────────────────────────────────
+environment:
+  name: "development"  # development, staging, production
+  debug: false
+  enable_profiling: false

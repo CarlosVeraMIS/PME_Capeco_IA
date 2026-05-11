@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-05-06T17:43:01.518194",
+  "source": "csv_nexo",
+  "layer": "silver",
+  "row_count": 3289,
+  "validations": {
+    "contract": {
+      "agent_name": "ContractValidAgent",
+      "timestamp": "2026-05-06T17:43:01.518210",
+      "status": "PASS",
+      "checks_passed": 7,
+      "checks_failed": 0,
+      "details": {}
+    },
+    "schema": {
+      "new_columns": [],
+      "removed_columns": [],
+      "type_changes": {},
+      "status": "OK"
+    },
+    "pii": {
+      "suspicious_columns": [
+        {
+          "column": "advertiser_phone",
+          "reason": "Nombre contiene 'phone'"
+        }
+      ],
+      "patterns_found": {
+        "project_uuid": "phone",
+        "load_id": "phone",
+        "raw_record_id": "phone",
+        "run_id": "phone",
+        "run_date": "phone",
+        "detalle_actualizado_at": "phone",
+        "location": "phone",
+        "scraped_at": "phone",
+        "created_at": "phone",
+        "project_unit_uuid": "phone",
+        "project_uuid-2": "phone",
+        "load_id-2": "phone",
+        "raw_record_id-2": "phone",
+        "payload_jsonb": "phone",
+        "created_at-2": "phone",
+        "silver_ingestion_timestamp": "phone"
+      },
+      "risk_level": "MEDIUM",
+      "recommendations": [
+        "Encriptar columnas sensibles en tr\u00e1nsito",
+        "Aplicar data masking en vistas de usuarios",
+        "Auditar accesos a estas columnas",
+        "Documentar clasificaci\u00f3n de datos"
+      ]
+    },
+    "audit": {
+      "data_hash": "047374a65f88a5f88f1f74d8537833db2fe4ded2b80ce6b73cbc0477d3b6595b"
+    }
+  }
+}

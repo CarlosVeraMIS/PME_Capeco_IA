@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PME CAPECO — Plan Estratégico 3 Fases</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --navy:   #0F2340;
+  --navy-m: #1B3A5C;
+  --navy-l: #243F6A;
+  --orange: #E8500D;
+  --orange-w:#F97316;
+  --teal:   #0D9488;
+  --teal-l: #0F766E;
+  --blue:   #1D6FE8;
+  --gold:   #C9A227;
+  --slate1: #F8FAFC;
+  --slate2: #F1F5F9;
+  --slate3: #E2E8F0;
+  --slate4: #64748B;
+  --slate6: #334155;
+  --slate8: #0F172A;
+  --white:  #FFFFFF;
+  --bg:     #FFFFFF;
+
+  --f1: #1D4ED8;
+  --f2: #0D9488;
+  --f3: #7C3AED;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--slate8);
+  overflow-x: hidden;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── GRID BG ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(15,35,64,.03) 0, rgba(15,35,64,.03) 1px, transparent 1px, transparent 72px),
+    repeating-linear-gradient(0deg, rgba(15,35,64,.03) 0, rgba(15,35,64,.03) 1px, transparent 1px, transparent 72px);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── SIDEBAR NAV ── */
+.sidebar {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 260px;
+  background: #0F2340;
+  border-right: 1px solid rgba(255,255,255,.06);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 0 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-badge {
+  display: inline-block;
+  background: var(--orange);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  padding: .15rem .5rem;
+  border-radius: .2rem;
+  margin-bottom: .5rem;
+}
+
+.sidebar-title {
+  font-size: .85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.9);
+  line-height: 1.3;
+}
+
+.sidebar-sub {
+  font-size: .65rem;
+  color: rgba(255,255,255,.45);
+  margin-top: .2rem;
+}
+
+.nav-section {
+  padding: 0 1rem;
+  margin-bottom: .25rem;
+}
+
+.nav-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  padding: .35rem .5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .45rem .65rem;
+  border-radius: .4rem;
+  cursor: pointer;
+  transition: all .15s;
+  text-decoration: none;
+  color: rgba(255,255,255,.55);
+  font-size: .8rem;
+  font-weight: 600;
+}
+.nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+.nav-item.active { background: rgba(29,111,232,.25); color: #93C5FD; }
+.nav-item.f1 { --phase-color: var(--f1); }
+.nav-item.f2 { --phase-color: var(--f2); }
+.nav-item.f3 { --phase-color: var(--f3); }
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: .65rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.5;
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: 260px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 4rem 4rem 3rem;
+  border-bottom: 1px solid var(--slate3);
+  position: relative;
+  overflow: hidden;
+  background: var(--slate1);
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,111,232,.06) 0%, transparent 65%);
+  right: -150px; top: -150px;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .7rem;
+  color: var(--blue);
+  letter-spacing: .1em;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.hero-eyebrow::before {
+  content: '//';
+  opacity: .4;
+}
+
+.hero-h1 {
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+  letter-spacing: -.02em;
+  color: var(--navy);
+}
+
+.hero-h1 .accent { color: var(--orange); }
+.hero-h1 .accent2 { color: var(--teal); }
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--slate4);
+  max-width: 680px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+/* Phase pills */
+.phase-pills {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.phase-pill {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 1rem;
+  border-radius: .4rem;
+  font-size: .8rem;
+  font-weight: 700;
+  border: 1px solid;
+  text-decoration: none;
+  transition: all .2s;
+}
+.phase-pill:hover { transform: translateY(-2px); }
+
+.pill-f1 { background: rgba(29,78,216,.08); border-color: rgba(29,78,216,.25); color: #1D4ED8; }
+.pill-f1:hover { background: rgba(29,78,216,.14); }
+.pill-f2 { background: rgba(13,148,136,.08); border-color: rgba(13,148,136,.25); color: var(--teal); }
+.pill-f2:hover { background: rgba(13,148,136,.14); }
+.pill-f3 { background: rgba(124,58,237,.08); border-color: rgba(124,58,237,.25); color: #7C3AED; }
+.pill-f3:hover { background: rgba(124,58,237,.14); }
+
+.pill-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  opacity: .7;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 3.5rem 4rem;
+  border-bottom: 1px solid var(--slate3);
+  background: #fff;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.section-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  color: var(--slate4);
+  padding-top: .35rem;
+  flex-shrink: 0;
+}
+
+.section-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.section-h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  color: var(--navy);
+}
+
+.section-sub {
+  font-size: .95rem;
+  color: var(--slate4);
+  line-height: 1.7;
+  margin-top: .5rem;
+  max-width: 700px;
+  font-weight: 400;
+}
+
+/* ── PHASE HEADER BLOCK ── */
+.phase-header {
+  border-radius: .75rem;
+  padding: 2rem 2.5rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.phase-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.phase-f1 { background: #EFF6FF; border-color: #BFDBFE; }
+.phase-f1::before { background: linear-gradient(90deg, #1D4ED8, transparent); }
+.phase-f2 { background: #F0FDFA; border-color: #99F6E4; }
+.phase-f2::before { background: linear-gradient(90deg, #0D9488, transparent); }
+.phase-f3 { background: #FAF5FF; border-color: #DDD6FE; }
+.phase-f3::before { background: linear-gradient(90deg, #7C3AED, transparent); }
+
+.phase-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: .25rem;
+  margin-bottom: .75rem;
+}
+
+.f1-tag { background: rgba(29,78,216,.1); color: #1D4ED8; }
+.f2-tag { background: rgba(13,148,136,.1); color: #0D9488; }
+.f3-tag { background: rgba(124,58,237,.1); color: #7C3AED; }
+
+.phase-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: .5rem;
+}
+
+.phase-timeline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .75rem;
+  color: var(--slate4);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.phase-kpis {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--slate3);
+}
+
+.phase-kpi-n {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: .15rem;
+}
+
+.phase-kpi-l {
+  font-size: .7rem;
+  color: var(--slate4);
+  line-height: 1.4;
+}
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--slate1);
+  border: 1px solid var(--slate3);
+  border-radius: .65rem;
+  padding: 1.5rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.card:hover { border-color: #93C5FD; box-shadow: 0 4px 16px rgba(29,111,232,.08); }
+
+.card-icon { font-size: 1.4rem; margin-bottom: .75rem; }
+.card-title { font-size: .95rem; font-weight: 700; margin-bottom: .5rem; color: var(--navy); }
+.card-body { font-size: .85rem; color: var(--slate4); line-height: 1.7; }
+.card-tag {
+  display: inline-block;
+  margin-top: .75rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .6rem;
+  padding: .15rem .45rem;
+  border-radius: .2rem;
+  background: rgba(29,111,232,.08);
+  color: #1D4ED8;
+  font-weight: 600;
+}
+
+/* Data source cards */
+.ds-card {
+  background: var(--slate1);
+  border: 1px solid var(--slate3);
+  border-radius: .6rem;
+  padding: 1.25rem;
+}
+.ds-name { font-size: .85rem; font-weight: 700; margin-bottom: .25rem; color: var(--navy); }
+.ds-type {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .6rem;
+  color: var(--slate4);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: .65rem;
+}
+.ds-pill {
+  display: inline-block;
+  font-size: .65rem;
+  padding: .15rem .45rem;
+  border-radius: .25rem;
+  font-weight: 600;
+}
+.ds-body { font-size: .82rem; color: var(--slate4); line-height: 1.6; margin-top: .65rem; }
+
+/* Agent cards */
+.agent-card {
+  border-radius: .75rem;
+  overflow: hidden;
+  border: 1px solid var(--slate3);
+}
+.agent-header {
+  padding: .85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.agent-icon { font-size: 1.2rem; }
+.agent-name { font-size: .9rem; font-weight: 700; color: var(--navy); }
+.agent-role { font-size: .7rem; color: var(--slate4); margin-top: .1rem; }
+.agent-body { padding: 1.25rem; background: #fff; }
+.agent-body ul { list-style: none; }
+.agent-body li {
+  font-size: .85rem;
+  color: var(--slate6);
+  padding: .3rem 0;
+  border-bottom: 1px solid var(--slate3);
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+}
+.agent-body li:last-child { border-bottom: none; }
+.agent-body li::before {
+  content: '→';
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .7rem;
+  color: var(--slate4);
+  flex-shrink: 0;
+  margin-top: .1rem;
+}
+.agent-trigger {
+  padding: .75rem 1.25rem;
+  background: var(--slate1);
+  border-top: 1px solid var(--slate3);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .7rem;
+  color: var(--slate4);
+}
+.agent-trigger span { font-weight: 600; color: var(--slate6); }
+
+/* Governance table */
+.gov-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-bottom: 1.5rem; }
+.gov-table th {
+  text-align: left;
+  padding: .75rem 1rem;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+.gov-table td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--slate3);
+  vertical-align: top;
+  color: var(--slate6);
+}
+.gov-table tr:last-child td { border-bottom: none; }
+.gov-table tr:nth-child(even) td { background: var(--slate1); }
+.gov-table .field-name { font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--teal); font-weight: 600; }
+.gov-table .owner { font-weight: 700; color: var(--navy); }
+.gov-table .status { display: inline-block; padding: .15rem .5rem; border-radius: .25rem; font-size: .7rem; font-weight: 700; }
+.status-ok { background: rgba(13,148,136,.1); color: #0F766E; }
+.status-warn { background: rgba(245,158,11,.12); color: #B45309; }
+.status-no { background: rgba(239,68,68,.1); color: #DC2626; }
+
+/* Roadmap timeline */
+.roadmap {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.rm-phase {
+  flex: 1;
+  position: relative;
+}
+
+.rm-header {
+  padding: 1rem 1.25rem;
+  border-radius: .5rem .5rem 0 0;
+}
+
+.rm-body {
+  border: 1px solid var(--slate3);
+  border-top: none;
+  border-radius: 0 0 .5rem .5rem;
+  padding: 1.25rem;
+  background: var(--slate1);
+}
+
+.rm-connector {
+  position: absolute;
+  right: -16px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font-size: 1rem;
+  color: var(--slate4);
+}
+
+.rm-milestone {
+  display: flex;
+  gap: .65rem;
+  padding: .45rem 0;
+  border-bottom: 1px solid var(--slate3);
+  font-size: .8rem;
+  color: var(--slate4);
+}
+.rm-milestone:last-child { border-bottom: none; }
+.rm-milestone::before {
+  content: '◆';
+  font-size: .5rem;
+  flex-shrink: 0;
+  margin-top: .3rem;
+}
+
+/* Dependency callout */
+.callout {
+  border-radius: .6rem;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  font-size: .875rem;
+  line-height: 1.65;
+}
+.callout-warn { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25); }
+.callout-info { background: rgba(29,111,232,.08); border: 1px solid rgba(29,111,232,.25); }
+.callout-teal { background: rgba(13,148,136,.08); border: 1px solid rgba(13,148,136,.25); }
+.callout-icon { font-size: 1.2rem; flex-shrink: 0; }
+.callout-body { color: var(--slate6); }
+.callout-body strong { color: var(--navy); font-weight: 700; }
+
+/* Divider */
+.divider { height: 1px; background: rgba(255,255,255,.05); margin: 2rem 0; }
+
+/* Tag inline */
+.tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  padding: .15rem .45rem;
+  border-radius: .25rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Scroll animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fadeUp .5s ease both; }
+
+/* Progress bar */
+.progress-label { font-size: .7rem; color: var(--slate4); margin-bottom: .35rem; display: flex; justify-content: space-between; }
+.progress-bar { height: 6px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; margin-bottom: .85rem; }
+.progress-fill { height: 100%; border-radius: 3px; }
+
+/* Layer diagram */
+.layers { display: flex; flex-direction: column; gap: .5rem; margin: 1.5rem 0; }
+.layer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .85rem 1.25rem;
+  border-radius: .5rem;
+  border: 1px solid var(--slate3);
+}
+.layer-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  width: 100px;
+  color: var(--slate4);
+}
+.layer-name { font-size: .9rem; font-weight: 700; flex: 1; color: var(--navy); }
+.layer-items { font-size: .78rem; color: var(--slate6); }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-badge">ESTRATEGIA</div>
+    <div class="sidebar-title">PME CAPECO<br>Plan Estratégico</div>
+    <div class="sidebar-sub">MIS · 3 Fases · 2026–2027</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Visión</div>
+    <a href="#overview" class="nav-item">
+      <span class="nav-dot" style="background:#E8500D"></span>Overview ejecutivo
+    </a>
+    <a href="#arquitectura" class="nav-item">
+      <span class="nav-dot" style="background:#1D6FE8"></span>Arquitectura de datos
+    </a>
+  </div>
+
+  <div class="nav-section" style="margin-top:.75rem">
+    <div class="nav-label">Fase 1 · Q2 2026</div>
+    <a href="#f1-governance" class="nav-item f1">
+      <span class="nav-dot" style="background:#1D4ED8"></span>Governance de datos
+    </a>
+    <a href="#f1-datalake" class="nav-item f1">
+      <span class="nav-dot" style="background:#1D4ED8"></span>Data Lake CAPECO
+    </a>
+    <a href="#f1-agentes" class="nav-item f1">
+      <span class="nav-dot" style="background:#1D4ED8"></span>Agentes fundacionales
+    </a>
+    <a href="#f1-ai" class="nav-item f1">
+      <span class="nav-dot" style="background:#1D4ED8"></span>IA adopción inicial
+    </a>
+  </div>
+
+  <div class="nav-section" style="margin-top:.75rem">
+    <div class="nav-label">Fase 2 · Q3-Q4 2026</div>
+    <a href="#f2-fuentes" class="nav-item f2">
+      <span class="nav-dot" style="background:#0D9488"></span>Integración multi-fuente
+    </a>
+    <a href="#f2-agentes" class="nav-item f2">
+      <span class="nav-dot" style="background:#0D9488"></span>Agentes de análisis
+    </a>
+    <a href="#f2-productos" class="nav-item f2">
+      <span class="nav-dot" style="background:#0D9488"></span>Productos PME
+    </a>
+    <a href="#f2-ai" class="nav-item f2">
+      <span class="nav-dot" style="background:#0D9488"></span>IA en operaciones
+    </a>
+  </div>
+
+  <div class="nav-section" style="margin-top:.75rem">
+    <div class="nav-label">Fase 3 · Q1-Q2 2027</div>
+    <a href="#f3-plataforma" class="nav-item f3">
+      <span class="nav-dot" style="background:#7C3AED"></span>Plataforma predictiva
+    </a>
+    <a href="#f3-agentes" class="nav-item f3">
+      <span class="nav-dot" style="background:#7C3AED"></span>Agentes autónomos
+    </a>
+    <a href="#f3-tasamelo" class="nav-item f3">
+      <span class="nav-dot" style="background:#7C3AED"></span>Tasamelo IA
+    </a>
+    <a href="#f3-ai" class="nav-item f3">
+      <span class="nav-dot" style="background:#7C3AED"></span>IA full adoption
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    Millennial Information Systems<br>
+    En alianza con CAPECO · Lima, Perú<br>
+    <span style="color:#FDA174">ventas@mis.pe</span>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     HERO / OVERVIEW
+══════════════════════════════════════ -->
+<section class="hero" id="overview">
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">PME CAPECO · Plan Estratégico · MIS × CAPECO</div>
+  <h1 class="hero-h1">
+    De datos en Azure<br>a una plataforma de<br>
+    <span class="accent">inteligencia inmobiliaria</span><br>
+    <span class="accent2">gobernada por IA</span>
+  </h1>
+  <p class="hero-desc">
+    Tres fases para transformar la base de datos censal de CAPECO en una plataforma de inteligencia de mercado multi-producto, con governance robusto, ingesta de fuentes externas (Nexo, portales, PROVEECON) y agentes de IA como motor operativo central.
+  </p>
+
+  <div class="phase-pills">
+    <a href="#f1-governance" class="phase-pill pill-f1">
+      <span class="pill-num">01</span> Governance + Data Lake · Q2 2026
+    </a>
+    <a href="#f2-fuentes" class="phase-pill pill-f2">
+      <span class="pill-num">02</span> Multi-fuente + Productos · Q3–Q4 2026
+    </a>
+    <a href="#f3-plataforma" class="phase-pill pill-f3">
+      <span class="pill-num">03</span> Plataforma IA Autónoma · Q1–Q2 2027
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body">
+      <strong>Prerequisito crítico antes de la Fase 1:</strong> Confirmar con CAPECO si el acuerdo MIS permite el uso comercial del campo <code style="font-family:monospace;font-size:.8rem;background:rgba(255,255,255,.1);padding:.1rem .3rem;border-radius:.2rem">TELEFONO CONSTRUCTOR</code> como dato de prospección en PME Proveedores. Sin esa validación, no se debe exponer ese campo en ningún producto.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ARQUITECTURA DE DATOS
+══════════════════════════════════════ -->
+<section class="section" id="arquitectura">
+  <div class="section-header">
+    <div class="section-num">00</div>
+    <div>
+      <div class="section-eyebrow" style="color:var(--blue)">Arquitectura objetivo</div>
+      <h2 class="section-h2">Capas del ecosistema de datos PME</h2>
+      <p class="section-sub">Todo el plan opera sobre una arquitectura de 5 capas. Cada fase agrega una capa o eleva la capa existente.</p>
+    </div>
+  </div>
+
+  <div class="layers">
+    <div class="layer" style="background:rgba(13,78,216,.1);border-color:rgba(13,78,216,.3)">
+      <div class="layer-label">Capa 5</div>
+      <div class="layer-name">🤖 Agentes IA</div>
+      <div class="layer-items">DataQualityAgent · PricingAgent · AlertAgent · TasamAgent · ReportAgent · BrokerAgent</div>
+    </div>
+    <div class="layer" style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3)">
+      <div class="layer-label">Capa 4</div>
+      <div class="layer-name">📊 Productos PME</div>
+      <div class="layer-items">PME CAPECO · PME Proveedores · Tasamelo · API PME · PME Académico</div>
+    </div>
+    <div class="layer" style="background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.3)">
+      <div class="layer-label">Capa 3</div>
+      <div class="layer-name">⚙️ Semantic Layer / APIs internas</div>
+      <div class="layer-items">Data catalog · Métricas certificadas · Endpoints REST · Cache de consultas</div>
+    </div>
+    <div class="layer" style="background:#FFF7ED;border-color:#FDBA74">
+      <div class="layer-label">Capa 2</div>
+      <div class="layer-name">🗄️ Data Lake unificado</div>
+      <div class="layer-items">CAPECO (Azure MySQL) · Nexo scraper · Urbania scraper · PROVEECON · Municipalidades</div>
+    </div>
+    <div class="layer" style="background:rgba(15,35,64,.8);border-color:rgba(255,255,255,.12)">
+      <div class="layer-label">Capa 1</div>
+      <div class="layer-name">📥 Ingesta & Governance</div>
+      <div class="layer-items">Data contracts · Schema registry · Linaje · Calidad · Auditoría · RBAC</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FASE 1 — GOVERNANCE + DATA LAKE
+══════════════════════════════════════ -->
+<section class="section" id="f1-governance" style="background:#F8FAFF">
+  <div class="phase-header phase-f1">
+    <div class="phase-tag f1-tag">FASE 1 · Q2 2026 · 90 días</div>
+    <div class="phase-title">Governance de datos + Data Lake CAPECO</div>
+    <div class="phase-timeline">
+      <span>🗓 Abr — Jun 2026</span>
+      <span>·</span>
+      <span>Equipo: 2 data engineers + 1 data steward</span>
+      <span>·</span>
+      <span>Inversión: ~USD 18,000</span>
+    </div>
+    <div class="phase-kpis">
+      <div>
+        <div class="phase-kpi-n" style="color:#1D4ED8">163,914</div>
+        <div class="phase-kpi-l">registros históricos<br>gobernados</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#1D4ED8">100%</div>
+        <div class="phase-kpi-l">campos con owner<br>y SLA definido</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#1D4ED8">3</div>
+        <div class="phase-kpi-l">data contracts<br>formalizados</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#1D4ED8">0</div>
+        <div class="phase-kpi-l">accesos directos<br>a producción</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-eyebrow" style="color:#1D4ED8">1.1 Governance de información</div>
+      <h2 class="section-h2">Política de datos para la BD CAPECO</h2>
+      <p class="section-sub">Antes de agregar fuentes externas, hay que gobernar lo que ya tenemos. Esto define el estándar para todo lo que venga después.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body"><strong>¿Por qué governance primero?</strong> La BD CAPECO tiene campos con completitud 0% (MARCA_PINTURA_1), campos con alto ruido semántico ("No precisan", "No informa"), y columnas con espacios en el nombre que requieren backtick quoting. Sin governance, cada producto que construyas hereda esos problemas sin saberlo.</div>
+  </div>
+
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;color:var(--slate3)">Clasificación y ownership de campos críticos</h3>
+
+  <div style="overflow-x:auto;border-radius:.65rem;overflow:hidden;border:1px solid rgba(255,255,255,.07);margin-bottom:1.5rem">
+    <table class="gov-table">
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Completitud</th>
+          <th>Clasificación</th>
+          <th>Owner</th>
+          <th>SLA calidad</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="field-name">FASE</td>
+          <td>100%</td>
+          <td>Core · Público</td>
+          <td class="owner">CAPECO campo</td>
+          <td>99.9% sin nulo</td>
+          <td><span class="status status-ok">✓ Listo</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">X / Y (GPS)</td>
+          <td>100%</td>
+          <td>Core · Público</td>
+          <td class="owner">CAPECO campo</td>
+          <td>100% coordenadas válidas</td>
+          <td><span class="status status-ok">✓ Listo</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">NOMBRE DEL CONSTRUCTOR</td>
+          <td>92.9%</td>
+          <td>PII Nivel 1 · Restringido</td>
+          <td class="owner">CAPECO legal</td>
+          <td>Normalización de nombres</td>
+          <td><span class="status status-warn">⚠ En revisión</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">TELEFONO CONSTRUCTOR</td>
+          <td>91.8%</td>
+          <td>PII Nivel 2 · Pendiente aprobación</td>
+          <td class="owner">CAPECO + MIS Legal</td>
+          <td>Validación formato +51</td>
+          <td><span class="status status-warn">⚠ Requiere sign-off</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">PRECIO_X_M2</td>
+          <td>~80%</td>
+          <td>Core · Confidencial</td>
+          <td class="owner">MIS analítica</td>
+          <td>Rango válido S/1k–S/20k</td>
+          <td><span class="status status-ok">✓ Listo</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">MARCA_SANITARIO</td>
+          <td>100% reg / 14.8% útil</td>
+          <td>Enriquecimiento · Semipúblico</td>
+          <td class="owner">MIS analítica</td>
+          <td>Limpieza "No precisan"</td>
+          <td><span class="status status-warn">⚠ Limpieza pendiente</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">MARCA_PINTURA_1</td>
+          <td>0%</td>
+          <td>Excluido v1</td>
+          <td class="owner">—</td>
+          <td>No aplica</td>
+          <td><span class="status status-no">✗ Excluido</span></td>
+        </tr>
+        <tr>
+          <td class="field-name">BANCO</td>
+          <td>100%</td>
+          <td>Core · Semipúblico</td>
+          <td class="owner">MIS analítica</td>
+          <td>Lista blanca bancos Perú</td>
+          <td><span class="status status-ok">✓ Listo</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Data Contracts</div>
+      <div class="card-body">Formalizar 3 contratos: CAPECO→MIS (ingesta trimestral), MIS→PME CAPECO (publicación), MIS→PME Proveedores (uso comercial). Cada contrato define schema, SLA, campos permitidos y restricciones PII.</div>
+      <span class="card-tag">Semana 2-4</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Linaje de datos</div>
+      <div class="card-body">Documentar origen de cada campo desde el formulario CAPECO de campo hasta el endpoint API. Cualquier analista debe poder rastrear de dónde viene un precio m² publicado en el portal.</div>
+      <span class="card-tag">Semana 3-6</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">RBAC + Auditoría</div>
+      <div class="card-body">Role-Based Access Control por producto. PME CAPECO no accede a TELEFONO CONSTRUCTOR. PME Proveedores solo accede a campos aprobados por CAPECO. Log de acceso a campos PII.</div>
+      <span class="card-tag">Semana 4-8</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-header" id="f1-datalake">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-eyebrow" style="color:#1D4ED8">1.2 Data Lake</div>
+      <h2 class="section-h2">Migración de Azure MySQL a arquitectura Lake</h2>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color:rgba(13,78,216,.3)">
+      <div class="card-title">📦 Estado actual</div>
+      <div class="card-body">
+        Azure MySQL · millennialprod.mysql.database.azure.com<br>
+        Base: db_capeco · Tabla: data_capeco_full<br>
+        163,914 registros · Acceso directo con credenciales compartidas<br>
+        Sin particionado · Sin versionado · Sin snapshot histórico<br><br>
+        <strong style="color:#FCA5A5">Riesgo: Un query mal escrito puede bloquear producción.</strong>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(13,148,136,.3)">
+      <div class="card-title">🎯 Objetivo Fase 1</div>
+      <div class="card-body">
+        Azure Data Lake Storage Gen2 sobre el MySQL existente<br>
+        Capa Bronze (raw CAPECO) → Silver (limpia) → Gold (certificada)<br>
+        Particionado por ANIO + TRIM + DISTRITO<br>
+        Snapshots trimestrales inmutables con versión<br>
+        Acceso solo via API interna — cero acceso directo a MySQL<br><br>
+        <strong style="color:#0D9488">Los scripts Python actuales siguen funcionando vía API.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="layers" style="margin-top:1rem">
+    <div class="layer" style="background:#FFFBEB;border-color:#FDE68A">
+      <div class="layer-label" style="color:#B45309">GOLD</div>
+      <div class="layer-name" style="color:#B45309">Datos certificados</div>
+      <div class="layer-items">Precios m² verificados · Absorción calculada · Marcas normalizadas · Sin PII expuesta · Disponible para productos</div>
+    </div>
+    <div class="layer" style="background:#F0FDFA;border-color:#99F6E4">
+      <div class="layer-label" style="color:#0D9488">SILVER</div>
+      <div class="layer-name" style="color:#0D9488">Datos limpios</div>
+      <div class="layer-items">Deduplicados · Normalizados · Tipos validados · "No precisan" eliminados · GPS validados · Campos PII enmascarados</div>
+    </div>
+    <div class="layer" style="background:var(--slate2);border-color:var(--slate3)">
+      <div class="layer-label">BRONZE</div>
+      <div class="layer-name">Datos raw</div>
+      <div class="layer-items">CAPECO MySQL tal cual · Snapshot trimestral inmutable · Con todos los campos incluyendo PII · Solo acceso interno</div>
+    </div>
+  </div>
+
+  <div class="divider" id="f1-agentes"></div>
+
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-eyebrow" style="color:#1D4ED8">1.3 Agentes fundacionales</div>
+      <h2 class="section-h2">Los primeros 3 agentes del ecosistema</h2>
+      <p class="section-sub">Los agentes no son chatbots. Son procesos autónomos con objetivo, herramientas y criterio de éxito definidos. Operan sobre el Data Lake y producen outputs estructurados.</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="agent-card">
+      <div class="agent-header" style="background:#EFF6FF">
+        <div class="agent-icon">🔍</div>
+        <div>
+          <div class="agent-name">DataQualityAgent</div>
+          <div class="agent-role">Guardián de la capa Silver</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Detecta registros duplicados por COD_PROYECTO + TRIM + ANIO</li>
+          <li>Valida coordenadas GPS dentro de bounding box Lima</li>
+          <li>Identifica PRECIO_X_M2 fuera de rango estadístico (±3σ)</li>
+          <li>Genera reporte de calidad por carga trimestral</li>
+          <li>Bloquea paso a capa Gold si completitud &lt; umbral</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Cada carga trimestral CAPECO</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#FFF7ED">
+        <div class="agent-icon">🏷️</div>
+        <div>
+          <div class="agent-name">NormalizationAgent</div>
+          <div class="agent-role">Limpiador semántico</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Estandariza marcas: "TREBOL" = "Trébol" = "trebol s.a."</li>
+          <li>Clasifica "No precisan" / "No informa" como NULL estructurado</li>
+          <li>Normaliza nombres de constructoras (SENDA = Senda Inmobiliaria)</li>
+          <li>Unifica variantes de nombres de distritos</li>
+          <li>Produce diccionario de aliases actualizado trimestralmente</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Post DataQualityAgent, pre Gold</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#F0FDFA">
+        <div class="agent-icon">📋</div>
+        <div>
+          <div class="agent-name">LineageAgent</div>
+          <div class="agent-role">Trazabilidad automática</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Registra cada transformación Bronze→Silver→Gold con timestamp</li>
+          <li>Documenta qué versión del dato usa cada producto</li>
+          <li>Alerta si un campo cambia definición entre trimestres</li>
+          <li>Genera changelog automático para el equipo técnico</li>
+          <li>Responde "¿de dónde viene este precio?" en lenguaje natural</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Continuo · evento por transformación</span></div>
+    </div>
+  </div>
+
+  <div class="divider" id="f1-ai"></div>
+
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div>
+      <div class="section-eyebrow" style="color:#1D4ED8">1.4 Plan de adopción IA — Fase 1</div>
+      <h2 class="section-h2">IA integrada desde el primer día</h2>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Para el equipo de datos (MIS interno)</div>
+      <div class="card-body">
+        Claude para escribir y revisar queries SQL complejos sobre la BD<br><br>
+        GitHub Copilot en los scripts Python de ingesta y transformación<br><br>
+        Claude para documentar automáticamente columnas, relaciones y diccionario de datos<br><br>
+        Cursor IDE para desarrollo de los agentes fundacionales
+      </div>
+      <span class="card-tag">Herramientas: Claude API · Copilot · Cursor</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Para el equipo comercial (MIS + CAPECO)</div>
+      <div class="card-body">
+        Claude.ai para redactar respuestas a RFPs y propuestas comerciales<br><br>
+        Asistente de análisis: subir exports de la BD y pedir insights en lenguaje natural<br><br>
+        Generación de slides de reporte trimestral a partir de datos estructurados<br><br>
+        Entrenamiento 4h: cómo usar Claude para análisis de mercado inmobiliario
+      </div>
+      <span class="card-tag">Capacitación: 4h · semana 6</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FASE 2 — MULTI-FUENTE + PRODUCTOS
+══════════════════════════════════════ -->
+<section class="section" id="f2-fuentes" style="background:#F0FDFA">
+  <div class="phase-header phase-f2">
+    <div class="phase-tag f2-tag">FASE 2 · Q3–Q4 2026 · 180 días</div>
+    <div class="phase-title">Integración multi-fuente + Lanzamiento de productos</div>
+    <div class="phase-timeline">
+      <span>🗓 Jul — Dic 2026</span>
+      <span>·</span>
+      <span>Equipo: +1 ML engineer · +1 product manager</span>
+      <span>·</span>
+      <span>Inversión: ~USD 45,000</span>
+    </div>
+    <div class="phase-kpis">
+      <div>
+        <div class="phase-kpi-n" style="color:#0D9488">5+</div>
+        <div class="phase-kpi-l">fuentes integradas<br>en el lake</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#0D9488">3</div>
+        <div class="phase-kpi-l">productos PME<br>en producción</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#0D9488">6</div>
+        <div class="phase-kpi-l">agentes de análisis<br>operativos</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#0D9488">20+</div>
+        <div class="phase-kpi-l">suscriptores<br>pagos activos</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-eyebrow" style="color:#0D9488">2.1 Fuentes de datos externas</div>
+      <h2 class="section-h2">El lake crece: de CAPECO al mercado completo</h2>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:1.5rem">
+    <div class="ds-card">
+      <div class="ds-name">Nexo Inmobiliario</div>
+      <div class="ds-type">Portal comercial · ASEI / CODIP</div>
+      <span class="ds-pill" style="background:rgba(232,80,13,.15);color:#FCA5A5">Precio de LISTA</span>
+      <div class="ds-body">Scraping vía API pública o acuerdo de datos. Aporta precio de oferta por proyecto. Útil como referencia de spread lista/cierre. Actualización: semanal.</div>
+    </div>
+    <div class="ds-card">
+      <div class="ds-name">Urbania / Adondevivir</div>
+      <div class="ds-type">Portal inmobiliario · OLX Group</div>
+      <span class="ds-pill" style="background:rgba(245,158,11,.15);color:#FCD34D">Precio de OFERTA</span>
+      <div class="ds-body">Mayor cobertura que Nexo. Incluye proyectos no afiliados a ASEI. Aporta foto de la oferta visible al mercado para triangulación con dato CAPECO.</div>
+    </div>
+    <div class="ds-card">
+      <div class="ds-name">Municipalidades Lima</div>
+      <div class="ds-type">Datos abiertos · Open data gov</div>
+      <span class="ds-pill" style="background:rgba(13,148,136,.15);color:#5EEAD4">Oficial</span>
+      <div class="ds-body">Resoluciones de licencias de edificación (datosabiertos.gob.pe). Permite detectar obras en etapas tempranas antes del censo CAPECO. Actualización: mensual.</div>
+    </div>
+    <div class="ds-card">
+      <div class="ds-name">SUNARP / Registros Públicos</div>
+      <div class="ds-type">Propiedad · Transacciones formales</div>
+      <span class="ds-pill" style="background:rgba(13,78,216,.15);color:#93C5FD">Transaccional</span>
+      <div class="ds-body">Precio de transferencia real escriturado. El dato más próximo al precio de cierre real — complementa y valida el precio CAPECO. Alta latencia (2-3 meses).</div>
+    </div>
+    <div class="ds-card">
+      <div class="ds-name">BCRP · Tipo de cambio</div>
+      <div class="ds-type">Macro · Banco Central</div>
+      <span class="ds-pill" style="background:rgba(13,148,136,.15);color:#5EEAD4">Oficial</span>
+      <div class="ds-body">API pública del BCRP. Normalizar precios USD/PEN en toda la BD. Requerido para el módulo de análisis histórico de Tasamelo y el módulo financiero.</div>
+    </div>
+    <div class="ds-card">
+      <div class="ds-name">INEI · Demografía / NSE</div>
+      <div class="ds-type">Censal · Socioeconómico</div>
+      <span class="ds-pill" style="background:rgba(71,85,105,.3);color:var(--slate3)">Enriquecimiento</span>
+      <div class="ds-body">Datos de NSE por manzana del Censo 2017. Permite enriquecer cada obra de CAPECO con el perfil socioeconómico de su zona. Actualización: decenal.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body">
+      <strong>Governance extendido:</strong> Cada fuente nueva requiere su propio data contract antes de entrar al lake. Los datos de Nexo y Urbania son precio de LISTA y deben etiquetarse explícitamente en la capa Gold para que nunca se confundan con el precio de CIERRE de CAPECO. Esta distinción es la ventaja competitiva central de PME.
+    </div>
+  </div>
+
+  <div class="divider" id="f2-agentes"></div>
+
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-eyebrow" style="color:#0D9488">2.2 Agentes de análisis</div>
+      <h2 class="section-h2">Agentes que leen, comparan y alertan</h2>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="agent-card">
+      <div class="agent-header" style="background:#FFF7ED">
+        <div class="agent-icon">💰</div>
+        <div>
+          <div class="agent-name">PriceSpreadAgent</div>
+          <div class="agent-role">Arbitraje lista vs cierre</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Compara precio Nexo (lista) vs CAPECO (cierre) por proyecto</li>
+          <li>Calcula spread por distrito y segmento NSE</li>
+          <li>Detecta proyectos con spread atípico (&gt;20%)</li>
+          <li>Alimenta el módulo de validación LTV de Tasamelo</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Semanal · post ingesta Nexo</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#F0FDFA">
+        <div class="agent-icon">🔔</div>
+        <div>
+          <div class="agent-name">AlertAgent</div>
+          <div class="agent-role">Notificaciones de mercado</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>PME Proveedores: obras nuevas en fase correcta por zona</li>
+          <li>PME CAPECO: variaciones de precio m² &gt; 5% en un trimestre</li>
+          <li>Tasamelo: propiedades similares recientemente transadas</li>
+          <li>Canal: email · WhatsApp API · webhook a CRM del suscriptor</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Trimestral + evento real-time</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#FAF5FF">
+        <div class="agent-icon">📊</div>
+        <div>
+          <div class="agent-name">ReportAgent</div>
+          <div class="agent-role">Generador de reportes automáticos</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Genera el reporte trimestral PME en PDF desde la capa Gold</li>
+          <li>Personaliza el reporte por suscriptor (distritos de interés)</li>
+          <li>Incluye comparativa vs trimestre anterior automáticamente</li>
+          <li>Versión ejecutiva (1 página) y técnica (20 páginas)</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Cada publicación trimestral CAPECO</span></div>
+    </div>
+  </div>
+
+  <div class="divider" id="f2-productos"></div>
+
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-eyebrow" style="color:#0D9488">2.3 Productos en producción</div>
+      <h2 class="section-h2">Los tres productos sobre el mismo lake</h2>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color:rgba(232,80,13,.3)">
+      <div class="card-icon">📊</div>
+      <div class="card-title">PME CAPECO</div>
+      <div class="card-body">El producto core. Dashboard con precio de cierre real, absorción, stock y tendencia histórica. Actualización Q4 2026 incluye triangulación CAPECO + Nexo para mostrar spread lista/cierre.</div>
+      <span class="card-tag">Fuentes: CAPECO + Nexo + BCRP</span>
+    </div>
+    <div class="card" style="border-color:rgba(13,148,136,.3)">
+      <div class="card-icon">🏗️</div>
+      <div class="card-title">PME Proveedores</div>
+      <div class="card-body">Radar de obras activas con GPS, contacto constructor y pipeline por fase de avance. Q4 2026 incluye alertas automáticas vía AlertAgent y exportación CRM.</div>
+      <span class="card-tag">Fuentes: CAPECO + Municipalidades</span>
+    </div>
+    <div class="card" style="border-color:rgba(13,78,216,.3)">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">Tasamelo Beta</div>
+      <div class="card-body">Precio estimado de inmueble en 30 segundos vía geolocalización + BD CAPECO. Beta para suscriptores y auspiciadores. PriceSpreadAgent alimenta el modelo de valuación.</div>
+      <span class="card-tag">Fuentes: CAPECO + SUNARP + BCRP</span>
+    </div>
+  </div>
+
+  <div class="divider" id="f2-ai"></div>
+
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div>
+      <div class="section-eyebrow" style="color:#0D9488">2.4 IA en operaciones — Fase 2</div>
+      <h2 class="section-h2">IA integrada en cada proceso operativo</h2>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Análisis de datos y producto</div>
+      <div class="card-body">
+        <strong>PME Analysis Copilot:</strong> Interface en lenguaje natural sobre la capa Gold. Los analistas preguntan "¿cuál es la absorción promedio en Miraflores Q4 2025?" y el agente genera el SQL, lo ejecuta y devuelve el resultado en prosa.<br><br>
+        <strong>Detección de anomalías:</strong> Claude API + LLM para clasificar si un precio outlier es error de captura o dato real atípico — reemplaza la revisión manual.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Ventas y soporte</div>
+      <div class="card-body">
+        <strong>Asistente de propuestas:</strong> Claude genera propuestas personalizadas a partir del tipo de cliente (banco, promotora, universidad) y los datos reales del mercado.<br><br>
+        <strong>Chatbot de soporte PME:</strong> Agente entrenado sobre el manual de usuario y los datos disponibles. Responde "¿qué distritos tienen precio m² mayor a S/8,000?" sin intervención humana.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <span class="callout-icon">🎓</span>
+    <div class="callout-body">
+      <strong>Plan de capacitación Fase 2:</strong> Taller 8h "Trabajo con IA en análisis inmobiliario" para el equipo completo MIS + CAPECO. Casos prácticos con la BD real: análisis de precios, detección de anomalías, generación de reportes. Incluye prompt engineering para contexto inmobiliario peruano.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FASE 3 — PLATAFORMA IA AUTÓNOMA
+══════════════════════════════════════ -->
+<section class="section" id="f3-plataforma" style="background:#FAF5FF">
+  <div class="phase-header phase-f3">
+    <div class="phase-tag f3-tag">FASE 3 · Q1–Q2 2027 · 180 días</div>
+    <div class="phase-title">Plataforma predictiva + Agentes autónomos</div>
+    <div class="phase-timeline">
+      <span>🗓 Ene — Jun 2027</span>
+      <span>·</span>
+      <span>Equipo: +1 AI engineer · +1 data scientist</span>
+      <span>·</span>
+      <span>Inversión: ~USD 70,000</span>
+    </div>
+    <div class="phase-kpis">
+      <div>
+        <div class="phase-kpi-n" style="color:#7C3AED">10+</div>
+        <div class="phase-kpi-l">agentes autónomos<br>en producción</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#7C3AED">5</div>
+        <div class="phase-kpi-l">productos PME<br>con IA embebida</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#7C3AED">USD 30k+</div>
+        <div class="phase-kpi-l">MRR estimado<br>estabilizado</div>
+      </div>
+      <div>
+        <div class="phase-kpi-n" style="color:#7C3AED">80%</div>
+        <div class="phase-kpi-l">procesos analíticos<br>automatizados</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header" id="f3-agentes">
+    <div class="section-num">03</div>
+    <div>
+      <div class="section-eyebrow" style="color:#7C3AED">3.1 Agentes autónomos</div>
+      <h2 class="section-h2">El ecosistema de agentes completo</h2>
+      <p class="section-sub">En Fase 3, los agentes no solo monitorean y alertan — toman decisiones y ejecutan acciones sin intervención humana dentro de los límites definidos.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="agent-card">
+      <div class="agent-header" style="background:#EDE9FE">
+        <div class="agent-icon">🏠</div>
+        <div>
+          <div class="agent-name">TasamAgent</div>
+          <div class="agent-role">Valuación automática en tiempo real</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Recibe coordenadas GPS de un inmueble</li>
+          <li>Busca comparables en radio de 500m con características similares</li>
+          <li>Aplica modelo hedónico entrenado sobre BD CAPECO + SUNARP</li>
+          <li>Produce valor estimado con intervalo de confianza y justificación</li>
+          <li>Descarta outliers usando PriceSpreadAgent como referencia</li>
+          <li>Actualiza el modelo cada trimestre con nuevos datos CAPECO</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>API call Tasamelo · &lt;30seg latencia objetivo</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#FED7AA">
+        <div class="agent-icon">📈</div>
+        <div>
+          <div class="agent-name">ForecastAgent</div>
+          <div class="agent-role">Predicción de precios por corredor</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Modelo de series de tiempo por distrito (SARIMA + LightGBM)</li>
+          <li>Inputs: precio histórico CAPECO + absorción + licencias municipales + BCRP</li>
+          <li>Forecast a 2 y 4 trimestres por segmento NSE y tipología</li>
+          <li>Produce "precio proyectado Q3 2027 en Surquillo 2D" con IC</li>
+          <li>Se publica en el reporte trimestral como sección premium</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Trimestral + actualización de licencias</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#CCFBF1">
+        <div class="agent-icon">🕵️</div>
+        <div>
+          <div class="agent-name">MarketWatchAgent</div>
+          <div class="agent-role">Vigilancia continua de mercado</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Monitorea Nexo y Urbania diariamente buscando cambios de precio</li>
+          <li>Detecta proyectos nuevos en portales no registrados aún en CAPECO</li>
+          <li>Identifica proyectos que bajaron precio ≥5% (señal de stock alto)</li>
+          <li>Alimenta el mapa de calor de velocidad de ventas en PME CAPECO</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Diario · 02:00 AM Lima</span></div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-header" style="background:#DBEAFE">
+        <div class="agent-icon">🤝</div>
+        <div>
+          <div class="agent-name">BrokerAgent</div>
+          <div class="agent-role">Matching proveedor-obra</div>
+        </div>
+      </div>
+      <div class="agent-body">
+        <ul>
+          <li>Para PME Proveedores: cruza perfil del proveedor con obras en su ventana de oportunidad</li>
+          <li>Prioriza obras por tamaño, accesibilidad y probabilidad de compra</li>
+          <li>Genera script de llamada personalizado para el vendedor</li>
+          <li>Aprende de historial: si el constructor usó Trébol antes, sugiere Trébol</li>
+          <li>Integra directamente en el CRM del suscriptor via webhook</li>
+        </ul>
+      </div>
+      <div class="agent-trigger">trigger: <span>Semanal + on-demand por vendedor</span></div>
+    </div>
+  </div>
+
+  <div class="divider" id="f3-tasamelo"></div>
+
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div>
+      <div class="section-eyebrow" style="color:#7C3AED">3.2 Tasamelo como producto autónomo</div>
+      <h2 class="section-h2">De beta a producto con IA embebida</h2>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color:rgba(13,148,136,.3)">
+      <div class="card-icon">📍</div>
+      <div class="card-title">Geolocalización + BD</div>
+      <div class="card-body">El usuario ingresa dirección o abre la app y el GPS determina la ubicación. TasamAgent busca los 20 comparables más cercanos y similares en la capa Gold CAPECO.</div>
+    </div>
+    <div class="card" style="border-color:rgba(124,58,237,.3)">
+      <div class="card-icon">🧮</div>
+      <div class="card-title">Modelo hedónico</div>
+      <div class="card-body">Precio estimado basado en área, piso, tipología, amenities, distancia a vías principales y precio histórico por corredor. Entrenado sobre datos reales CAPECO + SUNARP.</div>
+    </div>
+    <div class="card" style="border-color:rgba(232,80,13,.3)">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Reporte instantáneo</div>
+      <div class="card-body">Valuación en PDF con metodología, comparables, rango de precio y sello CAPECO. Válido para sustento ante bancos. Genera el reporte en &lt;30 segundos.</div>
+    </div>
+  </div>
+
+  <div class="divider" id="f3-ai"></div>
+
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div>
+      <div class="section-eyebrow" style="color:#7C3AED">3.3 IA full adoption — Fase 3</div>
+      <h2 class="section-h2">IA en cada elemento del negocio</h2>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color:rgba(124,58,237,.3)">
+      <div class="card-title">Producto y análisis</div>
+      <div class="card-body">
+        <strong>PME Copilot público:</strong> Los suscriptores preguntan en lenguaje natural: "¿cuántos depas de 2D están disponibles en Jesús María bajo S/500k?" y el agente responde en segundos con datos certificados.<br><br>
+        <strong>Dashboard generativo:</strong> El reporte trimestral se genera automáticamente por el ReportAgent, el equipo solo revisa y aprueba — ya no construye el reporte desde cero.
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(124,58,237,.3)">
+      <div class="card-title">Recursos, materiales y comunicaciones</div>
+      <div class="card-body">
+        <strong>Materiales de ventas:</strong> El equipo comercial usa un agente interno que genera one-pagers, propuestas y decks personalizados por cliente en &lt;5 minutos.<br><br>
+        <strong>Contenido RRSS:</strong> Agente genera los posts semanales de LinkedIn con datos reales del mercado — curados por el equipo, no escritos desde cero.<br><br>
+        <strong>Capacitación continua:</strong> Biblioteca de prompts y casos de uso IA actualizados trimestralmente para todo el equipo.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ROADMAP VISUAL
+══════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">00</div>
+    <div>
+      <div class="section-eyebrow" style="color:#FDA174">Roadmap consolidado</div>
+      <h2 class="section-h2">De hoy a la plataforma IA en 12 meses</h2>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-bottom:1.5rem">
+    <div class="rm-phase">
+      <div class="rm-header" style="background:rgba(13,78,216,.2);border:1px solid rgba(13,78,216,.3)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#93C5FD;margin-bottom:.3rem">Q2 2026 · 90 días</div>
+        <div style="font-size:1rem;font-weight:700">FASE 1 — Governance</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-milestone" style="color:#1D4ED8">Sign-off CAPECO uso datos comerciales</div>
+        <div class="rm-milestone">Data contracts formalizados (3)</div>
+        <div class="rm-milestone">Data Lake Bronze/Silver/Gold live</div>
+        <div class="rm-milestone">DataQualityAgent operativo</div>
+        <div class="rm-milestone">NormalizationAgent operativo</div>
+        <div class="rm-milestone">RBAC implementado</div>
+        <div class="rm-milestone">Equipo capacitado en IA (4h)</div>
+        <div class="rm-milestone">PME Proveedores MVP en staging</div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-header" style="background:rgba(13,148,136,.2);border:1px solid rgba(13,148,136,.3)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--teal-l);margin-bottom:.3rem">Q3–Q4 2026 · 180 días</div>
+        <div style="font-size:1rem;font-weight:700">FASE 2 — Multi-fuente</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-milestone" style="color:#0D9488">Ingesta Nexo + Urbania operativa</div>
+        <div class="rm-milestone">Ingesta licencias municipales</div>
+        <div class="rm-milestone">PriceSpreadAgent live</div>
+        <div class="rm-milestone">AlertAgent live (email + WhatsApp)</div>
+        <div class="rm-milestone">ReportAgent genera reporte Q3</div>
+        <div class="rm-milestone">PME Proveedores en producción</div>
+        <div class="rm-milestone">Tasamelo beta (suscriptores)</div>
+        <div class="rm-milestone">20+ clientes PME Proveedores</div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-header" style="background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.3)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:#C4B5FD;margin-bottom:.3rem">Q1–Q2 2027 · 180 días</div>
+        <div style="font-size:1rem;font-weight:700">FASE 3 — IA autónoma</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-milestone" style="color:#7C3AED">TasamAgent modelo hedónico v1</div>
+        <div class="rm-milestone">ForecastAgent predicciones Q2 2027</div>
+        <div class="rm-milestone">MarketWatchAgent monitoreo diario</div>
+        <div class="rm-milestone">BrokerAgent en CRM proveedores</div>
+        <div class="rm-milestone">PME Copilot público (lenguaje natural)</div>
+        <div class="rm-milestone">Tasamelo GA con sello CAPECO</div>
+        <div class="rm-milestone">80% reportes generados por agentes</div>
+        <div class="rm-milestone">USD 30k+ MRR estabilizado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <strong>Pregunta para ti antes de validar este plan:</strong> ¿Tienes un data engineer dedicado disponible para la Fase 1? El cuello de botella más frecuente en proyectos de este tipo no es la tecnología sino la disponibilidad de la persona que conoce tanto el dato de CAPECO como la infraestructura Azure. Si no está disponible en Q2 2026, la Fase 1 se puede contratar externamente con supervisión de MIS, pero se necesita definir eso ahora.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => item.classList.remove('active'));
+      const activeItem = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (activeItem) activeItem.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

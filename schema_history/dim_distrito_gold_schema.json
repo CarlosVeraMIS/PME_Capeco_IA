@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-05-06T17:52:10.712120",
+  "source": "dim_distrito",
+  "layer": "gold",
+  "columns": [
+    "distrito_id",
+    "distrito",
+    "project_count",
+    "price_per_m2_avg",
+    "price_per_m2_min",
+    "price_per_m2_max",
+    "area_m2_avg",
+    "total_market_value",
+    "lat_center",
+    "lon_center",
+    "last_update"
+  ],
+  "dtypes": {
+    "distrito_id": "int64",
+    "distrito": "object",
+    "project_count": "int64",
+    "price_per_m2_avg": "float64",
+    "price_per_m2_min": "float64",
+    "price_per_m2_max": "float64",
+    "area_m2_avg": "float64",
+    "total_market_value": "float64",
+    "lat_center": "float64",
+    "lon_center": "float64",
+    "last_update": "object"
+  },
+  "row_count": 16,
+  "memory_mb": 0.0034933090209960938
+}

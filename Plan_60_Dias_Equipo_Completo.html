@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PME CAPECO — Plan 60 Días · Equipo Completo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --navy:  #0F2340;
+  --orange:#E8500D;
+  --teal:  #0D9488;
+  --blue:  #1D6FE8;
+  --s1:    #1D4ED8;
+  --s2:    #0D9488;
+  --s3:    #7C3AED;
+  --slate1:#F8FAFC;
+  --slate2:#F1F5F9;
+  --slate3:#E2E8F0;
+  --slate4:#64748B;
+  --slate6:#334155;
+  --slate8:#0F172A;
+  --pm:    #DC2626;
+  --de:    #0369A1;
+  --fs:    #0D9488;
+  --da:    #7C3AED;
+  --qa:    #B45309;
+  --cl:    #E8500D;
+}
+
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #fff;
+  color: var(--slate8);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  left:0; top:0; bottom:0; width:240px;
+  background: var(--navy);
+  z-index:100;
+  display:flex; flex-direction:column;
+  padding:1.25rem 0;
+  overflow-y:auto;
+}
+
+.sb-logo {
+  padding:0 1.25rem 1.25rem;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  margin-bottom:1rem;
+}
+
+.sb-badge {
+  display:inline-block; background:var(--orange);
+  color:#fff; font-size:.6rem; font-weight:700;
+  letter-spacing:.1em; padding:.15rem .5rem;
+  border-radius:.2rem; margin-bottom:.4rem;
+}
+
+.sb-title { font-size:.85rem; font-weight:700; color:rgba(255,255,255,.9); line-height:1.3; }
+.sb-sub { font-size:.65rem; color:rgba(255,255,255,.4); margin-top:.2rem; }
+
+.sb-section { padding:0 .85rem; margin-bottom:.2rem; }
+
+.sb-label {
+  font-family:'IBM Plex Mono',monospace; font-size:.58rem;
+  font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:rgba(255,255,255,.3); padding:.3rem .4rem;
+}
+
+.sb-item {
+  display:flex; align-items:center; gap:.55rem;
+  padding:.4rem .55rem; border-radius:.35rem;
+  text-decoration:none; color:rgba(255,255,255,.5);
+  font-size:.78rem; font-weight:600;
+  transition:all .15s;
+}
+.sb-item:hover { background:rgba(255,255,255,.07); color:#fff; }
+.sb-item.active { background:rgba(29,111,232,.25); color:#93C5FD; }
+
+.sb-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* Legend */
+.sb-legend {
+  margin:1rem .85rem 0;
+  padding:1rem;
+  background:rgba(255,255,255,.04);
+  border-radius:.5rem;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.sb-legend-title {
+  font-family:'IBM Plex Mono',monospace; font-size:.6rem;
+  font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+  color:rgba(255,255,255,.3); margin-bottom:.65rem;
+}
+
+.sb-legend-item {
+  display:flex; align-items:center; gap:.5rem;
+  font-size:.75rem; color:rgba(255,255,255,.55); margin-bottom:.35rem;
+}
+
+.sb-legend-dot {
+  width:8px; height:8px; border-radius:2px; flex-shrink:0;
+}
+
+.sb-footer {
+  margin-top:auto; padding:.85rem 1.25rem;
+  border-top:1px solid rgba(255,255,255,.1);
+  font-size:.65rem; color:rgba(255,255,255,.3); line-height:1.5;
+}
+
+/* ── MAIN ── */
+.main { margin-left:240px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--slate1);
+  border-bottom:1px solid var(--slate3);
+  padding:3rem 3.5rem 2.5rem;
+  position:relative; overflow:hidden;
+}
+
+.hero::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--orange), var(--blue), var(--teal));
+}
+
+.hero-eye {
+  font-family:'IBM Plex Mono',monospace; font-size:.68rem;
+  color:var(--blue); letter-spacing:.1em; margin-bottom:.75rem;
+  display:flex; align-items:center; gap:.6rem;
+}
+.hero-eye::before { content:'//'; opacity:.35; }
+
+.hero-h1 {
+  font-size:clamp(1.8rem, 3vw, 2.8rem);
+  font-weight:800; line-height:1.1;
+  letter-spacing:-.02em; color:var(--navy); margin-bottom:.75rem;
+}
+.hero-h1 .or { color:var(--orange); }
+.hero-h1 .tl { color:var(--teal); }
+
+.hero-sub {
+  font-size:.95rem; color:var(--slate4); max-width:700px;
+  line-height:1.75; margin-bottom:1.75rem; font-weight:400;
+}
+
+/* ── GANTT BAR ── */
+.gantt-wrap {
+  background:#fff; border:1px solid var(--slate3);
+  border-radius:.75rem; padding:1.5rem; margin-bottom:1.5rem;
+}
+
+.gantt-label {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  letter-spacing:.1em; color:var(--slate4); text-transform:uppercase;
+  margin-bottom:.85rem;
+}
+
+.gantt-bar {
+  display:flex; height:40px; border-radius:.45rem;
+  overflow:hidden; gap:2px; margin-bottom:.65rem;
+}
+
+.gantt-seg {
+  display:flex; align-items:center; justify-content:center;
+  font-size:.72rem; font-weight:700; color:#fff; letter-spacing:.03em;
+}
+
+.gantt-weeks {
+  display:flex; font-family:'IBM Plex Mono',monospace;
+  font-size:.6rem; color:var(--slate4);
+}
+.gantt-weeks span { flex:1; }
+
+.milestone-row {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:.85rem;
+  margin-top:.85rem;
+}
+
+.ms-card {
+  border-radius:.5rem; padding:.85rem 1rem; border:1px solid;
+}
+
+.ms-label {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  margin-bottom:.4rem;
+}
+
+.ms-body { font-size:.8rem; color:var(--slate6); line-height:1.55; }
+
+/* ── CALLOUT ── */
+.callout {
+  display:flex; gap:.85rem; align-items:flex-start;
+  padding:1rem 1.25rem; border-radius:.55rem; margin:.85rem 0;
+  font-size:.875rem; line-height:1.65;
+}
+.callout-warn { background:#FFFBEB; border:1px solid #FCD34D; }
+.callout-info { background:#EFF6FF; border:1px solid #BFDBFE; }
+.callout-ok   { background:#F0FDF4; border:1px solid #86EFAC; }
+.callout-icon { font-size:1.1rem; flex-shrink:0; }
+.callout-body { color:var(--slate6); }
+.callout-body strong { color:var(--navy); font-weight:700; }
+
+/* ── SPRINT SECTION ── */
+.sprint-section {
+  padding:2.5rem 3.5rem;
+  border-bottom:1px solid var(--slate3);
+}
+
+.sprint-header {
+  border-radius:.65rem; padding:1.5rem 2rem;
+  margin-bottom:1.75rem; border:1px solid; position:relative; overflow:hidden;
+}
+.sprint-header::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:3px;
+}
+
+.sh-s1 { background:#EFF6FF; border-color:#BFDBFE; }
+.sh-s1::before { background:linear-gradient(90deg,#1D4ED8,transparent); }
+.sh-s2 { background:#F0FDFA; border-color:#99F6E4; }
+.sh-s2::before { background:linear-gradient(90deg,#0D9488,transparent); }
+.sh-s3 { background:#FAF5FF; border-color:#DDD6FE; }
+.sh-s3::before { background:linear-gradient(90deg,#7C3AED,transparent); }
+
+.sh-tag {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  display:inline-block; padding:.18rem .55rem;
+  border-radius:.25rem; margin-bottom:.6rem;
+}
+.t-s1 { background:rgba(29,78,216,.12); color:#1D4ED8; }
+.t-s2 { background:rgba(13,148,136,.12); color:#0D9488; }
+.t-s3 { background:rgba(124,58,237,.12); color:#7C3AED; }
+
+.sh-title { font-size:1.4rem; font-weight:800; color:var(--navy); margin-bottom:.35rem; }
+.sh-meta {
+  font-family:'IBM Plex Mono',monospace; font-size:.72rem;
+  color:var(--slate4); display:flex; gap:1.25rem; flex-wrap:wrap;
+}
+
+.sh-deliver {
+  margin-top:1rem; padding-top:1rem;
+  border-top:1px solid rgba(0,0,0,.07);
+  font-size:.85rem; font-weight:600; color:var(--navy);
+}
+.sh-deliver span { font-weight:400; color:var(--slate6); }
+
+/* ── TRACKS GRID ── */
+.tracks-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+}
+
+.track-card {
+  border:1px solid var(--slate3); border-radius:.6rem; overflow:hidden;
+}
+
+.track-header {
+  display:flex; align-items:center; gap:.6rem;
+  padding:.65rem 1rem;
+}
+
+.track-dot {
+  width:10px; height:10px; border-radius:2px; flex-shrink:0;
+}
+
+.track-role {
+  font-size:.78rem; font-weight:700; flex:1;
+}
+
+.track-count {
+  font-family:'IBM Plex Mono',monospace; font-size:.65rem;
+  color:rgba(255,255,255,.55); background:rgba(0,0,0,.2);
+  padding:.1rem .4rem; border-radius:.2rem;
+}
+
+.track-body { padding:1rem; background:#fff; }
+
+.track-task {
+  display:flex; gap:.55rem; align-items:flex-start;
+  font-size:.8rem; color:var(--slate6); padding:.3rem 0;
+  border-bottom:1px solid var(--slate2); line-height:1.45;
+}
+.track-task:last-child { border-bottom:none; padding-bottom:0; }
+
+.task-days {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  color:var(--slate4); flex-shrink:0; white-space:nowrap;
+  padding-top:.08rem; min-width:60px;
+}
+
+.task-who {
+  font-weight:700; flex-shrink:0; margin-right:.15rem;
+}
+
+/* Full-width track */
+.track-full {
+  grid-column:1/-1;
+}
+
+/* ── SECTION HEADER ── */
+.sec-h {
+  display:flex; align-items:flex-start; gap:1.25rem; margin-bottom:1.5rem;
+}
+.sec-num {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  color:var(--slate4); padding-top:.3rem; flex-shrink:0;
+}
+.sec-eyebrow {
+  font-family:'IBM Plex Mono',monospace; font-size:.62rem;
+  letter-spacing:.1em; text-transform:uppercase; margin-bottom:.3rem;
+}
+.sec-h2 {
+  font-size:1.5rem; font-weight:800; line-height:1.15;
+  letter-spacing:-.01em; color:var(--navy);
+}
+.sec-sub {
+  font-size:.9rem; color:var(--slate4); line-height:1.7;
+  margin-top:.4rem; max-width:640px; font-weight:400;
+}
+
+.divider { height:1px; background:var(--slate3); margin:1.5rem 0; }
+
+/* ── SCOPE TABLE ── */
+.scope-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin:1.25rem 0;
+}
+
+.scope-card {
+  border-radius:.6rem; padding:1.25rem; border:1px solid;
+}
+
+.scope-title {
+  font-size:.85rem; font-weight:700; margin-bottom:.75rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+
+.scope-item {
+  display:flex; gap:.55rem; font-size:.82rem; color:var(--slate6);
+  padding:.3rem 0; border-bottom:1px solid rgba(0,0,0,.05);
+}
+.scope-item:last-child { border-bottom:none; padding-bottom:0; }
+.scope-marker { flex-shrink:0; font-weight:700; }
+
+/* ── CLAUDE SECTION ── */
+.claude-grid {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:.85rem;
+  margin:1.25rem 0;
+}
+
+.claude-card {
+  background:var(--slate1); border:1px solid var(--slate3);
+  border-radius:.6rem; padding:1rem; text-align:center;
+}
+
+.claude-role {
+  font-size:.65rem; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--orange);
+  margin-bottom:.5rem;
+}
+
+.claude-emoji { font-size:1.5rem; margin-bottom:.5rem; }
+.claude-title { font-size:.82rem; font-weight:700; color:var(--navy); margin-bottom:.35rem; }
+.claude-body { font-size:.75rem; color:var(--slate4); line-height:1.55; }
+
+/* Code freeze banner */
+.freeze-banner {
+  background:var(--navy); border-radius:.65rem; padding:1.25rem 1.75rem;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; margin:1.25rem 0;
+}
+.freeze-label { font-size:.65rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:.25rem; }
+.freeze-title { font-size:1.1rem; font-weight:800; color:#fff; }
+.freeze-sub { font-size:.8rem; color:rgba(255,255,255,.5); margin-top:.2rem; }
+.freeze-day {
+  font-family:'IBM Plex Mono',monospace; font-size:2.5rem;
+  font-weight:600; color:var(--orange); white-space:nowrap;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge">60 DÍAS</div>
+    <div class="sb-title">PME Plan<br>Equipo Completo</div>
+    <div class="sb-sub">MIS × CAPECO · 3 Sprints</div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Overview</div>
+    <a href="#overview" class="sb-item"><span class="sb-dot" style="background:#E8500D"></span>Gantt + Milestones</a>
+    <a href="#scope" class="sb-item"><span class="sb-dot" style="background:#1D6FE8"></span>Scope 60 días</a>
+    <a href="#claude" class="sb-item"><span class="sb-dot" style="background:#E8500D"></span>IA como copiloto</a>
+  </div>
+
+  <div class="sb-section" style="margin-top:.5rem">
+    <div class="sb-label">Sprint 1 · Días 1–20</div>
+    <a href="#s1" class="sb-item"><span class="sb-dot" style="background:#1D4ED8"></span>Governance + Data Lake</a>
+    <a href="#s1" class="sb-item"><span class="sb-dot" style="background:#1D4ED8"></span>3 Agentes fundacionales</a>
+  </div>
+
+  <div class="sb-section" style="margin-top:.5rem">
+    <div class="sb-label">Sprint 2 · Días 21–45</div>
+    <a href="#s2" class="sb-item"><span class="sb-dot" style="background:#0D9488"></span>PME Proveedores MVP</a>
+    <a href="#s2" class="sb-item"><span class="sb-dot" style="background:#0D9488"></span>AlertAgent + Excel</a>
+  </div>
+
+  <div class="sb-section" style="margin-top:.5rem">
+    <div class="sb-label">Sprint 3 · Días 46–60</div>
+    <a href="#s3" class="sb-item"><span class="sb-dot" style="background:#7C3AED"></span>Demo CAPECO</a>
+    <a href="#s3" class="sb-item"><span class="sb-dot" style="background:#7C3AED"></span>IA embebida + Tasamelo</a>
+  </div>
+
+  <!-- Legend -->
+  <div class="sb-legend">
+    <div class="sb-legend-title">Roles del equipo</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#DC2626"></div>PM — Project Manager</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#0369A1"></div>DE — Data Engineers ×2</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#0D9488"></div>FS — Full Stack ×3</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#7C3AED"></div>DA — Data Analyst</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#B45309"></div>QA — QA Engineers ×2</div>
+    <div class="sb-legend-item"><div class="sb-legend-dot" style="background:#E8500D"></div>🤖 Claude como copiloto</div>
+  </div>
+
+  <div class="sb-footer">
+    Millennial Information Systems<br>
+    En alianza con CAPECO · Lima, Perú
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="overview">
+  <div class="hero-eye">PME CAPECO · Plan 60 Días · Equipo Completo · 10 personas + Claude</div>
+  <h1 class="hero-h1">
+    Governance + Data Lake + Agentes<br>+ PME Proveedores MVP<br>
+    <span class="or">en 60 días.</span> <span class="tl">Demo ante CAPECO.</span>
+  </h1>
+  <p class="hero-sub">
+    Con 3 Full Stack, 2 Data Engineers, 1 Data Analyst, 1 PM y 2 QA ejecutando en pistas paralelas desde el Día 1, el alcance completo cabe en 60 días. El Día 60 es la demo ejecutiva ante CAPECO para aprobación del plan Q3.
+  </p>
+
+  <!-- GANTT -->
+  <div class="gantt-wrap">
+    <div class="gantt-label">Línea de tiempo · 60 días · 3 sprints · ejecución paralela</div>
+    <div class="gantt-bar">
+      <div class="gantt-seg" style="flex:20;background:#1D4ED8">Sprint 1 · Días 1–20 · Governance + Data Lake</div>
+      <div class="gantt-seg" style="flex:25;background:#0D9488">Sprint 2 · Días 21–45 · PME Proveedores MVP</div>
+      <div class="gantt-seg" style="flex:15;background:#7C3AED">Sprint 3 · Días 46–60 · Demo</div>
+    </div>
+    <div class="gantt-weeks">
+      <span>S1</span><span>S2</span><span>S3</span><span>S4</span>
+      <span>S5</span><span>S6</span><span>S7</span><span>S8</span><span>S9</span>
+    </div>
+    <div class="milestone-row">
+      <div class="ms-card" style="background:#EFF6FF;border-color:#BFDBFE">
+        <div class="ms-label" style="color:#1D4ED8">✅ Día 20 → Sprint 1</div>
+        <div class="ms-body">Data Lake Bronze/Silver/Gold operativo · 3 agentes corriendo · Governance documentado · RBAC activo</div>
+      </div>
+      <div class="ms-card" style="background:#F0FDFA;border-color:#99F6E4">
+        <div class="ms-label" style="color:#0D9488">✅ Día 45 → Sprint 2</div>
+        <div class="ms-body">PME Proveedores en staging con datos reales · AlertAgent enviando · Ficha obra + Excel exportable</div>
+      </div>
+      <div class="ms-card" style="background:#FAF5FF;border-color:#DDD6FE">
+        <div class="ms-label" style="color:#7C3AED">🎯 Día 60 → Demo CAPECO</div>
+        <div class="ms-body">Demo ejecutiva + técnica · Governance + agentes + PME Proveedores · Tasamelo proto · Plan Q3 aprobado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">🚨</span>
+    <div class="callout-body">
+      <strong>Día 1 obligatorio — no esperar:</strong> El PM inicia la gestión del sign-off con CAPECO sobre el uso comercial de <code style="font-family:monospace;background:rgba(0,0,0,.07);padding:.1rem .3rem;border-radius:.2rem">TELEFONO CONSTRUCTOR</code>. Si no llega antes del Día 15, PME Proveedores sale en MVP sin ese campo y se agrega en el Sprint Q3. El plan no se bloquea por esto.
+    </div>
+  </div>
+</section>
+
+<!-- SCOPE -->
+<section class="sprint-section" id="scope" style="background:var(--slate1)">
+  <div class="sec-h">
+    <div class="sec-num">00</div>
+    <div>
+      <div class="sec-eyebrow" style="color:var(--blue)">Alcance</div>
+      <h2 class="sec-h2">Qué entra y qué sale de los 60 días</h2>
+      <p class="sec-sub">Con equipo completo ejecutando en paralelo, el alcance sube. Pero algunas cosas siguen siendo backlog Q3 por razones técnicas o legales, no por falta de equipo.</p>
+    </div>
+  </div>
+
+  <div class="scope-grid">
+    <div class="scope-card" style="background:#F0FDF4;border-color:#86EFAC">
+      <div class="scope-title" style="color:#166534">✅ DENTRO de los 60 días</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>Governance completo: contratos, RBAC, clasificación PII</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>Data Lake Bronze/Silver/Gold sobre Azure</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>DataQualityAgent v1 (validación por carga)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>NormalizationAgent v1 (limpieza semántica)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>LineageAgent v1 (trazabilidad automática)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>PME Proveedores: mapa + filtros + ficha + Excel</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>AlertAgent v1 (email semanal por zona/fase)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>ReportAgent v1 (PDF trimestral automatizado)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>PME Copilot interno (Claude API + lenguaje natural)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>Tasamelo prototipo demostrable</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#166534">✓</span>Demo ejecutiva + técnica ante CAPECO (Día 60)</div>
+    </div>
+    <div class="scope-card" style="background:#FFF7ED;border-color:#FDBA74">
+      <div class="scope-title" style="color:#92400E">→ BACKLOG Q3–Q4 2026</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>Scraping Nexo + Urbania (requiere acuerdo legal)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>Integración SUNARP (API compleja + acuerdo)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>ForecastAgent + modelo predictivo (requiere datos históricos comparables)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>MarketWatchAgent monitoreo diario</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>BrokerAgent matching proveedor-obra</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>Multi-usuario enterprise con facturación</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>Tasamelo en producción (en 60 días es proto)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>PriceSpreadAgent (depende de Nexo)</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>App móvil PME Proveedores</div>
+      <div class="scope-item"><span class="scope-marker" style="color:#92400E">→</span>Integración BCRP tipo de cambio histórico</div>
+    </div>
+  </div>
+</section>
+
+<!-- IA COPILOTO -->
+<section class="sprint-section" id="claude">
+  <div class="sec-h">
+    <div class="sec-num">00</div>
+    <div>
+      <div class="sec-eyebrow" style="color:var(--orange)">IA como copiloto transversal</div>
+      <h2 class="sec-h2">Claude no es una fase. Es el miembro 11 del equipo.</h2>
+      <p class="sec-sub">Cada rol tiene un caso de uso específico de Claude desde el Día 1. No hay un "sprint de IA". IA está embebida en cada pista desde el primer standup.</p>
+    </div>
+  </div>
+
+  <div class="claude-grid">
+    <div class="claude-card">
+      <div class="claude-role" style="color:#DC2626">PM</div>
+      <div class="claude-emoji">📋</div>
+      <div class="claude-title">Gestión y reporte</div>
+      <div class="claude-body">Genera reportes de avance, gestiona el risk log, redacta comunicados a CAPECO y analiza blockers con contexto del proyecto.</div>
+    </div>
+    <div class="claude-card">
+      <div class="claude-role" style="color:#0369A1">DE</div>
+      <div class="claude-emoji">⚙️</div>
+      <div class="claude-title">Pipelines y agentes</div>
+      <div class="claude-body">Escribe y revisa pipelines Python/SQL, genera los agentes como scripts validados, documenta el schema Gold automáticamente.</div>
+    </div>
+    <div class="claude-card">
+      <div class="claude-role" style="color:#0D9488">FS</div>
+      <div class="claude-emoji">💻</div>
+      <div class="claude-title">Código y tests</div>
+      <div class="claude-body">Genera boilerplate de componentes, escribe tests unitarios desde el schema, revisa PRs y sugiere refactors de performance.</div>
+    </div>
+    <div class="claude-card">
+      <div class="claude-role" style="color:#7C3AED">DA</div>
+      <div class="claude-emoji">📊</div>
+      <div class="claude-title">Análisis y demo</div>
+      <div class="claude-body">Analiza la BD en lenguaje natural, detecta anomalías, arma el storyline de la demo y genera los slides narrativos para CAPECO.</div>
+    </div>
+    <div class="claude-card">
+      <div class="claude-role" style="color:#B45309">QA</div>
+      <div class="claude-emoji">🔍</div>
+      <div class="claude-title">Test cases</div>
+      <div class="claude-body">Genera casos de test desde el schema Gold, crea scripts de carga, documenta bugs con reproducción paso a paso.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPRINT 1 -->
+<section class="sprint-section" id="s1" style="background:#F8FAFF">
+  <div class="sprint-header sh-s1">
+    <div class="sh-tag t-s1">SPRINT 1 · Días 1–20</div>
+    <div class="sh-title">Governance + Data Lake + 3 Agentes fundacionales</div>
+    <div class="sh-meta">
+      <span>🗓 Semanas 1–3</span>
+      <span>·</span>
+      <span>10 personas en pistas paralelas</span>
+      <span>·</span>
+      <span>Standup diario 15min</span>
+    </div>
+    <div class="sh-deliver">
+      Entregable Día 20: <span>Data Lake Bronze/Silver/Gold · DataQualityAgent · NormalizationAgent · LineageAgent · RBAC activo · Governance documentado</span>
+    </div>
+  </div>
+
+  <div class="tracks-grid">
+    <!-- PM -->
+    <div class="track-card">
+      <div class="track-header" style="background:#DC2626">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">PM — Project Manager</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Día 1</span><span>🚨 Iniciar sign-off legal CAPECO — uso TELEFONO CONSTRUCTOR</span></div>
+        <div class="track-task"><span class="task-days">Días 1–3</span><span>Definir DoD (Definition of Done) para cada entregable del sprint</span></div>
+        <div class="track-task"><span class="task-days">Días 1–3</span><span>Setup herramientas: Jira/Linear, Confluence, Slack channels por pista</span></div>
+        <div class="track-task"><span class="task-days">Días 3–20</span><span>Standup diario + sprint ceremonies + risk log actualizado</span></div>
+        <div class="track-task"><span class="task-days">Días 10–20</span><span>Seguimiento sign-off CAPECO — escalar si no hay respuesta</span></div>
+      </div>
+    </div>
+
+    <!-- DE -->
+    <div class="track-card">
+      <div class="track-header" style="background:#0369A1">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DE — Data Engineers</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">DE1 · 1–5</span><span>Clasificar todos los campos BD: PII Nivel 1/2, Core, Enriquecimiento, Excluido</span></div>
+        <div class="track-task"><span class="task-days">DE1 · 5–10</span><span>Data Contract 1 (CAPECO→MIS) + Data Contract 2 (MIS→PME Proveedores)</span></div>
+        <div class="track-task"><span class="task-days">DE1 · 10–20</span><span>Pipeline Bronze→Silver: ingesta Azure MySQL → Data Lake con particionado</span></div>
+        <div class="track-task"><span class="task-days">DE2 · 1–5</span><span>Provisionar Azure Data Lake Storage Gen2 + configurar contenedores</span></div>
+        <div class="track-task"><span class="task-days">DE2 · 5–12</span><span>Particionado ANIO+TRIM+DISTRITO + snapshots trimestrales inmutables</span></div>
+        <div class="track-task"><span class="task-days">DE2 · 12–20</span><span>Pipeline Silver→Gold: solo campos aprobados, enmascaramiento PII</span></div>
+        <div class="track-task"><span class="task-days">DE1+2 · 15–20</span><span>DataQualityAgent v1: validación GPS, rango precios, duplicados por COD_PROYECTO</span></div>
+      </div>
+    </div>
+
+    <!-- FS -->
+    <div class="track-card">
+      <div class="track-header" style="background:#0D9488">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">FS — Full Stack Developers</div>
+        <div class="track-count">3 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">FS1 · 1–5</span><span>Setup repo monorepo, CI/CD (GitHub Actions), entornos dev/staging/prod</span></div>
+        <div class="track-task"><span class="task-days">FS2 · 1–5</span><span>Diseño schema API interna: endpoints REST sobre Gold Layer</span></div>
+        <div class="track-task"><span class="task-days">FS3 · 1–5</span><span>Setup autenticación RBAC + definición de roles por producto</span></div>
+        <div class="track-task"><span class="task-days">FS1+2 · 5–15</span><span>API REST interna sobre Gold Layer (FastAPI o Node) — los filtros de PME Proveedores dependen de esto</span></div>
+        <div class="track-task"><span class="task-days">FS3 · 5–15</span><span>Dashboard admin governance: campos, owners, SLAs, completitud en tiempo real</span></div>
+        <div class="track-task"><span class="task-days">FS1 · 15–20</span><span>NormalizationAgent integrado en pipeline: estandariza marcas y distritos</span></div>
+        <div class="track-task"><span class="task-days">FS2 · 15–20</span><span>LineageAgent v1: tracking automático Bronze→Silver→Gold por carga</span></div>
+      </div>
+    </div>
+
+    <!-- DA -->
+    <div class="track-card">
+      <div class="track-header" style="background:#7C3AED">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DA — Data Analyst</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Días 1–5</span><span>Auditoría completa: completitud real por campo, mapa de calidad de la BD 2025</span></div>
+        <div class="track-task"><span class="task-days">Días 5–10</span><span>Definir métricas Gold: precio_m2 certificado, absorción, fase activa, spread lista/cierre</span></div>
+        <div class="track-task"><span class="task-days">Días 10–15</span><span>Validar pipeline Gold vs valores verificados manualmente de la BD original</span></div>
+        <div class="track-task"><span class="task-days">Días 15–20</span><span>Diccionario de datos en lenguaje de negocio (no técnico) para CAPECO</span></div>
+        <div class="track-task"><span class="task-days">Días 15–20</span><span>Primer PME Copilot interno v0: Claude API sobre Gold Layer para el equipo</span></div>
+      </div>
+    </div>
+
+    <!-- QA -->
+    <div class="track-card track-full">
+      <div class="track-header" style="background:#B45309">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">QA — Quality Assurance</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div>
+          <div class="track-task"><span class="task-days">QA1 · 5–20</span><span>Test completitud: cada campo Gold vs Bronze — sin pérdidas de datos en el pipeline</span></div>
+          <div class="track-task"><span class="task-days">QA1 · 10–20</span><span>Test GPS: coordenadas dentro del bounding box Lima Metropolitana</span></div>
+        </div>
+        <div>
+          <div class="track-task"><span class="task-days">QA2 · 10–20</span><span>Test RBAC: PME Proveedores NO accede a TELEFONO CONSTRUCTOR antes del sign-off</span></div>
+          <div class="track-task"><span class="task-days">QA1+2 · 15–20</span><span>Test de regresión pipeline ante datos corruptos o trimestre con campos nuevos</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPRINT 2 -->
+<section class="sprint-section" id="s2">
+  <div class="sprint-header sh-s2">
+    <div class="sh-tag t-s2">SPRINT 2 · Días 21–45</div>
+    <div class="sh-title">PME Proveedores MVP — El producto que genera caja</div>
+    <div class="sh-meta">
+      <span>🗓 Semanas 4–7</span>
+      <span>·</span>
+      <span>DE + FS en paralelo · DA prepara demo · QA en continuo</span>
+    </div>
+    <div class="sh-deliver">
+      Entregable Día 45: <span>PME Proveedores funcional en staging con datos reales · AlertAgent enviando · Mapa + filtros + ficha + Excel listos para demo</span>
+    </div>
+  </div>
+
+  <div class="tracks-grid">
+    <div class="track-card">
+      <div class="track-header" style="background:#DC2626">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">PM</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Día 21</span><span>Kickoff Sprint 2 con demo interna del Data Lake al equipo completo</span></div>
+        <div class="track-task"><span class="task-days">Días 21–25</span><span>Confirmar UX/UI con mockups — review rápido con CAPECO antes de construir</span></div>
+        <div class="track-task"><span class="task-days">Días 25–40</span><span>Gestión de dependencias FS↔DE: API interna debe estar lista antes del mapa</span></div>
+        <div class="track-task"><span class="task-days">Días 40–45</span><span>Preparar script de demo para CAPECO (Día 60) — primer borrador con DA</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#0369A1">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DE — Data Engineers</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">DE1 · 21–30</span><span>AlertAgent v1: detecta obras nuevas en trimestre, envía email por zona + fase configurada</span></div>
+        <div class="track-task"><span class="task-days">DE2 · 21–30</span><span>Optimización queries Gold Layer — objetivo &lt;200ms p95 con 100 users</span></div>
+        <div class="track-task"><span class="task-days">DE1+2 · 30–45</span><span>Ingesta licencias de edificación Lima (datosabiertos.gob.pe) — obras antes del censo CAPECO</span></div>
+        <div class="track-task"><span class="task-days">DE1 · 35–45</span><span>PriceSpreadAgent v0 si se tiene acceso a Nexo — comparativa lista vs cierre por proyecto</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#0D9488">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">FS — Full Stack</div>
+        <div class="track-count">3 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">FS1+2 · 21–32</span><span>Mapa interactivo obras (Leaflet.js + cluster markers por distrito)</span></div>
+        <div class="track-task"><span class="task-days">FS3 · 21–28</span><span>Filtros: distrito, FASE, NRO_PISOS, PCT_AVANCE, AREA_CONSTRUCCION</span></div>
+        <div class="track-task"><span class="task-days">FS1 · 28–38</span><span>Ficha de obra: constructor, teléfono (si aprobado), banco, GPS, fase, pisos</span></div>
+        <div class="track-task"><span class="task-days">FS2 · 28–38</span><span>Exportación Excel filtrada: campos subset aprobado por governance</span></div>
+        <div class="track-task"><span class="task-days">FS3 · 30–40</span><span>AlertAgent frontend: UI para configurar zonas, fases y frecuencia de alertas</span></div>
+        <div class="track-task"><span class="task-days">FS1+2+3 · 38–45</span><span>Integración end-to-end + polish UI + responsive + loading states</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#7C3AED">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DA — Data Analyst</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Días 21–30</span><span>Dataset de demo: Surco, Miraflores y 5 distritos top con datos verificados y limpios</span></div>
+        <div class="track-task"><span class="task-days">Días 30–40</span><span>Validar que los datos del mapa coincidan exactamente con los valores de la BD real</span></div>
+        <div class="track-task"><span class="task-days">Días 40–45</span><span>Análisis narrativo para la demo CAPECO: qué historia cuentan los datos</span></div>
+      </div>
+    </div>
+
+    <div class="track-card track-full">
+      <div class="track-header" style="background:#B45309">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">QA</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div>
+          <div class="track-task"><span class="task-days">QA1 · 25–45</span><span>Test end-to-end completo: mapa → filtro → ficha → exportar Excel sin errores</span></div>
+          <div class="track-task"><span class="task-days">QA2 · 30–45</span><span>Test de carga: 100 usuarios simultáneos navegando el mapa sin degradación</span></div>
+        </div>
+        <div>
+          <div class="track-task"><span class="task-days">QA1+2 · 40–45</span><span>Smoke test completo en entorno staging idéntico al de producción</span></div>
+          <div class="track-task"><span class="task-days">QA1+2 · 43–45</span><span>Test de datos: verificar que el Excel exportado coincide con lo visible en pantalla</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPRINT 3 -->
+<section class="sprint-section" id="s3" style="background:#FAF5FF">
+  <div class="sprint-header sh-s3">
+    <div class="sh-tag t-s3">SPRINT 3 · Días 46–60</div>
+    <div class="sh-title">Demo CAPECO · IA embebida · Code Freeze Día 55</div>
+    <div class="sh-meta">
+      <span>🗓 Semanas 7–9</span>
+      <span>·</span>
+      <span>Rehearsal Día 50 · Freeze Día 55 · Demo Día 60</span>
+    </div>
+    <div class="sh-deliver">
+      Entregable Día 60: <span>Demo ejecutiva ante CAPECO · Governance + Data Lake + 3 Agentes + PME Proveedores MVP · Tasamelo proto · ReportAgent · Plan Q3 aprobado</span>
+    </div>
+  </div>
+
+  <div class="freeze-banner">
+    <div>
+      <div class="freeze-label">Code Freeze obligatorio</div>
+      <div class="freeze-title">Día 55 — Sin nuevas features desde aquí</div>
+      <div class="freeze-sub">Solo hotfixes críticos aprobados por PM. El equipo se dedica al pulido, rehearsal y documentación.</div>
+    </div>
+    <div class="freeze-day">D55</div>
+  </div>
+
+  <div class="tracks-grid">
+    <div class="track-card">
+      <div class="track-header" style="background:#DC2626">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">PM</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Días 46–50</span><span>Rehearsal demo interno: equipo completo simula la presentación ante CAPECO</span></div>
+        <div class="track-task"><span class="task-days">Días 50–55</span><span>Ajustes según feedback del rehearsal — priorización con el equipo</span></div>
+        <div class="track-task"><span class="task-days">Día 55</span><span>🔒 Declarar Code Freeze — comunicar al equipo que solo hotfixes</span></div>
+        <div class="track-task"><span class="task-days">Días 58–60</span><span>🎯 DEMO CAPECO — presentación ejecutiva + técnica</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#0369A1">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DE — Data Engineers</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Días 46–52</span><span>ReportAgent v1: genera PDF trimestral automáticamente desde Gold Layer</span></div>
+        <div class="track-task"><span class="task-days">Días 50–55</span><span>ReportAgent integrado en demo: CAPECO verá el reporte generarse en vivo</span></div>
+        <div class="track-task"><span class="task-days">Días 55–60</span><span>Documentación técnica del Data Lake para entrega formal a CAPECO</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#0D9488">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">FS — Full Stack</div>
+        <div class="track-count">3 personas</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">FS1 · 46–52</span><span>PME Copilot demo: Claude API — el usuario escribe "obras en Miraflores sobre 10 pisos" y el sistema responde</span></div>
+        <div class="track-task"><span class="task-days">FS2 · 46–52</span><span>Dashboard governance visible para CAPECO: audit trail, linaje, completitud en tiempo real</span></div>
+        <div class="track-task"><span class="task-days">FS3 · 46–52</span><span>Tasamelo proto: input dirección → precio estimado + 5 comparables más cercanos</span></div>
+        <div class="track-task"><span class="task-days">FS1+2+3 · 52–60</span><span>Bugfixes + performance + UX polish — nada nuevo después del Día 55</span></div>
+      </div>
+    </div>
+
+    <div class="track-card">
+      <div class="track-header" style="background:#7C3AED">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">DA — Data Analyst</div>
+        <div class="track-count">1 persona</div>
+      </div>
+      <div class="track-body">
+        <div class="track-task"><span class="task-days">Días 46–52</span><span>Storyline completo de la demo con datos reales verificados (ningún dato inventado)</span></div>
+        <div class="track-task"><span class="task-days">Días 52–58</span><span>Guión ejecutivo 10 min (para directivos CAPECO) + demo técnica 20 min (para equipo técnico)</span></div>
+        <div class="track-task"><span class="task-days">Días 58–60</span><span>Soporte en vivo durante la presentación — responde preguntas sobre los datos</span></div>
+      </div>
+    </div>
+
+    <div class="track-card track-full">
+      <div class="track-header" style="background:#B45309">
+        <div class="track-dot" style="background:rgba(255,255,255,.4)"></div>
+        <div class="track-role" style="color:#fff">QA</div>
+        <div class="track-count">2 personas</div>
+      </div>
+      <div class="track-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div>
+          <div class="track-task"><span class="task-days">QA1+2 · 46–55</span><span>Regression testing completo de todos los flujos antes del code freeze</span></div>
+          <div class="track-task"><span class="task-days">QA1 · 50–55</span><span>Test del flujo de demo: el guión del DA ejecutado sin errores de punta a punta</span></div>
+        </div>
+        <div>
+          <div class="track-task"><span class="task-days">QA2 · 50–55</span><span>Test de stress: la demo en vivo ante CAPECO no puede fallar — simular 20 users</span></div>
+          <div class="track-task"><span class="task-days">QA1+2 · 55–60</span><span>Solo validación de hotfixes aprobados por PM — cero nuevas features</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-ok" style="margin-top:1.5rem">
+    <span class="callout-icon">🎯</span>
+    <div class="callout-body">
+      <strong>El Día 60 CAPECO ve en vivo:</strong> (1) El Data Lake con 163,914 registros gobernados y trazables. (2) Los 3 agentes corriendo: DataQualityAgent valida, NormalizationAgent limpia, LineageAgent traza. (3) PME Proveedores con 22,596 obras activas en el mapa filtrable. (4) ReportAgent generando el reporte trimestral en tiempo real. (5) PME Copilot respondiendo preguntas en lenguaje natural. (6) Tasamelo estimando el precio de un inmueble en 30 segundos. Eso es el plan Q3 aprobado.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+const sections = document.querySelectorAll('[id]');
+const navItems = document.querySelectorAll('.sb-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      navItems.forEach(i => i.classList.remove('active'));
+      const a = document.querySelector(`.sb-item[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

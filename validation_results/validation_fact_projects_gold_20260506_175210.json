@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-05-06T17:52:10.699408",
+  "source": "fact_projects",
+  "layer": "gold",
+  "row_count": 3289,
+  "validations": {
+    "contract": {
+      "agent_name": "ContractValidAgent",
+      "timestamp": "2026-05-06T17:52:10.699423",
+      "status": "FAIL",
+      "checks_passed": 6,
+      "checks_failed": 1,
+      "details": {
+        "missing_columns": [
+          "titulo"
+        ]
+      }
+    },
+    "schema": {
+      "new_columns": [],
+      "removed_columns": [],
+      "type_changes": {},
+      "status": "OK"
+    },
+    "pii": {
+      "suspicious_columns": [],
+      "patterns_found": {
+        "fact_load_timestamp": "phone"
+      },
+      "risk_level": "MEDIUM",
+      "recommendations": [
+        "Encriptar columnas sensibles en tr\u00e1nsito",
+        "Aplicar data masking en vistas de usuarios",
+        "Auditar accesos a estas columnas",
+        "Documentar clasificaci\u00f3n de datos"
+      ]
+    },
+    "audit": {
+      "data_hash": "77418fc11bc1054e27963ec405f105ddf3eff33d42a604fa2e0d1536598daa5b"
+    }
+  }
+}

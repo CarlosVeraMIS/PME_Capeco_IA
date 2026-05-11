@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-05-06T17:43:02.326856",
+  "source": "dim_distrito",
+  "layer": "gold",
+  "row_count": 16,
+  "validations": {
+    "contract": {
+      "agent_name": "ContractValidAgent",
+      "timestamp": "2026-05-06T17:43:02.326868",
+      "status": "FAIL",
+      "checks_passed": 1,
+      "checks_failed": 1,
+      "details": {
+        "missing_columns": [
+          "project_id",
+          "titulo",
+          "price_per_m2",
+          "market_tier",
+          "absorption_rate_pct",
+          "project_risk_level"
+        ]
+      }
+    },
+    "schema": {
+      "new_columns": [],
+      "removed_columns": [],
+      "type_changes": {},
+      "status": "OK"
+    },
+    "pii": {
+      "suspicious_columns": [],
+      "patterns_found": {
+        "last_update": "phone"
+      },
+      "risk_level": "MEDIUM",
+      "recommendations": [
+        "Encriptar columnas sensibles en tr\u00e1nsito",
+        "Aplicar data masking en vistas de usuarios",
+        "Auditar accesos a estas columnas",
+        "Documentar clasificaci\u00f3n de datos"
+      ]
+    },
+    "audit": {
+      "data_hash": "0a177e550eb06dcab63172fe8fcbd2412ac3c97427a171781ccd0b531be3c3b4"
+    }
+  }
+}

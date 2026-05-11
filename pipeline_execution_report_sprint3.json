@@ -1,0 +1,164 @@
+{
+  "pipeline_execution": {
+    "start": "2026-05-06T17:52:09.896871",
+    "end": "2026-05-06T17:52:10.721381",
+    "total_duration_seconds": 0.824511,
+    "storage_mode": "local",
+    "stages": {
+      "gold": {
+        "status": "success",
+        "details": {
+          "csv": {
+            "dim_distrito": "gold_data/dim_distrito.parquet",
+            "dim_market_tier": "gold_data/dim_market_tier.parquet",
+            "fact_projects": "gold_data/fact_projects.parquet",
+            "metrics_by_distrito": "gold_data/metrics_by_distrito.parquet"
+          }
+        },
+        "duration_seconds": 0,
+        "timestamp": "2026-05-06T17:52:10.720544",
+        "governance": {
+          "governance": {
+            "fact_projects": {
+              "timestamp": "2026-05-06T17:52:10.699408",
+              "source": "fact_projects",
+              "layer": "gold",
+              "row_count": 3289,
+              "validations": {
+                "contract": {
+                  "agent_name": "ContractValidAgent",
+                  "timestamp": "2026-05-06T17:52:10.699423",
+                  "status": "FAIL",
+                  "checks_passed": 6,
+                  "checks_failed": 1,
+                  "details": {
+                    "missing_columns": [
+                      "titulo"
+                    ]
+                  }
+                },
+                "schema": {
+                  "new_columns": [],
+                  "removed_columns": [],
+                  "type_changes": {},
+                  "status": "OK"
+                },
+                "pii": {
+                  "suspicious_columns": [],
+                  "patterns_found": {
+                    "fact_load_timestamp": "phone"
+                  },
+                  "risk_level": "MEDIUM",
+                  "recommendations": [
+                    "Encriptar columnas sensibles en tránsito",
+                    "Aplicar data masking en vistas de usuarios",
+                    "Auditar accesos a estas columnas",
+                    "Documentar clasificación de datos"
+                  ]
+                },
+                "audit": {
+                  "data_hash": "77418fc11bc1054e27963ec405f105ddf3eff33d42a604fa2e0d1536598daa5b"
+                }
+              }
+            },
+            "dim_distrito": {
+              "timestamp": "2026-05-06T17:52:10.711448",
+              "source": "dim_distrito",
+              "layer": "gold",
+              "row_count": 16,
+              "validations": {
+                "contract": {
+                  "agent_name": "ContractValidAgent",
+                  "timestamp": "2026-05-06T17:52:10.711461",
+                  "status": "FAIL",
+                  "checks_passed": 1,
+                  "checks_failed": 1,
+                  "details": {
+                    "missing_columns": [
+                      "project_id",
+                      "titulo",
+                      "price_per_m2",
+                      "market_tier",
+                      "absorption_rate_pct",
+                      "project_risk_level"
+                    ]
+                  }
+                },
+                "schema": {
+                  "new_columns": [],
+                  "removed_columns": [],
+                  "type_changes": {},
+                  "status": "OK"
+                },
+                "pii": {
+                  "suspicious_columns": [],
+                  "patterns_found": {
+                    "last_update": "phone"
+                  },
+                  "risk_level": "MEDIUM",
+                  "recommendations": [
+                    "Encriptar columnas sensibles en tránsito",
+                    "Aplicar data masking en vistas de usuarios",
+                    "Auditar accesos a estas columnas",
+                    "Documentar clasificación de datos"
+                  ]
+                },
+                "audit": {
+                  "data_hash": "cceda5f77ffc4f2da85ce1a3ac62fc9db4e20217c2c04283e3f00f512a8977f5"
+                }
+              }
+            },
+            "dim_market_tier": {
+              "timestamp": "2026-05-06T17:52:10.716771",
+              "source": "dim_market_tier",
+              "layer": "gold",
+              "row_count": 4,
+              "validations": {
+                "contract": {
+                  "agent_name": "ContractValidAgent",
+                  "timestamp": "2026-05-06T17:52:10.716785",
+                  "status": "FAIL",
+                  "checks_passed": 2,
+                  "checks_failed": 1,
+                  "details": {
+                    "missing_columns": [
+                      "project_id",
+                      "titulo",
+                      "price_per_m2",
+                      "absorption_rate_pct",
+                      "project_risk_level"
+                    ]
+                  }
+                },
+                "schema": {
+                  "new_columns": [],
+                  "removed_columns": [],
+                  "type_changes": {},
+                  "status": "OK"
+                },
+                "pii": {
+                  "suspicious_columns": [],
+                  "patterns_found": {},
+                  "risk_level": "LOW",
+                  "recommendations": []
+                },
+                "audit": {
+                  "data_hash": "92672d59c66da21fddc5cc62fdbe3852db290a5605d71a0e3155aa55d4926c8f"
+                }
+              }
+            }
+          },
+          "sla": {
+            "stage": "gold",
+            "duration_seconds": 0.823481,
+            "sla_threshold": 60,
+            "rows_processed": 2160,
+            "throughput_rows_per_sec": 2623.0113384522533,
+            "status": "PASS",
+            "timestamp": "2026-05-06T17:52:10.720510"
+          }
+        }
+      }
+    }
+  }
+}
