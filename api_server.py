@@ -21,6 +21,9 @@ Características:
 import os
 import json
 import logging
+import io
+import time
+import glob
 from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
 import pandas as pd
@@ -137,72 +140,70 @@ cache = CacheManager(ttl_seconds=3600)  # 1 hora
 
 # ── Data Loading Functions ───────────────────────────────────────────────
 class DataLoader:
+    _instance = None
+    _cache = {}
+
     def __init__(self):
-        self.cache = {}
-        self.cache_ttl = 3600  # 1 hora
         self.use_azure = bool(os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
-        
+        self.blob_service_client = None
+        self.container_client = None
+
         if self.use_azure:
             try:
                 from azure.storage.blob import BlobServiceClient
                 conn_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
                 self.blob_service_client = BlobServiceClient.from_connection_string(conn_str)
                 self.container_client = self.blob_service_client.get_container_client("golddata")
-                print("✅ DataLoader: Conectado a Azure Blob Storage")
+                logger.info("✅ DataLoader: Conectado a Azure Blob Storage (golddata)")
             except Exception as e:
-                print(f"⚠️  Azure init error: {e}")
+                logger.warning(f"⚠️  Azure init error: {e}")
                 self.use_azure = False
-    
+
+    @staticmethod
+    def _get_instance():
+        if DataLoader._instance is None:
+            DataLoader._instance = DataLoader()
+        return DataLoader._instance
+
     @staticmethod
     def load_latest_parquet(directory: str, filename_pattern: str) -> pd.DataFrame:
         """Carga desde Azure Storage o fallback a filesystem local"""
-        cache_key = f"{directory}:{filename_pattern}"
-        
-        # Verificar cache
-        if cache_key in DataLoader.__dict__.get('_cache', {}):
-            cached_data, timestamp = DataLoader.__dict__['_cache'][cache_key]
-            if time.time() - timestamp < 3600:
-                return cached_data
-        
-        try:
-            # Intentar Azure primero
-            if hasattr(DataLoader, '_instance') and DataLoader._instance.use_azure:
-                return DataLoader._load_from_azure(filename_pattern)
-        except Exception as e:
-            print(f"⚠️  Azure read error: {e}")
-        
+        loader = DataLoader._get_instance()
+
+        # Intentar Azure primero
+        if loader.use_azure and loader.container_client:
+            try:
+                # Extraer nombre de archivo del patrón
+                local_files = glob.glob(str(Path(directory) / filename_pattern))
+                if local_files:
+                    filename = Path(local_files[0]).name
+                    try:
+                        blob_client = loader.container_client.get_blob_client(filename)
+                        data = blob_client.download_blob().readall()
+                        df = pd.read_parquet(io.BytesIO(data))
+                        logger.info(f"✅ Loaded {len(df)} rows from Azure: {filename}")
+                        return df
+                    except Exception as e:
+                        logger.warning(f"⚠️  Azure read error for {filename}: {e}")
+            except Exception as e:
+                logger.warning(f"⚠️  Azure error: {e}")
+
         # Fallback a filesystem local
-        return DataLoader._load_from_local(directory, filename_pattern)
-    
-    @staticmethod
-    def _load_from_azure(filename: str) -> pd.DataFrame:
-        """Lee archivo Parquet de Azure Blob Storage"""
-        try:
-            if not hasattr(DataLoader, '_instance'):
-                return pd.DataFrame()
-            
-            blob_client = DataLoader._instance.container_client.get_blob_client(filename)
-            data = blob_client.download_blob().readall()
-            return pd.read_parquet(io.BytesIO(data))
-        except Exception as e:
-            print(f"Error reading from Azure: {e}")
-            raise
-    
-    @staticmethod
-    def _load_from_local(directory: str, filename_pattern: str) -> pd.DataFrame:
-        """Lee archivo Parquet del filesystem local (fallback)"""
         try:
             path = Path(directory)
             files = sorted(path.glob(filename_pattern), reverse=True)
             if files:
-                return pd.read_parquet(files[0])
+                df = pd.read_parquet(files[0])
+                logger.info(f"✅ Loaded {len(df)} rows from local: {files[0].name}")
+                return df
         except Exception as e:
-            print(f"Error reading from local: {e}")
+            logger.warning(f"Error reading from local: {e}")
+
+        logger.warning(f"⚠️  No data found for pattern: {filename_pattern}")
         return pd.DataFrame()
 
 # Instancia global
-_data_loader = DataLoader()
-DataLoader._instance = _data_loader
+DataLoader._instance = DataLoader()
 
 # ── Health Check Endpoint ────────────────────────────────────────────────
 @app.get("/health", tags=["Health"])
